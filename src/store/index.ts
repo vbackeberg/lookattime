@@ -10,6 +10,20 @@ export default new Vuex.Store({
   mutations: {
     updateZoom(state, value) {
       state.zoomFactor = value;
+    },
+    increaseZoom(state) {
+      const zoomFactor = state.zoomFactor + 0.1;
+
+      if (zoomFactor <= 3) {
+        state.zoomFactor = zoomFactor;
+      }
+    },
+    decreaseZoom(state) {
+      const zoomFactor = state.zoomFactor - 0.1;
+
+      if (zoomFactor <= 3) {
+        state.zoomFactor = zoomFactor;
+      }
     }
   },
   actions: {},

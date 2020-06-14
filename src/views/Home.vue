@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" @mousewheel="onScroll">
     <div>
       <input @input="updateZoom" />
     </div>
@@ -22,6 +22,15 @@ export default {
   methods: {
     updateZoom(e) {
       this.$store.commit("updateZoom", e.target.value);
+    },
+    onScroll(e) {
+      e.preventDefault();
+
+      if (e.deltaY > 0) {
+        this.$store.commit("increaseZoom");
+      } else if (e.deltaY < 0) {
+        this.$store.commit("decreaseZoom");
+      }
     }
   }
 };
@@ -31,5 +40,6 @@ export default {
 .home {
   overflow: auto;
   white-space: nowrap;
+  height: 100%;
 }
 </style>

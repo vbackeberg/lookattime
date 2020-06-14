@@ -7,10 +7,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Boxes extends Vue {
-  @Prop() private myPosition!: number;
+  @Prop() private position!: number;
 
   get calculatedPosition() {
-    return this.myPosition * 1 + "px";
+    return this.position * this.$store.state.zoomFactor + "px";
   }
 }
 </script>

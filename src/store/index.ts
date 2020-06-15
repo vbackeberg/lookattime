@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    zoomFactor: 1
+    zoomFactor: 1,
+    middle: 500
   },
   mutations: {
     updateZoom(state, value) {
@@ -21,7 +22,7 @@ export default new Vuex.Store({
     decreaseZoom(state) {
       const zoomFactor = state.zoomFactor - 0.1;
 
-      if (zoomFactor <= 3) {
+      if (zoomFactor > 0) {
         state.zoomFactor = zoomFactor;
       }
     }

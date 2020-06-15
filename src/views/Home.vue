@@ -4,7 +4,7 @@
       <input @input="updateZoom" />
     </div>
     <div>
-      <Boxes position="600"></Boxes>
+      <Boxes position="-100"></Boxes>
       <Boxes position="200"></Boxes>
     </div>
   </div>

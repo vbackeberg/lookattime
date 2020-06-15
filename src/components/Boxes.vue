@@ -10,7 +10,11 @@ export default class Boxes extends Vue {
   @Prop() private position!: number;
 
   get calculatedPosition() {
-    return this.position * this.$store.state.zoomFactor + "px";
+    const pos =
+      Number(this.$store.state.middle) +
+      Number(this.position) * this.$store.state.zoomFactor;
+
+    return pos + "px";
   }
 }
 </script>

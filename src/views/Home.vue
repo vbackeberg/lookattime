@@ -24,8 +24,6 @@ export default {
       this.$store.commit("updateZoom", e.target.value);
     },
     onScroll(e) {
-      e.preventDefault();
-
       if (e.deltaY > 0) {
         this.$store.commit("increaseZoom");
       } else if (e.deltaY < 0) {

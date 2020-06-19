@@ -4,6 +4,21 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "App"
+};
+
+document.addEventListener(
+  "wheel",
+  function(e) {
+    console.log("touch start");
+    e.preventDefault();
+  },
+  { passive: false }
+);
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

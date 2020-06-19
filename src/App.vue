@@ -12,7 +12,6 @@ export default {
 document.addEventListener(
   "wheel",
   function(e) {
-    console.log("touch start");
     e.preventDefault();
   },
   { passive: false }

@@ -1,9 +1,6 @@
 <template>
   <div class="home" @mousewheel="onScroll">
     <div>
-      <input @input="updateZoom" />
-    </div>
-    <div>
       <Box position="-100"></Box>
       <Box position="200"></Box>
       <Box position="600"></Box>
@@ -21,9 +18,6 @@ export default {
     Box
   },
   methods: {
-    updateZoom(e) {
-      this.$store.commit("updateZoom", e.target.value);
-    },
     onScroll(e) {
       if (e.deltaY > 0) {
         this.$store.commit("increaseZoom");

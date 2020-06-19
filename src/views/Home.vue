@@ -4,20 +4,21 @@
       <input @input="updateZoom" />
     </div>
     <div>
-      <Boxes position="-100"></Boxes>
-      <Boxes position="200"></Boxes>
+      <Box position="-100"></Box>
+      <Box position="200"></Box>
+      <Box position="600"></Box>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Boxes from "@/components/Boxes.vue";
+import Box from "@/components/Box.vue";
 
 export default {
   name: "Home",
   components: {
-    Boxes
+    Box
   },
   methods: {
     updateZoom(e) {

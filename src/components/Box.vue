@@ -1,12 +1,14 @@
 <template>
-  <div class="box" v-bind:style="{ left: calculatedPosition }"></div>
+  <div class="box" v-bind:style="{ left: calculatedPosition }">
+    <p>Abc abc abc</p>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Boxes extends Vue {
+export default class Box extends Vue {
   @Prop() private position!: number;
 
   get calculatedPosition() {
@@ -23,8 +25,9 @@ export default class Boxes extends Vue {
 <style scoped lang="scss">
 .box {
   height: 100px;
-  width: 100px;
+  width: 200px;
   margin: 20px;
+  padding: 16px;
   position: absolute;
   top: 50px;
   background-color: #42b983;

@@ -5,20 +5,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import store from "../store";
+export default {
+  name: "Box",
+  props: {
+    position: Number
+  },
+  computed: {
+    calculatedPosition: function() {
+      const pos =
+        Number(store.state.center) +
+        Number(this.position) * store.state.zoomFactor;
 
-@Component
-export default class Box extends Vue {
-  @Prop() private position!: number;
-
-  get calculatedPosition() {
-    const pos =
-      Number(this.$store.state.center) +
-      Number(this.position) * this.$store.state.zoomFactor;
-
-    return pos + "px";
+      return pos + "px";
+    }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

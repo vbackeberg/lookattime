@@ -8,9 +8,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
 import Box from "@/components/Box.vue";
+import store from "../store";
 
 export default {
   name: "Home",
@@ -18,11 +19,11 @@ export default {
     Box
   },
   methods: {
-    onScroll(e) {
+    onScroll(e: MouseWheelEvent) {
       if (e.deltaY > 0) {
-        this.$store.commit("increaseZoom");
+        store.commit("increaseZoom");
       } else if (e.deltaY < 0) {
-        this.$store.commit("decreaseZoom");
+        store.commit("decreaseZoom");
       }
     }
   }

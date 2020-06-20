@@ -1,9 +1,9 @@
 <template>
   <div class="home" @mousewheel="onScroll">
     <div>
-      <Box position="-100"></Box>
-      <Box position="200"></Box>
-      <Box position="600"></Box>
+      <Box position="-200"></Box>
+      <Box position="50"></Box>
+      <Box position="300"></Box>
     </div>
   </div>
 </template>

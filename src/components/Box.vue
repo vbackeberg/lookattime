@@ -13,7 +13,7 @@ export default class Box extends Vue {
 
   get calculatedPosition() {
     const pos =
-      Number(this.$store.state.middle) +
+      Number(this.$store.state.center) +
       Number(this.position) * this.$store.state.zoomFactor;
 
     return pos + "px";

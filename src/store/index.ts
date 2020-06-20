@@ -6,11 +6,12 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     zoomFactor: 1,
-    middle: 500
+    center: 0
   },
   mutations: {
-    updateZoom(state, value) {
-      state.zoomFactor = value;
+    setCenter(state, value) {
+      console.log("set center" + value);
+      state.center = value;
     },
     increaseZoom(state) {
       const zoomFactor = state.zoomFactor + 0.1;

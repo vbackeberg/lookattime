@@ -6,21 +6,23 @@
 
 <script lang="ts">
 import store from "../store";
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
   name: "Box",
   props: {
     position: Number
   },
   computed: {
-    calculatedPosition: function() {
-      const pos =
+    calculatedPosition: function(): string {
+      const calculatedPosition =
         Number(store.state.center) +
         Number(this.position) * store.state.zoomFactor;
 
-      return pos + "px";
+      return calculatedPosition + "px";
     }
   }
-};
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

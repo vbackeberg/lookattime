@@ -6,9 +6,11 @@
 
 <script lang="ts">
 import store from "./store";
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
   name: "App"
-};
+});
 
 document.addEventListener(
   "wheel",

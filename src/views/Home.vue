@@ -12,8 +12,9 @@
 // @ is an alias to /src
 import Box from "@/components/Box.vue";
 import store from "../store";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   name: "Home",
   components: {
     Box
@@ -27,7 +28,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style scoped lang="scss">

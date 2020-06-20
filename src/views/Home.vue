@@ -21,11 +21,20 @@ export default Vue.extend({
   },
   methods: {
     onScroll(e: MouseWheelEvent) {
+      this.setMousePosition(e);
+      this.changeZoom(e);
+    },
+
+    changeZoom(e: MouseWheelEvent) {
       if (e.deltaY > 0) {
         store.commit("increaseZoom");
       } else if (e.deltaY < 0) {
         store.commit("decreaseZoom");
       }
+    },
+
+    setMousePosition(e: MouseWheelEvent) {
+      store.commit("mousePosition", e.clientX);
     }
   }
 });

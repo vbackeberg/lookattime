@@ -1,5 +1,5 @@
 <template>
-  <div class="box" v-bind:style="{ left: absolutePosition + 'px' }">
+  <div class="box" v-bind:style="{ left: position + 'px' }">
     <p>Abc abc abc</p>
   </div>
 </template>
@@ -11,21 +11,31 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Box",
   props: {
-    position: Number
+    initialPosition: String
+  },
+  data() {
+    return {
+      position: Number(this.initialPosition)
+    };
+  },
+  watch: {
+    mousePosition(value) {
+      const distance =
+        (this.position - this.mousePosition) * store.state.zoomFactor;
+
+      const oldPos = this.position;
+
+      this.position = this.mousePosition + distance;
+
+      console.log("old pos" + oldPos + "new Pos" + this.position);
+    }
   },
   computed: {
-    absolutePosition: function(): number {
-      return store.state.mousePosition + this.calculateDistance();
+    mousePosition(): number {
+      return store.state.mousePosition;
     }
   },
-  methods: {
-    calculateDistance(): number {
-      return (
-        (this.absolutePosition - store.state.mousePosition) *
-        store.state.zoomFactor
-      );
-    }
-  }
+  methods: {}
 });
 </script>
 

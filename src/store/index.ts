@@ -10,19 +10,25 @@ export default new Vuex.Store({
   },
   mutations: {
     increaseZoom(state) {
-      const zoomFactor = state.zoomFactor + 0.1;
+      const zoomFactor = state.zoomFactor + 0.01;
 
-      if (zoomFactor <= 3) {
+      if (zoomFactor <= 2) {
         state.zoomFactor = zoomFactor;
+      } else {
+        console.log("increase reached: " + zoomFactor);
       }
     },
+
     decreaseZoom(state) {
-      const zoomFactor = state.zoomFactor - 0.1;
+      const zoomFactor = state.zoomFactor - 0.01;
 
       if (zoomFactor > 0) {
         state.zoomFactor = zoomFactor;
+      } else {
+        console.log("decrease reached: " + zoomFactor);
       }
     },
+
     setMousePosition(state, value) {
       state.mousePosition = value;
     }

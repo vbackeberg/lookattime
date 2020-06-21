@@ -1,9 +1,9 @@
 <template>
   <div class="home" @mousewheel="onScroll">
     <div>
-      <Box position="-200"></Box>
-      <Box position="50"></Box>
-      <Box position="300"></Box>
+      <Box initialPosition="-200"></Box>
+      <Box initialPosition="50"></Box>
+      <Box initialPosition="300"></Box>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default Vue.extend({
     },
 
     setMousePosition(e: MouseWheelEvent) {
-      store.commit("mousePosition", e.clientX);
+      store.commit("setMousePosition", e.clientX);
     }
   }
 });

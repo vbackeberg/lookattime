@@ -26,6 +26,8 @@ export default Vue.extend({
   watch: {
     zoomFactor() {
       // TODO: box still moves in wrong direction after changing zoom direction.
+      // Reason is direction does not change until zoom factor reaches 1 again.
+      // Current zoom factor is the wrong concept.
 
       const zoomFactor = store.state.zoomFactor;
       const mousePosition = store.state.mousePosition;

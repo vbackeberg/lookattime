@@ -17,11 +17,6 @@ document.addEventListener(
   },
   { passive: false }
 );
-
-window.addEventListener("resize", function() {
-  console.log(window.innerWidth / 2);
-  store.commit("setCenter", window.innerWidth / 2);
-});
 </script>
 
 <style lang="scss">

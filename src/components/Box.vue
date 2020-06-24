@@ -4,6 +4,7 @@
     v-bind:style="{ left: position + 'px', width: width + 'px' }"
   >
     <p>{{ position }}</p>
+    <p>{{ width }}</p>
   </div>
 </template>
 
@@ -47,7 +48,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .box {
   height: 100px;
-  width: 200px;
   margin: 20px;
   padding: 16px;
   position: absolute;

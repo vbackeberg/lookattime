@@ -4,13 +4,11 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import store from "./store";
-import Vue from "vue";
-
-export default Vue.extend({
+export default {
   name: "App"
-});
+};
 
 document.addEventListener(
   "wheel",
@@ -22,6 +20,7 @@ document.addEventListener(
 
 window.addEventListener("resize", function() {
   console.log(window.innerWidth / 2);
+  store.commit("setCenter", window.innerWidth / 2);
 });
 </script>
 

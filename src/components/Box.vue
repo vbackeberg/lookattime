@@ -1,6 +1,9 @@
 <template>
-  <div class="box" v-bind:style="{ left: position + 'px' }">
-    <p>Abc abc abc</p>
+  <div
+    class="box"
+    v-bind:style="{ left: position + 'px', width: width + 'px' }"
+  >
+    <p>{{ position }}</p>
   </div>
 </template>
 
@@ -11,15 +14,16 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Box",
   props: {
-    initialPosition: String
+    initialPosition: String,
+    width: String
   },
   data() {
     return {
-      position: Number(this.initialPosition)
+      position: Number(this.initialPosition) + Number(this.width) / 2
     };
   },
   watch: {
-    mousePosition(value) {
+    mousePosition() {
       const distance =
         (this.position - this.mousePosition) * store.state.zoomFactor;
 

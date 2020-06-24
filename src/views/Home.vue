@@ -1,9 +1,7 @@
 <template>
   <div class="home" @mousewheel="onScroll">
     <div>
-      <Box initialPosition="-200"></Box>
-      <Box initialPosition="50"></Box>
-      <Box initialPosition="300"></Box>
+      <Box initialPosition="300" width="200"></Box>
     </div>
   </div>
 </template>
@@ -20,21 +18,40 @@ export default Vue.extend({
     Box
   },
   methods: {
-    onScroll(e: MouseWheelEvent) {
-      this.setMousePosition(e);
+    onScroll(e: WheelEvent) {
       this.changeZoom(e);
     },
 
-    changeZoom(e: MouseWheelEvent) {
-      if (e.deltaY > 0) {
-        store.commit("increaseZoom");
-      } else if (e.deltaY < 0) {
-        store.commit("decreaseZoom");
+    changeZoom(e: WheelEvent) {
+      if (e.deltaY < 0) {
+        this.zoomIn(e);
+        console.log("zoomIn");
+      } else if (e.deltaY > 0) {
+        console.log("zoomOut");
+        this.zoomOut(e);
       }
     },
 
-    setMousePosition(e: MouseWheelEvent) {
-      store.commit("setMousePosition", e.clientX);
+    zoomIn(e: WheelEvent) {
+      const zoomFactor = store.state.zoomFactor - 0.01;
+
+      if (zoomFactor > 0) {
+        store.commit("setMousePosition", e.clientX);
+        store.commit("setZoomFactor", zoomFactor);
+      } else {
+        console.log("min zoom factor reached: " + zoomFactor);
+      }
+    },
+
+    zoomOut(e: WheelEvent) {
+      const zoomFactor = store.state.zoomFactor + 0.01;
+
+      if (zoomFactor <= 3) {
+        store.commit("setMousePosition", e.clientX);
+        store.commit("setZoomFactor", zoomFactor);
+      } else {
+        console.log("max zoom factor reached: " + zoomFactor);
+      }
     }
   }
 });

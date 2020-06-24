@@ -20,11 +20,14 @@ export default Vue.extend({
   },
   data() {
     return {
-      position: Number(this.initialPosition) + Number(this.width) / 2
+      position: Number(this.initialPosition) - Number(this.width) / 2
     };
   },
   watch: {
     mousePosition() {
+      // TODO: distance should never cross 0 and overshoot.
+      // On zooming in it should only approach 0.
+
       const distance =
         (this.position - this.mousePosition) * store.state.zoomFactor;
 
@@ -48,7 +51,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .box {
   height: 100px;
-  margin: 20px;
   padding: 16px;
   position: absolute;
   top: 50px;

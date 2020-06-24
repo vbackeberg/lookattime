@@ -1,7 +1,7 @@
 <template>
   <div class="home" @mousewheel="onScroll">
     <div>
-      <Box initialPosition="300" width="200"></Box>
+      <Box initialPosition="500" width="200"></Box>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default Vue.extend({
       }
     },
 
-    zoomIn(e: WheelEvent) {
+    zoomOut(e: WheelEvent) {
       const zoomFactor = store.state.zoomFactor - 0.01;
 
       if (zoomFactor > 0) {
@@ -43,10 +43,10 @@ export default Vue.extend({
       }
     },
 
-    zoomOut(e: WheelEvent) {
+    zoomIn(e: WheelEvent) {
       const zoomFactor = store.state.zoomFactor + 0.01;
 
-      if (zoomFactor <= 3) {
+      if (zoomFactor < 1.5) {
         store.commit("setMousePosition", e.clientX);
         store.commit("setZoomFactor", zoomFactor);
       } else {

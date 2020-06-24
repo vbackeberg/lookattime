@@ -20,27 +20,43 @@ export default Vue.extend({
   },
   data() {
     return {
-      position: Number(this.initialPosition) - Number(this.width) / 2
+      center: Number(this.initialPosition)
     };
   },
   watch: {
-    mousePosition() {
-      // TODO: distance should never cross 0 and overshoot.
-      // On zooming in it should only approach 0.
+    zoomFactor() {
+      // TODO: box still moves in wrong direction after changing zoom direction.
 
-      const distance =
-        (this.position - this.mousePosition) * store.state.zoomFactor;
+      const zoomFactor = store.state.zoomFactor;
+      const mousePosition = store.state.mousePosition;
 
-      const oldPos = this.position;
+      const distance = (this.center - mousePosition) * zoomFactor;
 
-      this.position = this.mousePosition + distance;
+      const oldPos = this.center;
 
-      console.log("old pos" + oldPos + "new Pos" + this.position);
+      this.center = mousePosition + distance;
+
+      console.log(
+        "zoom factor " +
+          zoomFactor +
+          "mouse pos " +
+          mousePosition +
+          " old pos: " +
+          oldPos +
+          " new Pos: " +
+          this.center +
+          " distance: " +
+          distance
+      );
     }
   },
   computed: {
-    mousePosition(): number {
-      return store.state.mousePosition;
+    zoomFactor(): number {
+      return store.state.zoomFactor;
+    },
+
+    position(): number {
+      return this.center - Number(this.width) / 2;
     }
   },
   methods: {}

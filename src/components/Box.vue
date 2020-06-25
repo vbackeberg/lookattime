@@ -28,6 +28,17 @@ export default Vue.extend({
       // TODO: box still moves in wrong direction after changing zoom direction.
       // Reason is direction does not change until zoom factor reaches 1 again.
       // Current zoom factor is the wrong concept.
+      //
+      // Concept:
+      // - internalPosition remains fixed
+      // - viewport moves by sideways-scrolling
+      // - viewport centers on / moves towards mouse when zooming
+      // - absolutePosition derives from internalPosition times zoom factor.
+      // - distance is distance from mouse
+      //
+      // Concept: Easy zoom on center
+      // - distance is distances from center instead mouse
+      // - zoom is always from and to center
 
       const zoomFactor = store.state.zoomFactor;
       const mousePosition = store.state.mousePosition;

@@ -2,6 +2,8 @@
   <div class="home" @mousewheel="onScroll">
     <div>
       <Box initialPosition="200" width="200"></Box>
+      <Box initialPosition="600" width="200"></Box>
+      <Box initialPosition="1500" width="200"></Box>
     </div>
   </div>
 </template>

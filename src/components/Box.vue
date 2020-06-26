@@ -1,9 +1,9 @@
 <template>
   <div
     class="box"
-    v-bind:style="{ left: position + 'px', width: width + 'px' }"
+    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
-    <p>{{ position }}</p>
+    <p>{{ positionLeft }}</p>
     <p>{{ width }}</p>
   </div>
 </template>
@@ -16,11 +16,11 @@ export default Vue.extend({
   name: "Box",
   props: {
     initialPosition: String,
-    width: String
+    width: String,
   },
   data() {
     return {
-      center: Number(this.initialPosition)
+      positionCenter: Number(this.initialPosition),
     };
   },
   watch: {
@@ -29,50 +29,52 @@ export default Vue.extend({
       // Reason is direction does not change until zoom factor reaches 1 again.
       // Current zoom factor is the wrong concept.
       //
-      // Concept:
+      // Concept: Basic
       // - internalPosition remains fixed
       // - viewport moves by sideways-scrolling
+      // 
+      // Concept: Zoom on mouse
       // - viewport centers on / moves towards mouse when zooming
       // - absolutePosition derives from internalPosition times zoom factor.
       // - distance is distance from mouse
       //
-      // Concept: Easy zoom on center
+      // Concept: Zoom on center easy
       // - distance is distances from center instead mouse
       // - zoom is always from and to center
 
       const zoomFactor = store.state.zoomFactor;
-      const mousePosition = store.state.mousePosition;
+      const screenCenter = window.innerWidth / 2;
 
-      const distance = (this.center - mousePosition) * zoomFactor;
+      const distance = (this.positionCenter - screenCenter) * zoomFactor;
 
-      const oldPos = this.center;
+      const oldPosition = this.positionCenter;
 
-      this.center = mousePosition + distance;
+      this.positionCenter = screenCenter + distance;
 
       console.log(
         "zoom factor " +
           zoomFactor +
-          "mouse pos " +
-          mousePosition +
+          "screen center " +
+          screenCenter +
           " old pos: " +
-          oldPos +
+          oldPosition +
           " new Pos: " +
-          this.center +
+          this.positionCenter +
           " distance: " +
           distance
       );
-    }
+    },
   },
   computed: {
     zoomFactor(): number {
       return store.state.zoomFactor;
     },
 
-    position(): number {
-      return this.center - Number(this.width) / 2;
-    }
+    positionLeft(): number {
+      return this.positionCenter - Number(this.width) / 2;
+    },
   },
-  methods: {}
+  methods: {},
 });
 </script>
 

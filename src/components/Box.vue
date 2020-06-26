@@ -25,39 +25,22 @@ export default Vue.extend({
     };
   },
   watch: {
-    zoomFactor() {
-      // TODO: box still moves in wrong direction after changing zoom direction.
-      // Reason is direction does not change until zoom factor reaches 1 again.
-      // Current zoom factor is the wrong concept.
-      //
-      // Concept: Basic
-      // - internalPosition remains fixed
-      // - viewport moves by sideways-scrolling
-      //
-      // Concept: Zoom on mouse
-      // - viewport centers on / moves towards mouse when zooming
-      // - absolutePosition derives from internalPosition times zoom factor.
-      // - distance is distance from mouse
-      //
-      // Concept: Zoom on center easy
-      // - distance is distances from center instead mouse
-      // - zoom is always from and to center
-
+    zoomLevel() {
       const zoomFactor = store.state.zoomFactor;
-      const windowCenter = window.innerWidth / 2;
+      const mousePosition = store.state.mousePosition;
 
       const distance =
-        (Number(this.initialPosition) - windowCenter) * zoomFactor;
+        (Number(this.positionCenter) - mousePosition) * zoomFactor;
 
       const oldPosition = this.positionCenter;
 
-      this.positionCenter = windowCenter + distance;
+      this.positionCenter = mousePosition + distance;
 
       console.log(
         "zoom factor " +
           zoomFactor +
-          "screen center " +
-          windowCenter +
+          " mouse pos " +
+          mousePosition +
           " old pos: " +
           oldPosition +
           " new Pos: " +
@@ -68,8 +51,8 @@ export default Vue.extend({
     },
   },
   computed: {
-    zoomFactor(): number {
-      return store.state.zoomFactor;
+    zoomLevel(): number {
+      return store.state.zoomLevel;
     },
 
     positionLeft(): number {

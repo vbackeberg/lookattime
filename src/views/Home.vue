@@ -35,24 +35,26 @@ export default Vue.extend({
     },
 
     zoomOut(e: WheelEvent) {
-      const zoomFactor = store.state.zoomFactor - 0.1;
+      const zoomLevel = store.state.zoomLevel - 0.1;
 
-      if (zoomFactor > 0) {
+      if (zoomLevel > 0) {
         store.commit("setMousePosition", e.clientX);
-        store.commit("setZoomFactor", zoomFactor);
+        store.commit("setZoomLevel", zoomLevel);
+        store.commit("setZoomFactor", 0.9);
       } else {
-        console.log("min zoom factor reached: " + zoomFactor);
+        console.log("min zoom factor reached: " + zoomLevel);
       }
     },
 
     zoomIn(e: WheelEvent) {
-      const zoomFactor = store.state.zoomFactor + 0.1;
+      const zoomLevel = store.state.zoomLevel + 0.1;
 
-      if (zoomFactor < 3) {
+      if (zoomLevel < 3) {
         store.commit("setMousePosition", e.clientX);
-        store.commit("setZoomFactor", zoomFactor);
+        store.commit("setZoomLevel", zoomLevel);
+        store.commit("setZoomFactor", 1.1);
       } else {
-        console.log("max zoom factor reached: " + zoomFactor);
+        console.log("max zoom factor reached: " + zoomLevel);
       }
     }
   }

@@ -33,6 +33,6 @@ body {
   height: 100%;
   padding: 0px;
   margin: 0px;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 </style>

@@ -3,8 +3,9 @@
     class="box"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
-    <p>{{ positionLeft }}</p>
-    <p>{{ width }}</p>
+    <p>positionLeft: {{ positionLeft }}</p>
+    <p>positionCenter: {{ positionCenter }}</p>
+    <p>width: {{ width }}</p>
   </div>
 </template>
 
@@ -32,7 +33,7 @@ export default Vue.extend({
       // Concept: Basic
       // - internalPosition remains fixed
       // - viewport moves by sideways-scrolling
-      // 
+      //
       // Concept: Zoom on mouse
       // - viewport centers on / moves towards mouse when zooming
       // - absolutePosition derives from internalPosition times zoom factor.
@@ -43,19 +44,20 @@ export default Vue.extend({
       // - zoom is always from and to center
 
       const zoomFactor = store.state.zoomFactor;
-      const screenCenter = window.innerWidth / 2;
+      const windowCenter = window.innerWidth / 2;
 
-      const distance = (this.positionCenter - screenCenter) * zoomFactor;
+      const distance =
+        (Number(this.initialPosition) - windowCenter) * zoomFactor;
 
       const oldPosition = this.positionCenter;
 
-      this.positionCenter = screenCenter + distance;
+      this.positionCenter = windowCenter + distance;
 
       console.log(
         "zoom factor " +
           zoomFactor +
           "screen center " +
-          screenCenter +
+          windowCenter +
           " old pos: " +
           oldPosition +
           " new Pos: " +

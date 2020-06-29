@@ -17,11 +17,11 @@ export default Vue.extend({
   name: "Box",
   props: {
     initialPosition: String,
-    width: String,
+    width: String
   },
   data() {
     return {
-      positionCenter: Number(this.initialPosition),
+      positionCenter: Number(this.initialPosition)
     };
   },
   watch: {
@@ -36,19 +36,14 @@ export default Vue.extend({
 
       this.positionCenter = mousePosition + distance;
 
-      console.log(
-        "zoom factor " +
-          zoomFactor +
-          " mouse pos " +
-          mousePosition +
-          " old pos: " +
-          oldPosition +
-          " new Pos: " +
-          this.positionCenter +
-          " distance: " +
-          distance
+      this.logPositions(
+        zoomFactor,
+        mousePosition,
+        oldPosition,
+        this.positionCenter,
+        distance
       );
-    },
+    }
   },
   computed: {
     zoomLevel(): number {
@@ -57,9 +52,30 @@ export default Vue.extend({
 
     positionLeft(): number {
       return this.positionCenter - Number(this.width) / 2;
-    },
+    }
   },
-  methods: {},
+  methods: {
+    logPositions(
+      zoomFactor: number,
+      mousePosition: number,
+      oldPosition: number,
+      positionCenter: number,
+      distance: number
+    ) {
+      console.log(
+        "zoom factor " +
+          zoomFactor +
+          " mouse pos " +
+          mousePosition +
+          " old pos: " +
+          oldPosition +
+          " new Pos: " +
+          positionCenter +
+          " distance: " +
+          distance
+      );
+    }
+  }
 });
 </script>
 

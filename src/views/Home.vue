@@ -3,7 +3,7 @@
     <div>
       <Box initialPosition="200" width="200"></Box>
       <Box initialPosition="600" width="200"></Box>
-      <Box initialPosition="1500" width="200"></Box>
+      <Box initialPosition="2500" width="200"></Box>
     </div>
   </div>
 </template>
@@ -18,6 +18,17 @@ export default Vue.extend({
   name: "Home",
   components: {
     Box
+  },
+  created() {
+    /* TODO: Determine horizontal center.
+    The box to the most left should be positioned such
+    that its position will never get a negative value when
+    zooming in to allow for horizontal scroll.
+
+    On created, scroll view to center.
+    */
+
+    window.scrollTo(500, 0);
   },
   methods: {
     onScroll(e: WheelEvent) {

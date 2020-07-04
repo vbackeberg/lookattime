@@ -17,71 +17,16 @@ export default Vue.extend({
   name: "Box",
 
   props: {
-    initialPosition: String,
+    initialPosition: Number,
     width: String,
     id: Number
   },
 
-  data() {
-    return {
-      positionCenter: Number(this.initialPosition)
-    };
-  },
-
-  watch: {
-    zoomLevel() {
-      const zoomFactor = store.state.zoomFactor;
-      const mousePosition = store.state.mousePosition;
-
-      const distance =
-        (Number(this.positionCenter) - mousePosition) * zoomFactor;
-
-      const oldPosition = this.positionCenter;
-
-      this.positionCenter = mousePosition + distance;
-
-      this.logPositions(
-        zoomFactor,
-        mousePosition,
-        oldPosition,
-        this.positionCenter,
-        distance
-      );
-    }
-  },
-
   computed: {
-    zoomLevel(): number {
-      return store.state.zoomLevel;
-    },
-
     positionLeft(): number {
-      return this.positionCenter - Number(this.width) / 2;
+      return this.initialPosition - Number(this.width) / 2;
     }
   },
-
-  methods: {
-    logPositions(
-      zoomFactor: number,
-      mousePosition: number,
-      oldPosition: number,
-      positionCenter: number,
-      distance: number
-    ) {
-      console.log(
-        "zoom factor " +
-          zoomFactor +
-          " mouse pos " +
-          mousePosition +
-          " old pos: " +
-          oldPosition +
-          " new Pos: " +
-          positionCenter +
-          " distance: " +
-          distance
-      );
-    }
-  }
 });
 </script>
 

@@ -17,6 +17,7 @@ import Box from "@/components/Box.vue";
 import store from "../store";
 import Vue from "vue";
 import { Constants } from "@/constants";
+import { BoxModel } from "@/models/box-model";
 
 export default Vue.extend({
   name: "Home",
@@ -25,18 +26,46 @@ export default Vue.extend({
     Box
   },
 
-  data() {
-    return {
-      boxes: [
-        { initialPosition: "200", width: "200", id: 1 },
-        { initialPosition: "600", width: "200", id: 2 },
-        { initialPosition: "2500", width: "200", id: 3 }
-      ]
-    };
-  },
-
   created() {
     window.scrollTo(500, 0);
+  },
+
+  computed: {
+    zoomLevel(): number {
+      return store.state.zoomLevel;
+    },
+
+    boxes(): BoxModel[] {
+      return [
+        { initialPosition: 200, width: "200", id: 1 },
+        { initialPosition: 600, width: "200", id: 2 },
+        { initialPosition: 2500, width: "200", id: 3 }
+      ];
+    }
+  },
+
+  watch: {
+    zoomLevel() {
+      const zoomFactor = store.state.zoomFactor;
+      const mousePosition = store.state.mousePosition;
+
+      this.boxes.forEach((box) => {
+        const distance =
+          (Number(box.initialPosition) - mousePosition) * zoomFactor;
+
+        const oldPosition = box.initialPosition;
+
+        box.initialPosition = mousePosition + distance;
+
+        this.logPositions(
+          zoomFactor,
+          mousePosition,
+          oldPosition,
+          box.initialPosition,
+          distance
+        );
+      });
+    }
   },
 
   methods: {
@@ -80,6 +109,27 @@ export default Vue.extend({
       } else {
         console.log("max zoom factor reached: " + zoomLevel);
       }
+    },
+
+    logPositions(
+      zoomFactor: number,
+      mousePosition: number,
+      oldPosition: number,
+      positionCenter: number,
+      distance: number
+    ) {
+      console.log(
+        "zoom factor " +
+          zoomFactor +
+          " mouse pos " +
+          mousePosition +
+          " old pos: " +
+          oldPosition +
+          " new Pos: " +
+          positionCenter +
+          " distance: " +
+          distance
+      );
     }
   }
 });

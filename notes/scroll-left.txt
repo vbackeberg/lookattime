@@ -14,3 +14,19 @@ maxDistance = maxMousePos * maxZoomLevel
 
 
 -> The most left-positioned box will never exceed 0. 
+
+
+
+Dynamic positioning after every zoom event.
+
+1. get most negative position
+
+
+2. normalize positions
+    
+    2.1 set most negative position to zero:
+
+    
+
+    2.2 set other positions proportionally:
+

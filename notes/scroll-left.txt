@@ -1,9 +1,16 @@
-1. normalize values:
+(1. normalize values:)
 
 -100, 100, 1000
 0, 200, 1100
 
-2. determine maxMousePos:
+2. determine maximum mouse position:
+positionRight = initialPosition + boxWidth / 2
+
+maxMousePos = max(positionRight of all boxes)
+
+3. determine maximum distance at maximum zoom
+
+maxDistance = maxMousePos * maxZoomLevel
 
 
-maxDistance = maxMousePos * maxZoom 
+-> The most left-positioned box will never exceed 0. 

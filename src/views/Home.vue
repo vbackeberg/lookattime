@@ -60,7 +60,7 @@ export default Vue.extend({
     zoomIn(e: WheelEvent) {
       const zoomLevel = store.state.zoomLevel + 0.1;
 
-      if (zoomLevel < 3) {
+      if (zoomLevel < Constants.MAX_ZOOM_LEVEL) {
         store.commit("setMousePosition", e.clientX);
         store.commit("setZoomLevel", zoomLevel);
         store.commit("setZoomFactor", 1.1);

@@ -1,0 +1,9 @@
+1. normalize values:
+
+-100, 100, 1000
+0, 200, 1100
+
+2. determine maxMousePos:
+
+
+maxDistance = maxMousePos * maxZoom 

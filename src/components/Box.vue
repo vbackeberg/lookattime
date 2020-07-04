@@ -15,15 +15,18 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "Box",
+
   props: {
     initialPosition: String,
     width: String
   },
+
   data() {
     return {
       positionCenter: Number(this.initialPosition)
     };
   },
+
   watch: {
     zoomLevel() {
       const zoomFactor = store.state.zoomFactor;
@@ -45,6 +48,7 @@ export default Vue.extend({
       );
     }
   },
+
   computed: {
     zoomLevel(): number {
       return store.state.zoomLevel;
@@ -54,6 +58,7 @@ export default Vue.extend({
       return this.positionCenter - Number(this.width) / 2;
     }
   },
+
   methods: {
     logPositions(
       zoomFactor: number,

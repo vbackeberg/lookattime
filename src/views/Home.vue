@@ -1,9 +1,12 @@
 <template>
   <div class="home" @mousewheel="onScroll">
     <div>
-      <Box initialPosition="200" width="200"></Box>
-      <Box initialPosition="600" width="200"></Box>
-      <Box initialPosition="2500" width="200"></Box>
+      <box
+        v-for="box in boxes"
+        v-bind:key="box.id"
+        v-bind:initialPosition="box.initialPosition"
+        v-bind:width="box.width"
+      ></box>
     </div>
   </div>
 </template>
@@ -13,23 +16,29 @@
 import Box from "@/components/Box.vue";
 import store from "../store";
 import Vue from "vue";
+import { Constants } from "@/constants";
 
 export default Vue.extend({
   name: "Home",
+
   components: {
     Box
   },
+
+  data() {
+    return {
+      boxes: [
+        { initialPosition: "200", width: "200", id: 1 },
+        { initialPosition: "600", width: "200", id: 2 },
+        { initialPosition: "2500", width: "200", id: 3 }
+      ]
+    };
+  },
+
   created() {
-    /* TODO: Determine horizontal center.
-    The box to the most left should be positioned such
-    that its position will never get a negative value when
-    zooming in to allow for horizontal scroll.
-
-    On created, scroll view to center.
-    */
-
     window.scrollTo(500, 0);
   },
+
   methods: {
     onScroll(e: WheelEvent) {
       this.changeZoom(e);
@@ -43,6 +52,10 @@ export default Vue.extend({
         console.log("zoomOut");
         this.zoomOut(e);
       }
+
+      // for each box determine new position
+
+      // update absolute positions and readjust so that most negative box has position 0
     },
 
     zoomOut(e: WheelEvent) {

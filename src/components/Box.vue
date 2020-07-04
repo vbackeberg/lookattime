@@ -18,7 +18,8 @@ export default Vue.extend({
 
   props: {
     initialPosition: String,
-    width: String
+    width: String,
+    id: Number
   },
 
   data() {

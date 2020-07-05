@@ -30,18 +30,53 @@ export default Vue.extend({
         { initialPosition: 200, width: 200, id: 1 },
         { initialPosition: 600, width: 200, id: 2 },
         { initialPosition: 2500, width: 200, id: 3 }
-      ]
+      ],
+      zoomLevel: 1
     };
   },
 
-  computed: {
-    zoomLevel(): number {
-      return store.state.zoomLevel;
-    }
-  },
+  methods: {
+    onScroll(e: WheelEvent) {
+      this.changeZoom(e);
+    },
 
-  watch: {
-    zoomLevel() {
+    changeZoom(e: WheelEvent) {
+      if (e.deltaY < 0) {
+        this.zoomIn(e);
+        console.log("zoomIn");
+      } else if (e.deltaY > 0) {
+        this.zoomOut(e);
+        console.log("zoomOut");
+      }
+
+      // for each box determine new position
+
+      // update absolute positions and readjust so that most negative box has position 0
+    },
+
+    zoomOut(e: WheelEvent) {
+      if (this.zoomLevel > 0) {
+        this.zoomLevel -= 0.1;  
+        store.commit("setMousePosition", e.clientX);
+        store.commit("setZoomFactor", 0.9);
+        this.determineNewPosition();
+      } else {
+        console.log("min zoom factor reached: " + this.zoomLevel);
+      }
+    },
+
+    zoomIn(e: WheelEvent) {
+      if (this.zoomLevel < Constants.MAX_ZOOM_LEVEL) {
+        this.zoomLevel += 0.1;
+        store.commit("setMousePosition", e.clientX);
+        store.commit("setZoomFactor", 1.1);
+        this.determineNewPosition();
+      } else {
+        console.log("max zoom factor reached: " + this.zoomLevel);
+      }
+    },
+
+    determineNewPosition() {
       const zoomFactor = store.state.zoomFactor;
       const mousePosition = store.state.mousePosition;
 
@@ -60,50 +95,6 @@ export default Vue.extend({
           distance
         );
       });
-    }
-  },
-
-  methods: {
-    onScroll(e: WheelEvent) {
-      this.changeZoom(e);
-    },
-
-    changeZoom(e: WheelEvent) {
-      if (e.deltaY < 0) {
-        this.zoomIn(e);
-        console.log("zoomIn");
-      } else if (e.deltaY > 0) {
-        console.log("zoomOut");
-        this.zoomOut(e);
-      }
-
-      // for each box determine new position
-
-      // update absolute positions and readjust so that most negative box has position 0
-    },
-
-    zoomOut(e: WheelEvent) {
-      const zoomLevel = store.state.zoomLevel - 0.1;
-
-      if (zoomLevel > 0) {
-        store.commit("setMousePosition", e.clientX);
-        store.commit("setZoomLevel", zoomLevel);
-        store.commit("setZoomFactor", 0.9);
-      } else {
-        console.log("min zoom factor reached: " + zoomLevel);
-      }
-    },
-
-    zoomIn(e: WheelEvent) {
-      const zoomLevel = store.state.zoomLevel + 0.1;
-
-      if (zoomLevel < Constants.MAX_ZOOM_LEVEL) {
-        store.commit("setMousePosition", e.clientX);
-        store.commit("setZoomLevel", zoomLevel);
-        store.commit("setZoomFactor", 1.1);
-      } else {
-        console.log("max zoom factor reached: " + zoomLevel);
-      }
     },
 
     logPositions(

@@ -12,6 +12,7 @@ import Box from "@/components/Box.vue";
 import store from "../store";
 import Vue from "vue";
 import { Constants } from "@/constants";
+import { BoxModel } from "@/models/box-model";
 
 export default Vue.extend({
   name: "Home",

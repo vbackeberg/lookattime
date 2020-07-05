@@ -61,7 +61,7 @@ export default Vue.extend({
         store.commit("setZoomFactor", 0.9);
         this.determineNewPosition();
       } else {
-        console.log("min zoom factor reached: " + this.zoomLevel);
+        console.log("min zoom level reached: " + this.zoomLevel);
       }
     },
 
@@ -72,7 +72,7 @@ export default Vue.extend({
         store.commit("setZoomFactor", 1.1);
         this.determineNewPosition();
       } else {
-        console.log("max zoom factor reached: " + this.zoomLevel);
+        console.log("max zoom level reached: " + this.zoomLevel);
       }
     },
 

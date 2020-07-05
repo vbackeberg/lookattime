@@ -22,18 +22,31 @@ export default Vue.extend({
   },
 
   created() {
+    console.log("scrollto");
     window.scrollTo(500, 0);
+
+    console.log("screenX created " + window.screenX);
   },
 
   data() {
     return {
       boxes: [
-        new BoxModel(200, 200, 1),
-        new BoxModel(600, 200, 1),
-        new BoxModel(2500, 200, 1)
+        new BoxModel(0, 200, 1),
+        new BoxModel(400, 200, 2),
+        new BoxModel(1500, 200, 3)
       ],
       zoomLevel: 1
     };
+  },
+
+  computed: {
+    lowestBox(): BoxModel {
+      return this.boxes.reduce((previous, current) => {
+        return previous.positionCenter < current.positionCenter
+          ? previous
+          : current;
+      });
+    }
   },
 
   methods: {
@@ -49,8 +62,6 @@ export default Vue.extend({
       } else {
         console.log("zoom level of " + this.zoomLevel + " exceeds limit.");
       }
-
-      // update absolute positions and readjust so that most negative box has position 0
     },
 
     zoomIn(e: WheelEvent) {
@@ -72,6 +83,7 @@ export default Vue.extend({
         box.positionCenter = mousePosition + distance;
 
         this.logPositions(
+          box.id,
           zoomFactor,
           mousePosition,
           oldPosition,
@@ -84,13 +96,33 @@ export default Vue.extend({
     },
 
     normalizePositions() {
-        // find most negative pos
-        // set that to 0
-        // move all others
+      console.log(
+        "normalizing positions relative to " + this.lowestBox.positionCenter
+      );
+
+      const lowestBoxPositionCenter = this.lowestBox.positionCenter;
+      console.log("lowestBoxPositionCenter " + lowestBoxPositionCenter);
+
+      // move all boxes the distance from lowest box to 0
+      // such that lowest box will have pos 0 and distances to other boxes remain the same.
+
+      this.boxes.map((box) => {
+        console.log("box " + box.id + " old pos " + box.positionCenter);
+        box.positionCenter -= lowestBoxPositionCenter;
+        console.log("box " + box.id + " new pos " + box.positionCenter);
+      });
+
+      console.log("screenX " + window.screenX);
+
+      const screenXNew = window.screenX - lowestBoxPositionCenter;
+      console.log("screenXNew " + screenXNew);
+
       // set viewport to equivalent position
+      window.scrollTo(screenXNew, 0);
     },
 
     logPositions(
+      boxId: number,
       zoomFactor: number,
       mousePosition: number,
       oldPosition: number,
@@ -98,7 +130,9 @@ export default Vue.extend({
       distance: number
     ) {
       console.log(
-        "zoom factor " +
+        "box " +
+          boxId +
+          " zoom factor " +
           zoomFactor +
           " mouse pos " +
           mousePosition +
@@ -116,8 +150,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .home {
-  overflow: auto;
-  white-space: nowrap;
+  width: 5000px;
   height: 100%;
 }
 </style>

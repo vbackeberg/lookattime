@@ -31,6 +31,7 @@ document.addEventListener(
 html,
 body {
   height: 100%;
+  width: 5000px;
   padding: 0px;
   margin: 0px;
   overflow-y: hidden;

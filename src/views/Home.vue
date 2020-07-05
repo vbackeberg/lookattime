@@ -78,6 +78,16 @@ export default Vue.extend({
           distance
         );
       });
+
+
+      this.normalizePositions();
+    },
+
+    normalizePositions() {
+        // find most negative pos
+        // set that to 0
+        // move all others
+        // set viewport to equivalent position
     },
 
     logPositions(

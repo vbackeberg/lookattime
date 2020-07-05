@@ -4,7 +4,7 @@
 0, 200, 1100
 
 2. determine maximum mouse position:
-positionRight = initialPosition + boxWidth / 2
+positionRight = positionCenter + boxWidth / 2
 
 maxMousePos = max(positionRight of all boxes)
 

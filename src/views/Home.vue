@@ -28,9 +28,9 @@ export default Vue.extend({
   data() {
     return {
       boxes: [
-        { initialPosition: 200, width: 200, id: 1 },
-        { initialPosition: 600, width: 200, id: 2 },
-        { initialPosition: 2500, width: 200, id: 3 }
+        { positionCenter: 200, width: 200, id: 1 },
+        { positionCenter: 600, width: 200, id: 2 },
+        { positionCenter: 2500, width: 200, id: 3 }
       ],
       zoomLevel: 1
     };
@@ -65,21 +65,20 @@ export default Vue.extend({
 
     determineNewPosition(zoomFactor: number, mousePosition: number) {
       this.boxes.forEach((box) => {
-        const distance = (box.initialPosition - mousePosition) * zoomFactor;
+        const distance = (box.positionCenter - mousePosition) * zoomFactor;
 
-        const oldPosition = box.initialPosition;
+        const oldPosition = box.positionCenter;
 
-        box.initialPosition = mousePosition + distance;
+        box.positionCenter = mousePosition + distance;
 
         this.logPositions(
           zoomFactor,
           mousePosition,
           oldPosition,
-          box.initialPosition,
+          box.positionCenter,
           distance
         );
       });
-
 
       this.normalizePositions();
     },
@@ -88,7 +87,7 @@ export default Vue.extend({
         // find most negative pos
         // set that to 0
         // move all others
-        // set viewport to equivalent position
+      // set viewport to equivalent position
     },
 
     logPositions(

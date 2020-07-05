@@ -41,45 +41,28 @@ export default Vue.extend({
     },
 
     changeZoom(e: WheelEvent) {
-      if (e.deltaY < 0) {
+      if (e.deltaY < 0 && this.zoomLevel < Constants.MAX_ZOOM_LEVEL) {
         this.zoomIn(e);
-        console.log("zoomIn");
-      } else if (e.deltaY > 0) {
+      } else if (e.deltaY > 0 && this.zoomLevel > Constants.MIN_ZOOM_LEVEL) {
         this.zoomOut(e);
-        console.log("zoomOut");
+      } else {
+        console.log("zoom level of " + this.zoomLevel + " exceeds limit.");
       }
-
-      // for each box determine new position
 
       // update absolute positions and readjust so that most negative box has position 0
     },
 
-    zoomOut(e: WheelEvent) {
-      if (this.zoomLevel > 0) {
-        this.zoomLevel -= 0.1;  
-        store.commit("setMousePosition", e.clientX);
-        store.commit("setZoomFactor", 0.9);
-        this.determineNewPosition();
-      } else {
-        console.log("min zoom level reached: " + this.zoomLevel);
-      }
-    },
-
     zoomIn(e: WheelEvent) {
-      if (this.zoomLevel < Constants.MAX_ZOOM_LEVEL) {
-        this.zoomLevel += 0.1;
-        store.commit("setMousePosition", e.clientX);
-        store.commit("setZoomFactor", 1.1);
-        this.determineNewPosition();
-      } else {
-        console.log("max zoom level reached: " + this.zoomLevel);
-      }
+      this.zoomLevel += 0.1;
+      this.determineNewPosition(1.1, e.clientX);
     },
 
-    determineNewPosition() {
-      const zoomFactor = store.state.zoomFactor;
-      const mousePosition = store.state.mousePosition;
+    zoomOut(e: WheelEvent) {
+      this.zoomLevel -= 0.1;
+      this.determineNewPosition(0.9, e.clientX);
+    },
 
+    determineNewPosition(zoomFactor: number, mousePosition: number) {
       this.boxes.forEach((box) => {
         const distance = (box.initialPosition - mousePosition) * zoomFactor;
 

@@ -4,21 +4,11 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    zoomFactor: 1,
-    mousePosition: 0,
-  },
+  state: {},
 
-  mutations: {
-    setZoomFactor(state, value) {
-      state.zoomFactor = value;
-    },
-    setMousePosition(state, value) {
-      state.mousePosition = value;
-    },
-  },
+  mutations: {},
 
   actions: {},
 
-  modules: {},
+  modules: {}
 });

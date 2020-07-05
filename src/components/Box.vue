@@ -4,7 +4,7 @@
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
     <p>positionLeft: {{ positionLeft }}</p>
-    <p>positionCenter: {{ positionCenter }}</p>
+    <p>positionCenter: {{ initialPosition }}</p>
     <p>width: {{ width }}</p>
   </div>
 </template>

@@ -12,7 +12,7 @@ import Box from "@/components/Box.vue";
 import store from "../store";
 import Vue from "vue";
 import { Constants } from "@/constants";
-import { BoxModel } from "@/models/box-model";
+import BoxModel from "@/models/box-model";
 
 export default Vue.extend({
   name: "Home",
@@ -28,9 +28,9 @@ export default Vue.extend({
   data() {
     return {
       boxes: [
-        { positionCenter: 200, width: 200, id: 1 },
-        { positionCenter: 600, width: 200, id: 2 },
-        { positionCenter: 2500, width: 200, id: 3 }
+        new BoxModel(200, 200, 1),
+        new BoxModel(600, 200, 1),
+        new BoxModel(2500, 200, 1)
       ],
       zoomLevel: 1
     };

@@ -1,12 +1,7 @@
 <template>
   <div class="home" @mousewheel="onScroll">
     <div>
-      <box
-        v-for="box in boxes"
-        v-bind:key="box.id"
-        v-bind:initialPosition="box.initialPosition"
-        v-bind:width="box.width"
-      ></box>
+      <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     </div>
   </div>
 </template>
@@ -30,17 +25,19 @@ export default Vue.extend({
     window.scrollTo(500, 0);
   },
 
+  data() {
+    return {
+      boxes: [
+        { initialPosition: 200, width: 200, id: 1 },
+        { initialPosition: 600, width: 200, id: 2 },
+        { initialPosition: 2500, width: 200, id: 3 }
+      ]
+    };
+  },
+
   computed: {
     zoomLevel(): number {
       return store.state.zoomLevel;
-    },
-
-    boxes(): BoxModel[] {
-      return [
-        { initialPosition: 200, width: "200", id: 1 },
-        { initialPosition: 600, width: "200", id: 2 },
-        { initialPosition: 2500, width: "200", id: 3 }
-      ];
     }
   },
 
@@ -50,8 +47,7 @@ export default Vue.extend({
       const mousePosition = store.state.mousePosition;
 
       this.boxes.forEach((box) => {
-        const distance =
-          (Number(box.initialPosition) - mousePosition) * zoomFactor;
+        const distance = (box.initialPosition - mousePosition) * zoomFactor;
 
         const oldPosition = box.initialPosition;
 

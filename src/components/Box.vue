@@ -18,13 +18,13 @@ export default Vue.extend({
 
   props: {
     initialPosition: Number,
-    width: String,
+    width: Number,
     id: Number
   },
 
   computed: {
     positionLeft(): number {
-      return this.initialPosition - Number(this.width) / 2;
+      return this.initialPosition - this.width / 2;
     }
   },
 });

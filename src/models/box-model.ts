@@ -1,5 +1,5 @@
 export interface BoxModel {
     initialPosition: number;
-    width: string;
+    width: number;
     id: number;
 }

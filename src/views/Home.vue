@@ -18,7 +18,7 @@ export default Vue.extend({
   name: "Home",
 
   components: {
-    Box
+    Box,
   },
 
   created() {},
@@ -28,9 +28,9 @@ export default Vue.extend({
       boxes: [
         new BoxModel(0, 200, 1),
         new BoxModel(400, 200, 2),
-        new BoxModel(1500, 200, 3)
+        new BoxModel(1500, 200, 3),
       ],
-      zoomLevel: 1
+      zoomLevel: 1,
     };
   },
 
@@ -41,7 +41,7 @@ export default Vue.extend({
           ? previous
           : current;
       });
-    }
+    },
   },
 
   methods: {
@@ -91,29 +91,31 @@ export default Vue.extend({
     },
 
     normalizePositions() {
-      console.log(
-        "normalizing positions relative to " + this.lowestBox.positionCenter
-      );
+      if (this.lowestBox.positionCenter < 0) {
+        console.log(
+          "normalizing positions relative to " + this.lowestBox.positionCenter
+        );
 
-      const lowestBoxPositionCenter = this.lowestBox.positionCenter;
-      console.log("lowestBoxPositionCenter " + lowestBoxPositionCenter);
+        const lowestBoxPositionCenter = this.lowestBox.positionCenter;
+        console.log("lowestBoxPositionCenter " + lowestBoxPositionCenter);
 
-      // move all boxes the distance from lowest box to 0
-      // such that lowest box will have pos 0 and distances to other boxes remain the same.
+        // move all boxes the distance from lowest box to 0
+        // such that lowest box will have pos 0 and distances to other boxes remain the same.
 
-      this.boxes.forEach((box) => {
-        console.log("box " + box.id + " old pos " + box.positionCenter);
-        box.positionCenter -= lowestBoxPositionCenter;
-        console.log("box " + box.id + " new pos " + box.positionCenter);
-      });
+        this.boxes.forEach((box) => {
+          console.log("box " + box.id + " old pos " + box.positionCenter);
+          box.positionCenter -= lowestBoxPositionCenter;
+          console.log("box " + box.id + " new pos " + box.positionCenter);
+        });
 
-      console.log("screenX " + window.screenX);
+        console.log("screenX " + window.screenX);
 
-      const screenXNew = window.screenX - lowestBoxPositionCenter;
-      console.log("screenXNew " + screenXNew);
+        const screenXNew = window.screenX - lowestBoxPositionCenter;
+        console.log("screenXNew " + screenXNew);
 
-      // set viewport to equivalent position
-      window.scrollBy(screenXNew, 0);
+        // set viewport to equivalent position
+        window.scrollBy(screenXNew, 0);
+      }
     },
 
     logPositions(
@@ -138,8 +140,8 @@ export default Vue.extend({
           " distance: " +
           distance
       );
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -21,12 +21,7 @@ export default Vue.extend({
     Box
   },
 
-  created() {
-    console.log("scrollto");
-    window.scrollTo(500, 0);
-
-    console.log("screenX created " + window.screenX);
-  },
+  created() {},
 
   data() {
     return {

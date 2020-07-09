@@ -91,10 +91,12 @@ export default Vue.extend({
     },
 
     normalizePositions() {
+      console.log(
+        "lowest box position center: " + this.lowestBox.positionCenter
+      );
+
       if (this.lowestBox.positionCenter < 0) {
-        console.log(
-          "normalizing positions relative to " + this.lowestBox.positionCenter
-        );
+        console.log("normalizing...");
 
         const lowestBoxPositionCenter = this.lowestBox.positionCenter;
         console.log("lowestBoxPositionCenter " + lowestBoxPositionCenter);
@@ -115,6 +117,8 @@ export default Vue.extend({
 
         // set viewport to equivalent position
         window.scrollBy(screenXNew, 0);
+      } else {
+        console.log("not normalizing...");
       }
     },
 

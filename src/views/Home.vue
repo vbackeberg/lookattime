@@ -118,7 +118,7 @@ export default Vue.extend({
       console.log("screenXNew " + screenXNew);
 
       // set viewport to equivalent position
-      window.scrollTo(screenXNew, 0);
+      window.scrollBy(screenXNew, 0);
     },
 
     logPositions(

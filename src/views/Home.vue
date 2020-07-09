@@ -106,7 +106,7 @@ export default Vue.extend({
       // move all boxes the distance from lowest box to 0
       // such that lowest box will have pos 0 and distances to other boxes remain the same.
 
-      this.boxes.map((box) => {
+      this.boxes.forEach((box) => {
         console.log("box " + box.id + " old pos " + box.positionCenter);
         box.positionCenter -= lowestBoxPositionCenter;
         console.log("box " + box.id + " new pos " + box.positionCenter);

@@ -120,6 +120,7 @@ export default Vue.extend({
       } else {
         console.log("not normalizing...");
       }
+      console.log("----------------------------------------------------");
     },
 
     logPositions(

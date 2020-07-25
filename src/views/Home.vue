@@ -112,7 +112,6 @@ export default Vue.extend({
         const screenXNew = window.screenX - lowestBoxPositionCenter;
         console.log("screenXNew " + screenXNew);
 
-        // set viewport to equivalent position
         window.scrollBy(screenXNew, 0);
       } else {
         console.log("not normalizing...");

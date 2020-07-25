@@ -37,7 +37,7 @@ export default Vue.extend({
   computed: {
     lowestBox(): BoxModel {
       return this.boxes.reduce((previous, current) => {
-        return previous.positionCenter < current.positionCenter
+        return previous.positionLeft < current.positionLeft
           ? previous
           : current;
       });
@@ -71,18 +71,20 @@ export default Vue.extend({
 
     determineNewPosition(zoomFactor: number, mousePosition: number) {
       this.boxes.forEach((box) => {
-        const distance = (box.positionCenter - mousePosition) * zoomFactor;
+        const oldPositionLeft = box.positionLeft;
 
-        const oldPosition = box.positionCenter;
+        const positionCenter = box.positionLeft + box.width / 2;
 
-        box.positionCenter = mousePosition + distance;
+        const distance = (positionCenter - mousePosition) * zoomFactor;
+
+        box.positionLeft = mousePosition + distance - box.width / 2;
 
         this.logPositions(
           box.id,
           zoomFactor,
           mousePosition,
-          oldPosition,
-          box.positionCenter,
+          oldPositionLeft,
+          box.positionLeft,
           distance
         );
       });
@@ -91,25 +93,23 @@ export default Vue.extend({
     },
 
     normalizePositions() {
-      console.log(
-        "lowest box position center: " + this.lowestBox.positionCenter
-      );
+      console.log("lowest box position center: " + this.lowestBox.positionLeft);
 
-      if (this.lowestBox.positionCenter < 0) {
+      if (this.lowestBox.positionLeft < 0) {
         console.log("normalizing...");
 
-        const lowestBoxPositionCenter = this.lowestBox.positionCenter;
-        console.log("lowestBoxPositionCenter " + lowestBoxPositionCenter);
+        const lowestBoxPositionLeft = this.lowestBox.positionLeft;
+        console.log("lowestBoxPositionLeft " + lowestBoxPositionLeft);
 
         this.boxes.forEach((box) => {
-          console.log("box " + box.id + " old pos " + box.positionCenter);
-          box.positionCenter -= lowestBoxPositionCenter;
-          console.log("box " + box.id + " new pos " + box.positionCenter);
+          console.log("box " + box.id + " old pos " + box.positionLeft);
+          box.positionLeft -= lowestBoxPositionLeft;
+          console.log("box " + box.id + " new pos " + box.positionLeft);
         });
 
         console.log("screenX " + window.screenX);
 
-        const screenXNew = window.screenX - lowestBoxPositionCenter;
+        const screenXNew = window.screenX - lowestBoxPositionLeft;
         console.log("screenXNew " + screenXNew);
 
         window.scrollBy(screenXNew, 0);
@@ -123,8 +123,8 @@ export default Vue.extend({
       boxId: number,
       zoomFactor: number,
       mousePosition: number,
-      oldPosition: number,
-      positionCenter: number,
+      oldPositionLeft: number,
+      positionLeft: number,
       distance: number
     ) {
       console.log(
@@ -135,9 +135,9 @@ export default Vue.extend({
           " mouse pos " +
           mousePosition +
           " old pos: " +
-          oldPosition +
+          oldPositionLeft +
           " new Pos: " +
-          positionCenter +
+          positionLeft +
           " distance: " +
           distance
       );

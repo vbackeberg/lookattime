@@ -4,7 +4,6 @@
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
     <p>positionLeft: {{ positionLeft }}</p>
-    <p>positionCenter: {{ positionCenter }}</p>
     <p>width: {{ width }}</p>
   </div>
 </template>
@@ -17,15 +16,9 @@ export default Vue.extend({
   name: "Box",
 
   props: {
-    positionCenter: Number,
+    positionLeft: Number,
     width: Number,
     id: Number,
-  },
-
-  computed: {
-    positionLeft(): number {
-      return this.positionCenter - this.width / 2;
-    },
   },
 });
 </script>

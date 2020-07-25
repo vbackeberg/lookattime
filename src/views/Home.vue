@@ -26,8 +26,8 @@ export default Vue.extend({
   data() {
     return {
       boxes: [
-        new BoxModel(0, 200, 1),
-        new BoxModel(400, 200, 2),
+        new BoxModel(200, 200, 1),
+        new BoxModel(500, 200, 2),
         new BoxModel(1500, 200, 3),
       ],
       zoomLevel: 1,

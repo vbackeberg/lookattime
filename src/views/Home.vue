@@ -50,9 +50,9 @@ export default Vue.extend({
     },
 
     changeZoom(e: WheelEvent) {
-      if (e.deltaY < 0 && this.zoomLevel < Constants.MAX_ZOOM_LEVEL) {
+      if (e.deltaY < 0) {
         this.zoomIn(e);
-      } else if (e.deltaY > 0 && this.zoomLevel > Constants.MIN_ZOOM_LEVEL) {
+      } else if (e.deltaY > 0) {
         this.zoomOut(e);
       } else {
         console.log("zoom level of " + this.zoomLevel + " exceeds limit.");
@@ -100,9 +100,6 @@ export default Vue.extend({
 
         const lowestBoxPositionCenter = this.lowestBox.positionCenter;
         console.log("lowestBoxPositionCenter " + lowestBoxPositionCenter);
-
-        // move all boxes the distance from lowest box to 0
-        // such that lowest box will have pos 0 and distances to other boxes remain the same.
 
         this.boxes.forEach((box) => {
           console.log("box " + box.id + " old pos " + box.positionCenter);

@@ -61,12 +61,12 @@ export default Vue.extend({
 
     zoomIn(e: WheelEvent) {
       this.zoomLevel += 0.1;
-      this.determineNewPosition(1.1, e.clientX);
+      this.determineNewPosition(1.1, e.pageX);
     },
 
     zoomOut(e: WheelEvent) {
       this.zoomLevel -= 0.1;
-      this.determineNewPosition(0.9, e.clientX);
+      this.determineNewPosition(0.9, e.pageX);
     },
 
     determineNewPosition(zoomFactor: number, mousePosition: number) {

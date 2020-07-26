@@ -96,27 +96,54 @@ export default Vue.extend({
       console.log("lowest box position center: " + this.lowestBox.positionLeft);
 
       if (this.lowestBox.positionLeft < 0) {
-        console.log("normalizing...");
-
-        const lowestBoxPositionLeft = this.lowestBox.positionLeft;
-        console.log("lowestBoxPositionLeft " + lowestBoxPositionLeft);
-
-        this.boxes.forEach((box) => {
-          console.log("box " + box.id + " old pos " + box.positionLeft);
-          box.positionLeft -= lowestBoxPositionLeft;
-          console.log("box " + box.id + " new pos " + box.positionLeft);
-        });
-
-        console.log("screenX " + window.screenX);
-
-        const screenXNew = window.screenX - lowestBoxPositionLeft;
-        console.log("screenXNew " + screenXNew);
-
-        window.scrollBy(screenXNew, 0);
+        this.extendSpace();
+      } else if (
+        this.lowestBox.positionLeft > window.screenX &&
+        window.pageXOffset > 0
+      ) {
+        this.cutSpace();
       } else {
-        console.log("not normalizing...");
+        console.log("not normalizing.");
       }
       console.log("----------------------------------------------------");
+    },
+
+    cutSpace() {
+      console.log("normalizing...");
+      console.log("shrinking...");
+      console.log("pageXOffset " + window.pageXOffset);
+
+      const distance = window.pageXOffset * -1;
+      console.log("distance " + distance);
+
+      window.scrollBy(distance, 0);
+
+      this.boxes.forEach((box) => {
+        console.log("box " + box.id + " old pos " + box.positionLeft);
+        box.positionLeft += distance;
+        console.log("box " + box.id + " new pos " + box.positionLeft);
+      });
+    },
+
+    extendSpace() {
+      console.log("normalizing...");
+      console.log("extending...");
+
+      const lowestBoxPositionLeft = this.lowestBox.positionLeft;
+      console.log("lowestBoxPositionLeft " + lowestBoxPositionLeft);
+
+      this.boxes.forEach((box) => {
+        console.log("box " + box.id + " old pos " + box.positionLeft);
+        box.positionLeft -= lowestBoxPositionLeft;
+        console.log("box " + box.id + " new pos " + box.positionLeft);
+      });
+
+      console.log("screenX " + window.screenX);
+
+      const screenXNew = window.screenX - lowestBoxPositionLeft;
+      console.log("screenXNew " + screenXNew);
+
+      window.scrollBy(screenXNew, 0);
     },
 
     logPositions(

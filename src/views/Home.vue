@@ -13,6 +13,7 @@ import store from "../store";
 import Vue from "vue";
 import { Constants } from "@/constants";
 import BoxModel from "@/models/box-model";
+import Repositioner from "@/timeline/repositioner";
 
 export default Vue.extend({
   name: "Home",
@@ -61,91 +62,12 @@ export default Vue.extend({
 
     zoomIn(e: WheelEvent) {
       this.zoomLevel += 0.1;
-      this.determineNewPosition(1.07, e.pageX);
+      Repositioner.reposition(this.boxes, this.lowestBox, 1.07, e.pageX);
     },
 
     zoomOut(e: WheelEvent) {
       this.zoomLevel -= 0.1;
-      this.determineNewPosition(0.92, e.pageX);
-    },
-
-    determineNewPosition(zoomFactor: number, mousePosition: number) {
-      this.boxes.forEach((box) => {
-        const oldPositionLeft = box.positionLeft;
-
-        const positionCenter = box.positionLeft + box.width / 2;
-
-        const distance = (positionCenter - mousePosition) * zoomFactor;
-
-        box.positionLeft = mousePosition + distance - box.width / 2;
-
-        this.logPositions(
-          box.id,
-          zoomFactor,
-          mousePosition,
-          oldPositionLeft,
-          box.positionLeft,
-          distance
-        );
-      });
-
-      this.normalizePositions();
-    },
-
-    normalizePositions() {
-      if (this.lowestBox.positionLeft < 0) {
-        this.extendSpace();
-      } else if (
-        this.lowestBox.positionLeft > window.screenX &&
-        window.pageXOffset > 0
-      ) {
-        this.cutSpace();
-      } 
-    },
-
-    cutSpace() {
-      const distance = window.pageXOffset * -1;
-      
-      this.boxes.forEach((box) => {
-        box.positionLeft += distance;
-      });
-      
-      window.scrollBy(distance, 0);
-    },
-
-    extendSpace() {
-      const lowestBoxPositionLeft = this.lowestBox.positionLeft;
-      
-      this.boxes.forEach((box) => {
-        box.positionLeft -= lowestBoxPositionLeft;
-      });
-      
-      const screenXNew = window.screenX - lowestBoxPositionLeft;
-      window.scrollBy(screenXNew, 0);
-    },
-
-    logPositions(
-      boxId: number,
-      zoomFactor: number,
-      mousePosition: number,
-      oldPositionLeft: number,
-      positionLeft: number,
-      distance: number
-    ) {
-      console.log(
-        "box " +
-          boxId +
-          " zoom factor " +
-          zoomFactor +
-          " mouse pos " +
-          mousePosition +
-          " old pos: " +
-          oldPositionLeft +
-          " new Pos: " +
-          positionLeft +
-          " distance: " +
-          distance
-      );
+      Repositioner.reposition(this.boxes, this.lowestBox, 0.92, e.pageX);
     },
   },
 });

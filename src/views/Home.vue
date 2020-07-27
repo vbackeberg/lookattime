@@ -175,7 +175,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .home {
-  width: 5000px;
   height: 100%;
+  width: 100000px;
 }
 </style>

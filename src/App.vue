@@ -4,18 +4,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: "App"
+  name: "App",
 };
-
-document.addEventListener(
-  "wheel",
-  function(e) {
-    e.preventDefault();
-  },
-  { passive: false }
-);
 </script>
 
 <style lang="scss">
@@ -34,6 +26,6 @@ body {
   width: 100000px;
   padding: 0px;
   margin: 0px;
-  overflow-y: hidden;
+  overscroll-behavior-y: none;
 }
 </style>

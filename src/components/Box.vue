@@ -31,5 +31,7 @@ export default Vue.extend({
   position: absolute;
   top: 50px;
   background-color: #42b983;
+  transition-property: position;
+  transition-timing-function: ease;
 }
 </style>

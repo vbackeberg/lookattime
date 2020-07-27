@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-// @ is an alias to /src
 import Box from "@/components/Box.vue";
 import store from "../store";
 import Vue from "vue";

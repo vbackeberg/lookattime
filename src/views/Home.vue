@@ -105,11 +105,12 @@ export default Vue.extend({
 
     cutSpace() {
       const distance = window.pageXOffset * -1;
-      window.scrollBy(distance, 0);
       
       this.boxes.forEach((box) => {
         box.positionLeft += distance;
       });
+      
+      window.scrollBy(distance, 0);
     },
 
     extendSpace() {

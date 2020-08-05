@@ -1,5 +1,5 @@
 <template>
-  <div class="home" @mousewheel="onScroll">
+  <div v-bind:class="homeClass" @mousewheel="onScroll">
     <div>
       <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     </div>
@@ -42,6 +42,25 @@ export default Vue.extend({
           : current;
       });
     },
+
+    highestBox(): BoxModel {
+      return this.boxes.reduce((previous, current) => {
+        return previous.positionLeft > current.positionLeft
+          ? previous
+          : current;
+      });
+    },
+
+    homeClass(): Object {
+      console.log(
+        "width changing to: " +
+          (this.highestBox.positionLeft + this.highestBox.width)
+      );
+      return {
+        height: "100%",
+        width: this.highestBox.positionLeft + this.highestBox.width,
+      };
+    },
   },
 
   methods: {
@@ -72,9 +91,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped lang="scss">
-.home {
-  height: 100%;
-  width: 100000px;
-}
-</style>
+<style scoped lang="scss"></style>

@@ -18,12 +18,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
+  width: fit-content;
 }
 
 html,
 body {
   height: 100%;
-  width: 100000px;
+  width: fit-content;
   padding: 0px;
   margin: 0px;
   overscroll-behavior-y: none;

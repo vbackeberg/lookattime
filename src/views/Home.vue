@@ -65,19 +65,11 @@ export default Vue.extend({
 
     changeZoom(e: WheelEvent) {
       if (e.deltaY < 0) {
-        this.zoomIn(e);
+        Repositioner.zoomIn(this.boxes, this.lowestBox, 1.07, e.pageX);
       } else if (e.deltaY > 0) {
-        this.zoomOut(e);
+        Repositioner.zoomOut(this.boxes, this.lowestBox, 0.92, e.pageX);
       }
-    },
-
-    zoomIn(e: WheelEvent) {
-      Repositioner.reposition(this.boxes, this.lowestBox, 1.07, e.pageX);
-    },
-
-    zoomOut(e: WheelEvent) {
-      Repositioner.reposition(this.boxes, this.lowestBox, 0.92, e.pageX);
-    },
+    }
   },
 });
 </script>

@@ -1,9 +1,10 @@
 <template>
-  <div v-bind:class="homeClass" @mousewheel="onScroll">
-    <div>
+  <div
+    v-bind:style="{ width: this.timelineWidth, height: '100%' }"
+    @mousewheel="onScroll"
+  >
       <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -51,15 +52,12 @@ export default Vue.extend({
       });
     },
 
-    homeClass(): Object {
+    timelineWidth(): string {
       console.log(
         "width changing to: " +
           (this.highestBox.positionLeft + this.highestBox.width)
       );
-      return {
-        height: "100%",
-        width: this.highestBox.positionLeft + this.highestBox.width,
-      };
+      return this.highestBox.positionLeft + this.highestBox.width + "px";
     },
   },
 

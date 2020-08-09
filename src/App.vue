@@ -9,7 +9,6 @@ export default {
   name: "App",
 };
 
-// TODO: On Scroll event outside of boxes won't be detected. Probably, body and app width have to span over home width.
 </script>
 
 <style lang="scss">
@@ -20,13 +19,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
-  width: fit-content;
 }
 
 html,
 body {
   height: 100%;
-  width: fit-content;
   padding: 0px;
   margin: 0px;
   overscroll-behavior-y: none;

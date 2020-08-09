@@ -22,8 +22,6 @@ export default Vue.extend({
     Box,
   },
 
-  created() {},
-
   data() {
     return {
       boxes: [

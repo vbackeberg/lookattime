@@ -3,8 +3,8 @@
     v-bind:style="{ width: this.timelineWidth, height: '100%' }"
     @mousewheel="onScroll"
   >
-      <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
-    </div>
+    <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
+  </div>
 </template>
 
 <script lang="ts">
@@ -69,9 +69,8 @@ export default Vue.extend({
         this.zoomIn(e);
       } else if (e.deltaY > 0) {
         this.zoomOut(e);
-      } else {
-        console.log("zoom level of " + this.zoomLevel + " exceeds limit.");
       }
+      console.log(e.deltaX);
     },
 
     zoomIn(e: WheelEvent) {

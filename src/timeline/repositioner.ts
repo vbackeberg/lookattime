@@ -1,6 +1,26 @@
 import BoxModel from "@/models/box-model";
 
 export default class Repositioner {
+  static zoomIn(
+    boxes: BoxModel[],
+    lowestBox: BoxModel,
+    zoomFactor: number,
+    mousePosition: number
+  ) {
+    this.reposition(boxes, lowestBox, zoomFactor, mousePosition);
+    this.extendSpace(boxes, lowestBox);
+  }
+
+  static zoomOut(
+    boxes: BoxModel[],
+    lowestBox: BoxModel,
+    zoomFactor: number,
+    mousePosition: number
+  ) {
+    this.reposition(boxes, lowestBox, zoomFactor, mousePosition);
+    this.cutSpace(boxes);
+  }
+
   static reposition(
     boxes: BoxModel[],
     lowestBox: BoxModel,
@@ -25,19 +45,6 @@ export default class Repositioner {
         distance
       );
     });
-
-    this.normalizePositions(boxes, lowestBox);
-  }
-
-  static normalizePositions(boxes: BoxModel[], lowestBox: BoxModel) {
-    if (lowestBox.positionLeft < 0) {
-      this.extendSpace(boxes, lowestBox);
-    } else if (
-      lowestBox.positionLeft > window.screenX &&
-      window.pageXOffset > 0
-    ) {
-      this.cutSpace(boxes);
-    }
   }
 
   static cutSpace(boxes: BoxModel[]) {

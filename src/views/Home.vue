@@ -74,12 +74,10 @@ export default Vue.extend({
     },
 
     zoomIn(e: WheelEvent) {
-      this.zoomLevel += 0.1;
       Repositioner.reposition(this.boxes, this.lowestBox, 1.07, e.pageX);
     },
 
     zoomOut(e: WheelEvent) {
-      this.zoomLevel -= 0.1;
       Repositioner.reposition(this.boxes, this.lowestBox, 0.92, e.pageX);
     },
   },

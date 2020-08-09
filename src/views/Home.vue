@@ -28,8 +28,7 @@ export default Vue.extend({
         new BoxModel(200, 200, 1),
         new BoxModel(500, 200, 2),
         new BoxModel(1500, 200, 3),
-      ],
-      zoomLevel: 1,
+      ]
     };
   },
 

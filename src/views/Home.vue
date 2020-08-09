@@ -69,7 +69,6 @@ export default Vue.extend({
       } else if (e.deltaY > 0) {
         this.zoomOut(e);
       }
-      console.log(e.deltaX);
     },
 
     zoomIn(e: WheelEvent) {

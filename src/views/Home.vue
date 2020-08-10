@@ -43,14 +43,6 @@ export default Vue.extend({
           : current;
       });
     },
-
-    highestBox(): BoxModel {
-      return this.boxes.reduce((previous, current) => {
-        return previous.positionLeft > current.positionLeft
-          ? previous
-          : current;
-      });
-    },
   },
 
   methods: {

@@ -22,6 +22,16 @@ export default class Repositioner {
   ) {
     this.reposition(boxes, zoomFactor, mousePosition);
 
+    // TODO After zoom in, scroll right, zoom out. It will cut space so that boxes aren't visible anymore.
+    // Most likely, there is an issue with window.screenX unexpectedly taking the value of 0.
+    console.log(
+      "lowestBox position left: " +
+        lowestBox.positionLeft +
+        "window screenX: " +
+        window.screenX +
+        "window pageXOffset" +
+        window.pageXOffset
+    );
     if (lowestBox.positionLeft > window.screenX && window.pageXOffset > 0) {
       this.cutLeftSpace(boxes);
     }
@@ -53,6 +63,8 @@ export default class Repositioner {
   }
 
   static cutLeftSpace(boxes: BoxModel[]) {
+    console.log("cut space");
+
     const distance = window.pageXOffset * -1;
 
     boxes.forEach((box) => {
@@ -63,6 +75,8 @@ export default class Repositioner {
   }
 
   static extendLeftSpace(boxes: BoxModel[], lowestBox: BoxModel) {
+    console.log("extend space");
+
     const lowestBoxPositionLeft = lowestBox.positionLeft;
 
     boxes.forEach((box) => {

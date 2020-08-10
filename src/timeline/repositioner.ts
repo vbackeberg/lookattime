@@ -7,7 +7,7 @@ export default class Repositioner {
     zoomFactor: number,
     mousePosition: number
   ) {
-    this.reposition(boxes, lowestBox, zoomFactor, mousePosition);
+    this.reposition(boxes, zoomFactor, mousePosition);
 
     if (lowestBox.positionLeft < 0) {
       this.extendLeftSpace(boxes, lowestBox);
@@ -20,7 +20,7 @@ export default class Repositioner {
     zoomFactor: number,
     mousePosition: number
   ) {
-    this.reposition(boxes, lowestBox, zoomFactor, mousePosition);
+    this.reposition(boxes, zoomFactor, mousePosition);
 
     if (lowestBox.positionLeft > window.screenX && window.pageXOffset > 0) {
       this.cutLeftSpace(boxes);
@@ -29,7 +29,6 @@ export default class Repositioner {
 
   static reposition(
     boxes: BoxModel[],
-    lowestBox: BoxModel,
     zoomFactor: number,
     mousePosition: number
   ) {

@@ -8,7 +8,10 @@ export default class Repositioner {
     mousePosition: number
   ) {
     this.reposition(boxes, lowestBox, zoomFactor, mousePosition);
-    this.extendSpace(boxes, lowestBox);
+
+    if (lowestBox.positionLeft < 0) {
+      this.extendLeftSpace(boxes, lowestBox);
+    }
   }
 
   static zoomOut(
@@ -18,7 +21,10 @@ export default class Repositioner {
     mousePosition: number
   ) {
     this.reposition(boxes, lowestBox, zoomFactor, mousePosition);
-    this.cutSpace(boxes);
+
+    if (lowestBox.positionLeft > window.screenX && window.pageXOffset > 0) {
+      this.cutLeftSpace(boxes);
+    }
   }
 
   static reposition(
@@ -47,7 +53,7 @@ export default class Repositioner {
     });
   }
 
-  static cutSpace(boxes: BoxModel[]) {
+  static cutLeftSpace(boxes: BoxModel[]) {
     const distance = window.pageXOffset * -1;
 
     boxes.forEach((box) => {
@@ -57,7 +63,7 @@ export default class Repositioner {
     window.scrollBy(distance, 0);
   }
 
-  static extendSpace(boxes: BoxModel[], lowestBox: BoxModel) {
+  static extendLeftSpace(boxes: BoxModel[], lowestBox: BoxModel) {
     const lowestBoxPositionLeft = lowestBox.positionLeft;
 
     boxes.forEach((box) => {

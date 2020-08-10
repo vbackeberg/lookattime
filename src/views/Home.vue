@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-bind:style="{ width: this.timelineWidth, height: '100%' }"
-    @mousewheel="onScroll"
-  >
+  <div class="home">
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
   </div>
 </template>
@@ -22,13 +19,19 @@ export default Vue.extend({
     Box,
   },
 
+  created() {
+    window.addEventListener("wheel", (e: WheelEvent) => {
+      this.changeZoom(e);
+    });
+  },
+
   data() {
     return {
       boxes: [
         new BoxModel(200, 200, 1),
         new BoxModel(500, 200, 2),
         new BoxModel(1500, 200, 3),
-      ]
+      ],
     };
   },
 
@@ -48,30 +51,23 @@ export default Vue.extend({
           : current;
       });
     },
-
-    timelineWidth(): string {
-      console.log(
-        "width changing to: " +
-          (this.highestBox.positionLeft + this.highestBox.width)
-      );
-      return this.highestBox.positionLeft + this.highestBox.width + "px";
-    },
   },
 
   methods: {
-    onScroll(e: WheelEvent) {
-      this.changeZoom(e);
-    },
-
     changeZoom(e: WheelEvent) {
       if (e.deltaY < 0) {
         Repositioner.zoomIn(this.boxes, this.lowestBox, 1.07, e.pageX);
       } else if (e.deltaY > 0) {
         Repositioner.zoomOut(this.boxes, this.lowestBox, 0.92, e.pageX);
       }
-    }
+    },
   },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.home {
+  height: 100%;
+  width: 100%;
+}
+</style>

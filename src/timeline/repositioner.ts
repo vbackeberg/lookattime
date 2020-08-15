@@ -64,16 +64,15 @@ export default class Repositioner {
   }
 
   static extendLeftSpace(boxes: BoxModel[], lowestBox: BoxModel) {
-    const distance = lowestBox.positionLeft;
+    const distance = -lowestBox.positionLeft;
 
     console.log("extend space by " + distance);
 
     boxes.forEach((box) => {
-      box.positionLeft -= distance;
+      box.positionLeft += distance;
     });
 
-    const screenXNew = window.screenX - distance;
-    window.scrollBy(screenXNew, 0);
+    window.scrollBy(distance, 0);
   }
 
   static logPositions(

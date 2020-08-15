@@ -26,8 +26,9 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .box {
-  height: 100px;
-  padding: 16px;
+  height: 120px;
+  padding: 8px;
+  box-sizing: border-box;
   position: absolute;
   top: 50px;
   background-color: #42b983;

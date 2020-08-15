@@ -22,8 +22,8 @@ export default class Repositioner {
   ) {
     this.reposition(boxes, zoomFactor, mousePosition);
 
-    const distance = Math.min(lowestBox.positionLeft, window.pageXOffset) * -1;
-    if (distance < 0) {
+    const distance = Math.min(lowestBox.positionLeft, window.pageXOffset);
+    if (distance > 0) {
       this.cutLeftSpace(boxes, distance);
     }
   }
@@ -57,10 +57,10 @@ export default class Repositioner {
     console.log("cut space by " + distance);
 
     boxes.forEach((box) => {
-      box.positionLeft += distance;
+      box.positionLeft -= distance;
     });
 
-    window.scrollBy(distance, 0);
+    window.scrollBy(-distance, 0);
   }
 
   static extendLeftSpace(boxes: BoxModel[], lowestBox: BoxModel) {

@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
-    <spacer v-bind="spacerRight"></spacer>
   </div>
 </template>
 
@@ -12,15 +11,12 @@ import Vue from "vue";
 import { Constants } from "@/constants";
 import BoxModel from "@/models/box-model";
 import Repositioner from "@/timeline/repositioner";
-import SpacerModel from "@/models/spacer-model";
-import Spacer from "@/components/Spacer.vue";
 
 export default Vue.extend({
   name: "Home",
 
   components: {
     Box,
-    Spacer,
   },
 
   created() {
@@ -40,18 +36,6 @@ export default Vue.extend({
   },
 
   computed: {
-
-    // TODO: Spacer should determine its position from max(position right highest box, viewport right side)
-    spacerRight(): SpacerModel {
-      const highestBox = this.boxes.reduce((previous, current) => {
-        return previous.positionLeft > current.positionLeft
-          ? previous
-          : current;
-      });
-
-      return new SpacerModel(highestBox.positionLeft + highestBox.width, 500);
-    },
-
     lowestBox(): BoxModel {
       return this.boxes.reduce((previous, current) => {
         return previous.positionLeft < current.positionLeft

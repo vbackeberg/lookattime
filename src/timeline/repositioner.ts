@@ -1,6 +1,10 @@
 import BoxModel from "@/models/box-model";
 
 export default class Repositioner {
+  /**
+   * Moves all boxes away from the mouse pointer by the zoom factor.
+   * Then translates all box positions and the view into the positive space.
+   */
   static zoomIn(
     boxes: BoxModel[],
     lowestBox: BoxModel,
@@ -15,6 +19,10 @@ export default class Repositioner {
     }
   }
 
+  /**
+   * Moves all boxes towards the mouse pointer by the zoom factor.
+   * Moves all boxes and view to the left by the amount of the minimum of the lowest box' left edge and the views' left edge.
+   */
   static zoomOut(
     boxes: BoxModel[],
     lowestBox: BoxModel,
@@ -29,7 +37,7 @@ export default class Repositioner {
     }
   }
 
-  static reposition(
+  private static reposition(
     boxes: BoxModel[],
     zoomFactor: number,
     mousePosition: number
@@ -56,8 +64,7 @@ export default class Repositioner {
 
   // TODO: On Zoom out, space on the right has to be preserved when right end of viewport would otherwise be moved to the left.
   // Currently, zooming out near the highest box does not move the highest box closer to the mouse which would be expected behaviour.
-
-  static cutLeftSpace(boxes: BoxModel[], distance: number) {
+  private static cutLeftSpace(boxes: BoxModel[], distance: number) {
     console.log("cut space by " + distance);
 
     boxes.forEach((box) => {
@@ -67,7 +74,7 @@ export default class Repositioner {
     window.scrollBy(-distance, 0);
   }
 
-  static extendLeftSpace(boxes: BoxModel[], distance: number) {
+  private static extendLeftSpace(boxes: BoxModel[], distance: number) {
     console.log("extend space by " + distance);
 
     boxes.forEach((box) => {
@@ -77,7 +84,7 @@ export default class Repositioner {
     window.scrollBy(distance, 0);
   }
 
-  static logPositions(
+  private static logPositions(
     boxId: number,
     zoomFactor: number,
     mousePosition: number,

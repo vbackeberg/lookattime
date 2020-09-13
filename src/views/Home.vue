@@ -6,9 +6,7 @@
 
 <script lang="ts">
 import Box from "@/components/Box.vue";
-import store from "../store";
 import Vue from "vue";
-import { Constants } from "@/constants";
 import BoxModel from "@/models/box-model";
 import Repositioner from "@/timeline/repositioner";
 

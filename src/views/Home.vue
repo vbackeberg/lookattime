@@ -16,7 +16,7 @@ export default Vue.extend({
   name: "Home",
 
   components: {
-    Box,
+    Box
   },
 
   created() {
@@ -30,8 +30,8 @@ export default Vue.extend({
       boxes: [
         new BoxModel(200, 200, 1),
         new BoxModel(500, 200, 2),
-        new BoxModel(1500, 200, 3),
-      ],
+        new BoxModel(1500, 200, 3)
+      ]
     };
   },
 
@@ -42,7 +42,7 @@ export default Vue.extend({
           ? previous
           : current;
       });
-    },
+    }
   },
 
   methods: {
@@ -52,8 +52,8 @@ export default Vue.extend({
       } else if (e.deltaY > 0) {
         Repositioner.zoomOut(this.boxes, this.lowestBox, 0.92, e.pageX);
       }
-    },
-  },
+    }
+  }
 });
 </script>
 

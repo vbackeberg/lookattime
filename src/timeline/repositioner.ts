@@ -42,7 +42,7 @@ export default class Repositioner {
     zoomFactor: number,
     mousePosition: number
   ) {
-    boxes.forEach((box) => {
+    boxes.forEach(box => {
       const oldPositionLeft = box.positionLeft;
 
       const positionCenter = box.positionLeft + box.width / 2;
@@ -67,7 +67,7 @@ export default class Repositioner {
   private static cutLeftSpace(boxes: BoxModel[], distance: number) {
     console.log("cut space by " + distance);
 
-    boxes.forEach((box) => {
+    boxes.forEach(box => {
       box.positionLeft -= distance;
     });
 
@@ -77,7 +77,7 @@ export default class Repositioner {
   private static extendLeftSpace(boxes: BoxModel[], distance: number) {
     console.log("extend space by " + distance);
 
-    boxes.forEach((box) => {
+    boxes.forEach(box => {
       box.positionLeft += distance;
     });
 

@@ -18,8 +18,8 @@ export default Vue.extend({
   props: {
     positionLeft: Number,
     width: Number,
-    id: Number,
-  },
+    id: Number
+  }
 });
 </script>
 

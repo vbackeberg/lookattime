@@ -28,27 +28,19 @@ export default Vue.extend({
   },
 
   data() {
+    const boxes = [
+      new BoxModel(200, 200, 1),
+      new BoxModel(500, 200, 2),
+      new BoxModel(1500, 200, 3)
+    ];
+
     return {
-      boxes: [
-        new BoxModel(200, 200, 1),
-        new BoxModel(500, 200, 2),
-        new BoxModel(1500, 200, 3)
-      ]
+      boxes: boxes,
+      spacerRight: new SpacerModel(boxes[2].positionLeft + boxes[2].width, 500)
     };
   },
 
   computed: {
-    // TODO: Spacer should determine its position from max(position right highest box, viewport right side)
-    spacerRight(): SpacerModel {
-      const highestBox = this.boxes.reduce((previous, current) => {
-        return previous.positionLeft > current.positionLeft
-          ? previous
-          : current;
-      });
-
-      return new SpacerModel(highestBox.positionLeft + highestBox.width, 500);
-    },
-
     lowestBox(): BoxModel {
       return this.boxes.reduce((previous, current) => {
         return previous.positionLeft < current.positionLeft

@@ -1,4 +1,5 @@
 import BoxModel from "@/models/box-model";
+import SpacerModel from "@/models/spacer-model";
 
 export default class Repositioner {
   /**
@@ -9,9 +10,12 @@ export default class Repositioner {
     boxes: BoxModel[],
     lowestBox: BoxModel,
     zoomFactor: number,
-    mousePosition: number
+    mousePosition: number,
+    spacer: SpacerModel
   ) {
     this.reposition(boxes, zoomFactor, mousePosition);
+
+    spacer.positionLeft = boxes[2].positionLeft + boxes[2].width;
 
     const distance = -lowestBox.positionLeft;
     if (distance > 0) {
@@ -27,9 +31,12 @@ export default class Repositioner {
     boxes: BoxModel[],
     lowestBox: BoxModel,
     zoomFactor: number,
-    mousePosition: number
+    mousePosition: number,
+    spacer: SpacerModel
   ) {
     this.reposition(boxes, zoomFactor, mousePosition);
+
+    // TODO: tie spacer to the viewport's right edge.
 
     const distance = Math.min(lowestBox.positionLeft, window.pageXOffset);
     if (distance > 0) {
@@ -62,6 +69,8 @@ export default class Repositioner {
     });
   }
 
+  private static repositionSpacer(spacer: SpacerModel) {}
+
   // TODO: On Zoom out, space on the right has to be preserved when right end of viewport would otherwise be moved to the left.
   // Currently, zooming out near the highest box does not move the highest box closer to the mouse which would be expected behaviour.
   private static cutLeftSpace(boxes: BoxModel[], distance: number) {
@@ -80,6 +89,8 @@ export default class Repositioner {
     boxes.forEach(box => {
       box.positionLeft += distance;
     });
+
+    // Todo: Move spacer
 
     window.scrollBy(distance, 0);
   }

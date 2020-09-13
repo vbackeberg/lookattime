@@ -3,7 +3,7 @@ import BoxModel from "@/models/box-model";
 export default class Repositioner {
   /**
    * Moves all boxes away from the mouse pointer by the zoom factor.
-   * Then translates all box positions and the view into the positive space.
+   * Then moves all boxes and the view into the positive space.
    */
   static zoomIn(
     boxes: BoxModel[],
@@ -21,7 +21,7 @@ export default class Repositioner {
 
   /**
    * Moves all boxes towards the mouse pointer by the zoom factor.
-   * Moves all boxes and view to the left by the amount of the minimum of the lowest box' left edge and the views' left edge.
+   * Then moves all boxes and the view to the left by the amount of the minimum of the lowest box' left edge and the views' left edge.
    */
   static zoomOut(
     boxes: BoxModel[],

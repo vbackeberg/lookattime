@@ -4,6 +4,7 @@
     v-bind:style="{
       left: positionLeft + 'px',
       width: width + 'px',
+      height: height + 'px',
       backgroundColor: color
     }"
   >
@@ -20,6 +21,7 @@ export default Vue.extend({
   props: {
     positionLeft: Number,
     width: Number,
+    height: Number,
     color: String
   }
 });
@@ -28,7 +30,6 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .spacer {
-  height: 20px;
   box-sizing: border-box;
   padding: 8px;
   position: absolute;

@@ -27,7 +27,7 @@ export default class Repositioner {
     if (distance > 0) {
       this.extendLeftSpace(boxes, distance, spacerHighestBox, spacerPageEdge);
     }
-    
+
     this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
   }
 
@@ -77,8 +77,6 @@ export default class Repositioner {
     });
   }
 
-  // TODO: On Zoom out, space on the right has to be preserved when right end of viewport would otherwise be moved to the left.
-  // Currently, zooming out near the highest box does not move the highest box closer to the mouse which would be expected behaviour.
   private static cutLeftSpace(
     boxes: BoxModel[],
     distance: number,

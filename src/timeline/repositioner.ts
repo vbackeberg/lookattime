@@ -67,8 +67,6 @@ export default class Repositioner {
     mousePosition: number
   ) {
     boxes.forEach(box => {
-      const oldPositionLeft = box.positionLeft;
-
       const positionCenter = box.positionLeft + box.width / 2;
 
       const distance = (positionCenter - mousePosition) * zoomFactor;

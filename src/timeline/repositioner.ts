@@ -27,6 +27,7 @@ export default class Repositioner {
     if (distance > 0) {
       this.extendLeftSpace(boxes, distance, spacerHighestBox, spacerPageEdge);
     }
+    
     this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
   }
 

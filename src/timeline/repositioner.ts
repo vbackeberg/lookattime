@@ -50,7 +50,7 @@ export default class Repositioner {
 
     const distance = Math.min(lowestBox.positionLeft, window.pageXOffset);
     if (distance > 0) {
-      this.cutLeftSpace(boxes, distance, spacerHighestBox);
+      this.cutLeftSpace(boxes, distance, spacerHighestBox, spacerPageEdge);
     }
 
     this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
@@ -82,7 +82,8 @@ export default class Repositioner {
   private static cutLeftSpace(
     boxes: BoxModel[],
     distance: number,
-    spacerHighestBox: SpacerModel
+    spacerHighestBox: SpacerModel,
+    spacerPageEdge: SpacerModel
   ) {
     console.log("cut space left by " + distance);
 
@@ -91,6 +92,8 @@ export default class Repositioner {
     });
 
     spacerHighestBox.positionLeft -= distance;
+    spacerPageEdge.positionLeft =
+      window.pageXOffset + window.innerWidth + distance - spacerPageEdge.width;
 
     window.scrollBy(-distance, 0);
   }

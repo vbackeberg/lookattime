@@ -48,9 +48,6 @@ export default class Repositioner {
 
     this.reposition(boxes, zoomFactor, mousePosition);
 
-    spacerHighestBox.positionLeft =
-      window.pageXOffset + window.innerWidth - spacerHighestBox.width;
-
     this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
 
     const distance = Math.min(lowestBox.positionLeft, window.pageXOffset);

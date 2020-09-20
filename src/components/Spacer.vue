@@ -31,7 +31,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .spacer {
   box-sizing: border-box;
-  padding: 8px;
   position: absolute;
   transition-property: position;
   transition-timing-function: ease;

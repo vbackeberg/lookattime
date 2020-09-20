@@ -40,10 +40,10 @@ export default Vue.extend({
       spacerHighestBox: new SpacerModel(
         boxes[2].positionLeft + boxes[2].width,
         500,
-        20,
+        10,
         "#aa66ff"
       ),
-      spacerPageEdge: new SpacerModel(0, 500, 40, "#22aaff")
+      spacerPageEdge: new SpacerModel(0, 500, 20, "#22aaff")
     };
   },
 

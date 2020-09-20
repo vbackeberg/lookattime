@@ -7,9 +7,7 @@
       height: height + 'px',
       backgroundColor: color
     }"
-  >
-    <p>positionLeft: {{ positionLeft }}</p>
-  </div>
+  ></div>
 </template>
 
 <script lang="ts">

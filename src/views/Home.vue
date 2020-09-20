@@ -41,9 +41,9 @@ export default Vue.extend({
         boxes[2].positionLeft + boxes[2].width,
         500,
         10,
-        "#aa66ff"
+        "#fff"
       ),
-      spacerPageEdge: new SpacerModel(0, 500, 20, "#22aaff")
+      spacerPageEdge: new SpacerModel(0, 500, 20, "#fff")
     };
   },
 

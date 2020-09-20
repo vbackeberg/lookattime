@@ -93,7 +93,7 @@ export default class Repositioner {
 
     spacerHighestBox.positionLeft -= distance;
     spacerPageEdge.positionLeft =
-      window.pageXOffset + window.innerWidth + distance - spacerPageEdge.width;
+      window.pageXOffset + window.innerWidth - distance - spacerPageEdge.width;
 
     window.scrollBy(-distance, 0);
   }

@@ -29,7 +29,7 @@ export default Vue.extend({
 
   data() {
     const boxes = [
-      new BoxModel(200, 200, 1),
+      new BoxModel(0, 200, 1),
       new BoxModel(500, 200, 2),
       new BoxModel(1500, 200, 3)
     ];

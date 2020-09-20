@@ -24,7 +24,7 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .spacer {
-  height: 120px;
+  height: 20px;
   box-sizing: border-box;
   padding: 8px;
   position: absolute;

@@ -11,16 +11,23 @@ export default class Repositioner {
     lowestBox: BoxModel,
     zoomFactor: number,
     mousePosition: number,
-    spacer: SpacerModel
+    spacerHighestBox: SpacerModel,
+    spacerPageEdge: SpacerModel
   ) {
+    console.log("_________________________________________");
+    console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
+
     this.reposition(boxes, zoomFactor, mousePosition);
 
-    spacer.positionLeft = boxes[2].positionLeft + boxes[2].width;
+    spacerHighestBox.positionLeft = boxes[2].positionLeft + boxes[2].width;
+
+    this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
 
     const distance = -lowestBox.positionLeft;
     if (distance > 0) {
-      this.extendLeftSpace(boxes, distance);
+      this.extendLeftSpace(boxes, distance, spacerHighestBox, spacerPageEdge);
     }
+    this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
   }
 
   /**
@@ -32,16 +39,25 @@ export default class Repositioner {
     lowestBox: BoxModel,
     zoomFactor: number,
     mousePosition: number,
-    spacer: SpacerModel
+    spacerHighestBox: SpacerModel,
+    spacerPageEdge: SpacerModel
   ) {
+    console.log("_________________________________________");
+    console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
+
     this.reposition(boxes, zoomFactor, mousePosition);
 
-    // TODO: tie spacer to the viewport's right edge.
+    spacerHighestBox.positionLeft =
+      window.pageXOffset + window.innerWidth - spacerHighestBox.width;
+
+    this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
 
     const distance = Math.min(lowestBox.positionLeft, window.pageXOffset);
     if (distance > 0) {
-      this.cutLeftSpace(boxes, distance);
+      this.cutLeftSpace(boxes, distance, spacerHighestBox);
     }
+
+    this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
   }
 
   private static reposition(
@@ -57,65 +73,60 @@ export default class Repositioner {
       const distance = (positionCenter - mousePosition) * zoomFactor;
 
       box.positionLeft = mousePosition + distance - box.width / 2;
-
-      this.logPositions(
-        box.id,
-        zoomFactor,
-        mousePosition,
-        oldPositionLeft,
-        box.positionLeft,
-        distance
-      );
     });
   }
 
-  private static repositionSpacer(spacer: SpacerModel) {}
-
   // TODO: On Zoom out, space on the right has to be preserved when right end of viewport would otherwise be moved to the left.
   // Currently, zooming out near the highest box does not move the highest box closer to the mouse which would be expected behaviour.
-  private static cutLeftSpace(boxes: BoxModel[], distance: number) {
-    console.log("cut space by " + distance);
+  private static cutLeftSpace(
+    boxes: BoxModel[],
+    distance: number,
+    spacerHighestBox: SpacerModel
+  ) {
+    console.log("cut space left by " + distance);
 
     boxes.forEach(box => {
       box.positionLeft -= distance;
     });
 
+    spacerHighestBox.positionLeft -= distance;
+
     window.scrollBy(-distance, 0);
   }
 
-  private static extendLeftSpace(boxes: BoxModel[], distance: number) {
-    console.log("extend space by " + distance);
+  private static extendLeftSpace(
+    boxes: BoxModel[],
+    distance: number,
+    spacerHighestBox: SpacerModel,
+    spacerPageEdge: SpacerModel
+  ) {
+    console.log("extend space left by " + distance);
 
     boxes.forEach(box => {
       box.positionLeft += distance;
     });
 
-    // Todo: Move spacer
+    spacerHighestBox.positionLeft += distance;
+    spacerPageEdge.positionLeft =
+      window.pageXOffset + window.innerWidth + distance - spacerPageEdge.width;
 
     window.scrollBy(distance, 0);
   }
 
   private static logPositions(
-    boxId: number,
-    zoomFactor: number,
-    mousePosition: number,
-    oldPositionLeft: number,
-    positionLeft: number,
-    distance: number
+    boxes: BoxModel[],
+    spacerHighestBox: SpacerModel,
+    spacerPageEdge: SpacerModel
   ) {
+    boxes.forEach(box => {
+      console.log("box " + box.id + " Pos " + box.positionLeft);
+    });
+
     console.log(
-      "box " +
-        boxId +
-        " zoom factor " +
-        zoomFactor +
-        " mouse pos " +
-        mousePosition +
-        " old pos: " +
-        oldPositionLeft +
-        " new Pos: " +
-        positionLeft +
-        " distance: " +
-        distance
+      "spacerHighestBox Pos " +
+        spacerHighestBox.positionLeft +
+        " spacerPageEdge Pos " +
+        spacerPageEdge.positionLeft
     );
   }
 }

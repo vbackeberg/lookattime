@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
-    <spacer v-bind="spacerRight"></spacer>
+    <spacer v-bind="spacerHighestBox"></spacer>
+    <spacer v-bind="spacerPageEdge"></spacer>
   </div>
 </template>
 
@@ -36,7 +37,12 @@ export default Vue.extend({
 
     return {
       boxes: boxes,
-      spacerRight: new SpacerModel(boxes[2].positionLeft + boxes[2].width, 500)
+      spacerHighestBox: new SpacerModel(
+        boxes[2].positionLeft + boxes[2].width,
+        500,
+        "#aa66ff"
+      ),
+      spacerPageEdge: new SpacerModel(0, 500, "#22aaff")
     };
   },
 
@@ -53,9 +59,23 @@ export default Vue.extend({
   methods: {
     changeZoom(e: WheelEvent) {
       if (e.deltaY < 0) {
-        Repositioner.zoomIn(this.boxes, this.lowestBox, 1.07, e.pageX);
+        Repositioner.zoomIn(
+          this.boxes,
+          this.lowestBox,
+          1.07,
+          e.pageX,
+          this.spacerHighestBox,
+          this.spacerPageEdge
+        );
       } else if (e.deltaY > 0) {
-        Repositioner.zoomOut(this.boxes, this.lowestBox, 0.92, e.pageX);
+        Repositioner.zoomOut(
+          this.boxes,
+          this.lowestBox,
+          0.92,
+          e.pageX,
+          this.spacerHighestBox,
+          this.spacerPageEdge
+        );
       }
     }
   }

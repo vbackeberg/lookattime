@@ -1,5 +1,6 @@
 import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
+import Vue from "vue";
 
 export default class Repositioner {
   /**
@@ -108,14 +109,13 @@ export default class Repositioner {
       box.positionLeft += distance;
     });
 
-    // TODO: Wrong behaviour: highest box will move towards mouse pointer.
-    // Maybe, on extending space left, Window can still not scroll as much to the right as needed.
-
     spacerHighestBox.positionLeft += distance;
     spacerPageEdge.positionLeft =
       window.pageXOffset + window.innerWidth + distance - spacerPageEdge.width;
 
-    window.scrollBy(distance, 0);
+    Vue.nextTick(function () {
+      window.scrollBy(distance, 0);
+    })
   }
 
   private static logPositions(

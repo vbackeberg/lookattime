@@ -22,7 +22,6 @@ export default Vue.extend({
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .box {
   height: 120px;
@@ -31,7 +30,5 @@ export default Vue.extend({
   position: absolute;
   top: 50px;
   background-color: #42b983;
-  transition-property: position;
-  transition-timing-function: ease;
 }
 </style>

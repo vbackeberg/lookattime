@@ -84,18 +84,23 @@ export default class Repositioner {
     spacerHighestBox: SpacerModel,
     spacerPageEdge: SpacerModel
   ) {
-    console.log("cut space left by " + distance);
+      console.log("cut space left by " + distance);
 
-    boxes.forEach(box => {
-      box.positionLeft -= distance;
-    });
+      boxes.forEach(box => {
+        box.positionLeft -= distance;
+      });
 
-    spacerHighestBox.positionLeft -= distance;
-    spacerPageEdge.positionLeft =
-      window.pageXOffset + window.innerWidth - distance - spacerPageEdge.width;
+      spacerHighestBox.positionLeft -= distance;
+      spacerPageEdge.positionLeft =
+        window.pageXOffset +
+        window.innerWidth -
+        distance -
+        spacerPageEdge.width;
 
-    window.scrollBy(-distance, 0);
-  }
+      const element = document.getElementById("timeline");
+
+      element?.scrollBy(-distance, 0);
+    }
 
   private static extendLeftSpace(
     boxes: BoxModel[],
@@ -114,7 +119,10 @@ export default class Repositioner {
       window.pageXOffset + window.innerWidth + distance - spacerPageEdge.width;
 
     Vue.nextTick(function () {
-      window.scrollBy(distance, 0);
+      
+      const element = document.getElementById("timeline");
+
+      element?.scrollBy(distance, 0);
     })
   }
 

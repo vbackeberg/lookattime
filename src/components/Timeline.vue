@@ -60,26 +60,27 @@ export default Vue.extend({
 
   methods: {
     changeZoom(e: WheelEvent) {
-      // TODO: Problem: Mouse position is probably not relative to containing timeline div.
-
-      if (e.deltaY < 0) {
-        Repositioner.zoomIn(
-          this.boxes,
-          this.lowestBox,
-          1.07,
-          e.pageX,
-          this.spacerHighestBox,
-          this.spacerPageEdge
-        );
-      } else if (e.deltaY > 0) {
-        Repositioner.zoomOut(
-          this.boxes,
-          this.lowestBox,
-          0.92,
-          e.pageX,
-          this.spacerHighestBox,
-          this.spacerPageEdge
-        );
+      const element = document.getElementById("timeline");
+      if (element != null) {
+        if (e.deltaY < 0) {
+          Repositioner.zoomIn(
+            this.boxes,
+            this.lowestBox,
+            1.07,
+            e.pageX + element.scrollLeft,
+            this.spacerHighestBox,
+            this.spacerPageEdge
+          );
+        } else if (e.deltaY > 0) {
+          Repositioner.zoomOut(
+            this.boxes,
+            this.lowestBox,
+            0.92,
+            e.pageX + element.scrollLeft,
+            this.spacerHighestBox,
+            this.spacerPageEdge
+          );
+        }
       }
     }
   }

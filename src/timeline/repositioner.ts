@@ -90,6 +90,7 @@ export default class Repositioner {
         box.positionLeft -= distance;
       });
 
+    //TODO replace all occurences of window by equivalent attribute of timeline div element.
       spacerHighestBox.positionLeft -= distance;
       spacerPageEdge.positionLeft =
         window.pageXOffset +

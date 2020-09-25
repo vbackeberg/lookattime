@@ -42,19 +42,22 @@ export default class Repositioner {
     spacerHighestBox: SpacerModel,
     spacerPageEdge: SpacerModel
   ) {
-    console.log("_________________________________________");
-    console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
+    const element = document.getElementById("timeline");
+    if (element != null) {
+      console.log("_________________________________________");
+      console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
-    this.reposition(boxes, spacerHighestBox, zoomFactor, mousePosition);
+      this.reposition(boxes, spacerHighestBox, zoomFactor, mousePosition);
 
-    this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
+      this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
 
-    const distance = Math.min(lowestBox.positionLeft, window.pageXOffset);
-    if (distance > 0) {
-      this.cutLeftSpace(boxes, distance, spacerHighestBox, spacerPageEdge);
+      const distance = Math.min(lowestBox.positionLeft, element.scrollLeft);
+      if (distance > 0) {
+        this.cutLeftSpace(boxes, distance, spacerHighestBox, spacerPageEdge);
+      }
+
+      this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
     }
-
-    this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
   }
 
   /**
@@ -84,47 +87,49 @@ export default class Repositioner {
     spacerHighestBox: SpacerModel,
     spacerPageEdge: SpacerModel
   ) {
+    const element = document.getElementById("timeline");
+    if (element != null) {
       console.log("cut space left by " + distance);
 
       boxes.forEach(box => {
         box.positionLeft -= distance;
       });
 
-    //TODO replace all occurences of window by equivalent attribute of timeline div element.
       spacerHighestBox.positionLeft -= distance;
       spacerPageEdge.positionLeft =
-        window.pageXOffset +
-        window.innerWidth -
+        element.scrollLeft +
+        element.clientWidth -
         distance -
         spacerPageEdge.width;
 
-      const element = document.getElementById("timeline");
-
       element?.scrollBy(-distance, 0);
     }
-
+  }
   private static extendLeftSpace(
     boxes: BoxModel[],
     distance: number,
     spacerHighestBox: SpacerModel,
     spacerPageEdge: SpacerModel
   ) {
-    console.log("extend space left by " + distance);
+    const element = document.getElementById("timeline");
+    if (element != null) {
+      console.log("extend space left by " + distance);
 
-    boxes.forEach(box => {
-      box.positionLeft += distance;
-    });
+      boxes.forEach(box => {
+        box.positionLeft += distance;
+      });
 
-    spacerHighestBox.positionLeft += distance;
-    spacerPageEdge.positionLeft =
-      window.pageXOffset + window.innerWidth + distance - spacerPageEdge.width;
+      spacerHighestBox.positionLeft += distance;
+      spacerPageEdge.positionLeft =
+        element.scrollLeft +
+        element.clientWidth +
+        distance -
+        spacerPageEdge.width;
 
-    Vue.nextTick(function () {
-      
-      const element = document.getElementById("timeline");
-
-      element?.scrollBy(distance, 0);
-    })
+      Vue.nextTick(function () {
+        element?.scrollBy(distance, 0);
+      });
+    }
   }
 
   private static logPositions(

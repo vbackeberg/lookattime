@@ -91,7 +91,7 @@ export default Vue.extend({
 #timeline {
   height: 60%;
   width: 100%;
-  background-color: #ff0;
+  background-color: #ffa;
   white-space: nowrap;
   overflow: scroll;
   position: relative;

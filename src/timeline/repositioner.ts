@@ -102,7 +102,7 @@ export default class Repositioner {
         distance -
         spacerPageEdge.width;
 
-      element?.scrollBy(-distance, 0);
+      element.scrollBy(-distance, 0);
     }
   }
   private static extendLeftSpace(
@@ -127,7 +127,7 @@ export default class Repositioner {
         spacerPageEdge.width;
 
       Vue.nextTick(function () {
-        element?.scrollBy(distance, 0);
+        element.scrollBy(distance, 0);
       });
     }
   }

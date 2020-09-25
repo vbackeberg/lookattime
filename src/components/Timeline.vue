@@ -35,20 +35,24 @@ export default Vue.extend({
       new BoxModel(1500, 200, 3)
     ];
 
+    const highestBox = boxes[boxes.length - 1];
+
     return {
       boxes: boxes,
 
       spacerHighestBox: new SpacerModel(
-        boxes[2].positionLeft + boxes[2].width,
+        highestBox.positionLeft + highestBox.width,
         500,
         10,
         "#f3a"
       ),
+
       spacerPageEdge: new SpacerModel(0, 500, 20, "#afa")
     };
   },
 
   computed: {
+    //TODO: If boxes was refactored to be sorted from lowest to highest, use first (lowest) element of array here.
     lowestBox(): BoxModel {
       return this.boxes.reduce((previous, current) => {
         return previous.positionLeft < current.positionLeft

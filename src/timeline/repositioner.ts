@@ -10,6 +10,7 @@ export default class Repositioner {
   static zoomIn(
     boxes: BoxModel[],
     lowestBox: BoxModel,
+    highestBox: BoxModel,
     zoomFactor: number,
     mousePosition: number,
     spacerHighestBox: SpacerModel,
@@ -18,7 +19,13 @@ export default class Repositioner {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
-    this.reposition(boxes, spacerHighestBox, zoomFactor, mousePosition);
+    this.reposition(
+      boxes,
+      highestBox,
+      spacerHighestBox,
+      zoomFactor,
+      mousePosition
+    );
 
     this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
 
@@ -37,6 +44,7 @@ export default class Repositioner {
   static zoomOut(
     boxes: BoxModel[],
     lowestBox: BoxModel,
+    highestBox: BoxModel,
     zoomFactor: number,
     mousePosition: number,
     spacerHighestBox: SpacerModel,
@@ -47,7 +55,13 @@ export default class Repositioner {
       console.log("_________________________________________");
       console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
-      this.reposition(boxes, spacerHighestBox, zoomFactor, mousePosition);
+      this.reposition(
+        boxes,
+        highestBox,
+        spacerHighestBox,
+        zoomFactor,
+        mousePosition
+      );
 
       this.logPositions(boxes, spacerHighestBox, spacerPageEdge);
 
@@ -66,6 +80,7 @@ export default class Repositioner {
    */
   private static reposition(
     boxes: BoxModel[],
+    highestBox: BoxModel,
     spacerHighestBox: SpacerModel,
     zoomFactor: number,
     mousePosition: number
@@ -78,7 +93,7 @@ export default class Repositioner {
       box.positionLeft = mousePosition + distance - box.width / 2;
     });
 
-    spacerHighestBox.positionLeft = boxes[2].positionLeft + boxes[2].width;
+    spacerHighestBox.positionLeft = highestBox.positionLeft + highestBox.width;
   }
 
   private static cutLeftSpace(

@@ -43,11 +43,13 @@ export default Vue.extend({
       return this.boxes[0];
     },
 
-    spacerHighestBox(): SpacerModel {
-      const highestBox = this.boxes[this.boxes.length - 1];
+    highestBox(): BoxModel {
+      return this.boxes[this.boxes.length - 1];
+    },
 
+    spacerHighestBox(): SpacerModel {
       return new SpacerModel(
-        highestBox.positionLeft + highestBox.width,
+        this.highestBox.positionLeft + this.highestBox.width,
         500,
         10,
         "#f3a"
@@ -67,6 +69,7 @@ export default Vue.extend({
         Repositioner.zoomIn(
           this.boxes,
           this.lowestBox,
+          this.highestBox,
           1.07,
           e.pageX + element.scrollLeft,
           this.spacerHighestBox,
@@ -76,6 +79,7 @@ export default Vue.extend({
         Repositioner.zoomOut(
           this.boxes,
           this.lowestBox,
+          this.highestBox,
           0.92,
           e.pageX + element.scrollLeft,
           this.spacerHighestBox,

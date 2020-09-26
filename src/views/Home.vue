@@ -33,7 +33,7 @@ export default Vue.extend({
 
   methods: {
     addBox(position: number) {
-      this.boxes.push(new BoxModel(position, 200, 20));
+      this.boxes.push(new BoxModel(position, 200, this.boxes.length));
     }
   },
 

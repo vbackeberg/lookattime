@@ -41,11 +41,7 @@ export default Vue.extend({
 
     //TODO: If boxes was refactored to be sorted from lowest to highest, use first (lowest) element of array here.
     lowestBox(): BoxModel {
-      return this.boxes.reduce((previous, current) => {
-        return previous.positionLeft < current.positionLeft
-          ? previous
-          : current;
-      });
+      return this.boxes[0];
     },
 
     spacerHighestBox(): SpacerModel {

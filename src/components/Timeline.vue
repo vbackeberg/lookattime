@@ -34,7 +34,9 @@ export default Vue.extend({
 
   computed: {
     boxes(): BoxModel[] {
-      return this.pboxes as BoxModel[];
+      const boxes = this.pboxes as BoxModel[];
+      boxes.sort((a, b) => a.positionLeft - b.positionLeft);
+      return boxes;
     },
 
     //TODO: If boxes was refactored to be sorted from lowest to highest, use first (lowest) element of array here.

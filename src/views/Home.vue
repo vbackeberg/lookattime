@@ -1,21 +1,40 @@
 <template>
   <div class="home">
     <div>
-      <button>Add new</button>
+      <input v-model="position" placeholder="1000" type="number" />
+      <button v-on:click="addBox(position)">
+        Add new
+      </button>
     </div>
-    <timeline></timeline>
+    <timeline v-bind:pboxes="this.boxes"></timeline>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Timeline from "@/components/Timeline.vue";
+import BoxModel from "@/models/box-model";
 
 export default Vue.extend({
   name: "Home",
 
   components: {
     Timeline
+  },
+
+  data() {
+    const boxes: BoxModel[] = [];
+
+    return {
+      position: Number,
+      boxes: boxes
+    };
+  },
+
+  methods: {
+    addBox(position: number) {
+      this.boxes.push(new BoxModel(position, 200, 20));
+    }
   }
 });
 </script>

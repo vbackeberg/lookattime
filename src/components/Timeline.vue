@@ -28,30 +28,15 @@ export default Vue.extend({
     });
   },
 
-  data() {
-    const boxes = [
-      new BoxModel(0, 200, 1),
-      new BoxModel(500, 200, 2),
-      new BoxModel(1500, 200, 3)
-    ];
-
-    const highestBox = boxes[boxes.length - 1];
-
-    return {
-      boxes: boxes,
-
-      spacerHighestBox: new SpacerModel(
-        highestBox.positionLeft + highestBox.width,
-        500,
-        10,
-        "#f3a"
-      ),
-
-      spacerPageEdge: new SpacerModel(0, 500, 20, "#afa")
-    };
+  props: {
+    pboxes: Array
   },
 
   computed: {
+    boxes(): BoxModel[] {
+      return this.pboxes as BoxModel[];
+    },
+
     //TODO: If boxes was refactored to be sorted from lowest to highest, use first (lowest) element of array here.
     lowestBox(): BoxModel {
       return this.boxes.reduce((previous, current) => {
@@ -59,6 +44,21 @@ export default Vue.extend({
           ? previous
           : current;
       });
+    },
+
+    spacerHighestBox(): SpacerModel {
+      const highestBox = this.boxes[this.boxes.length - 1];
+
+      return new SpacerModel(
+        highestBox.positionLeft + highestBox.width,
+        500,
+        10,
+        "#f3a"
+      );
+    },
+
+    spacerPageEdge(): SpacerModel {
+      return new SpacerModel(0, 500, 20, "#afa");
     }
   },
 

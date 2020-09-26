@@ -39,7 +39,6 @@ export default Vue.extend({
       return boxes;
     },
 
-    //TODO: If boxes was refactored to be sorted from lowest to highest, use first (lowest) element of array here.
     lowestBox(): BoxModel {
       return this.boxes[0];
     },

@@ -35,6 +35,10 @@ export default Vue.extend({
     addBox(position: number) {
       this.boxes.push(new BoxModel(position, 200, 20));
     }
+  },
+
+  created() {
+    this.addBox(500);
   }
 });
 </script>

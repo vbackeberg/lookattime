@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div>
-      <input v-model="position" type="number" />
+      <input v-model.number="position" type="number" />
       <button v-on:click="addBox(position)">
         Add new
       </button>

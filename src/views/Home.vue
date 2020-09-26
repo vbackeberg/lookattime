@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div>
-      <input v-model="position" placeholder="1000" type="number" />
+      <input v-model="position" type="number" />
       <button v-on:click="addBox(position)">
         Add new
       </button>
@@ -26,7 +26,7 @@ export default Vue.extend({
     const boxes: BoxModel[] = [];
 
     return {
-      position: Number,
+      position: 100,
       boxes: boxes
     };
   },

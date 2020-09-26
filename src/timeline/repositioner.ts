@@ -141,7 +141,7 @@ export default class Repositioner {
         distance -
         spacerPageEdge.width;
 
-      Vue.nextTick(function () {
+      Vue.nextTick(function() {
         element.scrollBy(distance, 0);
       });
     }

@@ -16,6 +16,8 @@ class RepositionerInstance {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
+    this.timeline = document.getElementById("timeline") as HTMLElement;
+
     this.repositionBoxes(zoomFactor, mousePosition);
     this.repositionSpacerHighestBox(zoomFactor, mousePosition);
 
@@ -35,6 +37,8 @@ class RepositionerInstance {
   public zoomOut(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
+
+    this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);
     this.repositionSpacerHighestBox(zoomFactor, mousePosition);

@@ -93,7 +93,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 #timeline {
-  height: 60%;
+  flex: 1;
   width: 100%;
   background-color: #ffa;
   white-space: nowrap;

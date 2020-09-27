@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div>
+    <div class="controls">
       <input v-model.number="position" type="number" />
       <button v-on:click="addBox(position)">
         Add new
@@ -46,6 +46,12 @@ export default Vue.extend({
 <style scoped lang="scss">
 .home {
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.controls {
+  height: 50px;
   width: 100%;
 }
 </style>

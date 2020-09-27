@@ -6,7 +6,7 @@
         Add new
       </button>
     </div>
-    <timeline v-bind:pboxes="this.boxes"></timeline>
+    <timeline></timeline>
   </div>
 </template>
 
@@ -14,6 +14,7 @@
 import Vue from "vue";
 import Timeline from "@/components/Timeline.vue";
 import BoxModel from "@/models/box-model";
+import store from "@/store";
 
 export default Vue.extend({
   name: "Home",
@@ -23,22 +24,18 @@ export default Vue.extend({
   },
 
   data() {
-    const boxes: BoxModel[] = [];
-
     return {
-      position: 100,
-      boxes: boxes
+      position: 100
     };
   },
 
   methods: {
     addBox(position: number) {
-      this.boxes.push(new BoxModel(position, 200, this.boxes.length));
+      store.commit(
+        "addBox",
+        new BoxModel(position, 200, store.state.boxes.length)
+      );
     }
-  },
-
-  created() {
-    this.addBox(500);
   }
 });
 </script>

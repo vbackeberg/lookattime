@@ -34,36 +34,17 @@ export default Vue.extend({
     store.commit("setSpacerPageEdge", new SpacerModel(500, 200, 20, "#afa"));
   },
 
-  props: {
-    pboxes: Array
-  },
-
   computed: {
     boxes(): BoxModel[] {
-      const boxes = this.pboxes as BoxModel[];
-      boxes.sort((a, b) => a.positionLeft - b.positionLeft);
-      return boxes;
-    },
-
-    lowestBox(): BoxModel {
-      return this.boxes[0];
-    },
-
-    highestBox(): BoxModel {
-      return this.boxes[this.boxes.length - 1];
+      return store.state.boxes;
     },
 
     spacerHighestBox(): SpacerModel {
-      return new SpacerModel(
-        this.highestBox.positionLeft + this.highestBox.width,
-        500,
-        10,
-        "#f3a"
-      );
+      return store.state.spacerHighestBox;
     },
 
     spacerPageEdge(): SpacerModel {
-      return new SpacerModel(0, 500, 20, "#afa");
+      return store.state.spacerPageEdge;
     }
   },
 

@@ -1,10 +1,10 @@
 import store from "@/store";
 import Vue from "vue";
 
-export default class RepositionerInstance {
+class RepositionerInstance {
   private timeline: HTMLElement;
 
-  private constructor() {
+  public constructor() {
     this.timeline = document.getElementById("timeline") as HTMLElement;
   }
 

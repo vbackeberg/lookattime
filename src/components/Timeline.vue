@@ -13,7 +13,7 @@ import Vue from "vue";
 import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/Spacer.vue";
-import RepositionerInstance from "@/timeline/repositioner-instance";
+import repositioner from "@/timeline/repositioner-instance";
 import store from "@/store";
 
 export default Vue.extend({
@@ -72,15 +72,9 @@ export default Vue.extend({
       const element = this.$el;
 
       if (e.deltaY < 0) {
-        RepositionerInstance.getInstance().zoomIn(
-          1.07,
-          e.pageX + element.scrollLeft
-        );
+        repositioner.zoomIn(1.07, e.pageX + element.scrollLeft);
       } else if (e.deltaY > 0) {
-        RepositionerInstance.getInstance().zoomOut(
-          0.92,
-          e.pageX + element.scrollLeft
-        );
+        repositioner.zoomOut(0.92, e.pageX + element.scrollLeft);
       }
     }
   }

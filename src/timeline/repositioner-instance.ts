@@ -126,13 +126,5 @@ export default class RepositionerInstance {
         store.state.spacerPageEdge.positionLeft
     );
   }
-
-  private static instance: RepositionerInstance;
-  public static getInstance(): RepositionerInstance {
-    if (!RepositionerInstance.instance) {
-      RepositionerInstance.instance = new RepositionerInstance();
-    }
-
-    return RepositionerInstance.instance;
-  }
 }
+export default new RepositionerInstance();

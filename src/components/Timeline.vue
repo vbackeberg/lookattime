@@ -11,9 +11,10 @@
 import Box from "@/components/Box.vue";
 import Vue from "vue";
 import BoxModel from "@/models/box-model";
-import Repositioner from "@/timeline/repositioner";
 import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/Spacer.vue";
+import RepositionerInstance from "@/timeline/repositioner-instance";
+import store from "@/store";
 
 export default Vue.extend({
   name: "Timeline",
@@ -27,6 +28,10 @@ export default Vue.extend({
     window.addEventListener("wheel", (e: WheelEvent) => {
       this.changeZoom(e);
     });
+
+    store.commit("addBox", new BoxModel(500, 200, store.state.boxes.length));
+    store.commit("setSpacerHighestBox", new SpacerModel(500, 200, 10, "#f3a"));
+    store.commit("setSpacerPageEdge", new SpacerModel(500, 200, 20, "#afa"));
   },
 
   props: {
@@ -67,24 +72,14 @@ export default Vue.extend({
       const element = this.$el;
 
       if (e.deltaY < 0) {
-        Repositioner.zoomIn(
-          this.boxes,
-          this.lowestBox,
-          this.highestBox,
+        RepositionerInstance.getInstance().zoomIn(
           1.07,
-          e.pageX + element.scrollLeft,
-          this.spacerHighestBox,
-          this.spacerPageEdge
+          e.pageX + element.scrollLeft
         );
       } else if (e.deltaY > 0) {
-        Repositioner.zoomOut(
-          this.boxes,
-          this.lowestBox,
-          this.highestBox,
+        RepositionerInstance.getInstance().zoomOut(
           0.92,
-          e.pageX + element.scrollLeft,
-          this.spacerHighestBox,
-          this.spacerPageEdge
+          e.pageX + element.scrollLeft
         );
       }
     }

@@ -3,6 +3,7 @@
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     <spacer v-bind="spacerHighestBox"></spacer>
     <spacer v-bind="spacerPageEdge"></spacer>
+    <!-- TODO: add timeline zero marker -->
   </div>
 </template>
 

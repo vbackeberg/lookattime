@@ -1,5 +1,6 @@
 import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
+import store from "@/store";
 import Vue from "vue";
 
 export default class Repositioner {
@@ -117,6 +118,8 @@ export default class Repositioner {
         distance -
         spacerPageEdge.width;
 
+      store.commit("changeTimelineZero", -distance);
+
       element.scrollBy(-distance, 0);
     }
   }
@@ -141,6 +144,8 @@ export default class Repositioner {
         distance -
         spacerPageEdge.width;
 
+        store.commit("changeTimelineZero", distance);
+      
       Vue.nextTick(function() {
         element.scrollBy(distance, 0);
       });

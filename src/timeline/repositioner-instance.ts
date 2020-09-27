@@ -15,7 +15,7 @@ class RepositionerInstance {
   public zoomIn(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
-
+//TODO: only retrieve timeline element once.
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);
@@ -37,7 +37,7 @@ class RepositionerInstance {
   public zoomOut(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
-
+    //TODO: only retrieve timeline element once.
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);
@@ -97,6 +97,7 @@ class RepositionerInstance {
     this.timeline.scrollBy(-distance, 0);
   }
 
+  //TODO: does not work
   private extendLeftSpace(distance: number) {
     console.log("extend space left by " + distance);
 
@@ -105,6 +106,8 @@ class RepositionerInstance {
     });
 
     store.state.spacerHighestBox.positionLeft += distance;
+  
+    //TODO: does not work
     store.state.spacerPageEdge.positionLeft =
       this.timeline.scrollLeft +
       this.timeline.clientWidth +

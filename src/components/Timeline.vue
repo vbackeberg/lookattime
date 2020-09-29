@@ -3,7 +3,10 @@
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     <spacer v-bind="spacerHighestBox"></spacer>
     <spacer v-bind="spacerPageEdge"></spacer>
-    <!-- TODO: add timeline zero marker -->
+    <div
+      class="timelineZero"
+      v-bind:style="{ left: timelineZero + 'px' }"
+    ></div>
   </div>
 </template>
 
@@ -45,6 +48,10 @@ export default Vue.extend({
 
     spacerPageEdge(): SpacerModel {
       return store.state.spacerPageEdge;
+    },
+
+    timelineZero(): number {
+      return store.state.timelineZero;
     }
   },
 
@@ -71,5 +78,12 @@ export default Vue.extend({
   overflow-y: hidden;
   overflow-x: scroll;
   position: relative;
+}
+
+.timelineZero {
+  height: 50px;
+  width: 50px;
+  background-color: #35b;
+  position: absolute;
 }
 </style>

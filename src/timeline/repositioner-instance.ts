@@ -55,9 +55,6 @@ class RepositionerInstance {
     }
   }
 
-  /**
-   * Repositions boxes by individual distances resulting from zoom and mouse position.
-   */
   private repositionBoxes(zoomFactor: number, mousePosition: number) {
     store.state.boxes.forEach(box => {
       const positionCenter = box.positionLeft + box.width / 2;
@@ -67,9 +64,6 @@ class RepositionerInstance {
     });
   }
 
-  /**
-   * Repositions spacer according to highest box.
-   */
   private repositionSpacerHighestBox() {
     const boxes = store.state.boxes;
     const highestBox = boxes[boxes.length - 1];

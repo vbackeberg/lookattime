@@ -15,11 +15,12 @@ class RepositionerInstance {
   public zoomIn(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
-//TODO: only retrieve timeline element once.
+    //TODO: only retrieve timeline element once.
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);
     this.repositionSpacerHighestBox();
+    this.repositionTimelineZero(zoomFactor, mousePosition);
 
     this.logPositions();
 
@@ -42,6 +43,7 @@ class RepositionerInstance {
 
     this.repositionBoxes(zoomFactor, mousePosition);
     this.repositionSpacerHighestBox();
+    this.repositionTimelineZero(zoomFactor, mousePosition);
 
     this.logPositions();
 
@@ -72,6 +74,12 @@ class RepositionerInstance {
       highestBox.positionLeft + highestBox.width;
   }
 
+  private repositionTimelineZero(zoomFactor: number, mousePosition: number) {
+    const distance = (store.state.timelineZero - mousePosition) * zoomFactor;
+    const timelineZero = mousePosition + distance;
+    store.commit("setTimelineZero", timelineZero);
+  }
+
   private cutLeftSpace(distance: number) {
     console.log("cut space left by " + distance);
 
@@ -86,7 +94,7 @@ class RepositionerInstance {
       distance -
       store.state.spacerPageEdge.width;
 
-    store.commit("changeTimelineZero", -distance);
+    store.commit("setTimelineZero", store.state.timelineZero - distance);
 
     this.timeline.scrollBy(-distance, 0);
   }
@@ -99,14 +107,14 @@ class RepositionerInstance {
     });
 
     store.state.spacerHighestBox.positionLeft += distance;
-  
+
     store.state.spacerPageEdge.positionLeft =
       this.timeline.scrollLeft +
       this.timeline.clientWidth +
       distance -
       store.state.spacerPageEdge.width;
 
-    store.commit("changeTimelineZero", distance);
+    store.commit("setTimelineZero", store.state.timelineZero + distance);
 
     Vue.nextTick(() => {
       this.timeline.scrollBy(distance, 0);
@@ -122,7 +130,9 @@ class RepositionerInstance {
       "spacerHighestBox Pos " +
         store.state.spacerHighestBox.positionLeft +
         " spacerPageEdge Pos " +
-        store.state.spacerPageEdge.positionLeft
+        store.state.spacerPageEdge.positionLeft +
+        " timelineZero " +
+        store.state.timelineZero
     );
   }
 }

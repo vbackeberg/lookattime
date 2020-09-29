@@ -15,8 +15,8 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    changeTimelineZero(state, value: number) {
-      state.timelineZero += value;
+    setTimelineZero(state, value: number) {
+      state.timelineZero = value;
     },
     addBox(state, box: BoxModel) {
       state.boxes.push(box);

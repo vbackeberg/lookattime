@@ -19,7 +19,7 @@ class RepositionerInstance {
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);
-    this.repositionSpacerHighestBox(zoomFactor, mousePosition);
+    this.repositionSpacerHighestBox();
 
     this.logPositions();
 
@@ -41,7 +41,7 @@ class RepositionerInstance {
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);
-    this.repositionSpacerHighestBox(zoomFactor, mousePosition);
+    this.repositionSpacerHighestBox();
 
     this.logPositions();
 
@@ -70,7 +70,7 @@ class RepositionerInstance {
   /**
    * Repositions spacer according to highest box.
    */
-  private repositionSpacerHighestBox(zoomFactor: number, mousePosition: number) {
+  private repositionSpacerHighestBox() {
     const boxes = store.state.boxes;
     const highestBox = boxes[boxes.length - 1];
 

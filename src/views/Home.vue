@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div class="controls">
-      <input v-model.number="position" type="number" />
-      <button v-on:click="addBox(position)">
+      <input v-model.number="relativePosition" type="number" />
+      <button v-on:click="addBox(relativePosition)">
         Add new
       </button>
     </div>
@@ -25,15 +25,20 @@ export default Vue.extend({
 
   data() {
     return {
-      position: 100
+      relativePosition: 100
     };
   },
 
   methods: {
-    addBox(position: number) {
+    addBox(relativePosition: number) {
+      // TODO: adding box at same relative position on different zoom levels
+      // should place box at same absolute position, but it does not.
+      const absolutePosition =
+        store.state.timelineZero + relativePosition * store.state.zoomLevel;
+
       store.commit(
         "addBox",
-        new BoxModel(position, 200, store.state.boxes.length)
+        new BoxModel(absolutePosition, 200, store.state.boxes.length)
       );
     }
   }

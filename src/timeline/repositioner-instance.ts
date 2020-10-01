@@ -26,6 +26,8 @@ class RepositionerInstance {
     if (distance > 0) {
       this.extendLeftSpace(distance);
     }
+
+    store.commit("changeZoomLevel", zoomFactor);
   }
 
   /**
@@ -52,6 +54,8 @@ class RepositionerInstance {
     if (distance > 0) {
       this.cutLeftSpace(distance);
     }
+
+    store.commit("changeZoomLevel", zoomFactor);
   }
 
   private repositionBoxes(zoomFactor: number, mousePosition: number) {

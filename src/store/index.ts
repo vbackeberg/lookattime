@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     timelineZero: 0,
+    zoomLevel: 1,
 
     boxes: [] as BoxModel[],
     spacerHighestBox: {} as SpacerModel,
@@ -18,6 +19,10 @@ export default new Vuex.Store({
     setTimelineZero(state, value: number) {
       state.timelineZero = value;
     },
+    changeZoomLevel(state, value: number) {
+      state.zoomLevel *= value;
+    },
+    
     addBox(state, box: BoxModel) {
       state.boxes.push(box);
       state.boxes.sort((a, b) => a.positionLeft - b.positionLeft);

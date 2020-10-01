@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    timelineZero: 500, //TODO initiate at center of screen
+    timelineZero: 0,
 
     boxes: [] as BoxModel[],
     spacerHighestBox: {} as SpacerModel,

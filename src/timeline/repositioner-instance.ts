@@ -2,11 +2,8 @@ import store from "@/store";
 import Vue from "vue";
 
 class RepositionerInstance {
-  private timeline: HTMLElement;
-
-  public constructor() {
-    this.timeline = document.getElementById("timeline") as HTMLElement;
-  }
+  //TODO: only retrieve timeline element once.
+  private timeline = document.getElementById("timeline") as HTMLElement;
 
   /**
    * Moves all boxes away from the mouse pointer by the zoom factor.
@@ -15,7 +12,7 @@ class RepositionerInstance {
   public zoomIn(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
-    //TODO: only retrieve timeline element once.
+
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);
@@ -38,7 +35,7 @@ class RepositionerInstance {
   public zoomOut(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
-    //TODO: only retrieve timeline element once.
+
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
     this.repositionBoxes(zoomFactor, mousePosition);

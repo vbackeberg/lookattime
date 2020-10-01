@@ -35,6 +35,7 @@ export default Vue.extend({
     store.commit("addBox", new BoxModel(500, 200, store.state.boxes.length));
     store.commit("setSpacerHighestBox", new SpacerModel(500, 200, 10, "#f3a"));
     store.commit("setSpacerPageEdge", new SpacerModel(500, 200, 20, "#afa"));
+    store.commit("setTimelineZero", window.innerWidth / 2);
   },
 
   computed: {

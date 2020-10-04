@@ -31,8 +31,6 @@ export default Vue.extend({
 
   methods: {
     addBox(relativePosition: number) {
-      // TODO: adding box at same relative position on different zoom levels
-      // should place box at same absolute position, but it does not.
       const absolutePosition =
         store.state.timelineZero + relativePosition * store.state.zoomLevel;
 

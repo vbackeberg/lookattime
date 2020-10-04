@@ -1,7 +1,7 @@
 import store from "@/store";
 import Vue from "vue";
 
-class RepositionerInstance {
+class Repositioner {
   //TODO: only retrieve timeline element once.
   private timeline = document.getElementById("timeline") as HTMLElement;
 
@@ -143,4 +143,4 @@ class RepositionerInstance {
     );
   }
 }
-export default new RepositionerInstance();
+export default new Repositioner();

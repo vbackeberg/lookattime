@@ -17,7 +17,7 @@ import Vue from "vue";
 import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/Spacer.vue";
-import repositioner from "@/timeline/repositioner-instance";
+import repositioner from "@/timeline/repositioner";
 import store from "@/store";
 
 export default Vue.extend({

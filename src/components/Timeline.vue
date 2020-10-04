@@ -7,10 +7,7 @@
       class="timelineZero"
       v-bind:style="{ left: timelineZero + 'px' }"
     ></div>
-    <div
-      class="timelineZero"
-      v-bind:style="{ left: timeline100 + 'px' }"
-    ></div>
+    <div class="timelineZero" v-bind:style="{ left: timeline100 + 'px' }"></div>
   </div>
 </template>
 

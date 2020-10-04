@@ -79,7 +79,7 @@ export default Vue.extend({
 #timeline {
   flex: 1;
   width: 100%;
-  background-color: #ffa;
+  background-color: #ffc;
   white-space: nowrap;
   overflow-y: hidden;
   overflow-x: scroll;

@@ -4,15 +4,15 @@ import Vue from "vue";
 class Repositioner {
   private timeline = document.getElementById("timeline") as HTMLElement;
 
-  /** 
+  /**
    * Extends space on the left if spacer left is in the negative space.
    * Separately called when adding new boxes.
    */
-  public extendLeftSpaceOnInsert() {
+  public extendSpaceOnInsert() {
+    this.repositionSpacerRight();
     this.repositionSpacerLeft();
 
     const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
-
     if (requiredLeftSpace > 0) {
       this.extendLeftSpace(requiredLeftSpace);
     }

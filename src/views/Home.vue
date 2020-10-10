@@ -40,7 +40,7 @@ export default Vue.extend({
         new BoxModel(absolutePosition, 200, store.state.boxes.length)
       );
 
-      repositioner.extendLeftSpaceOnInsert();
+      repositioner.extendSpaceOnInsert();
     }
   }
 });

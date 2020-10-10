@@ -2,10 +2,7 @@
   <div
     class="box"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
-  >
-    <p>positionLeft: {{ positionLeft }}</p>
-    <p>width: {{ width }}</p>
-  </div>
+  ></div>
 </template>
 
 <script lang="ts">
@@ -35,6 +32,9 @@ export default Vue.extend({
   box-sizing: border-box;
   position: absolute;
   top: 50px;
-  background-color: #42b983;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid #000;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>

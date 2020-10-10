@@ -22,14 +22,14 @@ class Repositioner {
 
     this.logPositions();
 
-    const requiredSpaceLeft = -store.state.spacerLowestBox.positionLeft;
+    const requiredLeftSpace = -store.state.spacerLowestBox.positionLeft;
 
-    if (requiredSpaceLeft > 0) {
-      this.extendLeftSpace(requiredSpaceLeft);
+    if (requiredLeftSpace > 0) {
+      this.extendLeftSpace(requiredLeftSpace);
     }
 
     store.commit("changeZoomLevel", zoomFactor);
-  } 
+  }
 
   /**
    * Moves all boxes towards the mouse pointer by the zoom factor.
@@ -48,13 +48,13 @@ class Repositioner {
 
     this.logPositions();
 
-    const expendableSpaceLeft = Math.min(
+    const expendableLeftSpace = Math.min(
       store.state.spacerLowestBox.positionLeft,
       this.timeline.scrollLeft
     );
 
-    if (expendableSpaceLeft > 0) {
-      this.cutLeftSpace(expendableSpaceLeft);
+    if (expendableLeftSpace > 0) {
+      this.cutLeftSpace(expendableLeftSpace);
     }
 
     store.commit("changeZoomLevel", zoomFactor);

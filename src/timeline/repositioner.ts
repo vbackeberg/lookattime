@@ -4,6 +4,20 @@ import Vue from "vue";
 class Repositioner {
   private timeline = document.getElementById("timeline") as HTMLElement;
 
+  /** 
+   * Extends space on the left if spacer left is in the negative space.
+   * Separately called when adding new boxes.
+   */
+  public extendLeftSpaceOnInsert() {
+    this.repositionSpacerLeft();
+
+    const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
+
+    if (requiredLeftSpace > 0) {
+      this.extendLeftSpace(requiredLeftSpace);
+    }
+  }
+
   /**
    * Moves all boxes away from the mouse pointer by the zoom factor.
    * Then moves all boxes and the view into the positive space.

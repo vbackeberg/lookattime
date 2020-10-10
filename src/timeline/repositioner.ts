@@ -68,18 +68,19 @@ class Repositioner {
 
   private repositionSpacerLowestBox() {
     const lowestBox = store.state.boxes[0];
-    const spacerLowestBox = store.state.spacerLowestBox;
+    const newPositionLeft =
+      lowestBox.positionCenter -
+      lowestBox.width / 2 -
+      store.state.spacerLowestBox.width;
 
-    spacerLowestBox.positionLeft =
-      lowestBox.positionCenter - lowestBox.width / 2 - spacerLowestBox.width;
+    store.commit("setSpacerLowestBoxPosition", newPositionLeft);
   }
 
   private repositionSpacerHighestBox() {
-    const boxes = store.state.boxes;
-    const highestBox = boxes[boxes.length - 1];
+    const highestBox = store.state.boxes[store.state.boxes.length - 1];
+    const newPositionLeft = highestBox.positionCenter + highestBox.width / 2;
 
-    store.state.spacerHighestBox.positionLeft =
-      highestBox.positionCenter + highestBox.width / 2;
+    store.commit("setSpacerHighestBoxPosition", newPositionLeft);
   }
 
   private repositionTimelineZero(zoomFactor: number, mousePosition: number) {
@@ -95,14 +96,23 @@ class Repositioner {
       box.positionCenter -= distance;
     });
 
-    store.state.spacerHighestBox.positionLeft -= distance;
-    store.state.spacerLowestBox.positionLeft -= distance;
+    store.commit(
+      "setSpacerLowestBoxPosition",
+      store.state.spacerLowestBox.positionLeft - distance
+    );
 
-    store.state.spacerPageEdge.positionLeft =
+    store.commit(
+      "setSpacerHighestBoxPosition",
+      store.state.spacerHighestBox.positionLeft - distance
+    );
+
+    store.commit(
+      "setSpacerPageEdgePosition",
       this.timeline.scrollLeft +
-      this.timeline.clientWidth -
-      distance -
-      store.state.spacerPageEdge.width;
+        this.timeline.clientWidth -
+        distance -
+        store.state.spacerPageEdge.width
+    );
 
     store.commit("setTimelineZero", store.state.timelineZero - distance);
 
@@ -116,14 +126,23 @@ class Repositioner {
       box.positionCenter += distance;
     });
 
-    store.state.spacerHighestBox.positionLeft += distance;
-    store.state.spacerLowestBox.positionLeft += distance;
+    store.commit(
+      "setSpacerLowestBoxPosition",
+      store.state.spacerLowestBox.positionLeft + distance
+    );
 
-    store.state.spacerPageEdge.positionLeft =
+    store.commit(
+      "setSpacerHighestBoxPosition",
+      store.state.spacerHighestBox.positionLeft + distance
+    );
+
+    store.commit(
+      "setSpacerPageEdgePosition",
       this.timeline.scrollLeft +
-      this.timeline.clientWidth +
-      distance -
-      store.state.spacerPageEdge.width;
+        this.timeline.clientWidth +
+        distance -
+        store.state.spacerPageEdge.width
+    );
 
     store.commit("setTimelineZero", store.state.timelineZero + distance);
 

@@ -44,17 +44,15 @@ export default new Vuex.Store({
       state.boxes.push(box);
       state.boxes.sort((a, b) => a.positionCenter - b.positionCenter);
     },
-    //TODO: Refactor this to initiate with spacers and only allow setting new positions
-    // to allow for proper change tracking. Spacers are never replaced by new ones, so
-    // it is useless and deceiving to offer this method.
-    setSpacerHighestBox(state, spacer: SpacerModel) {
-      state.spacerHighestBox = spacer;
+
+    setSpacerHighestBoxPosition(state, positionLeft: number) {
+      state.spacerHighestBox.positionLeft = positionLeft;
     },
-    setSpacerLowestBox(state, spacer: SpacerModel) {
-      state.spacerLowestBox = spacer;
+    setSpacerLowestBoxPosition(state, positionLeft: number) {
+      state.spacerLowestBox.positionLeft = positionLeft;
     },
-    setSpacerPageEdge(state, spacer: SpacerModel) {
-      state.spacerPageEdge = spacer;
+    setSpacerPageEdgePosition(state, positionLeft: number) {
+      state.spacerPageEdge.positionLeft = positionLeft;
     }
   },
 

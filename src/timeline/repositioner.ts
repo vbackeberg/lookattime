@@ -29,7 +29,7 @@ class Repositioner {
     }
 
     store.commit("changeZoomLevel", zoomFactor);
-  }
+  } 
 
   /**
    * Moves all boxes towards the mouse pointer by the zoom factor.
@@ -48,15 +48,13 @@ class Repositioner {
 
     this.logPositions();
 
-    //TODO: 1. add spacer lowest box.
-    const distance = Math.min(
+    const expendableSpace = Math.min(
       store.state.spacerLowestBox.positionLeft,
       this.timeline.scrollLeft
     );
 
-    // TODO: 2. distance will never be <0 and rarely = 0. Remove this if block.
-    if (distance > 0) {
-      this.cutLeftSpace(distance);
+    if (expendableSpace > 0) {
+      this.cutLeftSpace(expendableSpace);
     }
 
     store.commit("changeZoomLevel", zoomFactor);

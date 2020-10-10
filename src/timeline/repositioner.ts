@@ -18,7 +18,7 @@ class Repositioner {
 
     this.logPositions();
 
-    const requiredLeftSpace = -store.state.spacerLowestBox.positionLeft;
+    const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
 
     if (requiredLeftSpace > 0) {
       this.extendLeftSpace(requiredLeftSpace);
@@ -38,11 +38,11 @@ class Repositioner {
     this.timeline = document.getElementById("timeline") as HTMLElement;
     
     this.reposition(zoomFactor, mousePosition);
-    
+
     this.logPositions();
 
     const expendableLeftSpace = Math.min(
-      store.state.spacerLowestBox.positionLeft,
+      store.state.SpacerLeft.positionLeft,
       this.timeline.scrollLeft
     );
 
@@ -55,8 +55,8 @@ class Repositioner {
 
   private reposition(zoomFactor: number, mousePosition: number) {
     this.repositionBoxes(zoomFactor, mousePosition);
-    this.repositionSpacerHighestBox();
-    this.repositionSpacerLowestBox();
+    this.repositionSpacerRight();
+    this.repositionSpacerLeft();
     this.repositionTimelineZero(zoomFactor, mousePosition);
   }
 
@@ -67,21 +67,21 @@ class Repositioner {
     });
   }
 
-  private repositionSpacerLowestBox() {
+  private repositionSpacerLeft() {
     const lowestBox = store.state.boxes[0];
     const newPositionLeft =
       lowestBox.positionCenter -
       lowestBox.width / 2 -
-      store.state.spacerLowestBox.width;
+      store.state.SpacerLeft.width;
 
-    store.commit("setSpacerLowestBoxPosition", newPositionLeft);
+    store.commit("setSpacerLeftPosition", newPositionLeft);
   }
 
-  private repositionSpacerHighestBox() {
+  private repositionSpacerRight() {
     const highestBox = store.state.boxes[store.state.boxes.length - 1];
     const newPositionLeft = highestBox.positionCenter + highestBox.width / 2;
 
-    store.commit("setSpacerHighestBoxPosition", newPositionLeft);
+    store.commit("setSpacerRightPosition", newPositionLeft);
   }
 
   private repositionTimelineZero(zoomFactor: number, mousePosition: number) {
@@ -98,13 +98,13 @@ class Repositioner {
     });
 
     store.commit(
-      "setSpacerLowestBoxPosition",
-      store.state.spacerLowestBox.positionLeft - distance
+      "setSpacerLeftPosition",
+      store.state.SpacerLeft.positionLeft - distance
     );
 
     store.commit(
-      "setSpacerHighestBoxPosition",
-      store.state.spacerHighestBox.positionLeft - distance
+      "setSpacerRightPosition",
+      store.state.SpacerRight.positionLeft - distance
     );
 
     store.commit(
@@ -128,13 +128,13 @@ class Repositioner {
     });
 
     store.commit(
-      "setSpacerLowestBoxPosition",
-      store.state.spacerLowestBox.positionLeft + distance
+      "setSpacerLeftPosition",
+      store.state.SpacerLeft.positionLeft + distance
     );
 
     store.commit(
-      "setSpacerHighestBoxPosition",
-      store.state.spacerHighestBox.positionLeft + distance
+      "setSpacerRightPosition",
+      store.state.SpacerRight.positionLeft + distance
     );
 
     store.commit(
@@ -158,10 +158,10 @@ class Repositioner {
     });
 
     console.log(
-      "spacerHighestBox Pos " +
-        store.state.spacerHighestBox.positionLeft +
-        " spacerLowestBox Pos " +
-        store.state.spacerLowestBox.positionLeft +
+      "SpacerRight Pos " +
+        store.state.SpacerRight.positionLeft +
+        " SpacerLeft Pos " +
+        store.state.SpacerLeft.positionLeft +
         " spacerPageEdge Pos " +
         store.state.spacerPageEdge.positionLeft +
         " timelineZero " +

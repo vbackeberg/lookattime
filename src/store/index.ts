@@ -12,13 +12,13 @@ export default new Vuex.Store({
 
     boxes: [] as BoxModel[],
 
-    spacerHighestBox: {
+    SpacerRight: {
       positionLeft: 0,
       width: 200,
       height: 10,
       color: "#f3a"
     } as SpacerModel,
-    spacerLowestBox: {
+    SpacerLeft: {
       positionLeft: 0,
       width: 200,
       height: 10,
@@ -45,11 +45,11 @@ export default new Vuex.Store({
       state.boxes.sort((a, b) => a.positionCenter - b.positionCenter);
     },
 
-    setSpacerHighestBoxPosition(state, positionLeft: number) {
-      state.spacerHighestBox.positionLeft = positionLeft;
+    setSpacerRightPosition(state, positionLeft: number) {
+      state.SpacerRight.positionLeft = positionLeft;
     },
-    setSpacerLowestBoxPosition(state, positionLeft: number) {
-      state.spacerLowestBox.positionLeft = positionLeft;
+    setSpacerLeftPosition(state, positionLeft: number) {
+      state.SpacerLeft.positionLeft = positionLeft;
     },
     setSpacerPageEdgePosition(state, positionLeft: number) {
       state.spacerPageEdge.positionLeft = positionLeft;

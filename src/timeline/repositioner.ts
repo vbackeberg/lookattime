@@ -132,6 +132,7 @@ class Repositioner {
     });
   }
 
+  //TODO extract to position logger
   private logPositions() {
     store.state.boxes.forEach(box => {
       console.log("box " + box.id + " Pos center " + box.positionCenter);

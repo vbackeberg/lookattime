@@ -85,8 +85,8 @@ class Repositioner {
 
   private repositionTimelineZero(zoomFactor: number, mousePosition: number) {
     const distance = (store.state.timelineZero - mousePosition) * zoomFactor;
-    const timelineZero = mousePosition + distance;
-    store.commit("setTimelineZero", timelineZero);
+    const newPosition = mousePosition + distance;
+    store.commit("setTimelineZero", newPosition);
   }
 
   private cutLeftSpace(distance: number) {

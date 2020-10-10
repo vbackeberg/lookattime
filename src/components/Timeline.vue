@@ -2,6 +2,7 @@
   <div id="timeline">
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     <spacer v-bind="spacerHighestBox"></spacer>
+    <spacer v-bind="spacerLowestBox"></spacer>
     <spacer v-bind="spacerPageEdge"></spacer>
     <div
       class="timelineZero"
@@ -34,6 +35,7 @@ export default Vue.extend({
 
     store.commit("addBox", new BoxModel(500, 200, store.state.boxes.length));
     store.commit("setSpacerHighestBox", new SpacerModel(500, 200, 10, "#f3a"));
+    store.commit("setSpacerLowestBox", new SpacerModel(500, 200, 10, "#3f7"));
     store.commit("setSpacerPageEdge", new SpacerModel(500, 200, 20, "#afa"));
     store.commit("setTimelineZero", 500);
   },
@@ -45,6 +47,10 @@ export default Vue.extend({
 
     spacerHighestBox(): SpacerModel {
       return store.state.spacerHighestBox;
+    },
+
+    spacerLowestBox(): SpacerModel {
+      return store.state.spacerLowestBox;
     },
 
     spacerPageEdge(): SpacerModel {

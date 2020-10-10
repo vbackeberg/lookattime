@@ -17,11 +17,12 @@ class Repositioner {
 
     this.repositionBoxes(zoomFactor, mousePosition);
     this.repositionSpacerHighestBox();
+    this.repositionSpacerLowestBox();
     this.repositionTimelineZero(zoomFactor, mousePosition);
 
     this.logPositions();
 
-    const distance = -store.state.boxes[0].positionCenter - store.state.boxes[0].width / 2;
+    const distance = -store.state.spacerLowestBox.positionLeft;
 
     if (distance > 0) {
       this.extendLeftSpace(distance);
@@ -42,13 +43,14 @@ class Repositioner {
 
     this.repositionBoxes(zoomFactor, mousePosition);
     this.repositionSpacerHighestBox();
+    this.repositionSpacerLowestBox();
     this.repositionTimelineZero(zoomFactor, mousePosition);
 
     this.logPositions();
 
     //TODO: 1. add spacer lowest box.
     const distance = Math.min(
-      store.state.boxes[0].positionCenter - store.state.boxes[0].width / 2,
+      store.state.spacerLowestBox.positionLeft,
       this.timeline.scrollLeft
     );
 
@@ -65,6 +67,14 @@ class Repositioner {
       const distance = (box.positionCenter - mousePosition) * zoomFactor;
       box.positionCenter = mousePosition + distance;
     });
+  }
+
+  private repositionSpacerLowestBox() {
+    const lowestBox = store.state.boxes[0];
+    const spacerLowestBox = store.state.spacerLowestBox;
+
+    spacerLowestBox.positionLeft =
+      lowestBox.positionCenter - lowestBox.width / 2 - spacerLowestBox.width;
   }
 
   private repositionSpacerHighestBox() {
@@ -89,6 +99,8 @@ class Repositioner {
     });
 
     store.state.spacerHighestBox.positionLeft -= distance;
+    store.state.spacerLowestBox.positionLeft -= distance;
+
     store.state.spacerPageEdge.positionLeft =
       this.timeline.scrollLeft +
       this.timeline.clientWidth -
@@ -108,6 +120,7 @@ class Repositioner {
     });
 
     store.state.spacerHighestBox.positionLeft += distance;
+    store.state.spacerLowestBox.positionLeft += distance;
 
     store.state.spacerPageEdge.positionLeft =
       this.timeline.scrollLeft +
@@ -130,6 +143,8 @@ class Repositioner {
     console.log(
       "spacerHighestBox Pos " +
         store.state.spacerHighestBox.positionLeft +
+        " spacerLowestBox Pos " +
+        store.state.spacerLowestBox.positionLeft +
         " spacerPageEdge Pos " +
         store.state.spacerPageEdge.positionLeft +
         " timelineZero " +

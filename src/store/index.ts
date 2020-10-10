@@ -12,6 +12,7 @@ export default new Vuex.Store({
 
     boxes: [] as BoxModel[],
     spacerHighestBox: {} as SpacerModel,
+    spacerLowestBox: {} as SpacerModel,
     spacerPageEdge: {} as SpacerModel
   },
 
@@ -22,13 +23,19 @@ export default new Vuex.Store({
     changeZoomLevel(state, value: number) {
       state.zoomLevel *= value;
     },
-    
+
     addBox(state, box: BoxModel) {
       state.boxes.push(box);
       state.boxes.sort((a, b) => a.positionCenter - b.positionCenter);
     },
+    //TODO: Refactor this to initiate with spacers and only allow setting new positions
+    // to allow for proper change tracking. Spacers are never replaced by new ones, so
+    // it is useless and deceiving to offer this method.
     setSpacerHighestBox(state, spacer: SpacerModel) {
       state.spacerHighestBox = spacer;
+    },
+    setSpacerLowestBox(state, spacer: SpacerModel) {
+      state.spacerLowestBox = spacer;
     },
     setSpacerPageEdge(state, spacer: SpacerModel) {
       state.spacerPageEdge = spacer;

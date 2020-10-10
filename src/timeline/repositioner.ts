@@ -12,8 +12,6 @@ class Repositioner {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
-    this.timeline = document.getElementById("timeline") as HTMLElement;
-
     this.reposition(zoomFactor, mousePosition);
 
     this.logPositions();
@@ -137,6 +135,7 @@ class Repositioner {
       store.state.SpacerRight.positionLeft + distance
     );
 
+    this.timeline = document.getElementById("timeline") as HTMLElement;
     store.commit(
       "setSpacerPageEdgePosition",
       this.timeline.scrollLeft +

@@ -5,7 +5,7 @@ class Repositioner {
   private timeline = document.getElementById("timeline") as HTMLElement;
 
   /**
-   * Extends space on the left if spacer left is in the negative space.
+   * Extends space based on new spacer positions.
    * Separately called when adding new boxes.
    */
   public extendSpaceOnInsert() {
@@ -48,7 +48,7 @@ class Repositioner {
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
     this.timeline = document.getElementById("timeline") as HTMLElement;
-    
+
     this.reposition(zoomFactor, mousePosition);
 
     this.logPositions();

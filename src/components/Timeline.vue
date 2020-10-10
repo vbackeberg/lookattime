@@ -30,6 +30,9 @@ export default Vue.extend({
 
   created() {
     window.addEventListener("wheel", (e: WheelEvent) => {
+      if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
+        return;
+      }
       this.changeZoom(e);
     });
 

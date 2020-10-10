@@ -84,6 +84,7 @@ export default Vue.extend({
   overflow-y: hidden;
   overflow-x: scroll;
   position: relative;
+  background-color: #ccc;
 }
 
 .timelineZero {

@@ -22,10 +22,10 @@ class Repositioner {
 
     this.logPositions();
 
-    const distance = -store.state.spacerLowestBox.positionLeft;
+    const requiredSpaceLeft = -store.state.spacerLowestBox.positionLeft;
 
-    if (distance > 0) {
-      this.extendLeftSpace(distance);
+    if (requiredSpaceLeft > 0) {
+      this.extendLeftSpace(requiredSpaceLeft);
     }
 
     store.commit("changeZoomLevel", zoomFactor);
@@ -48,13 +48,13 @@ class Repositioner {
 
     this.logPositions();
 
-    const expendableSpace = Math.min(
+    const expendableSpaceLeft = Math.min(
       store.state.spacerLowestBox.positionLeft,
       this.timeline.scrollLeft
     );
 
-    if (expendableSpace > 0) {
-      this.cutLeftSpace(expendableSpace);
+    if (expendableSpaceLeft > 0) {
+      this.cutLeftSpace(expendableSpaceLeft);
     }
 
     store.commit("changeZoomLevel", zoomFactor);

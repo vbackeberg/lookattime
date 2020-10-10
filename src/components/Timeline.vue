@@ -7,7 +7,6 @@
       class="timelineZero"
       v-bind:style="{ left: timelineZero + 'px' }"
     ></div>
-    <div class="timelineZero" v-bind:style="{ left: timeline100 + 'px' }"></div>
   </div>
 </template>
 
@@ -37,24 +36,23 @@ export default Vue.extend({
     store.commit("setSpacerHighestBox", new SpacerModel(500, 200, 10, "#f3a"));
     store.commit("setSpacerPageEdge", new SpacerModel(500, 200, 20, "#afa"));
     store.commit("setTimelineZero", window.innerWidth / 2);
-    store.commit("setTimeline100", store.state.timelineZero + 100);
   },
 
   computed: {
     boxes(): BoxModel[] {
       return store.state.boxes;
     },
+
     spacerHighestBox(): SpacerModel {
       return store.state.spacerHighestBox;
     },
+
     spacerPageEdge(): SpacerModel {
       return store.state.spacerPageEdge;
     },
+
     timelineZero(): number {
       return store.state.timelineZero;
-    },
-    timeline100(): number {
-      return store.state.timeline100;
     }
   },
 
@@ -85,7 +83,7 @@ export default Vue.extend({
 
 .timelineZero {
   height: 50px;
-  width: 10px;
+  width: 50px;
   background-color: #35b;
   position: absolute;
 }

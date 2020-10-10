@@ -8,7 +8,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     timelineZero: 0,
-    timeline100: 0,
     zoomLevel: 1,
 
     boxes: [] as BoxModel[],
@@ -19,9 +18,6 @@ export default new Vuex.Store({
   mutations: {
     setTimelineZero(state, value: number) {
       state.timelineZero = value;
-    },
-    setTimeline100(state, value: number) {
-      state.timeline100 = value;
     },
     changeZoomLevel(state, value: number) {
       state.zoomLevel *= value;

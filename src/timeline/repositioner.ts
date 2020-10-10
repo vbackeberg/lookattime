@@ -76,13 +76,9 @@ class Repositioner {
   }
 
   private repositionTimelineZero(zoomFactor: number, mousePosition: number) {
-    let distance = (store.state.timelineZero - mousePosition) * zoomFactor;
+    const distance = (store.state.timelineZero - mousePosition) * zoomFactor;
     const timelineZero = mousePosition + distance;
     store.commit("setTimelineZero", timelineZero);
-
-    distance = (store.state.timeline100 - mousePosition) * zoomFactor;
-    const timeline100 = mousePosition + distance;
-    store.commit("setTimeline100", timeline100);
   }
 
   private cutLeftSpace(distance: number) {
@@ -100,7 +96,6 @@ class Repositioner {
       store.state.spacerPageEdge.width;
 
     store.commit("setTimelineZero", store.state.timelineZero - distance);
-    store.commit("setTimeline100", store.state.timeline100 - distance);
 
     this.timeline.scrollBy(-distance, 0);
   }
@@ -121,7 +116,6 @@ class Repositioner {
       store.state.spacerPageEdge.width;
 
     store.commit("setTimelineZero", store.state.timelineZero + distance);
-    store.commit("setTimeline100", store.state.timeline100 + distance);
 
     Vue.nextTick(() => {
       this.timeline.scrollBy(distance, 0);

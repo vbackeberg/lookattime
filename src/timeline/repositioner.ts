@@ -21,7 +21,7 @@ class Repositioner {
 
     this.logPositions();
 
-    const distance = -store.state.boxes[0].positionLeft;
+    const distance = -store.state.boxes[0].positionCenter - store.state.boxes[0].width / 2;
 
     if (distance > 0) {
       this.extendLeftSpace(distance);
@@ -46,11 +46,13 @@ class Repositioner {
 
     this.logPositions();
 
+    //TODO: 1. add spacer lowest box.
     const distance = Math.min(
-      store.state.boxes[0].positionLeft,
+      store.state.boxes[0].positionCenter - store.state.boxes[0].width / 2,
       this.timeline.scrollLeft
     );
 
+    // TODO: 2. distance will never be <0 and rarely = 0. Remove this if block.
     if (distance > 0) {
       this.cutLeftSpace(distance);
     }
@@ -60,10 +62,8 @@ class Repositioner {
 
   private repositionBoxes(zoomFactor: number, mousePosition: number) {
     store.state.boxes.forEach(box => {
-      const positionCenter = box.positionLeft + box.width / 2;
-      const distance = (positionCenter - mousePosition) * zoomFactor;
-
-      box.positionLeft = mousePosition + distance - box.width / 2;
+      const distance = (box.positionCenter - mousePosition) * zoomFactor;
+      box.positionCenter = mousePosition + distance;
     });
   }
 
@@ -72,7 +72,7 @@ class Repositioner {
     const highestBox = boxes[boxes.length - 1];
 
     store.state.spacerHighestBox.positionLeft =
-      highestBox.positionLeft + highestBox.width;
+      highestBox.positionCenter + highestBox.width / 2;
   }
 
   private repositionTimelineZero(zoomFactor: number, mousePosition: number) {
@@ -85,7 +85,7 @@ class Repositioner {
     console.log("cut space left by " + distance);
 
     store.state.boxes.forEach(box => {
-      box.positionLeft -= distance;
+      box.positionCenter -= distance;
     });
 
     store.state.spacerHighestBox.positionLeft -= distance;
@@ -104,7 +104,7 @@ class Repositioner {
     console.log("extend space left by " + distance);
 
     store.state.boxes.forEach(box => {
-      box.positionLeft += distance;
+      box.positionCenter += distance;
     });
 
     store.state.spacerHighestBox.positionLeft += distance;
@@ -124,7 +124,7 @@ class Repositioner {
 
   private logPositions() {
     store.state.boxes.forEach(box => {
-      console.log("box " + box.id + " Pos " + box.positionLeft);
+      console.log("box " + box.id + " Pos center " + box.positionCenter);
     });
 
     console.log(

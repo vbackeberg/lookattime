@@ -25,7 +25,7 @@ export default new Vuex.Store({
     
     addBox(state, box: BoxModel) {
       state.boxes.push(box);
-      state.boxes.sort((a, b) => a.positionLeft - b.positionLeft);
+      state.boxes.sort((a, b) => a.positionCenter - b.positionCenter);
     },
     setSpacerHighestBox(state, spacer: SpacerModel) {
       state.spacerHighestBox = spacer;

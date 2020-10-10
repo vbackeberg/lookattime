@@ -15,9 +15,15 @@ export default Vue.extend({
   name: "Box",
 
   props: {
-    positionLeft: Number,
+    positionCenter: Number,
     width: Number,
     id: Number
+  },
+
+  computed: {
+    positionLeft(): number {
+      return this.positionCenter - this.width / 2;
+    }
   }
 });
 </script>

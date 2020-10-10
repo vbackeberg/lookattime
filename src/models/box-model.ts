@@ -1,10 +1,10 @@
 export default class BoxModel {
-  positionLeft: number;
+  positionCenter: number;
   width: number;
   id: number;
 
-  constructor(positionLeft: number, width: number, id: number) {
-    this.positionLeft = positionLeft;
+  constructor(positionCenter: number, width: number, id: number) {
+    this.positionCenter = positionCenter;
     this.width = width;
     this.id = id;
   }

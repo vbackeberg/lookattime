@@ -35,7 +35,7 @@ export default Vue.extend({
     store.commit("addBox", new BoxModel(500, 200, store.state.boxes.length));
     store.commit("setSpacerHighestBox", new SpacerModel(500, 200, 10, "#f3a"));
     store.commit("setSpacerPageEdge", new SpacerModel(500, 200, 20, "#afa"));
-    store.commit("setTimelineZero", window.innerWidth / 2);
+    store.commit("setTimelineZero", 500);
   },
 
   computed: {
@@ -61,7 +61,7 @@ export default Vue.extend({
       const element = this.$el;
 
       if (e.deltaY < 0) {
-        repositioner.zoomIn(1.07, e.pageX + element.scrollLeft);
+        repositioner.zoomIn(1.1, e.pageX + element.scrollLeft);
       } else if (e.deltaY > 0) {
         repositioner.zoomOut(0.92, e.pageX + element.scrollLeft);
       }
@@ -83,7 +83,7 @@ export default Vue.extend({
 
 .timelineZero {
   height: 50px;
-  width: 50px;
+  width: 5px;
   background-color: #35b;
   position: absolute;
 }

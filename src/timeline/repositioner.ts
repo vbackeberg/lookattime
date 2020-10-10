@@ -14,10 +14,7 @@ class Repositioner {
 
     this.timeline = document.getElementById("timeline") as HTMLElement;
 
-    this.repositionBoxes(zoomFactor, mousePosition);
-    this.repositionSpacerHighestBox();
-    this.repositionSpacerLowestBox();
-    this.repositionTimelineZero(zoomFactor, mousePosition);
+    this.reposition(zoomFactor, mousePosition);
 
     this.logPositions();
 
@@ -39,12 +36,9 @@ class Repositioner {
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
     this.timeline = document.getElementById("timeline") as HTMLElement;
-
-    this.repositionBoxes(zoomFactor, mousePosition);
-    this.repositionSpacerHighestBox();
-    this.repositionSpacerLowestBox();
-    this.repositionTimelineZero(zoomFactor, mousePosition);
-
+    
+    this.reposition(zoomFactor, mousePosition);
+    
     this.logPositions();
 
     const expendableLeftSpace = Math.min(
@@ -57,6 +51,13 @@ class Repositioner {
     }
 
     store.commit("changeZoomLevel", zoomFactor);
+  }
+
+  private reposition(zoomFactor: number, mousePosition: number) {
+    this.repositionBoxes(zoomFactor, mousePosition);
+    this.repositionSpacerHighestBox();
+    this.repositionSpacerLowestBox();
+    this.repositionTimelineZero(zoomFactor, mousePosition);
   }
 
   private repositionBoxes(zoomFactor: number, mousePosition: number) {

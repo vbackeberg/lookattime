@@ -11,9 +11,25 @@ export default new Vuex.Store({
     zoomLevel: 1,
 
     boxes: [] as BoxModel[],
-    spacerHighestBox: {} as SpacerModel,
-    spacerLowestBox: {} as SpacerModel,
-    spacerPageEdge: {} as SpacerModel
+
+    spacerHighestBox: {
+      positionLeft: 0,
+      width: 200,
+      height: 10,
+      color: "#f3a"
+    } as SpacerModel,
+    spacerLowestBox: {
+      positionLeft: 0,
+      width: 200,
+      height: 10,
+      color: "#3f7"
+    } as SpacerModel,
+    spacerPageEdge: {
+      positionLeft: 0,
+      width: 200,
+      height: 10,
+      color: "#afa"
+    } as SpacerModel
   },
 
   mutations: {

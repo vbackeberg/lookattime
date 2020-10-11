@@ -1,9 +1,12 @@
 import store from "@/store";
 import Vue from "vue";
 
+//TODO: rename to zoomer
 class Repositioner {
   private timeline = document.getElementById("timeline") as HTMLElement;
 
+
+  //TODO: move this to space extender
   /**
    * Extends space based on new spacer positions.
    * Separately called when adding new boxes.
@@ -96,6 +99,8 @@ class Repositioner {
     store.commit("setTimelineZero", newPosition);
   }
 
+  // TODO: Wait for transition to finish before cutting.
+  // Move this into a space cutter class.
   private cutLeftSpace(distance: number) {
     console.log("cut space left by " + distance);
 

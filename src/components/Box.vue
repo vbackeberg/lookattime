@@ -1,6 +1,6 @@
 <template>
   <div
-    class="box"
+    class="box zoom-transition"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   ></div>
 </template>
@@ -36,6 +36,8 @@ export default Vue.extend({
   border-radius: 10px;
   border: 2px solid #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  transition: all 0.3s ease-out;
+}
+.zoom-transition {
+  transition: all var(--zoom-transition-duration) ease-out;
 }
 </style>

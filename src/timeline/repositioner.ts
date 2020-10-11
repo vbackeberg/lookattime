@@ -3,9 +3,6 @@ import Vue from "vue";
 
 //TODO: rename to zoomer
 class Repositioner {
-  private timeline = document.getElementById("timeline") as HTMLElement;
-
-
   //TODO: move this to space extender
   /**
    * Extends space based on new spacer positions.
@@ -44,7 +41,7 @@ class Repositioner {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
-    this.timeline = document.getElementById("timeline") as HTMLElement;
+    const timeline = document.getElementById("timeline") as HTMLElement;
 
     this.reposition(zoomFactor, mousePosition);
 
@@ -107,11 +104,11 @@ class Repositioner {
       store.state.SpacerRight.positionLeft + distance
     );
 
-    this.timeline = document.getElementById("timeline") as HTMLElement;
+    const timeline = document.getElementById("timeline") as HTMLElement;
     store.commit(
       "setSpacerPageEdgePosition",
-      this.timeline.scrollLeft +
-        this.timeline.clientWidth +
+      timeline.scrollLeft +
+        timeline.clientWidth +
         distance -
         store.state.spacerPageEdge.width
     );
@@ -119,7 +116,7 @@ class Repositioner {
     store.commit("setTimelineZero", store.state.timelineZero + distance);
 
     Vue.nextTick(() => {
-      this.timeline.scrollBy(distance, 0);
+      timeline.scrollBy(distance, 0);
     });
   }
 

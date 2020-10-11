@@ -14,23 +14,25 @@ export default class SpaceExtender {
       return;
     }
 
+    const timelineElement = document.getElementById("timeline");
+
+    if (!timelineElement) {
+      console.error("Timeline not found");
+      return;
+    }
     spacerLeftElement.addEventListener("transitionend", () => {
       const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
 
       if (requiredLeftSpace > 0) {
-        for (let element of document.getElementsByClassName(
-          "box"
-        )) {
+        for (let element of document.getElementsByClassName("box")) {
           console.log("remove zoom-transition class");
           element.classList.remove("zoom-transition");
         }
 
-        this.extendLeftSpace(requiredLeftSpace);
+        this.extendLeftSpace(requiredLeftSpace, timelineElement);
 
         Vue.nextTick(() => {
-          for (let element of document.getElementsByClassName(
-            "box"
-          )) {
+          for (let element of document.getElementsByClassName("box")) {
             console.log("re-add zoom-transition class");
             element.classList.add("zoom-transition");
           }
@@ -41,7 +43,7 @@ export default class SpaceExtender {
 
   // TODO when having expendable left space and zooming in from the right of the
   // highest box, boxes will jump. Probably an issue with spacer page edge
-  private extendLeftSpace(distance: number) {
+  private extendLeftSpace(distance: number, timelineElement: HTMLElement) {
     console.log("extend space left by " + distance);
 
     store.state.boxes.forEach(box => {
@@ -58,7 +60,6 @@ export default class SpaceExtender {
       store.state.SpacerRight.positionLeft + distance
     );
 
-    const timelineElement = document.getElementById("timeline") as HTMLElement;
     store.commit(
       "setSpacerPageEdgePosition",
       timelineElement.scrollLeft +

@@ -1,5 +1,10 @@
 import store from "@/store";
 import Vue from "vue";
+
+/**
+ * Listens to zoom transition ends, then cuts space to the left if there is
+ * expendable space to the left.
+ */
 export default class SpaceCutter {
   constructor() {
     const spacerLeftElement = document.getElementById("spacer-left");

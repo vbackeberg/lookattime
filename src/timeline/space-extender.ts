@@ -58,11 +58,11 @@ export default class SpaceExtender {
       store.state.SpacerRight.positionLeft + distance
     );
 
-    const timeline = document.getElementById("timeline") as HTMLElement;
+    const timelineElement = document.getElementById("timeline") as HTMLElement;
     store.commit(
       "setSpacerPageEdgePosition",
-      timeline.scrollLeft +
-        timeline.clientWidth +
+      timelineElement.scrollLeft +
+        timelineElement.clientWidth +
         distance -
         store.state.spacerPageEdge.width
     );
@@ -70,7 +70,7 @@ export default class SpaceExtender {
     store.commit("setTimelineZero", store.state.timelineZero + distance);
 
     Vue.nextTick(() => {
-      timeline.scrollBy(distance, 0);
+      timelineElement.scrollBy(distance, 0);
     });
   }
 }

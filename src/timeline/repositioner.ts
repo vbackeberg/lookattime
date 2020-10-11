@@ -30,12 +30,6 @@ class Repositioner {
 
     this.logPositions();
 
-    const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
-
-    if (requiredLeftSpace > 0) {
-      this.extendLeftSpace(requiredLeftSpace);
-    }
-
     store.commit("changeZoomLevel", zoomFactor);
   }
 

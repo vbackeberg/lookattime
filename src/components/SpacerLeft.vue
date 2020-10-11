@@ -7,6 +7,7 @@
 <script lang="ts">
 import Vue from "vue";
 import SpaceExtender from "@/timeline/space-extender";
+import SpaceCutter from "@/timeline/space-cutter";
 import Spacer from "@/components/Spacer.vue";
 
 export default Vue.extend({
@@ -25,6 +26,7 @@ export default Vue.extend({
 
   mounted() {
     new SpaceExtender();
+    new SpaceCutter();
   }
 });
 </script>

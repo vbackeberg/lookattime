@@ -50,15 +50,6 @@ class Repositioner {
 
     this.logPositions();
 
-    const expendableLeftSpace = Math.min(
-      store.state.SpacerLeft.positionLeft,
-      this.timeline.scrollLeft
-    );
-
-    if (expendableLeftSpace > 0) {
-      this.cutLeftSpace(expendableLeftSpace);
-    }
-
     store.commit("changeZoomLevel", zoomFactor);
   }
 
@@ -97,38 +88,6 @@ class Repositioner {
     const distance = (store.state.timelineZero - mousePosition) * zoomFactor;
     const newPosition = mousePosition + distance;
     store.commit("setTimelineZero", newPosition);
-  }
-
-  // TODO: Wait for transition to finish before cutting.
-  // Move this into a space cutter class.
-  private cutLeftSpace(distance: number) {
-    console.log("cut space left by " + distance);
-
-    store.state.boxes.forEach(box => {
-      box.positionCenter -= distance;
-    });
-
-    store.commit(
-      "setSpacerLeftPosition",
-      store.state.SpacerLeft.positionLeft - distance
-    );
-
-    store.commit(
-      "setSpacerRightPosition",
-      store.state.SpacerRight.positionLeft - distance
-    );
-
-    store.commit(
-      "setSpacerPageEdgePosition",
-      this.timeline.scrollLeft +
-        this.timeline.clientWidth -
-        distance -
-        store.state.spacerPageEdge.width
-    );
-
-    store.commit("setTimelineZero", store.state.timelineZero - distance);
-
-    this.timeline.scrollBy(-distance, 0);
   }
 
   private extendLeftSpace(distance: number) {

@@ -39,6 +39,8 @@ export default class SpaceExtender {
     });
   }
 
+  // TODO when having expendable left space and zooming in from the right of the
+  // highest box, boxes will jump. Probably an issue with spacer page edge
   private extendLeftSpace(distance: number) {
     console.log("extend space left by " + distance);
 

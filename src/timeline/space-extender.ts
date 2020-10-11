@@ -15,8 +15,6 @@ export default class SpaceExtender {
     }
 
     spacerLeftElement.addEventListener("transitionend", () => {
-      console.log("Transition ended");
-
       const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
 
       if (requiredLeftSpace > 0) {

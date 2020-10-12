@@ -45,6 +45,8 @@ export default class SpaceCutter {
     });
   }
 
+  // TODO when having expendable left space and zooming in from the right of the
+  // highest box, boxes will jump. Probably an issue with spacer page edge
   private cutLeftSpace(distance: number, timelineElement: HTMLElement) {
     console.log("cut space left by " + distance);
 

@@ -8,14 +8,9 @@ class Repositioner {
    * Extends space based on new spacer positions.
    * Separately called when adding new boxes.
    */
-  public extendSpaceOnInsert() {
+  public repositionSpacers() {
     this.repositionSpacerRight();
     this.repositionSpacerLeft();
-
-    const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
-    if (requiredLeftSpace > 0) {
-      this.extendLeftSpace(requiredLeftSpace);
-    }
   }
 
   /**
@@ -94,39 +89,6 @@ class Repositioner {
     const distance = (store.state.timelineZero - mousePosition) * zoomFactor;
     const newPosition = mousePosition + distance;
     store.commit("setTimelineZero", newPosition);
-  }
-
-  private extendLeftSpace(distance: number) {
-    console.log("extend space left by " + distance);
-
-    store.state.boxes.forEach(box => {
-      box.positionCenter += distance;
-    });
-
-    store.commit(
-      "setSpacerLeftPosition",
-      store.state.SpacerLeft.positionLeft + distance
-    );
-
-    store.commit(
-      "setSpacerRightPosition",
-      store.state.SpacerRight.positionLeft + distance
-    );
-
-    const timelineElement = document.getElementById("timeline") as HTMLElement;
-    store.commit(
-      "setSpacerPageEdgePosition",
-      timelineElement.scrollLeft +
-        timelineElement.clientWidth +
-        distance -
-        store.state.spacerPageEdge.width
-    );
-
-    store.commit("setTimelineZero", store.state.timelineZero + distance);
-
-    Vue.nextTick(() => {
-      timelineElement.scrollBy(distance, 0);
-    });
   }
 
   private logPositions() {

@@ -1,6 +1,12 @@
 <template>
   <div id="spacer-left">
-    <spacer v-bind="$props" class="zoom-transition"></spacer>
+    <spacer
+      v-bind:positionLeft="this.positionLeftC"
+      v-bind:width="this.width"
+      v-bind:height="this.height"
+      v-bind:color="this.color"
+      class="zoom-transition"
+    ></spacer>
   </div>
 </template>
 
@@ -9,6 +15,7 @@ import Vue from "vue";
 import SpaceExtender from "@/timeline/space-extender";
 import SpaceCutter from "@/timeline/space-cutter";
 import Spacer from "@/components/Spacer.vue";
+import store from "@/store";
 
 export default Vue.extend({
   name: "SpacerLeft",
@@ -27,6 +34,13 @@ export default Vue.extend({
   mounted() {
     new SpaceExtender();
     new SpaceCutter();
+  },
+
+  computed: {
+    positionLeftC(): number {
+      const lowestBox = store.state.boxes[0];
+      return lowestBox.positionCenter - lowestBox.width / 2 - this.width;
+    }
   }
 });
 </script>

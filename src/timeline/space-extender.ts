@@ -10,14 +10,14 @@ export default class SpaceExtender {
     const spacerLeftElement = document.getElementById("spacer-left");
 
     if (!spacerLeftElement) {
-      console.error("SpacerLeft not found.");
+      console.error("Space Extender: SpacerLeft not found.");
       return;
     }
 
     const timelineElement = document.getElementById("timeline");
 
     if (!timelineElement) {
-      console.error("Timeline not found");
+      console.error("Space Extender: Timeline not found");
       return;
     }
     spacerLeftElement.addEventListener("transitionend", () => {
@@ -25,7 +25,7 @@ export default class SpaceExtender {
 
       if (requiredLeftSpace > 0) {
         for (let element of document.getElementsByClassName("box")) {
-          console.log("remove zoom-transition class");
+          console.log("Space Extender: Remove zoom-transition class");
           element.classList.remove("zoom-transition");
         }
 
@@ -33,7 +33,7 @@ export default class SpaceExtender {
 
         Vue.nextTick(() => {
           for (let element of document.getElementsByClassName("box")) {
-            console.log("re-add zoom-transition class");
+            console.log("Space Extender: Re-add zoom-transition class");
             element.classList.add("zoom-transition");
           }
         });
@@ -42,7 +42,7 @@ export default class SpaceExtender {
   }
 
   private extendLeftSpace(distance: number, timelineElement: HTMLElement) {
-    console.log("extend space left by " + distance);
+    console.log("Space Extender: Extend space left by " + distance);
 
     store.state.boxes.forEach(box => {
       box.positionCenter += distance;

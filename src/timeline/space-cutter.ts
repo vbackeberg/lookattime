@@ -10,14 +10,14 @@ export default class SpaceCutter {
     const spacerLeftElement = document.getElementById("spacer-left");
 
     if (!spacerLeftElement) {
-      console.error("SpacerLeft not found.");
+      console.error("Space Cutter: SpacerLeft not found.");
       return;
     }
 
     const timelineElement = document.getElementById("timeline");
 
     if (!timelineElement) {
-      console.error("Timeline not found");
+      console.error("Space Cutter: Timeline not found");
       return;
     }
 
@@ -29,7 +29,7 @@ export default class SpaceCutter {
 
       if (expendableLeftSpace > 0) {
         for (let element of document.getElementsByClassName("box")) {
-          console.log("remove zoom-transition class");
+          console.log("Space Cutter: Remove zoom-transition class");
           element.classList.remove("zoom-transition");
         }
 
@@ -37,7 +37,7 @@ export default class SpaceCutter {
 
         Vue.nextTick(() => {
           for (let element of document.getElementsByClassName("box")) {
-            console.log("re-add zoom-transition class");
+            console.log("Space Cutter: Re-add zoom-transition class");
             element.classList.add("zoom-transition");
           }
         });
@@ -48,7 +48,7 @@ export default class SpaceCutter {
   // TODO when having expendable left space and zooming in from the right of the
   // highest box, boxes will jump. Probably an issue with spacer page edge
   private cutLeftSpace(distance: number, timelineElement: HTMLElement) {
-    console.log("cut space left by " + distance);
+    console.log("Space Cutter: Cut space left by " + distance);
 
     store.state.boxes.forEach(box => {
       box.positionCenter -= distance;

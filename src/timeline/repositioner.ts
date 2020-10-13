@@ -41,8 +41,6 @@ class Repositioner {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
-    const timeline = document.getElementById("timeline") as HTMLElement;
-
     this.reposition(zoomFactor, mousePosition);
 
     this.logPositions();
@@ -54,6 +52,7 @@ class Repositioner {
     this.repositionBoxes(zoomFactor, mousePosition);
     this.repositionSpacerRight();
     this.repositionSpacerLeft();
+    this.repositionSpacerPageEdge();
     this.repositionTimelineZero(zoomFactor, mousePosition);
   }
 
@@ -79,6 +78,16 @@ class Repositioner {
     const newPositionLeft = highestBox.positionCenter + highestBox.width / 2;
 
     store.commit("setSpacerRightPosition", newPositionLeft);
+  }
+
+  private repositionSpacerPageEdge() {
+    const timelineElement = document.getElementById("timeline") as HTMLElement;
+    const newPositionLeft =
+      timelineElement.scrollLeft +
+      timelineElement.clientWidth -
+      store.state.spacerPageEdge.width;
+
+    store.commit("setSpacerPageEdgePosition", newPositionLeft);
   }
 
   private repositionTimelineZero(zoomFactor: number, mousePosition: number) {

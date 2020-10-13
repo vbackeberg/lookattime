@@ -1,9 +1,7 @@
 import store from "@/store";
 import Vue from "vue";
 
-//TODO: rename to zoomer
-class Repositioner {
-  //TODO: move this to space extender
+  // TODO remove this. Calculate spacer position within spacers.
   /**
    * Extends space based on new spacer positions.
    * Separately called when adding new boxes.

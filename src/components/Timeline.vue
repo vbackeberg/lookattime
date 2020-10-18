@@ -1,8 +1,8 @@
 <template>
   <div id="timeline">
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
-    <spacer v-bind="SpacerRight"></spacer>
-    <spacer-left v-bind="SpacerLeft"></spacer-left>
+    <spacer-right v-bind="spacerRight"></spacer-right>
+    <spacer-left v-bind="spacerLeft"></spacer-left>
     <spacer v-bind="spacerPageEdge"></spacer>
     <div
       class="timelineZero"
@@ -53,11 +53,11 @@ export default Vue.extend({
       return store.state.boxes;
     },
 
-    SpacerRight(): SpacerModel {
+    spacerRight(): SpacerModel {
       return store.state.SpacerRight;
     },
 
-    SpacerLeft(): SpacerModel {
+    spacerLeft(): SpacerModel {
       return store.state.SpacerLeft;
     },
 

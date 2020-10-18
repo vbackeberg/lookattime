@@ -6,6 +6,14 @@ export default class Repositioner {
 
   constructor(timelineElement: Element) {
     this.timelineElement = timelineElement;
+  // TODO remove this. Calculate spacer position within spacers.
+  /**
+   * Extends space based on new spacer positions.
+   * Separately called when adding new boxes.
+   */
+  public repositionSpacers() {
+    this.repositionSpacerRight();
+    this.repositionSpacerLeft();
   }
 
   /**
@@ -40,6 +48,8 @@ export default class Repositioner {
 
   private reposition(zoomFactor: number, mousePosition: number) {
     this.repositionBoxes(zoomFactor, mousePosition);
+    this.repositionSpacerRight();
+    this.repositionSpacerLeft();
     this.repositionSpacerPageEdge();
     this.repositionTimelineZero(zoomFactor, mousePosition);
   }
@@ -51,7 +61,25 @@ export default class Repositioner {
     });
   }
 
+  private repositionSpacerLeft() {
+    const lowestBox = store.state.boxes[0];
+    const newPositionLeft =
+      lowestBox.positionCenter -
+      lowestBox.width / 2 -
+      store.state.SpacerLeft.width;
+
+    store.commit("setSpacerLeftPosition", newPositionLeft);
+  }
+
+  private repositionSpacerRight() {
+    const highestBox = store.state.boxes[store.state.boxes.length - 1];
+    const newPositionLeft = highestBox.positionCenter + highestBox.width / 2;
+
+    store.commit("setSpacerRightPosition", newPositionLeft);
+  }
+
   private repositionSpacerPageEdge() {
+    const timelineElement = document.getElementById("timeline") as HTMLElement;
     const newPositionLeft =
       this.timelineElement.scrollLeft +
       this.timelineElement.clientWidth -

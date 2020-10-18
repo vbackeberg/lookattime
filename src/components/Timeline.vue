@@ -1,7 +1,7 @@
 <template>
   <div id="timeline">
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
-    <spacer-right v-bind="SpacerRight"></spacer-right>
+    <spacer v-bind="SpacerRight"></spacer>
     <spacer-left v-bind="SpacerLeft"></spacer-left>
     <spacer v-bind="spacerPageEdge"></spacer>
     <div
@@ -18,7 +18,7 @@ import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/Spacer.vue";
 import SpacerLeft from "@/components/SpacerLeft.vue";
-import SpacerRight from "@/components/SpacerRight.vue";
+import repositioner from "@/timeline/repositioner";
 import store from "@/store";
 import Repositioner from "@/timeline/repositioner";
 
@@ -30,8 +30,7 @@ export default Vue.extend({
   components: {
     Box,
     Spacer,
-    SpacerLeft,
-    SpacerRight
+    SpacerLeft
   },
 
   created() {

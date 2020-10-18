@@ -18,7 +18,6 @@ import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/Spacer.vue";
 import SpacerLeft from "@/components/SpacerLeft.vue";
-import repositioner from "@/timeline/repositioner";
 import store from "@/store";
 import Repositioner from "@/timeline/repositioner";
 

@@ -15,7 +15,6 @@ import Vue from "vue";
 import Timeline from "@/components/Timeline.vue";
 import BoxModel from "@/models/box-model";
 import store from "@/store";
-import repositioner from "@/timeline/repositioner";
 
 export default Vue.extend({
   name: "Home",
@@ -29,7 +28,6 @@ export default Vue.extend({
       relativePosition: 100
     };
   },
-
   methods: {
     addBox(relativePosition: number) {
       const absolutePosition =
@@ -39,8 +37,6 @@ export default Vue.extend({
         "addBox",
         new BoxModel(absolutePosition, 200, store.state.boxes.length)
       );
-
-      repositioner.extendSpaceOnInsert();
     }
   }
 });

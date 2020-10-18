@@ -1,12 +1,11 @@
 import store from "@/store";
 import Vue from "vue";
 
-  // TODO remove this. Calculate spacer position within spacers.
-  /**
-   * Extends space based on new spacer positions.
-   * Separately called when adding new boxes.
-   */
-  public repositionSpacers() {
+export default class Repositioner {
+  private timelineElement: Element;
+
+  constructor(timelineElement: Element) {
+    this.timelineElement = timelineElement;
   }
 
   /**
@@ -54,8 +53,8 @@ import Vue from "vue";
 
   private repositionSpacerPageEdge() {
     const newPositionLeft =
-      timelineElement.scrollLeft +
-      timelineElement.clientWidth -
+      this.timelineElement.scrollLeft +
+      this.timelineElement.clientWidth -
       store.state.spacerPageEdge.width;
 
     store.commit("setSpacerPageEdgePosition", newPositionLeft);
@@ -84,4 +83,3 @@ import Vue from "vue";
     );
   }
 }
-export default new Repositioner();

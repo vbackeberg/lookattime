@@ -20,6 +20,9 @@ import Spacer from "@/components/Spacer.vue";
 import SpacerLeft from "@/components/SpacerLeft.vue";
 import SpacerRight from "@/components/SpacerRight.vue";
 import store from "@/store";
+import Repositioner from "@/timeline/repositioner";
+
+let repositioner: Repositioner;
 
 export default Vue.extend({
   name: "Timeline",
@@ -41,6 +44,10 @@ export default Vue.extend({
 
     store.commit("addBox", new BoxModel(500, 200, store.state.boxes.length));
     store.commit("setTimelineZero", 500);
+  },
+
+  mounted() {
+    repositioner = new Repositioner(this.$el);
   },
 
   computed: {

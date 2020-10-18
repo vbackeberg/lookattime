@@ -7,8 +7,6 @@ import Vue from "vue";
    * Separately called when adding new boxes.
    */
   public repositionSpacers() {
-    this.repositionSpacerRight();
-    this.repositionSpacerLeft();
   }
 
   /**
@@ -43,8 +41,6 @@ import Vue from "vue";
 
   private reposition(zoomFactor: number, mousePosition: number) {
     this.repositionBoxes(zoomFactor, mousePosition);
-    this.repositionSpacerRight();
-    this.repositionSpacerLeft();
     this.repositionSpacerPageEdge();
     this.repositionTimelineZero(zoomFactor, mousePosition);
   }
@@ -56,25 +52,7 @@ import Vue from "vue";
     });
   }
 
-  private repositionSpacerLeft() {
-    const lowestBox = store.state.boxes[0];
-    const newPositionLeft =
-      lowestBox.positionCenter -
-      lowestBox.width / 2 -
-      store.state.SpacerLeft.width;
-
-    store.commit("setSpacerLeftPosition", newPositionLeft);
-  }
-
-  private repositionSpacerRight() {
-    const highestBox = store.state.boxes[store.state.boxes.length - 1];
-    const newPositionLeft = highestBox.positionCenter + highestBox.width / 2;
-
-    store.commit("setSpacerRightPosition", newPositionLeft);
-  }
-
   private repositionSpacerPageEdge() {
-    const timelineElement = document.getElementById("timeline") as HTMLElement;
     const newPositionLeft =
       timelineElement.scrollLeft +
       timelineElement.clientWidth -

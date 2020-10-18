@@ -6,6 +6,8 @@ export default class Repositioner {
 
   constructor(timelineElement: Element) {
     this.timelineElement = timelineElement;
+  }
+
   // TODO remove this. Calculate spacer position within spacers.
   /**
    * Extends space based on new spacer positions.
@@ -15,7 +17,7 @@ export default class Repositioner {
     this.repositionSpacerRight();
     this.repositionSpacerLeft();
   }
-
+  
   /**
    * Moves all boxes away from the mouse pointer by the zoom factor.
    * Then moves all boxes and the view into the positive space.

@@ -40,8 +40,16 @@ export default Vue.extend({
       this.changeZoom(e);
     });
 
-    store.commit("addBox", new BoxModel(500, 200, store.state.boxes.length));
-    store.commit("setTimelineZero", 500);
+    store.commit(
+      "addBox",
+      new BoxModel(
+        500,
+        200,
+        store.state.boxes.length,
+        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+      )
+    );
+    store.commit("setTimelineZero", window.innerWidth / 2);
   },
 
   mounted() {
@@ -92,13 +100,13 @@ export default Vue.extend({
   overflow-y: hidden;
   overflow-x: scroll;
   position: relative;
-  background-color: #ccc;
+  background-color: #fff;
 }
 
 .timelineZero {
   height: 50px;
   width: 5px;
-  background-color: #35b;
+  background-color: #fff;
   position: absolute;
 }
 </style>

@@ -21,7 +21,7 @@ export default class SpaceExtender {
       return;
     }
     spacerLeftElement.addEventListener("transitionend", () => {
-      const requiredLeftSpace = -store.state.SpacerLeft.positionLeft;
+      const requiredLeftSpace = -store.getters.spacerLeft.positionLeft;
 
       if (requiredLeftSpace > 0) {
         for (let element of document.getElementsByClassName("box")) {
@@ -47,16 +47,6 @@ export default class SpaceExtender {
     store.state.boxes.forEach(box => {
       box.positionCenter += distance;
     });
-
-    store.commit(
-      "setSpacerLeftPosition",
-      store.state.SpacerLeft.positionLeft + distance
-    );
-
-    store.commit(
-      "setSpacerRightPosition",
-      store.state.SpacerRight.positionLeft + distance
-    );
 
     store.commit(
       "setSpacerPageEdgePosition",

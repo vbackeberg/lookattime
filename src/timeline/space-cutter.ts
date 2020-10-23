@@ -23,7 +23,7 @@ export default class SpaceCutter {
 
     spacerLeftElement.addEventListener("transitionend", () => {
       const expendableLeftSpace = Math.min(
-        store.state.SpacerLeft.positionLeft,
+        store.getters.spacerLeft.positionLeft,
         timelineElement.scrollLeft
       );
 
@@ -53,17 +53,7 @@ export default class SpaceCutter {
     store.state.boxes.forEach(box => {
       box.positionCenter -= distance;
     });
-
-    store.commit(
-      "setSpacerLeftPosition",
-      store.state.SpacerLeft.positionLeft - distance
-    );
-
-    store.commit(
-      "setSpacerRightPosition",
-      store.state.SpacerRight.positionLeft - distance
-    );
-
+    
     store.commit(
       "setSpacerPageEdgePosition",
       timelineElement.scrollLeft +

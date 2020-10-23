@@ -12,24 +12,35 @@ export default new Vuex.Store({
 
     boxes: [] as BoxModel[],
 
-    SpacerRight: {
-      positionLeft: 0,
-      width: 200,
-      height: 10,
-      color: "#f3a"
-    } as SpacerModel,
-    SpacerLeft: {
-      positionLeft: 0,
-      width: 200,
-      height: 10,
-      color: "#3f7"
-    } as SpacerModel,
     spacerPageEdge: {
       positionLeft: 0,
       width: 200,
       height: 10,
       color: "#afa"
     } as SpacerModel
+  },
+
+  getters: {
+    spacerLeft(state): SpacerModel {
+      const width = 200;
+
+      return {
+        width: width,
+        positionLeft: state.boxes[0].positionCenter - state.boxes[0].width / 2 - width,
+        height: 10,
+        color: "#f3a"
+      } as SpacerModel;
+    },
+    spacerRight(state): SpacerModel {
+      const highestBox = state.boxes[state.boxes.length - 1];
+
+      return {
+        positionLeft: highestBox.positionCenter + highestBox.width / 2,
+        width: 200,
+        height: 10,
+        color: "#3f7"
+      } as SpacerModel;
+    }
   },
 
   mutations: {
@@ -44,13 +55,7 @@ export default new Vuex.Store({
       state.boxes.push(box);
       state.boxes.sort((a, b) => a.positionCenter - b.positionCenter);
     },
-
-    setSpacerRightPosition(state, positionLeft: number) {
-      state.SpacerRight.positionLeft = positionLeft;
-    },
-    setSpacerLeftPosition(state, positionLeft: number) {
-      state.SpacerLeft.positionLeft = positionLeft;
-    },
+    
     setSpacerPageEdgePosition(state, positionLeft: number) {
       state.spacerPageEdge.positionLeft = positionLeft;
     }

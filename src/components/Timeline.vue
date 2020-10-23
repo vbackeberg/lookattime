@@ -54,11 +54,11 @@ export default Vue.extend({
     },
 
     spacerRight(): SpacerModel {
-      return store.state.SpacerRight;
+      return store.getters.spacerRight;
     },
 
     spacerLeft(): SpacerModel {
-      return store.state.SpacerLeft;
+      return store.getters.spacerLeft;
     },
 
     spacerPageEdge(): SpacerModel {

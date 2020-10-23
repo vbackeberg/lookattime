@@ -2,22 +2,13 @@ import store from "@/store";
 import Vue from "vue";
 
 export default class Repositioner {
+
   private timelineElement: Element;
 
   constructor(timelineElement: Element) {
     this.timelineElement = timelineElement;
   }
 
-  // TODO remove this. Calculate spacer position within spacers.
-  /**
-   * Extends space based on new spacer positions.
-   * Separately called when adding new boxes.
-   */
-  public repositionSpacers() {
-    this.repositionSpacerRight();
-    this.repositionSpacerLeft();
-  }
-  
   /**
    * Moves all boxes away from the mouse pointer by the zoom factor.
    * Then moves all boxes and the view into the positive space.
@@ -50,8 +41,6 @@ export default class Repositioner {
 
   private reposition(zoomFactor: number, mousePosition: number) {
     this.repositionBoxes(zoomFactor, mousePosition);
-    this.repositionSpacerRight();
-    this.repositionSpacerLeft();
     this.repositionSpacerPageEdge();
     this.repositionTimelineZero(zoomFactor, mousePosition);
   }
@@ -61,23 +50,6 @@ export default class Repositioner {
       const distance = (box.positionCenter - mousePosition) * zoomFactor;
       box.positionCenter = mousePosition + distance;
     });
-  }
-
-  private repositionSpacerLeft() {
-    const lowestBox = store.state.boxes[0];
-    const newPositionLeft =
-      lowestBox.positionCenter -
-      lowestBox.width / 2 -
-      store.state.SpacerLeft.width;
-
-    store.commit("setSpacerLeftPosition", newPositionLeft);
-  }
-
-  private repositionSpacerRight() {
-    const highestBox = store.state.boxes[store.state.boxes.length - 1];
-    const newPositionLeft = highestBox.positionCenter + highestBox.width / 2;
-
-    store.commit("setSpacerRightPosition", newPositionLeft);
   }
 
   private repositionSpacerPageEdge() {
@@ -103,9 +75,9 @@ export default class Repositioner {
 
     console.log(
       "SpacerRight Pos " +
-        store.state.SpacerRight.positionLeft +
+        store.getters.spacerRight.positionLeft +
         " SpacerLeft Pos " +
-        store.state.SpacerLeft.positionLeft +
+        store.getters.spacerLeft.positionLeft +
         " spacerPageEdge Pos " +
         store.state.spacerPageEdge.positionLeft +
         " timelineZero " +

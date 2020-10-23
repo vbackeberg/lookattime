@@ -16,7 +16,7 @@ export default new Vuex.Store({
       positionLeft: 0,
       width: 200,
       height: 10,
-      color: "#afa"
+      color: "#fff"
     } as SpacerModel
   },
 
@@ -28,7 +28,7 @@ export default new Vuex.Store({
         width: width,
         positionLeft: state.boxes[0].positionCenter - state.boxes[0].width / 2 - width,
         height: 10,
-        color: "#f3a"
+        color: "#fff"
       } as SpacerModel;
     },
     spacerRight(state): SpacerModel {
@@ -38,7 +38,7 @@ export default new Vuex.Store({
         positionLeft: highestBox.positionCenter + highestBox.width / 2,
         width: 200,
         height: 10,
-        color: "#3f7"
+        color: "#fff"
       } as SpacerModel;
     }
   },

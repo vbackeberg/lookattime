@@ -51,19 +51,17 @@ export default class SpaceCutter {
     store.state.boxes.forEach(box => {
       box.positionCenter -= distance;
     });
-    
-    store.commit(
-      "setSpacerPageEdgePosition",
-      timelineElement.scrollLeft +
-        timelineElement.clientWidth -
-        distance -
-        store.state.spacerPageEdge.width
-    );
 
     store.commit("setTimelineZero", store.state.timelineZero - distance);
 
+    timelineElement.scrollBy(-distance, 0);
     Vue.nextTick(() => {
-      timelineElement.scrollBy(-distance, 0);
+      store.commit(
+        "setSpacerPageEdgePosition",
+        timelineElement.scrollLeft +
+          timelineElement.clientWidth -
+          store.state.spacerPageEdge.width
+      );
     });
   }
 }

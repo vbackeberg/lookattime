@@ -1,7 +1,7 @@
 <template>
   <div id="timeline">
     <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
-    <spacer-right v-bind="spacerRight"></spacer-right>
+    <spacer v-bind="spacerRight"></spacer>
     <spacer-left v-bind="spacerLeft"></spacer-left>
     <spacer v-bind="spacerPageEdge"></spacer>
     <div

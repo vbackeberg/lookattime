@@ -53,7 +53,6 @@ export default class Repositioner {
   }
 
   private repositionSpacerPageEdge() {
-    const timelineElement = document.getElementById("timeline") as HTMLElement;
     const newPositionLeft =
       this.timelineElement.scrollLeft +
       this.timelineElement.clientWidth -

@@ -35,7 +35,7 @@ export default Vue.extend({
 
       store.commit(
         "addBox",
-        new BoxModel(absolutePosition, 200, store.state.boxes.length, "text")
+        new BoxModel(absolutePosition, 300, store.state.boxes.length, "text")
       );
     }
   }

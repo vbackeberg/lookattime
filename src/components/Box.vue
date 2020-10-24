@@ -3,10 +3,13 @@
     class="box zoom-transition"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
+    <div class="image-container">
+      <img class="image" src="@/assets/testimg.jpg" alt="test image" />
+    </div>
     {{ text }}
   </div>
 </template>
-
+tet
 <script lang="ts">
 import Vue from "vue";
 
@@ -30,7 +33,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .box {
-  height: 120px;
+  height: 200px;
   padding: 8px;
   box-sizing: border-box;
   position: absolute;
@@ -39,7 +42,22 @@ export default Vue.extend({
   border-radius: 10px;
   border: 2px solid #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  overflow: auto;
-  word-wrap: break-word;
+
+  white-space: normal;
+  overflow-y: hidden;
+  overflow-wrap: break-word;
+  text-align: justify;
+
+  font-size: 0.875em;
+}
+
+.image-container {
+  float: right;
+}
+
+.image {
+  max-width: 110px;
+  max-height: 100px;
+  margin-left: 10px;
 }
 </style>

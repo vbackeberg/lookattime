@@ -19,8 +19,6 @@ export default Vue.extend({
 
   props: {
     positionLeft: Number,
-    width: Number,
-    height: Number,
     color: String
   },
 

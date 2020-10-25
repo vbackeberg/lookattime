@@ -4,6 +4,7 @@
     <spacer v-bind="spacerRight"></spacer>
     <spacer-left v-bind="spacerLeft"></spacer-left>
     <spacer v-bind="spacerPageEdge"></spacer>
+    <div id="horizontal-line"></div>
     <div
       class="timelineZero"
       v-bind:style="{ left: timelineZero + 'px' }"
@@ -108,5 +109,15 @@ export default Vue.extend({
   width: 5px;
   background-color: #fff;
   position: absolute;
+}
+
+#horizontal-line {
+  height: 10px;
+  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 0px;
+
+  background-color: brown;
 }
 </style>

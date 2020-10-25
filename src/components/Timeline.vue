@@ -6,10 +6,14 @@
       <spacer v-bind="spacerPageEdge"></spacer>
     </div>
     <div id="box-area">
-      <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
+      <box v-for="box in boxes" :key="box.id" v-bind="box"></box>
     </div>
     <div id="connector-area">
-      <connector v-for="box in boxes" v-bind:key="box.id"></connector>
+      <connector
+        v-for="box in boxes"
+        :key="box.id"
+        v-bind:boxId="box.id"
+      ></connector>
     </div>
     <div id="horizontal-line"></div>
     <div id="buffer-bottom-area"></div>
@@ -25,6 +29,7 @@ import Spacer from "@/components/Spacer.vue";
 import SpacerLeft from "@/components/SpacerLeft.vue";
 import store from "@/store";
 import Repositioner from "@/timeline/repositioner";
+import Connector from "@/components/timeline-element/Connector.vue";
 
 let repositioner: Repositioner;
 
@@ -34,7 +39,8 @@ export default Vue.extend({
   components: {
     Box,
     Spacer,
-    SpacerLeft
+    SpacerLeft,
+    Connector
   },
 
   created() {

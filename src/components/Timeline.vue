@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import Box from "@/components/Box.vue";
+import Box from "@/components/timeline-element/Box.vue";
 import Vue from "vue";
 import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";

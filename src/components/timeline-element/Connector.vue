@@ -1,7 +1,6 @@
 <template>
   <div
-    id="connector"
-    class="zoom-transition"
+    class="connector zoom-transition"
     v-bind:style="{ left: positionLeft + 'px' }"
   ></div>
 </template>
@@ -27,7 +26,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-#connector {
+.connector {
   height: 100%;
   position: absolute;
 }

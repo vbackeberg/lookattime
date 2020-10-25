@@ -1,10 +1,18 @@
 <template>
   <div id="timeline">
-    <spacer v-bind="spacerRight"></spacer>
-    <spacer-left v-bind="spacerLeft"></spacer-left>
-    <spacer v-bind="spacerPageEdge"></spacer>
-    <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
+    <div id="buffer-top-area">
+      <spacer v-bind="spacerRight"></spacer>
+      <spacer-left v-bind="spacerLeft"></spacer-left>
+      <spacer v-bind="spacerPageEdge"></spacer>
+    </div>
+    <div id="box-area">
+      <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
+    </div>
+    <div id="connector-area">
+      <connector v-for="box in boxes" v-bind:key="box.id"></connector>
+    </div>
     <div id="horizontal-line"></div>
+    <div id="buffer-bottom-area"></div>
   </div>
 </template>
 
@@ -94,6 +102,9 @@ export default Vue.extend({
   overflow-x: scroll;
   position: relative;
   background-color: #fff;
+
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .timelineZero {
@@ -103,13 +114,32 @@ export default Vue.extend({
   position: absolute;
 }
 
-#horizontal-line {
-  height: 10px;
-  width: 100%;
-  position: fixed;
-  top: 50%;
-  left: 0px;
+#buffer-top-area {
+  flex: 1 0 20px;
 
+  background-color: #eef;
+}
+
+#box-area {
+  flex: 3;
+
+  position: relative;
+}
+
+#connector-area {
+  flex: 1;
+
+  background-color: #eef;
+}
+
+#horizontal-line {
+  flex: 0 0 10px;
+
+  width: 100%;
   background-color: brown;
+}
+
+#buffer-bottom-area {
+  flex: 3;
 }
 </style>

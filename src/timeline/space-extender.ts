@@ -1,3 +1,4 @@
+import SpacerModel from '@/models/spacer-model';
 import store from "@/store";
 import Vue from "vue";
 
@@ -53,7 +54,7 @@ export default class SpaceExtender {
       timelineElement.scrollLeft +
         timelineElement.clientWidth +
         distance -
-        store.state.spacerPageEdge.width
+        SpacerModel.width
     );
 
     store.commit("setTimelineZero", store.state.timelineZero + distance);

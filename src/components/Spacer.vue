@@ -3,7 +3,8 @@
     class="spacer"
     v-bind:style="{
       left: positionLeft + 'px',
-      backgroundColor: color
+      backgroundColor: color,
+      width: width + 'px'
     }"
   ></div>
 </template>
@@ -16,7 +17,8 @@ export default Vue.extend({
 
   props: {
     positionLeft: Number,
-    color: String
+    color: String,
+    width: Number
   }
 });
 </script>
@@ -25,7 +27,6 @@ export default Vue.extend({
 .spacer {
   box-sizing: border-box;
   position: absolute;
-  width: 200px;
   height: 1px;
 }
 </style>

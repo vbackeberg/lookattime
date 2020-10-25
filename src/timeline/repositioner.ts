@@ -1,3 +1,4 @@
+import SpacerModel from '@/models/spacer-model';
 import store from "@/store";
 import Vue from "vue";
 
@@ -56,7 +57,7 @@ export default class Repositioner {
     const newPositionLeft =
       this.timelineElement.scrollLeft +
       this.timelineElement.clientWidth -
-      store.state.spacerPageEdge.width;
+      SpacerModel.width;
 
     store.commit("setSpacerPageEdgePosition", newPositionLeft);
   }

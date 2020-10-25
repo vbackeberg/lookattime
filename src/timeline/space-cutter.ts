@@ -1,3 +1,4 @@
+import SpacerModel from '@/models/spacer-model';
 import store from "@/store";
 import Vue from "vue";
 
@@ -60,7 +61,7 @@ export default class SpaceCutter {
         "setSpacerPageEdgePosition",
         timelineElement.scrollLeft +
           timelineElement.clientWidth -
-          store.state.spacerPageEdge.width
+          SpacerModel.width
       );
     });
   }

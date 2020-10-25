@@ -19,7 +19,8 @@ export default Vue.extend({
 
   props: {
     positionLeft: Number,
-    color: String
+    color: String,
+    width: Number
   },
 
   mounted() {

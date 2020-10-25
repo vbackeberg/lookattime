@@ -5,10 +5,6 @@
     <spacer-left v-bind="spacerLeft"></spacer-left>
     <spacer v-bind="spacerPageEdge"></spacer>
     <div id="horizontal-line"></div>
-    <div
-      class="timelineZero"
-      v-bind:style="{ left: timelineZero + 'px' }"
-    ></div>
   </div>
 </template>
 
@@ -72,10 +68,6 @@ export default Vue.extend({
 
     spacerPageEdge(): SpacerModel {
       return store.state.spacerPageEdge;
-    },
-
-    timelineZero(): number {
-      return store.state.timelineZero;
     }
   },
 

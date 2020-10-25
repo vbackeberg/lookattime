@@ -1,9 +1,9 @@
 <template>
   <div id="timeline">
-    <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     <spacer v-bind="spacerRight"></spacer>
     <spacer-left v-bind="spacerLeft"></spacer-left>
     <spacer v-bind="spacerPageEdge"></spacer>
+    <box v-for="box in boxes" v-bind:key="box.id" v-bind="box"></box>
     <div id="horizontal-line"></div>
   </div>
 </template>

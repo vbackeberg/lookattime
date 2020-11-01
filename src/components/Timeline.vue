@@ -16,7 +16,9 @@
       ></connector>
     </div>
     <div id="horizontal-line"></div>
-    <div id="buffer-bottom-area"></div>
+    <div id="buffer-bottom-area">
+      <date v-for="box in boxes" :key="box.id" v-bind:box="box"></date>
+    </div>
   </div>
 </template>
 
@@ -30,6 +32,7 @@ import SpacerLeft from "@/components/SpacerLeft.vue";
 import store from "@/store";
 import Repositioner from "@/timeline/repositioner";
 import Connector from "@/components/timeline-element/Connector.vue";
+import Date from "@/components/timeline-element/Date.vue";
 
 let repositioner: Repositioner;
 
@@ -40,7 +43,8 @@ export default Vue.extend({
     Box,
     Spacer,
     SpacerLeft,
-    Connector
+    Connector,
+    Date
   },
 
   created() {

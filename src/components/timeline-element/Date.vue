@@ -1,34 +1,39 @@
 <template>
   <div
-    id="date"
-    class="zoom-transition"
-    v-bind:style="{ left: positionLeft + 'px' }"
-  ></div>
+    class="date zoom-transition"
+    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
+  >
+    1782
+  </div>
 </template>
 
 <script lang="ts">
-import store from "@/store";
+import BoxModel from "@/models/box-model";
 import Vue from "vue";
 export default Vue.extend({
   name: "Date",
 
   props: {
-    boxId: Number
+    box: BoxModel
   },
 
   computed: {
     positionLeft(): number {
-      const box = store.state.boxes[this.boxId];
+      return this.box.positionCenter - this.box.width / 2;
+    },
 
-      return box.positionCenter - box.width / 2;
+    width(): number {
+      return this.box.width;
     }
   }
 });
 </script>
 
 <style scoped lang="scss">
-#connector {
-  height: 100%;
+.date {
   position: absolute;
+  vertical-align: top;
+
+  text-align: center;
 }
 </style>

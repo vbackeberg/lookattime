@@ -135,6 +135,7 @@ export default Vue.extend({
 #connector-area {
   flex: 1;
 
+  position: relative;
   background-color: #eef;
 }
 

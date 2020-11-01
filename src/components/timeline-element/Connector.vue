@@ -1,7 +1,7 @@
 <template>
   <div
     class="connector zoom-transition"
-    v-bind:style="{ left: positionLeft + 'px' }"
+    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   ></div>
 </template>
 
@@ -15,11 +15,17 @@ export default Vue.extend({
     boxId: Number
   },
 
+  data() {
+    return {
+      width: 8
+    };
+  },
+
   computed: {
     positionLeft(): number {
       const box = store.state.boxes[this.boxId];
 
-      return box.positionCenter - box.width / 2;
+      return box.positionCenter - this.width / 2;
     }
   }
 });

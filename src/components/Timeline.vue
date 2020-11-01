@@ -12,7 +12,7 @@
       <connector
         v-for="box in boxes"
         :key="box.id"
-        v-bind:boxId="box.id"
+        v-bind:box="box"
       ></connector>
     </div>
     <div id="horizontal-line"></div>

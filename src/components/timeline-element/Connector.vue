@@ -6,13 +6,13 @@
 </template>
 
 <script lang="ts">
-import store from "@/store";
+import BoxModel from "@/models/box-model";
 import Vue from "vue";
 export default Vue.extend({
   name: "Connector",
 
   props: {
-    boxId: Number
+    box: BoxModel
   },
 
   data() {
@@ -23,9 +23,7 @@ export default Vue.extend({
 
   computed: {
     positionLeft(): number {
-      const box = store.state.boxes[this.boxId];
-
-      return box.positionCenter - this.width / 2;
+      return this.box.positionCenter - this.width / 2;
     }
   }
 });

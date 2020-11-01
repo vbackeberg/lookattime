@@ -56,7 +56,6 @@ export default Vue.extend({
     });
 
     store.commit("setTimelineZero", window.innerWidth / 2);
-
     this.addInitialBox();
   },
 

@@ -55,9 +55,9 @@ export default Vue.extend({
       this.changeZoom(e);
     });
 
-    this.addInitialBox();
-
     store.commit("setTimelineZero", window.innerWidth / 2);
+
+    this.addInitialBox();
   },
 
   mounted() {

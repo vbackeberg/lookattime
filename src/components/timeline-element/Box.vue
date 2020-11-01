@@ -1,6 +1,6 @@
 <template>
   <div
-    class="box zoom-transition"
+    class="box zoom-transition zoomable"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
     <div class="image-container">

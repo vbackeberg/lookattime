@@ -1,6 +1,6 @@
 <template>
   <div
-    class="connector zoom-transition"
+    class="connector zoom-transition zoomable"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   ></div>
 </template>

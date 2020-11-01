@@ -25,7 +25,7 @@ export default class SpaceExtender {
       const requiredLeftSpace = -store.getters.spacerLeft.positionLeft;
 
       if (requiredLeftSpace > 0) {
-        for (let element of document.getElementsByClassName("box")) {
+        for (let element of document.getElementsByClassName("zoomable")) {
           console.log("Space Extender: Remove zoom-transition class");
           element.classList.remove("zoom-transition");
         }
@@ -33,7 +33,7 @@ export default class SpaceExtender {
         this.extendLeftSpace(requiredLeftSpace, timelineElement);
 
         Vue.nextTick(() => {
-          for (let element of document.getElementsByClassName("box")) {
+          for (let element of document.getElementsByClassName("zoomable")) {
             console.log("Space Extender: Re-add zoom-transition class");
             element.classList.add("zoom-transition");
           }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="date zoom-transition"
+    class="date zoom-transition zoomable"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
     1782

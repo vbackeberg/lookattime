@@ -29,7 +29,7 @@ export default class SpaceCutter {
       );
 
       if (expendableLeftSpace > 0) {
-        for (let element of document.getElementsByClassName("box")) {
+        for (let element of document.getElementsByClassName("zoomable")) {
           console.log("Space Cutter: Remove zoom-transition class");
           element.classList.remove("zoom-transition");
         }
@@ -37,7 +37,7 @@ export default class SpaceCutter {
         this.cutLeftSpace(expendableLeftSpace, timelineElement);
 
         Vue.nextTick(() => {
-          for (let element of document.getElementsByClassName("box")) {
+          for (let element of document.getElementsByClassName("zoomable")) {
             console.log("Space Cutter: Re-add zoom-transition class");
             element.classList.add("zoom-transition");
           }

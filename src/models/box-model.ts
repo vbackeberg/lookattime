@@ -3,11 +3,19 @@ export default class BoxModel {
   width: number;
   id: number;
   text: string;
+  date: number;
 
-  constructor(positionCenter: number, width: number, id: number, text: string) {
+  constructor(
+    positionCenter: number,
+    width: number,
+    id: number,
+    text: string,
+    date: number
+  ) {
     this.positionCenter = positionCenter;
     this.width = width;
     this.id = id;
     this.text = text;
+    this.date = date;
   }
 }

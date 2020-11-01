@@ -55,15 +55,8 @@ export default Vue.extend({
       this.changeZoom(e);
     });
 
-    store.commit(
-      "addBox",
-      new BoxModel(
-        500,
-        300,
-        store.state.boxes.length,
-        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-      )
-    );
+    this.addInitialBox();
+
     store.commit("setTimelineZero", window.innerWidth / 2);
   },
 
@@ -98,6 +91,23 @@ export default Vue.extend({
       } else if (e.deltaY > 0) {
         repositioner.zoomOut(0.92, e.pageX + element.scrollLeft);
       }
+    },
+
+    addInitialBox() {
+      const date = 1804;
+      const absolutePosition =
+        store.state.timelineZero + date * store.state.zoomLevel;
+
+      store.commit(
+        "addBox",
+        new BoxModel(
+          absolutePosition,
+          300,
+          store.state.boxes.length,
+          "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+          date
+        )
+      );
     }
   }
 });

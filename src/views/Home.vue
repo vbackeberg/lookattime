@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div class="controls">
-      <input v-model.number="relativePosition" type="number" />
-      <button v-on:click="addBox(relativePosition)">
+      <input v-model.number="date" type="number" />
+      <button v-on:click="addBox(date)">
         Add new
       </button>
     </div>
@@ -25,17 +25,23 @@ export default Vue.extend({
 
   data() {
     return {
-      relativePosition: 100
+      date: 1812
     };
   },
   methods: {
-    addBox(relativePosition: number) {
+    addBox(date: number) {
       const absolutePosition =
-        store.state.timelineZero + relativePosition * store.state.zoomLevel;
+        store.state.timelineZero + date * store.state.zoomLevel;
 
       store.commit(
         "addBox",
-        new BoxModel(absolutePosition, 300, store.state.boxes.length, "text")
+        new BoxModel(
+          absolutePosition,
+          300,
+          store.state.boxes.length,
+          "text",
+          date
+        )
       );
     }
   }

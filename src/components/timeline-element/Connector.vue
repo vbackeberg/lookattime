@@ -35,5 +35,7 @@ export default Vue.extend({
 .connector {
   height: 100%;
   position: absolute;
+
+  background-color: #000;
 }
 </style>

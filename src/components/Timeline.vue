@@ -143,7 +143,7 @@ export default Vue.extend({
   flex: 0 0 10px;
 
   width: 100%;
-  background-color: brown;
+  background-color: #000;
 }
 
 #buffer-bottom-area {

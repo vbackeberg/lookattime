@@ -17,7 +17,7 @@ export default Vue.extend({
 
   data() {
     return {
-      width: 8
+      width: 2
     };
   },
 

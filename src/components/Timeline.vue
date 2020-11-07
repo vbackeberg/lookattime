@@ -55,6 +55,7 @@ export default Vue.extend({
       this.changeZoom(e);
     });
 
+    // TODO replace all window.innerWidth occurences by timeline.clientwidthh.
     store.commit("setTimelineZero", window.innerWidth / 2);
     this.addInitialBox();
   },

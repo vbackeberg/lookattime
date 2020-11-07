@@ -7,7 +7,14 @@ import Vue from "vue";
  * is in the negative.
  */
 export default class SpaceExtender {
-  constructor() {
+  private timelineElement: Element;
+
+  constructor(timelineElement: Element) {
+    this.timelineElement = timelineElement;
+    if (!timelineElement) {
+      console.error("Space Extender: Timeline not found");
+    }
+
     const spacerLeftElement = document.getElementById("spacer-left");
 
     if (!spacerLeftElement) {
@@ -15,12 +22,6 @@ export default class SpaceExtender {
       return;
     }
 
-    const timelineElement = document.getElementById("timeline");
-
-    if (!timelineElement) {
-      console.error("Space Extender: Timeline not found");
-      return;
-    }
     spacerLeftElement.addEventListener("transitionend", () => {
       const requiredLeftSpace = -store.getters.spacerLeft.positionLeft;
 
@@ -30,7 +31,7 @@ export default class SpaceExtender {
           element.classList.remove("zoom-transition");
         }
 
-        this.extendLeftSpace(requiredLeftSpace, timelineElement);
+        this.extendLeftSpace(requiredLeftSpace);
 
         Vue.nextTick(() => {
           for (let element of document.getElementsByClassName("zoomable")) {
@@ -42,7 +43,7 @@ export default class SpaceExtender {
     });
   }
 
-  private extendLeftSpace(distance: number, timelineElement: HTMLElement) {
+  private extendLeftSpace(distance: number) {
     console.log("Space Extender: Extend space left by " + distance);
 
     store.state.boxes.forEach(box => {
@@ -51,8 +52,8 @@ export default class SpaceExtender {
 
     store.commit(
       "setSpacerPageEdgePosition",
-      timelineElement.scrollLeft +
-        timelineElement.clientWidth +
+      this.timelineElement.scrollLeft +
+        this.timelineElement.clientWidth +
         distance -
         store.state.spacerPageEdge.width
     );
@@ -60,7 +61,7 @@ export default class SpaceExtender {
     store.commit("setTimelineZero", store.state.timelineZero + distance);
 
     Vue.nextTick(() => {
-      timelineElement.scrollBy(distance, 0);
+      this.timelineElement.scrollBy(distance, 0);
     });
   }
 }

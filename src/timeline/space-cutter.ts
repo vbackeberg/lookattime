@@ -7,18 +7,18 @@ import Vue from "vue";
  * expendable space to the left.
  */
 export default class SpaceCutter {
-  constructor() {
+  private timelineElement: Element;
+
+  constructor(timelineElement: Element) {
+    this.timelineElement = timelineElement;
+    if (!timelineElement) {
+      console.error("Space Extender: Timeline not found");
+    }
+
     const spacerLeftElement = document.getElementById("spacer-left");
 
     if (!spacerLeftElement) {
       console.error("Space Cutter: SpacerLeft not found.");
-      return;
-    }
-
-    const timelineElement = document.getElementById("timeline");
-
-    if (!timelineElement) {
-      console.error("Space Cutter: Timeline not found");
       return;
     }
 
@@ -34,7 +34,7 @@ export default class SpaceCutter {
           element.classList.remove("zoom-transition");
         }
 
-        this.cutLeftSpace(expendableLeftSpace, timelineElement);
+        this.cutLeftSpace(expendableLeftSpace);
 
         Vue.nextTick(() => {
           for (let element of document.getElementsByClassName("zoomable")) {
@@ -46,7 +46,7 @@ export default class SpaceCutter {
     });
   }
 
-  private cutLeftSpace(distance: number, timelineElement: HTMLElement) {
+  private cutLeftSpace(distance: number) {
     console.log("Space Cutter: Cut space left by " + distance);
 
     store.state.boxes.forEach(box => {
@@ -55,12 +55,12 @@ export default class SpaceCutter {
 
     store.commit("setTimelineZero", store.state.timelineZero - distance);
 
-    timelineElement.scrollBy(-distance, 0);
+    this.timelineElement.scrollBy(-distance, 0);
     Vue.nextTick(() => {
       store.commit(
         "setSpacerPageEdgePosition",
-        timelineElement.scrollLeft +
-          timelineElement.clientWidth -
+        this.timelineElement.scrollLeft +
+          this.timelineElement.clientWidth -
           store.state.spacerPageEdge.width
       );
     });

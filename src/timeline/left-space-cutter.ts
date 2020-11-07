@@ -6,7 +6,7 @@ import Vue from "vue";
  * Listens to zoom transition ends, then cuts space to the left if there is
  * expendable space to the left.
  */
-export default class SpaceCutter {
+export default class LeftSpaceCutter {
   private timelineElement: Element;
 
   constructor(timelineElement: Element, spacerLeftElement: Element) {

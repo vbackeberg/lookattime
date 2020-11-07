@@ -6,7 +6,7 @@ import Vue from "vue";
  * Listens to zoom transition ends, then extends space to the left if spacer
  * is in the negative.
  */
-export default class SpaceExtender {
+export default class LeftSpaceExtender {
   private timelineElement: Element;
 
   constructor(timelineElement: Element, spacerLeftElement: Element) {

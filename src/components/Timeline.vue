@@ -33,8 +33,8 @@ import store from "@/store";
 import Repositioner from "@/timeline/repositioner";
 import Connector from "@/components/timeline-element/Connector.vue";
 import Date from "@/components/timeline-element/Date.vue";
-import SpaceExtender from "@/timeline/space-extender";
-import SpaceCutter from "@/timeline/space-cutter";
+import LeftSpaceExtender from "@/timeline/left-space-extender";
+import LeftSpaceCutter from "@/timeline/left-space-cutter";
 
 let repositioner: Repositioner;
 
@@ -64,8 +64,8 @@ export default Vue.extend({
 
   mounted() {
     repositioner = new Repositioner(this.$el);
-    new SpaceExtender(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
-    new SpaceCutter(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    new LeftSpaceExtender(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    new LeftSpaceCutter(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
   },
 
   computed: {

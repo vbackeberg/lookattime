@@ -57,7 +57,7 @@ export default class Repositioner {
     const newPositionLeft =
       this.timelineElement.scrollLeft +
       this.timelineElement.clientWidth -
-      SpacerModel.width;
+      store.state.spacerPageEdge.width
 
     store.commit("setSpacerPageEdgePosition", newPositionLeft);
   }

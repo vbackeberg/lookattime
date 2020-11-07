@@ -25,13 +25,6 @@ export default class LeftSpaceCutter {
         }
 
         this.cutLeftSpace(expendableLeftSpace);
-
-        Vue.nextTick(() => {
-          for (let element of document.getElementsByClassName("zoomable")) {
-            console.log("Space Cutter: Re-add zoom-transition class");
-            element.classList.add("zoom-transition");
-          }
-        });
       }
     });
   }
@@ -53,6 +46,11 @@ export default class LeftSpaceCutter {
           this.timelineElement.clientWidth -
           store.state.spacerPageEdge.width
       );
+
+      for (let element of document.getElementsByClassName("zoomable")) {
+        console.log("Space Cutter: Re-add zoom-transition class");
+        element.classList.add("zoom-transition");
+      }
     });
   }
 }

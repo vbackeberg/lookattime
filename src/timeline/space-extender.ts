@@ -11,9 +11,6 @@ export default class SpaceExtender {
 
   constructor(timelineElement: Element) {
     this.timelineElement = timelineElement;
-    if (!timelineElement) {
-      console.error("Space Extender: Timeline not found");
-    }
 
     const spacerLeftElement = document.getElementById("spacer-left");
 

@@ -22,13 +22,6 @@ export default class LeftSpaceExtender {
         }
 
         this.extendLeftSpace(requiredLeftSpace);
-
-        Vue.nextTick(() => {
-          for (let element of document.getElementsByClassName("zoomable")) {
-            console.log("Space Extender: Re-add zoom-transition class");
-            element.classList.add("zoom-transition");
-          }
-        });
       }
     });
   }
@@ -52,6 +45,11 @@ export default class LeftSpaceExtender {
 
     Vue.nextTick(() => {
       this.timelineElement.scrollBy(distance, 0);
+
+      for (let element of document.getElementsByClassName("zoomable")) {
+        console.log("Space Extender: Re-add zoom-transition class");
+        element.classList.add("zoom-transition");
+      }
     });
   }
 }

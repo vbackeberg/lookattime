@@ -6,7 +6,7 @@
         Add new
       </button>
     </div>
-    <timeline></timeline>
+    <timeline ref="timelineElement"></timeline>
   </div>
 </template>
 

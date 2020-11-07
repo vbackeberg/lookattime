@@ -2,7 +2,7 @@
   <div id="timeline">
     <div id="buffer-top-area">
       <spacer v-bind="spacerRight"></spacer>
-      <spacer-left v-bind="spacerLeft"></spacer-left>
+      <spacer-left ref="spacerLeftElement" v-bind="spacerLeft"></spacer-left>
       <spacer v-bind="spacerPageEdge"></spacer>
     </div>
     <div id="box-area">
@@ -64,8 +64,8 @@ export default Vue.extend({
 
   mounted() {
     repositioner = new Repositioner(this.$el);
-    new SpaceExtender(this.$el);
-    new SpaceCutter(this.$el);
+    new SpaceExtender(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    new SpaceCutter(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
   },
 
   computed: {

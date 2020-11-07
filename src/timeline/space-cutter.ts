@@ -9,15 +9,8 @@ import Vue from "vue";
 export default class SpaceCutter {
   private timelineElement: Element;
 
-  constructor(timelineElement: Element) {
+  constructor(timelineElement: Element, spacerLeftElement: Element) {
     this.timelineElement = timelineElement;
-
-    const spacerLeftElement = document.getElementById("spacer-left");
-
-    if (!spacerLeftElement) {
-      console.error("Space Cutter: SpacerLeft not found.");
-      return;
-    }
 
     spacerLeftElement.addEventListener("transitionend", () => {
       const expendableLeftSpace = Math.min(

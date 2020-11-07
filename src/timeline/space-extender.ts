@@ -9,15 +9,8 @@ import Vue from "vue";
 export default class SpaceExtender {
   private timelineElement: Element;
 
-  constructor(timelineElement: Element) {
+  constructor(timelineElement: Element, spacerLeftElement: Element) {
     this.timelineElement = timelineElement;
-
-    const spacerLeftElement = document.getElementById("spacer-left");
-
-    if (!spacerLeftElement) {
-      console.error("Space Extender: SpacerLeft not found.");
-      return;
-    }
 
     spacerLeftElement.addEventListener("transitionend", () => {
       const requiredLeftSpace = -store.getters.spacerLeft.positionLeft;

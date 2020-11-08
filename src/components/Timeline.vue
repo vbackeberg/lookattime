@@ -30,12 +30,12 @@ import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/Spacer.vue";
 import SpacerLeft from "@/components/SpacerLeft.vue";
 import store from "@/store";
-import Repositioner from "@/timeline/repositioner";
+import Zoomer from "@/timeline/zoomer";
 import Connector from "@/components/timeline-element/Connector.vue";
 import Date from "@/components/timeline-element/Date.vue";
 import SpaceWatcher from "@/timeline/space-watcher";
 
-let repositioner: Repositioner;
+let zoomer: Zoomer;
 
 export default Vue.extend({
   name: "Timeline",
@@ -51,7 +51,7 @@ export default Vue.extend({
   mounted() {
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
-    repositioner = new Repositioner(this.$el);
+    zoomer = new Zoomer(this.$el);
     new SpaceWatcher(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
 
     window.addEventListener("wheel", (e: WheelEvent) => {
@@ -83,9 +83,9 @@ export default Vue.extend({
   methods: {
     changeZoom(e: WheelEvent) {
       if (e.deltaY < 0) {
-        repositioner.zoom(1.1, e.pageX + this.$el.scrollLeft);
+        zoomer.zoom(1.1, e.pageX + this.$el.scrollLeft);
       } else if (e.deltaY > 0) {
-        repositioner.zoom(0.92, e.pageX + this.$el.scrollLeft);
+        zoomer.zoom(0.92, e.pageX + this.$el.scrollLeft);
       }
     }
   }

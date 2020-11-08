@@ -1,6 +1,6 @@
 import store from "@/store";
 
-export default class Repositioner {
+export default class Zoomer {
   private timelineElement: Element;
 
   constructor(timelineElement: Element) {

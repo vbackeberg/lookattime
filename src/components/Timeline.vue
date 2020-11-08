@@ -56,15 +56,15 @@ export default Vue.extend({
       }
       this.changeZoom(e);
     });
-
-    // TODO replace all window.innerWidth occurences by timeline.clientwidthh.
-    store.commit("setTimelineZero", window.innerWidth / 2);
   },
 
   mounted() {
+    const timelineElement = (this.$refs.spacerLeftElement as Vue).$el;
+    store.commit("setTimelineZero", timelineElement.clientWidth / 2);
+
     repositioner = new Repositioner(this.$el);
-    new LeftSpaceExtender(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
-    new LeftSpaceCutter(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    new LeftSpaceExtender(this.$el, timelineElement);
+    new LeftSpaceCutter(this.$el, timelineElement);
   },
 
   computed: {

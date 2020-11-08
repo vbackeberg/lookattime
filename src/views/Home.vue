@@ -15,12 +15,20 @@ import Vue from "vue";
 import Timeline from "@/components/Timeline.vue";
 import BoxModel from "@/models/box-model";
 import store from "@/store";
+import BoxCreator from "@/timeline/box-creator";
+
+let boxCreator: BoxCreator;
 
 export default Vue.extend({
   name: "Home",
 
   components: {
     Timeline
+  },
+
+  mounted() {
+    boxCreator = new BoxCreator((this.$refs.timelineElement as Vue).$el);
+    this.addBox(1804);
   },
 
   data() {
@@ -33,8 +41,7 @@ export default Vue.extend({
       const absolutePosition =
         store.state.timelineZero + date * store.state.zoomLevel;
 
-      store.commit(
-        "addBox",
+      boxCreator.addBox(
         new BoxModel(
           absolutePosition,
           300,

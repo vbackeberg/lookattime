@@ -10,6 +10,9 @@ export default class Repositioner {
     this.timelineElement = timelineElement;
   }
 
+
+  //TODO zoomIn and zoomOut are equal. Remove one of them
+  
   /**
    * Moves all boxes away from the mouse pointer by the zoom factor.
    * Then moves all boxes and the view into the positive space.

@@ -15,7 +15,10 @@
         v-bind:box="box"
       ></connector>
     </div>
-    <div id="horizontal-line"></div>
+    <div
+      id="horizontal-line"
+      v-bind:style="{ width: horizontalLineWidth + 'px' }"
+    ></div>
     <div id="buffer-bottom-area">
       <date v-for="box in boxes" :key="box.id" v-bind:box="box"></date>
     </div>
@@ -77,6 +80,14 @@ export default Vue.extend({
 
     spacerPageEdge(): SpacerModel {
       return store.state.spacerPageEdge;
+    },
+
+    horizontalLineWidth(): number {
+      return Math.max(
+        store.state.spacerPageEdge.positionLeft +
+          store.state.spacerPageEdge.width,
+        this.spacerRight.positionLeft + this.spacerRight.width
+      );
     }
   },
 
@@ -128,7 +139,6 @@ export default Vue.extend({
 #horizontal-line {
   flex: 0 0 10px;
 
-  width: 100%;
   background-color: #000;
 }
 

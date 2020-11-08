@@ -1,15 +1,11 @@
-import SpacerModel from '@/models/spacer-model';
 import store from "@/store";
-import Vue from "vue";
 
 export default class Repositioner {
-
   private timelineElement: Element;
 
   constructor(timelineElement: Element) {
     this.timelineElement = timelineElement;
   }
-
 
   /**
    * Moves all boxes towards or away from the mouse pointer by the zoom factor.
@@ -44,7 +40,7 @@ export default class Repositioner {
     const newPositionLeft =
       this.timelineElement.scrollLeft +
       this.timelineElement.clientWidth -
-      store.state.spacerPageEdge.width
+      store.state.spacerPageEdge.width;
 
     store.commit("setSpacerPageEdgePosition", newPositionLeft);
   }

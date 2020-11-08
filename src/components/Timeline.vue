@@ -49,21 +49,19 @@ export default Vue.extend({
     Date
   },
 
-  created() {
-    window.addEventListener("wheel", (e: WheelEvent) => {
-      if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
-        return;
-      }
-      this.changeZoom(e);
-    });
-  },
-
   mounted() {
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
     repositioner = new Repositioner(this.$el);
     new LeftSpaceExtender(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
     new LeftSpaceCutter(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+
+    window.addEventListener("wheel", (e: WheelEvent) => {
+      if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
+        return;
+      }
+      this.changeZoom(e);
+    });
   },
 
   computed: {

@@ -2,54 +2,43 @@ import SpacerModel from "@/models/spacer-model";
 import store from "@/store";
 import Vue from "vue";
 
+
 /**
- * Listens to zoom transition ends, then extends space to the left if spacer
- * is in the negative.
+ * Extends space to the left by given distance. Takes care of removing animations during position shifting.
  */
 export default class LeftSpaceExtender {
-  private timelineElement: Element;
+  public static async extendLeftSpace(
+    timelineElement: Element,
+    distance: number
+  ) {
+    for (let element of document.getElementsByClassName("zoomable")) {
+      console.log("Space Extender: Remove zoom-transition class");
+      element.classList.remove("zoom-transition");
+    }
 
-  constructor(timelineElement: Element, spacerLeftElement: Element) {
-    this.timelineElement = timelineElement;
-
-    spacerLeftElement.addEventListener("transitionend", () => {
-      const requiredLeftSpace = -store.getters.spacerLeft.positionLeft;
-
-      if (requiredLeftSpace > 0) {
-        for (let element of document.getElementsByClassName("zoomable")) {
-          console.log("Space Extender: Remove zoom-transition class");
-          element.classList.remove("zoom-transition");
-        }
-
-        this.extendLeftSpace(requiredLeftSpace);
-      }
-    });
-  }
-
-  private extendLeftSpace(distance: number) {
     console.log("Space Extender: Extend space left by " + distance);
 
     store.state.boxes.forEach(box => {
       box.positionCenter += distance;
     });
 
+    store.commit("setTimelineZero", store.state.timelineZero + distance);
+
     store.commit(
       "setSpacerPageEdgePosition",
-      this.timelineElement.scrollLeft +
-        this.timelineElement.clientWidth +
+      timelineElement.scrollLeft +
+        timelineElement.clientWidth +
         distance -
         store.state.spacerPageEdge.width
     );
 
-    store.commit("setTimelineZero", store.state.timelineZero + distance);
+    await Vue.nextTick();
 
-    Vue.nextTick(() => {
-      this.timelineElement.scrollBy(distance, 0);
+    timelineElement.scrollBy(distance, 0);
 
-      for (let element of document.getElementsByClassName("zoomable")) {
-        console.log("Space Extender: Re-add zoom-transition class");
-        element.classList.add("zoom-transition");
-      }
-    });
+    for (let element of document.getElementsByClassName("zoomable")) {
+      console.log("Space Extender: Re-add zoom-transition class");
+      element.classList.add("zoom-transition");
+    }
   }
 }

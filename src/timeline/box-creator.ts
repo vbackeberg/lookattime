@@ -1,28 +1,34 @@
 import BoxModel from "@/models/box-model";
 import store from "@/store";
 import Vue from "vue";
+import LeftSpaceExtender from "./left-space-extender";
 
 export default class BoxCreator {
   private timelineElement: Element;
+  private spacerLeftElement: HTMLElement;
 
   constructor(timelineElement: Element) {
-    this.timelineElement = timelineElement as Element;
+    this.timelineElement = timelineElement;
+    this.spacerLeftElement = document.getElementById(
+      "spacer-left"
+    ) as HTMLElement;
   }
 
-  public addBox(box: BoxModel) {
+  public async addBox(box: BoxModel) {
+    this.spacerLeftElement.classList.remove("zoom-transition");
     store.commit("addBox", box);
+    await Vue.nextTick();
+    await LeftSpaceExtender.extendLeftSpace(
+      this.timelineElement,
+      -store.getters.spacerLeft.positionLeft
+    );
+    this.spacerLeftElement.classList.add("zoom-transition");
 
     const position = box.positionCenter - this.timelineElement.clientWidth / 2;
     console.log("Box Creator: Scroll to " + position);
-    console.log("Client width: " + this.timelineElement.clientWidth);
-
-
-    // TODO Wait for space extender to extend before scroll onto new box.
-    Vue.nextTick(() => {
-      this.timelineElement.scrollTo({
-        left: position,
-        behavior: "smooth"
-      });
+    this.timelineElement.scrollTo({
+      left: position,
+      behavior: "smooth"
     });
   }
 }

@@ -33,8 +33,7 @@ import store from "@/store";
 import Repositioner from "@/timeline/repositioner";
 import Connector from "@/components/timeline-element/Connector.vue";
 import Date from "@/components/timeline-element/Date.vue";
-import LeftSpaceExtender from "@/timeline/left-space-extender";
-import LeftSpaceCutter from "@/timeline/left-space-cutter";
+import SpaceWatcher from "@/timeline/space-watcher";
 
 let repositioner: Repositioner;
 
@@ -53,8 +52,7 @@ export default Vue.extend({
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
     repositioner = new Repositioner(this.$el);
-    new LeftSpaceExtender(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
-    new LeftSpaceCutter(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    new SpaceWatcher(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
 
     window.addEventListener("wheel", (e: WheelEvent) => {
       if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {

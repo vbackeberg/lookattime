@@ -20,6 +20,7 @@ export default new Vuex.Store({
   },
 
   getters: {
+    // TODO try refactor spacer left and right to calculate attributes inside them instead of in store.
     spacerLeft(state): SpacerModel {
       const lowestBox = state.boxes[0];
       const width = window.innerWidth / 2 - lowestBox?.width / 2

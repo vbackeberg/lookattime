@@ -106,13 +106,6 @@ export default Vue.extend({
   flex-flow: column nowrap;
 }
 
-.timelineZero {
-  height: 50px;
-  width: 5px;
-  background-color: #fff;
-  position: absolute;
-}
-
 #buffer-top-area {
   flex: 1 0 20px;
 

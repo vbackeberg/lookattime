@@ -59,12 +59,11 @@ export default Vue.extend({
   },
 
   mounted() {
-    const timelineElement = (this.$refs.spacerLeftElement as Vue).$el;
-    store.commit("setTimelineZero", timelineElement.clientWidth / 2);
+    store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
     repositioner = new Repositioner(this.$el);
-    new LeftSpaceExtender(this.$el, timelineElement);
-    new LeftSpaceCutter(this.$el, timelineElement);
+    new LeftSpaceExtender(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    new LeftSpaceCutter(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
   },
 
   computed: {

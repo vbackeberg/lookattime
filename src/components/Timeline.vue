@@ -83,9 +83,9 @@ export default Vue.extend({
   methods: {
     changeZoom(e: WheelEvent) {
       if (e.deltaY < 0) {
-        repositioner.zoomIn(1.1, e.pageX + this.$el.scrollLeft);
+        repositioner.zoom(1.1, e.pageX + this.$el.scrollLeft);
       } else if (e.deltaY > 0) {
-        repositioner.zoomOut(0.92, e.pageX + this.$el.scrollLeft);
+        repositioner.zoom(0.92, e.pageX + this.$el.scrollLeft);
       }
     }
   }

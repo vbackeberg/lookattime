@@ -11,28 +11,12 @@ export default class Repositioner {
   }
 
 
-  //TODO zoomIn and zoomOut are equal. Remove one of them
-  
   /**
-   * Moves all boxes away from the mouse pointer by the zoom factor.
-   * Then moves all boxes and the view into the positive space.
+   * Moves all boxes towards or away from the mouse pointer by the zoom factor.
+   * Re-aligns spacer for right page edge.
+   * Moves timeline zero.
    */
-  public zoomIn(zoomFactor: number, mousePosition: number) {
-    console.log("_________________________________________");
-    console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
-
-    this.reposition(zoomFactor, mousePosition);
-
-    this.logPositions();
-
-    store.commit("changeZoomLevel", zoomFactor);
-  }
-
-  /**
-   * Moves all boxes towards the mouse pointer by the zoom factor.
-   * Then moves all boxes and the view to the left by the amount of the minimum of the lowest box' left edge and the views' left edge.
-   */
-  public zoomOut(zoomFactor: number, mousePosition: number) {
+  public zoom(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
     console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 

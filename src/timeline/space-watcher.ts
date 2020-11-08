@@ -1,6 +1,6 @@
 import store from "@/store";
-import LeftSpaceCutter from "./left-space-cutter";
-import LeftSpaceExtender from "./left-space-extender";
+import SpaceCutter from "./space-cutter";
+import SpaceExtender from "./space-extender";
 
 export default class SpaceWatcher {
   constructor(timelineElement: Element, spacerLeftElement: Element) {
@@ -12,10 +12,10 @@ export default class SpaceWatcher {
 
       if (expendableLeftSpace > 0) {
         console.log("Space Watcher: cut");
-        LeftSpaceCutter.cutLeftSpace(timelineElement, expendableLeftSpace);
+        SpaceCutter.cutLeftSpace(timelineElement, expendableLeftSpace);
       } else if (store.getters.spacerLeft.positionLeft < 0) {
         console.log("Space Watcher: extend");
-        LeftSpaceExtender.extendLeftSpace(
+        SpaceExtender.extendLeftSpace(
           timelineElement,
           -store.getters.spacerLeft.positionLeft
         );

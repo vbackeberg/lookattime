@@ -1,7 +1,7 @@
 import BoxModel from "@/models/box-model";
 import store from "@/store";
 import Vue from "vue";
-import LeftSpaceExtender from "./left-space-extender";
+import SpaceExtender from "./space-extender";
 
 export default class BoxCreator {
   private timelineElement: Element;
@@ -18,7 +18,7 @@ export default class BoxCreator {
     this.spacerLeftElement.classList.remove("zoom-transition");
     store.commit("addBox", box);
     await Vue.nextTick();
-    await LeftSpaceExtender.extendLeftSpace(
+    await SpaceExtender.extendLeftSpace(
       this.timelineElement,
       -store.getters.spacerLeft.positionLeft
     );

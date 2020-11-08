@@ -6,7 +6,7 @@ import Vue from "vue";
 /**
  * Extends space to the left by given distance. Takes care of removing animations during position shifting.
  */
-export default class LeftSpaceExtender {
+export default class SpaceExtender {
   public static async extendLeftSpace(
     timelineElement: Element,
     distance: number

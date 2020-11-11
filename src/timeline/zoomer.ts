@@ -14,11 +14,8 @@ export default class Zoomer {
    */
   public zoom(zoomFactor: number, mousePosition: number) {
     console.log("_________________________________________");
-    console.log("zoom factor " + zoomFactor + " mouse pos " + mousePosition);
 
     this.reposition(zoomFactor, mousePosition);
-
-    this.logPositions();
 
     store.commit("changeZoomLevel", zoomFactor);
   }

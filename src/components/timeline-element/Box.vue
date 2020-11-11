@@ -11,6 +11,8 @@
 </template>
 
 <script lang="ts">
+import BoxModel from "@/models/box-model";
+import store from "@/store";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -26,6 +28,36 @@ export default Vue.extend({
   computed: {
     positionLeft(): number {
       return this.positionCenter - this.width / 2;
+    },
+
+    boxIndex(): number {
+      return store.state.boxes.findIndex(box => box.id === this.id);
+    },
+
+    closestBoxLeft(): BoxModel {
+      return store.state.boxes[this.boxIndex - 1];
+    },
+
+    closestBoxRight(): BoxModel {
+      return store.state.boxes[this.boxIndex + 1];
+    },
+
+    enoughSpace(): boolean {
+      const enoughSpaceLeft = this.closestBoxLeft
+        ? this.closestBoxLeft.positionCenter +
+            this.closestBoxLeft.width / 2 -
+            this.positionLeft <
+          0
+        : true;
+
+      const enoughSpaceRight = this.closestBoxRight
+        ? this.closestBoxRight.positionCenter -
+            this.closestBoxRight.width / 2 -
+            (this.positionLeft + this.width) >
+          0
+        : true;
+
+      return enoughSpaceLeft && enoughSpaceRight;
     }
   }
 });

@@ -1,12 +1,12 @@
 <template>
   <div
+    v-if="!hide"
     class="box zoom-transition zoomable"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
     <div class="image-container">
       <img class="image" src="@/assets/testimg.jpg" alt="test image" />
     </div>
-    <span v-if="enoughSpace">enough space</span>
     {{ text }}
   </div>
 </template>
@@ -23,7 +23,8 @@ export default Vue.extend({
     positionCenter: Number,
     width: Number,
     id: Number,
-    text: String
+    text: String,
+    importance: Number
   },
 
   computed: {
@@ -43,22 +44,34 @@ export default Vue.extend({
       return store.state.boxes[this.boxIndex + 1];
     },
 
-    enoughSpace(): boolean {
-      const enoughSpaceLeft = this.closestBoxLeft
-        ? this.closestBoxLeft.positionCenter +
+    hide(): boolean {
+      if (this.closestBoxLeft) {
+        const collisionLeft =
+          this.closestBoxLeft.positionCenter +
             this.closestBoxLeft.width / 2 -
-            this.positionLeft <
-          0
-        : true;
+            this.positionLeft >
+          0;
 
-      const enoughSpaceRight = this.closestBoxRight
-        ? this.closestBoxRight.positionCenter -
+        const hasNoPrecedence =
+          this.importance < this.closestBoxLeft.importance;
+
+        return collisionLeft && hasNoPrecedence;
+      }
+
+      if (this.closestBoxRight) {
+        const collisionRight =
+          this.closestBoxRight.positionCenter -
             this.closestBoxRight.width / 2 -
-            (this.positionLeft + this.width) >
-          0
-        : true;
+            (this.positionLeft + this.width) <
+          0;
 
-      return enoughSpaceLeft && enoughSpaceRight;
+        const hasNoPrecedence =
+          this.importance < this.closestBoxRight.importance;
+
+        return collisionRight && hasNoPrecedence;
+      }
+
+      return false;
     }
   }
 });

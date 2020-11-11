@@ -2,7 +2,8 @@
   <div class="home">
     <div class="controls">
       <input v-model.number="date" type="number" />
-      <button v-on:click="addBox(date)">
+      <input v-model.number="importance" type="number" />
+      <button v-on:click="addBox(date, importance)">
         Add new
       </button>
     </div>
@@ -28,16 +29,17 @@ export default Vue.extend({
 
   mounted() {
     boxCreator = new BoxCreator((this.$refs.timelineElement as Vue).$el);
-    this.addBox(1804);
+    this.addBox(1804, 100);
   },
 
   data() {
     return {
-      date: 1812
+      date: 1812,
+      importance: 101
     };
   },
   methods: {
-    addBox(date: number) {
+    addBox(date: number, importance: number) {
       const absolutePosition =
         store.state.timelineZero + date * store.state.zoomLevel;
 
@@ -47,7 +49,8 @@ export default Vue.extend({
           300,
           store.state.boxes.length,
           "text",
-          date
+          date,
+          importance
         )
       );
     }

@@ -6,6 +6,7 @@
     <div class="image-container">
       <img class="image" src="@/assets/testimg.jpg" alt="test image" />
     </div>
+    <span v-if="enoughSpace">enough space</span>
     {{ text }}
   </div>
 </template>

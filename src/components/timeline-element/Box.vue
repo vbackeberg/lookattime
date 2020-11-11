@@ -1,13 +1,21 @@
 <template>
   <div
-    v-if="!hide"
-    class="box zoom-transition zoomable"
-    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
+    v-bind:style="{
+      left: positionLeft + 'px',
+      width: width + 'px',
+      height: '100%',
+      position: 'absolute'
+    }"
   >
-    <div class="image-container">
-      <img class="image" src="@/assets/testimg.jpg" alt="test image" />
+    <div
+      class="box zoom-transition zoomable"
+      v-bind:class="{ expanded: !hide, collapsed: hide }"
+    >
+      <div class="image-container">
+        <img class="image" src="@/assets/testimg.jpg" alt="test image" />
+      </div>
+      {{ text }}
     </div>
-    {{ text }}
   </div>
 </template>
 
@@ -79,13 +87,8 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .box {
-  height: 100%;
-  position: absolute;
-
-  padding: 8px;
   box-sizing: border-box;
   background-color: #fff;
-  border-radius: 10px;
   border: 2px solid #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -105,5 +108,19 @@ export default Vue.extend({
   max-width: 110px;
   max-height: 100px;
   margin-left: 10px;
+}
+
+.expanded {
+  widows: 100%;
+  height: 100%;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.collapsed {
+  bottom: 0px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
 }
 </style>

@@ -82,7 +82,6 @@ export default Vue.extend({
       return store.state.spacerPageEdge;
     },
 
-    //TODO: Make horizontal line an own component.
     horizontalLineWidth(): number {
       return Math.max(
         store.state.spacerPageEdge.positionLeft +

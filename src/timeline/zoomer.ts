@@ -13,10 +13,7 @@ export default class Zoomer {
    * Moves timeline zero.
    */
   public zoom(zoomFactor: number, mousePosition: number) {
-    console.log("_________________________________________");
-
     this.reposition(zoomFactor, mousePosition);
-
     store.commit("changeZoomLevel", zoomFactor);
   }
 

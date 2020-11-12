@@ -3,7 +3,10 @@
     class="outer zoom-transition zoomable"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
-    <div class="box" v-bind:class="{ expanded: !hide, collapsed: hide }">
+    <div
+      class="box"
+      v-bind:class="{ expanded: !collapse, collapsed: collapse }"
+    >
       <div class="image-container">
         <img class="image" src="@/assets/testimg.jpg" alt="test image" />
       </div>
@@ -45,8 +48,7 @@ export default Vue.extend({
       return store.state.boxes[this.boxIndex + 1];
     },
 
-    //TODO rename to collapsed
-    hide(): boolean {
+    collapse(): boolean {
       if (this.closestBoxLeft) {
         const collisionLeft =
           this.closestBoxLeft.positionCenter +

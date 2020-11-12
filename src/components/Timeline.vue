@@ -119,8 +119,6 @@ export default Vue.extend({
 
 #buffer-top-area {
   flex: 1 0 20px;
-
-  background-color: #eef;
 }
 
 #box-area {
@@ -133,7 +131,6 @@ export default Vue.extend({
   flex: 1;
 
   position: relative;
-  background-color: #eef;
 }
 
 #horizontal-line {

@@ -8,11 +8,8 @@ import Vue from "vue";
 export default class SpaceCutter {
   public static async cutLeftSpace(timelineElement: Element, distance: number) {
     for (let element of document.getElementsByClassName("zoomable")) {
-      console.log("Space Extender: Remove zoom-transition class");
       element.classList.remove("zoom-transition");
     }
-
-    console.log("Space Cutter: Cut space left by " + distance);
 
     store.state.boxes.forEach(box => {
       box.positionCenter -= distance;
@@ -32,7 +29,6 @@ export default class SpaceCutter {
     );
 
     for (let element of document.getElementsByClassName("zoomable")) {
-      console.log("Space Cutter: Re-add zoom-transition class");
       element.classList.add("zoom-transition");
     }
   }

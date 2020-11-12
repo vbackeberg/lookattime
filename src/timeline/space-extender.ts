@@ -12,11 +12,8 @@ export default class SpaceExtender {
     distance: number
   ) {
     for (let element of document.getElementsByClassName("zoomable")) {
-      console.log("Space Extender: Remove zoom-transition class");
       element.classList.remove("zoom-transition");
     }
-
-    console.log("Space Extender: Extend space left by " + distance);
 
     store.state.boxes.forEach(box => {
       box.positionCenter += distance;
@@ -37,7 +34,6 @@ export default class SpaceExtender {
     timelineElement.scrollBy(distance, 0);
 
     for (let element of document.getElementsByClassName("zoomable")) {
-      console.log("Space Extender: Re-add zoom-transition class");
       element.classList.add("zoom-transition");
     }
   }

@@ -1,16 +1,9 @@
 <template>
   <div
-    v-bind:style="{
-      left: positionLeft + 'px',
-      width: width + 'px',
-      height: '100%',
-      position: 'absolute'
-    }"
+    class="outer zoom-transition zoomable"
+    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
-    <div
-      class="box zoom-transition zoomable"
-      v-bind:class="{ expanded: !hide, collapsed: hide }"
-    >
+    <div class="box" v-bind:class="{ expanded: !hide, collapsed: hide }">
       <div class="image-container">
         <img class="image" src="@/assets/testimg.jpg" alt="test image" />
       </div>
@@ -52,6 +45,7 @@ export default Vue.extend({
       return store.state.boxes[this.boxIndex + 1];
     },
 
+    //TODO rename to collapsed
     hide(): boolean {
       if (this.closestBoxLeft) {
         const collisionLeft =
@@ -86,6 +80,11 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+.outer {
+  position: absolute;
+  height: 100%;
+}
+
 .box {
   box-sizing: border-box;
   background-color: #fff;
@@ -98,6 +97,8 @@ export default Vue.extend({
   text-align: justify;
 
   font-size: 0.875em;
+
+  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .image-container {
@@ -111,16 +112,21 @@ export default Vue.extend({
 }
 
 .expanded {
-  widows: 100%;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
   height: 100%;
   padding: 8px;
   border-radius: 10px;
 }
 
 .collapsed {
+  position: absolute;
   bottom: 0px;
   width: 50px;
   height: 50px;
+  margin-left: 125px;
+  margin-right: 125px;
   border-radius: 25px;
 }
 </style>

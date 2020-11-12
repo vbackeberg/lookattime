@@ -59,7 +59,7 @@ export default Vue.extend({
         const hasNoPrecedence =
           this.importance < this.closestBoxLeft.importance;
 
-        return collisionLeft && hasNoPrecedence;
+        if (collisionLeft && hasNoPrecedence) return true;
       }
 
       if (this.closestBoxRight) {
@@ -72,7 +72,7 @@ export default Vue.extend({
         const hasNoPrecedence =
           this.importance < this.closestBoxRight.importance;
 
-        return collisionRight && hasNoPrecedence;
+        if (collisionRight && hasNoPrecedence) return true;
       }
 
       return false;

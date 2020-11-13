@@ -11,7 +11,7 @@
     ></div>
     <div
       class="box"
-      v-bind:class="{ expanded: !collapse, collapsed: collapse }"
+      v-bind:class="{ 'box-expanded': !collapse, 'box-collapsed': collapse }"
     >
       <div class="image-container">
         <img class="image" src="@/assets/testimg.jpg" alt="test image" />
@@ -144,7 +144,7 @@ export default Vue.extend({
   flex: 16 0 auto;
 }
 
-.expanded {
+.box-expanded {
   flex: 4 1 auto;
 
   width: 100%;
@@ -152,7 +152,7 @@ export default Vue.extend({
   border-radius: 10px;
 }
 
-.collapsed {
+.box-collapsed {
   flex: 0 0 auto;
 
   width: 50px;

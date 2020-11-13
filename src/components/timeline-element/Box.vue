@@ -4,13 +4,14 @@
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
     <div
+      class="grow-transition"
       v-bind:class="{
         'buffer-top-expanded': !collapse,
         'buffer-top-collapsed': collapse
       }"
     ></div>
     <div
-      class="box"
+      class="box grow-transition"
       v-bind:class="{ 'box-expanded': !collapse, 'box-collapsed': collapse }"
     >
       <div class="image-container">
@@ -19,6 +20,7 @@
       {{ text }}
     </div>
     <connector
+      class="grow-transition"
       v-bind:class="{
         'connector-expanded': !collapse,
         'connector-collapsed': collapse
@@ -122,8 +124,6 @@ export default Vue.extend({
   text-align: justify;
 
   font-size: 0.875em;
-
-  transition: all 500ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .image-container {
@@ -134,6 +134,10 @@ export default Vue.extend({
   max-width: 110px;
   max-height: 100px;
   margin-left: 10px;
+}
+
+.grow-transition {
+  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .buffer-top-expanded {

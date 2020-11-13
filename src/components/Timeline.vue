@@ -8,13 +8,6 @@
     <div id="box-area">
       <box v-for="box in boxes" :key="box.id" v-bind="box"></box>
     </div>
-    <div id="connector-area">
-      <connector
-        v-for="box in boxes"
-        :key="box.id"
-        v-bind:box="box"
-      ></connector>
-    </div>
     <div
       id="horizontal-line"
       v-bind:style="{ width: horizontalLineWidth + 'px' }"
@@ -34,7 +27,6 @@ import Spacer from "@/components/Spacer.vue";
 import SpacerLeft from "@/components/SpacerLeft.vue";
 import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
-import Connector from "@/components/timeline-element/Connector.vue";
 import Date from "@/components/timeline-element/Date.vue";
 import SpaceWatcher from "@/timeline/space-watcher";
 
@@ -47,7 +39,6 @@ export default Vue.extend({
     Box,
     Spacer,
     SpacerLeft,
-    Connector,
     Date
   },
 
@@ -122,13 +113,7 @@ export default Vue.extend({
 }
 
 #box-area {
-  flex: 3;
-
-  position: relative;
-}
-
-#connector-area {
-  flex: 1;
+  flex: 2 0 200px;
 
   position: relative;
 }
@@ -140,6 +125,6 @@ export default Vue.extend({
 }
 
 #buffer-bottom-area {
-  flex: 3;
+  flex: 4;
 }
 </style>

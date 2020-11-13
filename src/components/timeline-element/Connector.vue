@@ -1,18 +1,17 @@
 <template>
   <div
     class="connector zoom-transition zoomable"
-    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
+    v-bind:style="{ width: width + 'px' }"
   ></div>
 </template>
 
 <script lang="ts">
-import BoxModel from "@/models/box-model";
 import Vue from "vue";
 export default Vue.extend({
   name: "Connector",
 
   props: {
-    box: BoxModel
+    positionCenter: Number
   },
 
   data() {
@@ -23,7 +22,7 @@ export default Vue.extend({
 
   computed: {
     positionLeft(): number {
-      return this.box.positionCenter - this.width / 2;
+      return this.positionCenter - this.width / 2;
     }
   }
 });
@@ -32,8 +31,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .connector {
   height: 100%;
-  position: absolute;
-
   background-color: #000;
 }
 </style>

@@ -4,6 +4,12 @@
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
     <div
+      v-bind:class="{
+        'buffer-top-expanded': !collapse,
+        'buffer-top-collapsed': collapse
+      }"
+    ></div>
+    <div
       class="box"
       v-bind:class="{ expanded: !collapse, collapsed: collapse }"
     >
@@ -12,6 +18,13 @@
       </div>
       {{ text }}
     </div>
+    <connector
+      v-bind:class="{
+        'connector-expanded': !collapse,
+        'connector-collapsed': collapse
+      }"
+      v-bind:positionCenter="positionCenter"
+    ></connector>
   </div>
 </template>
 
@@ -19,9 +32,14 @@
 import BoxModel from "@/models/box-model";
 import store from "@/store";
 import Vue from "vue";
+import Connector from "./Connector.vue";
 
 export default Vue.extend({
   name: "Box",
+
+  components: {
+    Connector
+  },
 
   props: {
     positionCenter: Number,
@@ -85,6 +103,11 @@ export default Vue.extend({
 .outer {
   position: absolute;
   height: 100%;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .box {
@@ -100,7 +123,7 @@ export default Vue.extend({
 
   font-size: 0.875em;
 
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: all 500ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .image-container {
@@ -113,22 +136,37 @@ export default Vue.extend({
   margin-left: 10px;
 }
 
+.buffer-top-expanded {
+  flex: 0 1 auto;
+}
+
+.buffer-top-collapsed {
+  flex: 16 0 auto;
+}
+
 .expanded {
-  position: absolute;
-  bottom: 0px;
+  flex: 4 1 auto;
+
   width: 100%;
-  height: 100%;
   padding: 8px;
   border-radius: 10px;
 }
 
 .collapsed {
-  position: absolute;
-  bottom: 0px;
+  flex: 0 0 auto;
+
   width: 50px;
   height: 50px;
   margin-left: 125px;
   margin-right: 125px;
   border-radius: 25px;
+}
+
+.connector-expanded {
+  flex: 1 0 68px;
+}
+
+.connector-collapsed {
+  flex: 1 0 2px;
 }
 </style>

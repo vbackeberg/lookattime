@@ -30,7 +30,6 @@
             'connector-expanded': !collapse,
             'connector-collapsed': collapse
           }"
-          v-bind:positionCenter="positionCenter"
         ></connector>
       </div>
     </transition>

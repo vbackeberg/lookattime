@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="connector zoom-transition zoomable"
-    v-bind:style="{ width: width + 'px' }"
-  ></div>
+  <div class="connector" v-bind:style="{ width: width + 'px' }"></div>
 </template>
 
 <script lang="ts">
@@ -10,20 +7,10 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Connector",
 
-  props: {
-    positionCenter: Number
-  },
-
   data() {
     return {
       width: 2
     };
-  },
-
-  computed: {
-    positionLeft(): number {
-      return this.positionCenter - this.width / 2;
-    }
   }
 });
 </script>

@@ -197,6 +197,7 @@ export default Vue.extend({
   border-radius: 10px;
 }
 
+// turn into style object to allow defining width as width from box model.
 .box-collapsed {
   flex: 0 0 auto;
 

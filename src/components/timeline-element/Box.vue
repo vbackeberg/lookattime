@@ -1,37 +1,38 @@
 <template>
-  <div class="outer zoom-transition zoomable" v-bind:style="styleOuter">
+  <div
+    class="zoom-container zoom-transition zoomable"
+    v-bind:style="styleZoomContainer"
+  >
     <transition>
-      <div
-        v-if="!hide"
-        class="grow-transition"
-        v-bind:class="{
-          'buffer-top-expanded': !collapse,
-          'buffer-top-collapsed': collapse
-        }"
-      ></div>
-    </transition>
-    <transition>
-      <div
-        v-if="!hide"
-        class="box grow-transition"
-        v-bind:class="{ 'box-expanded': !collapse, 'box-collapsed': collapse }"
-      >
-        <div class="image-container">
-          <img class="image" src="@/assets/testimg.jpg" alt="test image" />
+      <div v-if="!hide" class="hiding-container">
+        <div
+          class="grow-transition"
+          v-bind:class="{
+            'buffer-top-expanded': !collapse,
+            'buffer-top-collapsed': collapse
+          }"
+        ></div>
+        <div
+          class="box grow-transition"
+          v-bind:class="{
+            'box-expanded': !collapse,
+            'box-collapsed': collapse
+          }"
+        >
+          <div class="image-container">
+            <img class="image" src="@/assets/testimg.jpg" alt="test image" />
+          </div>
+          {{ text }}
         </div>
-        {{ text }}
+        <connector
+          class="grow-transition"
+          v-bind:class="{
+            'connector-expanded': !collapse,
+            'connector-collapsed': collapse
+          }"
+          v-bind:positionCenter="positionCenter"
+        ></connector>
       </div>
-    </transition>
-    <transition>
-      <connector
-        v-if="!hide"
-        class="grow-transition"
-        v-bind:class="{
-          'connector-expanded': !collapse,
-          'connector-collapsed': collapse
-        }"
-        v-bind:positionCenter="positionCenter"
-      ></connector>
     </transition>
   </div>
 </template>
@@ -57,7 +58,7 @@ export default Vue.extend({
   },
 
   computed: {
-    styleOuter() {
+    styleZoomContainer() {
       return {
         left: this.positionCenter - BoxModel.expandedWidth / 2 + "px",
         width: BoxModel.expandedWidth + "px"
@@ -125,8 +126,13 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.outer {
+.zoom-container {
   position: absolute;
+  height: 100%;
+}
+
+.hiding-container {
+  width: 100%;
   height: 100%;
 
   display: flex;

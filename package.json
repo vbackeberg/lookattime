@@ -1,9 +1,9 @@
 {
-  "name": "vue-test2",
+  "name": "look-at-time",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 5529",
+    "serve": "vue-cli-service serve --port 80",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"

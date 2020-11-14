@@ -11,10 +11,8 @@ export default class SpaceWatcher {
       );
 
       if (expendableLeftSpace > 0) {
-        console.log("Space Watcher: cut");
         SpaceCutter.cutLeftSpace(timelineElement, expendableLeftSpace);
       } else if (store.getters.spacerLeft.positionLeft < 0) {
-        console.log("Space Watcher: extend");
         SpaceExtender.extendLeftSpace(
           timelineElement,
           -store.getters.spacerLeft.positionLeft

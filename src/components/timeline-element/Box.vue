@@ -3,34 +3,44 @@
     class="outer zoom-transition zoomable"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
   >
-    <div
-      class="grow-transition"
-      v-bind:class="{
-        'buffer-top-expanded': !collapse,
-        'buffer-top-collapsed': collapse
-      }"
-    ></div>
-    <div
-      class="box grow-transition"
-      v-bind:class="{ 'box-expanded': !collapse, 'box-collapsed': collapse }"
-    >
-      <div class="image-container">
-        <img class="image" src="@/assets/testimg.jpg" alt="test image" />
+    <transition>
+      <div
+        v-if="!hide"
+        class="grow-transition"
+        v-bind:class="{
+          'buffer-top-expanded': !collapse,
+          'buffer-top-collapsed': collapse
+        }"
+      ></div>
+    </transition>
+    <transition>
+      <div
+        v-if="!hide"
+        class="box grow-transition"
+        v-bind:class="{ 'box-expanded': !collapse, 'box-collapsed': collapse }"
+      >
+        <div class="image-container">
+          <img class="image" src="@/assets/testimg.jpg" alt="test image" />
+        </div>
+        {{ text }}
       </div>
-      {{ text }}
-    </div>
-    <connector
-      class="grow-transition"
-      v-bind:class="{
-        'connector-expanded': !collapse,
-        'connector-collapsed': collapse
-      }"
-      v-bind:positionCenter="positionCenter"
-    ></connector>
+    </transition>
+    <transition>
+      <connector
+        v-if="!hide"
+        class="grow-transition"
+        v-bind:class="{
+          'connector-expanded': !collapse,
+          'connector-collapsed': collapse
+        }"
+        v-bind:positionCenter="positionCenter"
+      ></connector>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
+import BoxModel from "@/models/box-model";
 import store from "@/store";
 import Vue from "vue";
 import Connector from "./Connector.vue";
@@ -60,14 +70,14 @@ export default Vue.extend({
     },
 
     collapse(): boolean {
-      if (this.collapseRecursive(this.boxIndex, -1)) {
-        return true;
-      }
+      if (this.collapseRecursive(this.boxIndex, -1)) return true;
+      if (this.collapseRecursive(this.boxIndex, 1)) return true;
+      return false;
+    },
 
-      if (this.collapseRecursive(this.boxIndex, 1)) {
-        return true;
-      }
-
+    hide(): boolean {
+      if (this.hideRecursive(this.boxIndex, -1)) return true;
+      if (this.hideRecursive(this.boxIndex, 1)) return true;
       return false;
     }
   },
@@ -99,6 +109,34 @@ export default Vue.extend({
       }
 
       return this.collapseRecursive(currentBoxIndex + indexChange, indexChange);
+    },
+
+    hideRecursive(currentBoxIndex: number, indexChange: number): boolean {
+      const neighborBox = store.state.boxes[currentBoxIndex + indexChange];
+
+      if (!neighborBox) {
+        return false;
+      }
+
+      const collision =
+        (this.positionCenter +
+          (indexChange * BoxModel.collapsedWidth) / 2 -
+          (neighborBox.positionCenter +
+            (-indexChange * BoxModel.collapsedWidth) / 2)) *
+          indexChange >
+        0;
+
+      if (!collision) {
+        return false;
+      }
+
+      const hasPrecedence = this.importance > neighborBox.importance;
+
+      if (!hasPrecedence) {
+        return true;
+      }
+
+      return this.hideRecursive(currentBoxIndex + indexChange, indexChange);
     }
   }
 });
@@ -175,5 +213,18 @@ export default Vue.extend({
 
 .connector-collapsed {
   flex: 1 0 2px;
+}
+
+.v-enter-active {
+  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.v-leave-active {
+  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

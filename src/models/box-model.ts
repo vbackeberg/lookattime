@@ -1,6 +1,7 @@
 export default class BoxModel {
   positionCenter: number;
   width: number;
+  static collapsedWidth = 50;
   id: number;
   text: string;
   date: number;

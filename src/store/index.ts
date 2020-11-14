@@ -23,10 +23,10 @@ export default new Vuex.Store({
     // TODO try refactor spacer left and right to calculate attributes inside them instead of in store.
     spacerLeft(state): SpacerModel {
       const lowestBox = state.boxes[0];
-      const width = window.innerWidth / 2 - lowestBox?.width / 2
+      const width = window.innerWidth / 2 - BoxModel.expandedWidth / 2
 
       return {
-        positionLeft: lowestBox?.positionCenter - lowestBox?.width / 2 - width,
+        positionLeft: lowestBox?.positionCenter - BoxModel.expandedWidth / 2 - width,
         color: "#aaa",
         width: width,
       } as SpacerModel;
@@ -35,9 +35,9 @@ export default new Vuex.Store({
       const highestBox = state.boxes[state.boxes.length - 1];
 
       return {
-        positionLeft: highestBox?.positionCenter + highestBox?.width / 2,
+        positionLeft: highestBox?.positionCenter + BoxModel.expandedWidth / 2,
         color: "#aaa",
-        width: window.innerWidth / 2 - highestBox?.width / 2
+        width: window.innerWidth / 2 - BoxModel.expandedWidth / 2
       } as SpacerModel;
     }
   },

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="outer zoom-transition zoomable"
-    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
-  >
+  <div class="outer zoom-transition zoomable" v-bind:style="styleOuter">
     <transition>
       <div
         v-if="!hide"
@@ -54,15 +51,17 @@ export default Vue.extend({
 
   props: {
     positionCenter: Number,
-    width: Number,
     id: Number,
     text: String,
     importance: Number
   },
 
   computed: {
-    positionLeft(): number {
-      return this.positionCenter - this.width / 2;
+    styleOuter() {
+      return {
+        left: this.positionCenter - BoxModel.expandedWidth / 2 + "px",
+        width: BoxModel.expandedWidth + "px"
+      };
     },
 
     boxIndex(): number {
@@ -70,8 +69,10 @@ export default Vue.extend({
     },
 
     collapse(): boolean {
-      if (this.shouldShrink(this.boxIndex, -1, this.width)) return true;
-      if (this.shouldShrink(this.boxIndex, 1, this.width)) return true;
+      if (this.shouldShrink(this.boxIndex, -1, BoxModel.expandedWidth))
+        return true;
+      if (this.shouldShrink(this.boxIndex, 1, BoxModel.expandedWidth))
+        return true;
       return false;
     },
 

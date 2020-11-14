@@ -1,6 +1,6 @@
 export default class BoxModel {
   positionCenter: number;
-  width: number;
+  static expandedWidth = 300;
   static collapsedWidth = 50;
   id: number;
   text: string;
@@ -9,14 +9,12 @@ export default class BoxModel {
 
   constructor(
     positionCenter: number,
-    width: number,
     id: number,
     text: string,
     date: number,
     importance: number
   ) {
     this.positionCenter = positionCenter;
-    this.width = width;
     this.id = id;
     this.text = text;
     this.date = date;

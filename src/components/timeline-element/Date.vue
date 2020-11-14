@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="date zoom-transition zoomable"
-    v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
-  >
+  <div class="date zoom-transition zoomable" v-bind:style="styleDate">
     <transition>
       <div v-if="!hide" class="inner">
         {{ this.box.date }}
@@ -23,12 +20,11 @@ export default Vue.extend({
   },
 
   computed: {
-    positionLeft(): number {
-      return this.box.positionCenter - this.box.width / 2;
-    },
-
-    width(): number {
-      return this.box.width;
+    styleDate() {
+      return {
+        left: this.box.positionCenter - BoxModel.expandedWidth / 2 + "px",
+        width: BoxModel.expandedWidth + "px"
+      };
     },
 
     boxIndex(): number {

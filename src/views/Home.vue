@@ -46,7 +46,6 @@ export default Vue.extend({
       boxCreator.addBox(
         new BoxModel(
           absolutePosition,
-          300,
           store.state.boxes.length,
           "text",
           date,

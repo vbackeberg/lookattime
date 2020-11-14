@@ -70,20 +70,26 @@ export default Vue.extend({
     },
 
     collapse(): boolean {
-      if (this.collapseRecursive(this.boxIndex, -1)) return true;
-      if (this.collapseRecursive(this.boxIndex, 1)) return true;
+      if (this.shouldShrink(this.boxIndex, -1, this.width)) return true;
+      if (this.shouldShrink(this.boxIndex, 1, this.width)) return true;
       return false;
     },
 
     hide(): boolean {
-      if (this.hideRecursive(this.boxIndex, -1)) return true;
-      if (this.hideRecursive(this.boxIndex, 1)) return true;
+      if (this.shouldShrink(this.boxIndex, -1, BoxModel.collapsedWidth))
+        return true;
+      if (this.shouldShrink(this.boxIndex, 1, BoxModel.collapsedWidth))
+        return true;
       return false;
     }
   },
 
   methods: {
-    collapseRecursive(currentBoxIndex: number, indexChange: number): boolean {
+    shouldShrink(
+      currentBoxIndex: number,
+      indexChange: number,
+      width: number
+    ): boolean {
       const neighborBox = store.state.boxes[currentBoxIndex + indexChange];
 
       if (!neighborBox) {
@@ -92,9 +98,8 @@ export default Vue.extend({
 
       const collision =
         (this.positionCenter +
-          (indexChange * this.width) / 2 -
-          (neighborBox.positionCenter +
-            (-indexChange * neighborBox.width) / 2)) *
+          (indexChange * width) / 2 -
+          (neighborBox.positionCenter + (-indexChange * width) / 2)) *
           indexChange >
         0;
 
@@ -108,35 +113,11 @@ export default Vue.extend({
         return true;
       }
 
-      return this.collapseRecursive(currentBoxIndex + indexChange, indexChange);
-    },
-
-    hideRecursive(currentBoxIndex: number, indexChange: number): boolean {
-      const neighborBox = store.state.boxes[currentBoxIndex + indexChange];
-
-      if (!neighborBox) {
-        return false;
-      }
-
-      const collision =
-        (this.positionCenter +
-          (indexChange * BoxModel.collapsedWidth) / 2 -
-          (neighborBox.positionCenter +
-            (-indexChange * BoxModel.collapsedWidth) / 2)) *
-          indexChange >
-        0;
-
-      if (!collision) {
-        return false;
-      }
-
-      const hasPrecedence = this.importance > neighborBox.importance;
-
-      if (!hasPrecedence) {
-        return true;
-      }
-
-      return this.hideRecursive(currentBoxIndex + indexChange, indexChange);
+      return this.shouldShrink(
+        currentBoxIndex + indexChange,
+        indexChange,
+        width
+      );
     }
   }
 });

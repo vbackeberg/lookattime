@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts">
-import BoxModel from "@/models/box-model";
 import store from "@/store";
 import Vue from "vue";
 import Connector from "./Connector.vue";
@@ -60,42 +59,46 @@ export default Vue.extend({
       return store.state.boxes.findIndex(box => box.id === this.id);
     },
 
-    closestBoxLeft(): BoxModel {
-      return store.state.boxes[this.boxIndex - 1];
-    },
-
-    closestBoxRight(): BoxModel {
-      return store.state.boxes[this.boxIndex + 1];
-    },
-
     collapse(): boolean {
-      if (this.closestBoxLeft) {
-        const collisionLeft =
-          this.closestBoxLeft.positionCenter +
-            this.closestBoxLeft.width / 2 -
-            this.positionLeft >
-          0;
-
-        const hasNoPrecedence =
-          this.importance < this.closestBoxLeft.importance;
-
-        if (collisionLeft && hasNoPrecedence) return true;
+      if (this.collapseRecursive(this.boxIndex, -1)) {
+        return true;
       }
 
-      if (this.closestBoxRight) {
-        const collisionRight =
-          this.closestBoxRight.positionCenter -
-            this.closestBoxRight.width / 2 -
-            (this.positionLeft + this.width) <
-          0;
-
-        const hasNoPrecedence =
-          this.importance < this.closestBoxRight.importance;
-
-        if (collisionRight && hasNoPrecedence) return true;
+      if (this.collapseRecursive(this.boxIndex, 1)) {
+        return true;
       }
 
       return false;
+    }
+  },
+
+  methods: {
+    collapseRecursive(currentBoxIndex: number, indexChange: number): boolean {
+      const neighborBox = store.state.boxes[currentBoxIndex + indexChange];
+
+      if (!neighborBox) {
+        return false;
+      }
+
+      const collision =
+        (this.positionCenter +
+          (indexChange * this.width) / 2 -
+          (neighborBox.positionCenter +
+            (-indexChange * neighborBox.width) / 2)) *
+          indexChange >
+        0;
+
+      if (!collision) {
+        return false;
+      }
+
+      const hasPrecedence = this.importance > neighborBox.importance;
+
+      if (!hasPrecedence) {
+        return true;
+      }
+
+      return this.collapseRecursive(currentBoxIndex + indexChange, indexChange);
     }
   }
 });

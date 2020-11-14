@@ -1,4 +1,4 @@
-# vue-test2
+# look-at-time
 
 ## Project setup
 ```

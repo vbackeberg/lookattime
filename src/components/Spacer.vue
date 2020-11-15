@@ -3,7 +3,6 @@
     class="spacer"
     v-bind:style="{
       left: positionLeft + 'px',
-      backgroundColor: color,
       width: width + 'px'
     }"
   ></div>
@@ -17,7 +16,6 @@ export default Vue.extend({
 
   props: {
     positionLeft: Number,
-    color: String,
     width: Number
   }
 });

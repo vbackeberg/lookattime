@@ -14,7 +14,6 @@ export default new Vuex.Store({
 
     spacerPageEdge: {
       positionLeft: 0,
-      color: "#aaa",
       width: 1
     } as SpacerModel
   },
@@ -27,7 +26,6 @@ export default new Vuex.Store({
 
       return {
         positionLeft: lowestBox?.positionCenter - BoxModel.expandedWidth / 2 - width,
-        color: "#aaa",
         width: width,
       } as SpacerModel;
     },
@@ -36,7 +34,6 @@ export default new Vuex.Store({
 
       return {
         positionLeft: highestBox?.positionCenter + BoxModel.expandedWidth / 2,
-        color: "#aaa",
         width: window.innerWidth / 2 - BoxModel.expandedWidth / 2
       } as SpacerModel;
     }

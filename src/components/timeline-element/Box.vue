@@ -3,36 +3,39 @@
     class="zoom-container zoom-transition zoomable"
     v-bind:style="styleZoomContainer"
   >
-    <transition>
-      <div v-if="!hide" class="hiding-container">
-        <div
-          class="grow-transition"
-          v-bind:class="{
-            'buffer-top-expanded': !collapse,
-            'buffer-top-collapsed': collapse
-          }"
-        ></div>
-        <div
-          class="box grow-transition"
-          v-bind:class="{
-            'box-expanded': !collapse,
-            'box-collapsed': collapse
-          }"
-        >
+    <div
+      class="grow-transition"
+      v-bind:class="{
+        'buffer-top-box': !collapse,
+        'buffer-top-bubble': collapse,
+        'buffer-top-dot': hide
+      }"
+    ></div>
+    <div
+      class="content grow-transition"
+      v-bind:class="{
+        box: !collapse,
+        bubble: collapse,
+        dot: hide
+      }"
+    >
+      <transition>
+        <div v-if="!hide">
           <div class="image-container">
             <img class="image" src="@/assets/testimg.jpg" alt="test image" />
           </div>
           {{ text }}
         </div>
-        <connector
-          class="grow-transition"
-          v-bind:class="{
-            'connector-expanded': !collapse,
-            'connector-collapsed': collapse
-          }"
-        ></connector>
-      </div>
-    </transition>
+      </transition>
+    </div>
+    <connector
+      class="grow-transition"
+      v-if="!hide"
+      v-bind:class="{
+        'connector-box': !collapse,
+        'connector-bubble': collapse
+      }"
+    ></connector>
   </div>
 </template>
 
@@ -128,11 +131,6 @@ export default Vue.extend({
 .zoom-container {
   position: absolute;
   height: 100%;
-}
-
-.hiding-container {
-  width: 100%;
-  height: 100%;
 
   display: flex;
   flex-flow: column nowrap;
@@ -140,7 +138,7 @@ export default Vue.extend({
   align-items: center;
 }
 
-.box {
+.content {
   box-sizing: border-box;
   background-color: #fff;
   border: 2px solid #000;
@@ -168,15 +166,20 @@ export default Vue.extend({
   transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.buffer-top-expanded {
+// TODO hide buffer top if box size
+.buffer-top-box {
   flex: 0 1 auto;
 }
 
-.buffer-top-collapsed {
+.buffer-top-bubble {
   flex: 16 0 auto;
 }
 
-.box-expanded {
+.buffer-top-dot {
+  flex: 16 0 auto;
+}
+
+.box {
   flex: 4 1 auto;
 
   width: 100%;
@@ -185,7 +188,7 @@ export default Vue.extend({
 }
 
 // turn into style object to allow defining width as width from box model.
-.box-collapsed {
+.bubble {
   flex: 0 0 auto;
 
   width: 50px;
@@ -195,11 +198,24 @@ export default Vue.extend({
   border-radius: 25px;
 }
 
-.connector-expanded {
+.dot {
+  flex: 0 0 auto;
+
+  width: 16px;
+  height: 8px;
+  margin-left: 146px;
+  margin-right: 146px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  border: 1px solid #000;
+  border-bottom: 0;
+  background-color: #000;
+}
+
+.connector-box {
   flex: 1 0 68px;
 }
 
-.connector-collapsed {
+.connector-bubble {
   flex: 1 0 2px;
 }
 

@@ -19,22 +19,31 @@ export default new Vuex.Store({
   },
 
   getters: {
-    // TODO try refactor spacer left and right to calculate attributes inside them instead of in store.
     spacerLeft(state): SpacerModel {
       const lowestBox = state.boxes[0];
-      const width = window.innerWidth / 2 - BoxModel.expandedWidth / 2
+
+      const timelineElement = document.getElementById(
+        "timeline"
+      ) as HTMLElement;
+      const width =
+        timelineElement?.clientWidth / 2 - BoxModel.expandedWidth / 2;
 
       return {
-        positionLeft: lowestBox?.positionCenter - BoxModel.expandedWidth / 2 - width,
-        width: width,
+        positionLeft:
+          lowestBox?.positionCenter - BoxModel.expandedWidth / 2 - width,
+        width: width
       } as SpacerModel;
     },
     spacerRight(state): SpacerModel {
       const highestBox = state.boxes[state.boxes.length - 1];
 
+      const timelineElement = document.getElementById(
+        "timeline"
+      ) as HTMLElement;
+
       return {
         positionLeft: highestBox?.positionCenter + BoxModel.expandedWidth / 2,
-        width: window.innerWidth / 2 - BoxModel.expandedWidth / 2
+        width: timelineElement?.clientWidth / 2 - BoxModel.expandedWidth / 2
       } as SpacerModel;
     }
   },

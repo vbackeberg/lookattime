@@ -18,18 +18,17 @@ export default class BoxCreator {
     this.spacerLeftElement.classList.remove("zoom-transition");
 
     store.commit("addBox", box);
-    
+
     await Vue.nextTick();
-    
+
     await SpaceExtender.extendLeftSpace(
       this.timelineElement,
       -store.getters.spacerLeft.positionLeft
     );
-    
+
     this.spacerLeftElement.classList.add("zoom-transition");
 
     const position = box.positionCenter - this.timelineElement.clientWidth / 2;
-    console.log("Box Creator: Scroll to " + position);
     this.timelineElement.scrollTo({
       left: position,
       behavior: "smooth"

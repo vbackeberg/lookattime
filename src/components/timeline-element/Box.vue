@@ -166,7 +166,6 @@ export default Vue.extend({
   transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-// TODO hide buffer top if box size
 .buffer-top-box {
   flex: 0 1 auto;
 }
@@ -187,7 +186,6 @@ export default Vue.extend({
   border-radius: 10px;
 }
 
-// turn into style object to allow defining width as width from box model.
 .bubble {
   flex: 0 0 auto;
 

@@ -1,4 +1,5 @@
 import BoxModel from "@/models/box-model";
+import MarkerModel from "@/models/marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
@@ -15,7 +16,9 @@ export default new Vuex.Store({
     spacerPageEdge: {
       positionLeft: 0,
       width: 1
-    } as SpacerModel
+    } as SpacerModel,
+
+    timeMarkers: [] as MarkerModel[]
   },
 
   getters: {

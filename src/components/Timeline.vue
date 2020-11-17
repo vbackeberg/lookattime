@@ -14,6 +14,10 @@
     ></div>
     <div id="buffer-bottom-area">
       <date v-for="box in boxes" :key="box.id" v-bind:box="box"></date>
+      <timeMarker
+        v-for="timeMarker in timeMarkers"
+        :key="timeMarker.id"
+      ></timeMarker>
     </div>
   </div>
 </template>
@@ -29,6 +33,8 @@ import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
 import Date from "@/components/timeline-element/Date.vue";
 import SpaceWatcher from "@/timeline/space-watcher";
+import MarkerModel from "@/models/marker-model";
+import TimeMarker from "@/components/TimeMarker.vue";
 
 let zoomer: Zoomer;
 
@@ -39,7 +45,8 @@ export default Vue.extend({
     Box,
     Spacer,
     SpacerLeft,
-    Date
+    Date,
+    TimeMarker
   },
 
   mounted() {
@@ -79,6 +86,15 @@ export default Vue.extend({
           store.state.spacerPageEdge.width,
         this.spacerRight.positionLeft + this.spacerRight.width
       );
+    },
+
+    //TODO: Move time markers into separate component
+    timeMarkers(): MarkerModel[] {
+      return store.state.timeMarkers;
+    },
+
+    timeMarkerDistance(): number {
+      return store.getters.timeMarkerDistance;
     }
   },
 
@@ -88,6 +104,23 @@ export default Vue.extend({
         zoomer.zoom(1.1, e.pageX + this.$el.scrollLeft);
       } else if (e.deltaY > 0) {
         zoomer.zoom(0.92, e.pageX + this.$el.scrollLeft);
+      }
+    }
+  },
+
+  watch: {
+    timeMarkerDistance(newDistance) {
+      if (newDistance > 500) {
+        const newArray = [] as MarkerModel[];
+
+        for (let i = 0; i < store.state.timeMarkers.length; i++) {
+          newArray[newArray.length] = store.state.timeMarkers[i];
+
+          newArray[newArray.length] = new MarkerModel(
+            store.state.timeMarkers[i].positionCenter + newDistance / 2,
+            store.state.timeMarkers.length + i
+          );
+        }
       }
     }
   }

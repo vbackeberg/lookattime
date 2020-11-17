@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="marker"></div>
 </template>
 
 <script lang="ts">
@@ -15,4 +15,10 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.marker {
+  width: 4px;
+  height: 16px;
+  background-color: brown;
+}
+</style>

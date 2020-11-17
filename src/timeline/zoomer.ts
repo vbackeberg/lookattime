@@ -44,21 +44,4 @@ export default class Zoomer {
     const newPosition = mousePosition + distance;
     store.commit("setTimelineZero", newPosition);
   }
-
-  private logPositions() {
-    store.state.boxes.forEach(box => {
-      console.log("box " + box.id + " Pos center " + box.positionCenter);
-    });
-
-    console.log(
-      "SpacerRight Pos " +
-        store.getters.spacerRight.positionLeft +
-        " SpacerLeft Pos " +
-        store.getters.spacerLeft.positionLeft +
-        " spacerPageEdge Pos " +
-        store.state.spacerPageEdge.positionLeft +
-        " timelineZero " +
-        store.state.timelineZero
-    );
-  }
 }

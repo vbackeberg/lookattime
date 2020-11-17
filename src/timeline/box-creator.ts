@@ -1,4 +1,5 @@
 import BoxModel from "@/models/box-model";
+import MarkerModel from "@/models/marker-model";
 import store from "@/store";
 import Vue from "vue";
 import SpaceExtender from "./space-extender";
@@ -19,6 +20,8 @@ export default class BoxCreator {
 
     store.commit("addBox", box);
 
+    this.addTimeMarkers();
+
     await Vue.nextTick();
 
     await SpaceExtender.extendLeftSpace(
@@ -33,5 +36,17 @@ export default class BoxCreator {
       left: position,
       behavior: "smooth"
     });
+  }
+  addTimeMarkers() {
+    // TOOD: If new box is new heighest or lowest,
+    // fill space up to new box with new time markers.
+    
+    // For highest: Determine distance highest to second highest
+    
+    // extend time markers with new markers each with distance of timeMarkerDistance
+    // to the previous one:
+    // (positionCenter = previousPositionCenter + timeMarkerDistance)
+
+
   }
 }

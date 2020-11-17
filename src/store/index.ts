@@ -37,6 +37,7 @@ export default new Vuex.Store({
         width: width
       } as SpacerModel;
     },
+
     spacerRight(state): SpacerModel {
       const highestBox = state.boxes[state.boxes.length - 1];
 
@@ -48,6 +49,13 @@ export default new Vuex.Store({
         positionLeft: highestBox?.positionCenter + BoxModel.expandedWidth / 2,
         width: timelineElement?.clientWidth / 2 - BoxModel.expandedWidth / 2
       } as SpacerModel;
+    },
+
+    timeMarkerDistance(state): number {
+      return (
+        state.timeMarkers[1].positionCenter -
+        state.timeMarkers[0].positionCenter
+      );
     }
   },
 

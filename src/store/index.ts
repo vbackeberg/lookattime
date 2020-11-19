@@ -63,6 +63,7 @@ export default new Vuex.Store({
     setTimelineZero(state, value: number) {
       state.timelineZero = value;
     },
+    
     changeZoomLevel(state, value: number) {
       state.zoomLevel *= value;
     },

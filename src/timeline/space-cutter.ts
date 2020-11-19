@@ -1,4 +1,3 @@
-import SpacerModel from "@/models/spacer-model";
 import store from "@/store";
 import Vue from "vue";
 

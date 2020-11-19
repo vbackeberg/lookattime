@@ -1,7 +1,5 @@
-import SpacerModel from "@/models/spacer-model";
 import store from "@/store";
 import Vue from "vue";
-
 
 /**
  * Extends space to the left by given distance. Takes care of removing animations during position shifting.

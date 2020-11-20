@@ -1,5 +1,5 @@
 import BoxModel from "@/models/box-model";
-import MarkerModel from "@/models/marker-model";
+import TimeMarkerModel from "@/models/marker-model";
 import store from "@/store";
 import Vue from "vue";
 import SpaceExtender from "./space-extender";

@@ -1,4 +1,4 @@
-export default class MarkerModel {
+export default class TimeMarkerModel {
   positionCenter: number;
   id: number;
 

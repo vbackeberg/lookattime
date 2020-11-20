@@ -1,5 +1,5 @@
 import BoxModel from "@/models/box-model";
-import MarkerModel from "@/models/marker-model";
+import TimeMarkerModel from "@/models/marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
@@ -18,7 +18,7 @@ export default new Vuex.Store({
       width: 1
     } as SpacerModel,
 
-    timeMarkers: [] as MarkerModel[]
+    timeMarkers: [] as TimeMarkerModel[]
   },
 
   getters: {

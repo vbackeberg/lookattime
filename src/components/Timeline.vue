@@ -33,7 +33,7 @@ import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
 import Date from "@/components/timeline-element/Date.vue";
 import SpaceWatcher from "@/timeline/space-watcher";
-import MarkerModel from "@/models/marker-model";
+import TimeMarkerModel from "@/models/marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
 
 let zoomer: Zoomer;
@@ -89,7 +89,7 @@ export default Vue.extend({
     },
 
     //TODO: Move time markers into separate component
-    timeMarkers(): MarkerModel[] {
+    timeMarkers(): TimeMarkerModel[] {
       return store.state.timeMarkers;
     },
 
@@ -111,12 +111,12 @@ export default Vue.extend({
   watch: {
     timeMarkerDistance(newDistance) {
       if (newDistance > 500) {
-        const newArray = [] as MarkerModel[];
+        const newArray = [] as TimeMarkerModel[];
 
         for (let i = 0; i < store.state.timeMarkers.length; i++) {
           newArray[newArray.length] = store.state.timeMarkers[i];
 
-          newArray[newArray.length] = new MarkerModel(
+          newArray[newArray.length] = new TimeMarkerModel(
             store.state.timeMarkers[i].positionCenter + newDistance / 2,
             store.state.timeMarkers.length + i
           );

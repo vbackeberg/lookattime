@@ -5,11 +5,11 @@ import Vue from "vue";
 import SpaceExtender from "./space-extender";
 
 export default class BoxCreator {
-  private timelineElement: Element;
+  private timelineElement: HTMLElement;
   private spacerLeftElement: HTMLElement;
 
-  constructor(timelineElement: Element) {
-    this.timelineElement = timelineElement;
+  constructor() {
+    this.timelineElement = document.getElementById("timeline") as HTMLElement;
     this.spacerLeftElement = document.getElementById(
       "spacer-left"
     ) as HTMLElement;

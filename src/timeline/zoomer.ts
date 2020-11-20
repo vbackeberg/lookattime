@@ -1,10 +1,10 @@
 import store from "@/store";
 
 export default class Zoomer {
-  private timelineElement: Element;
+  private timelineElement: HTMLElement;
 
-  constructor(timelineElement: Element) {
-    this.timelineElement = timelineElement;
+  private constructor() {
+    this.timelineElement = document.getElementById("timeline") as HTMLElement;
   }
 
   /**

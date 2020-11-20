@@ -52,7 +52,7 @@ export default Vue.extend({
   mounted() {
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
-    zoomer = new Zoomer(this.$el);
+    zoomer = Zoomer.Instance;
     new SpaceWatcher(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
 
     window.addEventListener("wheel", (e: WheelEvent) => {

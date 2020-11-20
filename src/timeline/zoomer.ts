@@ -44,4 +44,9 @@ export default class Zoomer {
     const newPosition = mousePosition + distance;
     store.commit("setTimelineZero", newPosition);
   }
+
+  private static instance: Zoomer;
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
+  }
 }

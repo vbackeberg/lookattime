@@ -8,25 +8,25 @@ export default class Zoomer {
   }
 
   /**
-   * Moves all boxes towards or away from the mouse pointer by the zoom factor.
+   * Moves all boxes towards or away from the reference position by the zoom factor.
    * Re-aligns spacer for right page edge.
    * Moves timeline zero.
    */
-  public zoom(zoomFactor: number, mousePosition: number) {
-    this.reposition(zoomFactor, mousePosition);
+  public zoom(zoomFactor: number, referencePosition: number) {
+    this.reposition(zoomFactor, referencePosition);
     store.commit("changeZoomLevel", zoomFactor);
   }
 
-  private reposition(zoomFactor: number, mousePosition: number) {
-    this.repositionBoxes(zoomFactor, mousePosition);
+  private reposition(zoomFactor: number, referencePosition: number) {
+    this.repositionBoxes(zoomFactor, referencePosition);
     this.repositionSpacerPageEdge();
-    this.repositionTimelineZero(zoomFactor, mousePosition);
+    this.repositionTimelineZero(zoomFactor, referencePosition);
   }
 
-  private repositionBoxes(zoomFactor: number, mousePosition: number) {
+  private repositionBoxes(zoomFactor: number, referencePosition: number) {
     store.state.boxes.forEach(box => {
-      const distance = (box.positionCenter - mousePosition) * zoomFactor;
-      box.positionCenter = mousePosition + distance;
+      const distance = (box.positionCenter - referencePosition) * zoomFactor;
+      box.positionCenter = referencePosition + distance;
     });
   }
 
@@ -39,9 +39,9 @@ export default class Zoomer {
     store.commit("setSpacerPageEdgePosition", newPositionLeft);
   }
 
-  private repositionTimelineZero(zoomFactor: number, mousePosition: number) {
-    const distance = (store.state.timelineZero - mousePosition) * zoomFactor;
-    const newPosition = mousePosition + distance;
+  private repositionTimelineZero(zoomFactor: number, referencePosition: number) {
+    const distance = (store.state.timelineZero - referencePosition) * zoomFactor;
+    const newPosition = referencePosition + distance;
     store.commit("setTimelineZero", newPosition);
   }
 

@@ -28,7 +28,7 @@ export default Vue.extend({
   },
 
   mounted() {
-    boxCreator = new BoxCreator((this.$refs.timelineElement as Vue).$el);
+    boxCreator = new BoxCreator();
     this.addBox(1804, 100);
   },
 

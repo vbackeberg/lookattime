@@ -48,5 +48,8 @@ export default class BoxCreator {
     // (positionCenter = previousPositionCenter + timeMarkerDistance)
 
 
+  private static instance: BoxCreator;
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
   }
 }

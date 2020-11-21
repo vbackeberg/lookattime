@@ -28,7 +28,7 @@ export default Vue.extend({
   },
 
   mounted() {
-    boxCreator = new BoxCreator();
+    boxCreator = BoxCreator.Instance;
     this.addBox(1804, 100);
   },
 

@@ -41,6 +41,8 @@ export default new Vuex.Store({
     spacerRight(state): SpacerModel {
       const highestBox = state.boxes[state.boxes.length - 1];
 
+      // TODO: Problem: How to avoid recalculation?
+      // Mutation: Set timelineElement. Call it on timeline mounted.
       const timelineElement = document.getElementById(
         "timeline"
       ) as HTMLElement;

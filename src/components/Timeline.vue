@@ -109,20 +109,27 @@ export default Vue.extend({
   },
 
   watch: {
-    timeMarkerDistance(newDistance) {
-      if (newDistance > 500) {
-        const newArray = [] as TimeMarkerModel[];
+    // TODO: Time Marker Creator:
+    // addInBetween() (zooming)
+    // addLeft() (box creation)
+    // addRight() (box creation)
 
-        for (let i = 0; i < store.state.timeMarkers.length; i++) {
-          newArray[newArray.length] = store.state.timeMarkers[i];
+    // timeMarkerDistance(newDistance) {
+    //   if (newDistance > 500) {
+    //     const newArray = [] as TimeMarkerModel[];
 
-          newArray[newArray.length] = new TimeMarkerModel(
-            store.state.timeMarkers[i].positionCenter + newDistance / 2,
-            store.state.timeMarkers.length + i
-          );
-        }
-      }
-    }
+    //     for (let i = 0; i < store.state.timeMarkers.length; i++) {
+    //       newArray[newArray.length] = store.state.timeMarkers[i];
+
+    //       newArray[newArray.length] = new TimeMarkerModel(
+    //         store.state.timeMarkers[i].positionCenter + newDistance / 2,
+    //         uuid()
+    //       );
+    //     }
+    //   }
+
+    //   // store.state.timeMarkers = new array
+    // }
   }
 });
 </script>

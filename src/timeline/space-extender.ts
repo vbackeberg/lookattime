@@ -17,6 +17,10 @@ export default class SpaceExtender {
       box.positionCenter += distance;
     });
 
+    store.state.timeMarkers.forEach(timeMarker => {
+      timeMarker.positionCenter += distance;
+    });
+
     store.commit("setTimelineZero", store.state.timelineZero + distance);
 
     store.commit(

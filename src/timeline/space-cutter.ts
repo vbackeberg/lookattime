@@ -14,6 +14,10 @@ export default class SpaceCutter {
       box.positionCenter -= distance;
     });
 
+    store.state.timeMarkers.forEach(timeMarker => {
+      timeMarker.positionCenter -= distance;
+    });
+
     store.commit("setTimelineZero", store.state.timelineZero - distance);
 
     timelineElement.scrollBy(-distance, 0);

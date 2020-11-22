@@ -21,6 +21,7 @@ export default class Zoomer {
     this.repositionBoxes(zoomFactor, referencePosition);
     this.repositionSpacerPageEdge();
     this.repositionTimelineZero(zoomFactor, referencePosition);
+    this.repositionTimeMarkers(zoomFactor, referencePosition);
   }
 
   private repositionBoxes(zoomFactor: number, referencePosition: number) {
@@ -39,10 +40,22 @@ export default class Zoomer {
     store.commit("setSpacerPageEdgePosition", newPositionLeft);
   }
 
-  private repositionTimelineZero(zoomFactor: number, referencePosition: number) {
-    const distance = (store.state.timelineZero - referencePosition) * zoomFactor;
+  private repositionTimelineZero(
+    zoomFactor: number,
+    referencePosition: number
+  ) {
+    const distance =
+      (store.state.timelineZero - referencePosition) * zoomFactor;
     const newPosition = referencePosition + distance;
     store.commit("setTimelineZero", newPosition);
+  }
+
+  private repositionTimeMarkers(zoomFactor: number, referencePosition: number) {
+    store.state.timeMarkers.forEach(timeMarker => {
+      const distance =
+        (timeMarker.positionCenter - referencePosition) * zoomFactor;
+      timeMarker.positionCenter = referencePosition + distance;
+    });
   }
 
   private static instance: Zoomer;

@@ -16,6 +16,7 @@
       <date v-for="box in boxes" :key="box.id" v-bind:box="box"></date>
       <timeMarker
         v-for="timeMarker in timeMarkers"
+        v-bind="timeMarker"
         :key="timeMarker.id"
       ></timeMarker>
     </div>
@@ -33,7 +34,7 @@ import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
 import Date from "@/components/timeline-element/Date.vue";
 import SpaceWatcher from "@/timeline/space-watcher";
-import TimeMarkerModel from "@/models/marker-model";
+import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
 
 let zoomer: Zoomer;

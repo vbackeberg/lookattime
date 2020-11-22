@@ -1,8 +1,10 @@
 <template>
   <div
-    class="marker"
+    class="marker zoomable"
     v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
-  ></div>
+  >
+    {{ date }}
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,7 +21,8 @@ export default Vue.extend({
 
   props: {
     positionCenter: Number,
-    id: String
+    id: String,
+    date: Number
   },
 
   computed: {

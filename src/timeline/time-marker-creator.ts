@@ -31,6 +31,7 @@ export default class TimeMarkerCreator {
 
       store.state.timeMarkers.push(timeMarker);
     }
+    // TODO: if rel right edge < 0
   }
 
   private round(relativeLeftEdge: number, relativeRightEdge: number): number {

@@ -28,7 +28,9 @@ export default class ViewFocuser {
     this.checkOutOfBounds(absoluteLeft, absoluteRight);
 
     const absoluteDistance = absoluteRight - absoluteLeft;
-    const zoomFactor = this.timelineElement.clientWidth / absoluteDistance;
+    const margin = BoxModel.expandedWidth + 32;
+    const zoomFactor =
+      (this.timelineElement.clientWidth - margin) / absoluteDistance;
     const absoluteCenter = absoluteLeft + absoluteDistance / 2;
 
     this.zoomer.zoom(zoomFactor, absoluteCenter);

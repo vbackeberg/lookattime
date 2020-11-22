@@ -2,7 +2,7 @@ export default class TimeMarkerModel {
   positionCenter: number;
   id: string;
 
-  //TODO: Add relative Position (date)
+  //TODO: Add date
   constructor(positionCenter: number, id: string) {
     this.positionCenter = positionCenter;
     this.id = id;

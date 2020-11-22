@@ -18,7 +18,6 @@ export default class ViewFocuser {
    * @param right Relative end of time range
    */
   public focusOnRange(left: number, right: number) {
-    // TODO: Add a margin left and right, so that boxes are inside view after zoom.
     const absoluteLeft =
       store.state.timelineZero + left * store.state.zoomLevel;
 

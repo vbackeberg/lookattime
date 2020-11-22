@@ -10,7 +10,7 @@ export default class BoxCreator {
   private spacerLeftElement: HTMLElement;
   private viewFocuser: ViewFocuser;
 
-  constructor() {
+  private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
     this.spacerLeftElement = document.getElementById(
       "spacer-left"

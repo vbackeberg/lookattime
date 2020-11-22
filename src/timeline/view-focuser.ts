@@ -5,7 +5,7 @@ import Zoomer from "./zoomer";
 export default class ViewFocuser {
   private zoomer: Zoomer;
   private timelineElement: HTMLElement;
-  constructor() {
+  private constructor() {
     this.zoomer = Zoomer.Instance;
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
   }

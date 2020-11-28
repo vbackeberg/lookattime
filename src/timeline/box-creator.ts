@@ -19,8 +19,6 @@ export default class BoxCreator {
   }
 
   public async addBox(box: BoxModel) {
-    this.spacerLeftElement.classList.remove("zoom-transition");
-
     store.commit("addBox", box);
 
     await Vue.nextTick();
@@ -29,8 +27,6 @@ export default class BoxCreator {
       this.timelineElement,
       -store.getters.spacerLeft.positionLeft
     );
-
-    this.spacerLeftElement.classList.add("zoom-transition");
 
     this.focusView(box);
   }

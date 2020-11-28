@@ -119,15 +119,6 @@ export default Vue.extend({
       const maxDistance = 500;
       const minDistance = 200;
 
-      if (newDistance > maxDistance) {
-        // Add in between
-      }
-
-      if (newDistance < minDistance) {
-        // remove markers at current depth
-        // increase depth by ^10
-      }
-
       const leftEdge = Math.min(this.spacerLeft.positionLeft, 0);
       if (store.state.timeMarkers[0].positionCenter - leftEdge > newDistance) {
         store.commit("unshiftTimeMarkers", timeMarkerCreator.createMarkersLeft);
@@ -145,6 +136,15 @@ export default Vue.extend({
         newDistance
       ) {
         store.commit("pushTimeMarkers", timeMarkerCreator.createMarkersRight);
+      }
+
+      if (newDistance > maxDistance) {
+        // Add in between
+      }
+
+      if (newDistance < minDistance) {
+        // remove markers at current depth
+        // increase depth by ^10
       }
     }
   }

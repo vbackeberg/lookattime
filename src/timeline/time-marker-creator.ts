@@ -2,16 +2,23 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store";
 import { v4 as uuid } from "uuid";
 export default class TimeMarkerCreator {
-  public addTimeMarkers() {
-    const relativeLeftEdge =
+  public createTimeMarkers() {
+    const relativeLeftEdge = Math.min(
       (store.getters.spacerLeft.positionLeft - store.state.timelineZero) /
-      store.state.zoomLevel;
+        store.state.zoomLevel,
+      (0 - store.state.timelineZero) / store.state.zoomLevel
+    );
 
-    const relativeRightEdge =
+    const relativeRightEdge = Math.max(
       (store.getters.spacerRight.positionLeft +
         store.getters.spacerRight.width -
         store.state.timelineZero) /
-      store.state.zoomLevel;
+        store.state.zoomLevel,
+      (store.state.spacerPageEdge.positionLeft +
+        store.state.spacerPageEdge.width -
+        store.state.timelineZero) /
+        store.state.zoomLevel
+    );
 
     const timeMarkers = [] as TimeMarkerModel[];
     const base = 10;

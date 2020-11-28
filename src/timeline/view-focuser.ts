@@ -53,7 +53,6 @@ export default class ViewFocuser {
   }
 
   private checkOutOfBounds(absoluteLeft: number, absoluteRight: number) {
-    //TODO: Change this to check if below 0.
     if (absoluteLeft < 0) {
       console.error("View Focuser: Start is out of bounds");
     }

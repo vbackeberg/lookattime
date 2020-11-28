@@ -1,5 +1,5 @@
 import BoxModel from "@/models/box-model";
-import TimeMarkerModel from "@/models/marker-model";
+import TimeMarkerModel from "@/models/time-marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";

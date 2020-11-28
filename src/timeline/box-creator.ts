@@ -6,6 +6,10 @@ import SpaceExtender from "./space-extender";
 import ViewFocuser from "./view-focuser";
 import TimeMarkerCreator from "./time-marker-creator";
 
+/**
+ * Adds box to store. Handles possible space extension. Scrolls to new box.
+ * Adds time new markers.
+ */
 export default class BoxCreator {
   private timelineElement: HTMLElement;
   private spacerLeftElement: HTMLElement;

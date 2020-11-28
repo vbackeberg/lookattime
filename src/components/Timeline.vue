@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import Box from "@/components/timeline-element/Box.vue";
+import Box from "@/components/timeline-event/Box.vue";
 import Vue from "vue";
 import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
@@ -32,7 +32,7 @@ import Spacer from "@/components/Spacer.vue";
 import SpacerLeft from "@/components/SpacerLeft.vue";
 import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
-import Date from "@/components/timeline-element/Date.vue";
+import Date from "@/components/timeline-event/Date.vue";
 import SpaceWatcher from "@/timeline/space-watcher";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";

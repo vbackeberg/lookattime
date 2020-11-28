@@ -1,5 +1,4 @@
 import BoxModel from "@/models/box-model";
-import TimeMarkerModel from "@/models/marker-model";
 import store from "@/store";
 import Vue from "vue";
 import SpaceExtender from "./space-extender";
@@ -52,8 +51,6 @@ export default class BoxCreator {
       this.viewFocuser.focusOnBox(box);
     }
   }
-
- 
 
   private static instance: BoxCreator;
   public static get Instance() {

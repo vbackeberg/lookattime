@@ -77,6 +77,10 @@ export default new Vuex.Store({
 
     setSpacerPageEdgePosition(state, positionLeft: number) {
       state.spacerPageEdge.positionLeft = positionLeft;
+    },
+
+    setTimeMarkers(state, markers: TimeMarkerModel[]) {
+      state.timeMarkers = markers;
     }
   },
 

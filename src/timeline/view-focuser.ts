@@ -42,7 +42,7 @@ export default class ViewFocuser {
   /**
    * Centers the specified box in the view.
    *
-   * @param box The box to put focus
+   * @param box The box to put focus on
    */
   public focusOnBox(box: BoxModel) {
     const position = box.positionCenter - this.timelineElement.clientWidth / 2;

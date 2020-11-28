@@ -112,9 +112,10 @@ export default Vue.extend({
     }
   },
 
-  //TODO put time markers in own component
   watch: {
-    timeMarkerDistance(oldDistance, newDistance) {
+    timeMarkerDistance(newDistance, oldDistance) {
+      if (store.state.boxes.length < 3) return;
+
       const maxDistance = 500;
       const minDistance = 200;
 

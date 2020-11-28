@@ -38,7 +38,7 @@ export default class BoxCreator {
     this.focusView(box);
 
     if (store.state.boxes.length > 1) {
-      this.timeMarkerCreator.addTimeMarkers();
+      this.timeMarkerCreator.createTimeMarkers();
     }
   }
 

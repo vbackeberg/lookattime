@@ -117,7 +117,7 @@ export default class TimeMarkerCreator {
     ); // 2. return 1910
   }
 
-  private createMarkersLeft(
+  public createMarkersLeft(
     leftmostMarker: TimeMarkerModel,
     relativeLeftEdge: number,
     markerDistance: number
@@ -142,7 +142,7 @@ export default class TimeMarkerCreator {
     return markers;
   }
 
-  private createMarkersRight(
+  public createMarkersRight(
     rightmostMarker: TimeMarkerModel,
     relativeRightEdge: number,
     markerDistance: number

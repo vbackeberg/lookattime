@@ -36,8 +36,10 @@ import Date from "@/components/timeline-event/Date.vue";
 import SpaceWatcher from "@/timeline/space-watcher";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
+import TimeMarkerCreator from "@/timeline/time-marker-creator";
 
 let zoomer: Zoomer;
+let timeMarkerCreator: TimeMarkerCreator;
 
 export default Vue.extend({
   name: "Timeline",
@@ -55,6 +57,7 @@ export default Vue.extend({
 
     zoomer = Zoomer.Instance;
     new SpaceWatcher(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    timeMarkerCreator = TimeMarkerCreator.Instance;
 
     window.addEventListener("wheel", (e: WheelEvent) => {
       if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
@@ -109,28 +112,40 @@ export default Vue.extend({
     }
   },
 
+  //TODO put time markers in own component
   watch: {
-    // TODO: Time Marker Creator:
-    // addInBetween() (zooming)
-    // addLeft() (box creation)
-    // addRight() (box creation)
+    timeMarkerDistance(oldDistance, newDistance) {
+      const maxDistance = 500;
+      const minDistance = 200;
 
-    // timeMarkerDistance(newDistance) {
-    //   if (newDistance > 500) {
-    //     const newArray = [] as TimeMarkerModel[];
+      if (newDistance > maxDistance) {
+        // Add in between
+      }
 
-    //     for (let i = 0; i < store.state.timeMarkers.length; i++) {
-    //       newArray[newArray.length] = store.state.timeMarkers[i];
+      if (newDistance < minDistance) {
+        // remove markers at current depth
+        // increase depth by ^10
+      }
 
-    //       newArray[newArray.length] = new TimeMarkerModel(
-    //         store.state.timeMarkers[i].positionCenter + newDistance / 2,
-    //         uuid()
-    //       );
-    //     }
-    //   }
+      const leftEdge = Math.min(this.spacerLeft.positionLeft, 0);
+      if (store.state.timeMarkers[0].positionCenter - leftEdge > newDistance) {
+        store.commit("unshiftTimeMarkers", timeMarkerCreator.createMarkersLeft);
+      }
 
-    //   // store.state.timeMarkers = new array
-    // }
+      const rightEdge = Math.max(
+        this.spacerRight.positionLeft + this.spacerRight.width,
+        store.state.spacerPageEdge.positionLeft +
+          store.state.spacerPageEdge.width
+      );
+      if (
+        rightEdge -
+          store.state.timeMarkers[store.state.timeMarkers.length - 1]
+            .positionCenter >
+        newDistance
+      ) {
+        store.commit("pushTimeMarkers", timeMarkerCreator.createMarkersRight);
+      }
+    }
   }
 });
 </script>

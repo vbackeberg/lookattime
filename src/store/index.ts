@@ -81,6 +81,14 @@ export default new Vuex.Store({
 
     setTimeMarkers(state, markers: TimeMarkerModel[]) {
       state.timeMarkers = markers;
+    },
+
+    pushTimeMarkers(state, markers: TimeMarkerModel[]) {
+      state.timeMarkers.push(...markers);
+    },
+
+    unshiftTimeMarkers(state, markers: TimeMarkerModel[]) {
+      state.timeMarkers.unshift(...markers);
     }
   },
 

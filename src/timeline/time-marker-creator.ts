@@ -37,6 +37,18 @@ export default class TimeMarkerCreator {
       base
     );
     store.state.timeMarkers.push(secondMarker);
+
+    this.addMarkersLeft(
+      secondMarker.date < firstMarker.date ? secondMarker : firstMarker,
+      relativeLeftEdge,
+      secondMarker.depth
+    );
+
+    this.addMarkersRight(
+      secondMarker.date > firstMarker.date ? secondMarker : firstMarker,
+      relativeRightEdge,
+      secondMarker.depth
+    );
   }
 
   private createFirstMarker(
@@ -95,6 +107,50 @@ export default class TimeMarkerCreator {
       secondMarkerDate,
       power
     ); // 2. return 1910
+  }
+
+  private addMarkersLeft(
+    leftmostMarker: TimeMarkerModel,
+    relativeLeftEdge: number,
+    markerDistance: number
+  ) {
+    // first marker, 1899, 10
+    const distanceToEdge = leftmostMarker.date - relativeLeftEdge; // 1900 - 1899 = 1
+    const numberOfMarkers = Math.floor(distanceToEdge / markerDistance); // floor (1 / 10) = 0
+
+    const absoluteMarkerDistance = markerDistance * store.state.zoomLevel;
+    for (let i = 1; i <= numberOfMarkers; i++) {
+      store.state.timeMarkers.push(
+        new TimeMarkerModel(
+          leftmostMarker.positionCenter - absoluteMarkerDistance * i,
+          uuid(),
+          leftmostMarker.date - markerDistance * i,
+          markerDistance // relative marker distance = depth = power
+        )
+      );
+    }
+  }
+
+  private addMarkersRight(
+    rightmostMarker: TimeMarkerModel,
+    relativeRightEdge: number,
+    markerDistance: number
+  ) {
+    // second marker, 1950, 10
+    const distanceToEdge = relativeRightEdge - rightmostMarker.date; // 1950 - 1910 = 40
+    const numberOfMarkers = Math.floor(distanceToEdge / markerDistance); // floor (40 / 10) = 4
+
+    const absoluteMarkerDistance = markerDistance * store.state.zoomLevel;
+    for (let i = 1; i <= numberOfMarkers; i++) {
+      store.state.timeMarkers.push(
+        new TimeMarkerModel(
+          rightmostMarker.positionCenter + absoluteMarkerDistance * i,
+          uuid(),
+          rightmostMarker.date + markerDistance * i,
+          markerDistance // relative marker distance = depth = power
+        )
+      );
+    }
   }
 
   private static instance: TimeMarkerCreator;

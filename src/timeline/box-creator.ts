@@ -4,11 +4,13 @@ import store from "@/store";
 import Vue from "vue";
 import SpaceExtender from "./space-extender";
 import ViewFocuser from "./view-focuser";
+import TimeMarkerCreator from "./time-marker-creator";
 
 export default class BoxCreator {
   private timelineElement: HTMLElement;
   private spacerLeftElement: HTMLElement;
   private viewFocuser: ViewFocuser;
+  private timeMarkerCreator: TimeMarkerCreator;
 
   private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
@@ -16,6 +18,7 @@ export default class BoxCreator {
       "spacer-left"
     ) as HTMLElement;
     this.viewFocuser = ViewFocuser.Instance;
+    this.timeMarkerCreator = TimeMarkerCreator.Instance;
   }
 
   public async addBox(box: BoxModel) {
@@ -29,6 +32,10 @@ export default class BoxCreator {
     );
 
     this.focusView(box);
+
+    if (store.state.boxes.length > 1) {
+      this.timeMarkerCreator.addTimeMarkers();
+    }
   }
 
   private focusView(box: BoxModel) {

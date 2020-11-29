@@ -54,10 +54,10 @@ export default new Vuex.Store({
     },
 
     timeMarkerDistance(state): number {
-      return (
-        state.timeMarkers[1].positionCenter -
-        state.timeMarkers[0].positionCenter
-      );
+      return state.timeMarkers.length < 2
+        ? 0
+        : state.timeMarkers[1].positionCenter -
+            state.timeMarkers[0].positionCenter;
     }
   },
 

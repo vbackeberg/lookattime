@@ -54,6 +54,7 @@ export default class TimeMarkerCreator {
     );
 
     store.commit("setTimeMarkers", timeMarkers);
+    store.commit("setTimeMarkerDepth", secondMarker.depth);
   }
 
   private createFirstMarker(

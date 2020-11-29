@@ -119,6 +119,9 @@ export default Vue.extend({
       const maxDistance = 500;
       const minDistance = 200;
 
+      // TODO Check if markers have been moved outside
+      // the spacer-bounded area and remove them.
+
       const leftEdge = Math.min(this.spacerLeft.positionLeft, 0);
       if (store.state.timeMarkers[0].positionCenter - leftEdge > newDistance) {
         store.commit("unshiftTimeMarkers", timeMarkerCreator.createMarkersLeft);

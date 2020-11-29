@@ -114,7 +114,7 @@ export default Vue.extend({
 
   watch: {
     timeMarkerDistance(newDistance, oldDistance) {
-      if (store.state.boxes.length < 3) return;
+      if (store.state.boxes.length < 2) return;
 
       const maxDistance = 500;
       const minDistance = 200;

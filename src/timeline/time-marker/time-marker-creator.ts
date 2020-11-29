@@ -6,7 +6,7 @@ export default class TimeMarkerCreator {
     const relativeLeftEdge = Math.min(
       (store.getters.spacerLeft.positionLeft - store.state.timelineZero) /
         store.state.zoomLevel,
-      (0 - store.state.timelineZero) / store.state.zoomLevel
+      (0 - store.state.timelineZero) / store.state.zoomLevel // TODO: Instead of 0, compare with scroll left.
     );
 
     const relativeRightEdge = Math.max(

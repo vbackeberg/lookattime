@@ -130,7 +130,7 @@ export default Vue.extend({
         // TODO: Instead of 0, compare with scroll left.
         const leftEdge = Math.min(this.spacerLeft.positionLeft, 0);
         if (
-          leftEdge - store.state.timeMarkers[0].positionCenter >
+          store.state.timeMarkers[0].positionCenter - leftEdge >
           newDistance
         ) {
           store.commit(

@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Spacer from "@/components/Spacer.vue";
+import Spacer from "@/components/spacer/Spacer.vue";
 
 export default Vue.extend({
   name: "SpacerLeft",

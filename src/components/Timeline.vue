@@ -135,7 +135,7 @@ export default Vue.extend({
         ) {
           store.commit(
             "unshiftTimeMarkers",
-            timeMarkerCreator.createMarkersLeft
+            timeMarkerCreator.createMarkersLeft // TODO call function
           );
         }
 
@@ -150,7 +150,10 @@ export default Vue.extend({
               .positionCenter >
           newDistance
         ) {
-          store.commit("pushTimeMarkers", timeMarkerCreator.createMarkersRight);
+          store.commit(
+            "pushTimeMarkers",
+            timeMarkerCreator.createMarkersRight // TODO call function
+          );
         }
       }
 

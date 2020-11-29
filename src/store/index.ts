@@ -18,7 +18,8 @@ export default new Vuex.Store({
       width: 1
     } as SpacerModel,
 
-    timeMarkers: [] as TimeMarkerModel[]
+    timeMarkers: [] as TimeMarkerModel[],
+    timeMarkerDepth: 1
   },
 
   getters: {
@@ -89,6 +90,14 @@ export default new Vuex.Store({
 
     unshiftTimeMarkers(state, markers: TimeMarkerModel[]) {
       state.timeMarkers.unshift(...markers);
+    },
+
+    incrementTimeMarkerDepth(state) {
+      state.timeMarkerDepth *= 10;
+    },
+
+    decrementTimeMarkerDepth(state) {
+      state.timeMarkerDepth /= 10;
     }
   },
 

@@ -117,7 +117,7 @@ export default class TimeMarkerCreator {
     ); // 2. return 1910
   }
 
-  public createMarkersLeft(
+  public createMarkersLeft( //TODO: Refactor: fillSpaceWithMarkers to the left. Reduce parameters accordingly.
     leftmostMarker: TimeMarkerModel,
     relativeLeftEdge: number,
     depth: number

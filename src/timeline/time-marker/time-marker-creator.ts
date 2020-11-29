@@ -2,6 +2,8 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store";
 import { v4 as uuid } from "uuid";
 import PositionTranslator from "../position-translator";
+import { Constants } from "./constants";
+import { round } from "mathjs";
 export default class TimeMarkerCreator {
   public createTimeMarkers() {
     const relativeLeftEdge = PositionTranslator.toRelativePosition(
@@ -18,13 +20,11 @@ export default class TimeMarkerCreator {
     );
 
     const timeMarkers = [] as TimeMarkerModel[];
-    const base = 10;
 
     const firstMarker = this.createFirstMarker(
       relativeRightEdge,
       relativeLeftEdge,
-      base ** -this.countDecimals(relativeRightEdge),
-      base
+      -this.countDecimals(relativeRightEdge)
     );
     timeMarkers.push(firstMarker);
 
@@ -32,8 +32,7 @@ export default class TimeMarkerCreator {
       firstMarker.date,
       relativeLeftEdge,
       relativeRightEdge,
-      firstMarker.depth,
-      base
+      firstMarker.depth
     );
     timeMarkers.push(secondMarker);
 
@@ -60,28 +59,32 @@ export default class TimeMarkerCreator {
   private createFirstMarker(
     relativeRightEdge: number,
     relativeLeftEdge: number,
-    power: number,
-    base: number
+    exponent: number
   ): TimeMarkerModel {
-    if (
-      Math.floor(relativeRightEdge / (power * base)) * (power * base) >
-      relativeLeftEdge
-    ) {
+    // Additional rounding fixes Chrome bug: https://stackoverflow.com/questions/55958535
+    const depth = round(
+      Constants.MARKER_BASE ** (exponent + 1),
+      Math.abs(exponent + 1)
+    );
+
+    if (Math.floor(relativeRightEdge / depth) * depth > relativeLeftEdge) {
       return this.createFirstMarker(
         relativeRightEdge,
         relativeLeftEdge,
-        power * base,
-        base
+        exponent + 1
       );
     }
 
-    const lowestDepthDate = Math.floor(relativeRightEdge / power) * power;
+    const highestPossibleDepth = Constants.MARKER_BASE ** exponent;
+    const date =
+      Math.floor(relativeRightEdge / highestPossibleDepth) *
+      highestPossibleDepth;
 
     return new TimeMarkerModel(
-      store.state.timelineZero + lowestDepthDate * store.state.zoomLevel,
+      store.state.timelineZero + date * store.state.zoomLevel, // TODO: position translator to absolute position
       uuid(),
-      lowestDepthDate,
-      power
+      date,
+      highestPossibleDepth
     );
   }
 
@@ -89,8 +92,7 @@ export default class TimeMarkerCreator {
     firstMarkerDate: number,
     relativeLeftEdge: number,
     relativeRightEdge: number,
-    power: number,
-    base: number
+    power: number
   ): TimeMarkerModel {
     let secondMarkerDate = firstMarkerDate - power; // 1. 1900 - 100 / 10^0 = 1800    | 2. 1900 - 100 / 10^1 = 1890
     if (secondMarkerDate < relativeLeftEdge) {
@@ -102,8 +104,7 @@ export default class TimeMarkerCreator {
           firstMarkerDate,
           relativeLeftEdge,
           relativeRightEdge,
-          power / base,
-          base
+          power / Constants.MARKER_BASE
         );
       }
     }

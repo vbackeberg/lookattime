@@ -16,10 +16,12 @@
     "vue-meta": "2.4.0",
     "vue-property-decorator": "^8.5.1",
     "vue-router": "^3.4.0",
-    "vuex": "^3.5.1"
+    "vuex": "^3.5.1",
+    "mathjs": "^7.3.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
+    "@types/mathjs": "^6.0.7",
     "@types/mocha": "^5.2.4",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",

@@ -128,7 +128,7 @@ export default Vue.extend({
       // On zoom out:
       if (newDistance < oldDistance) {
         // TODO: Instead of 0, compare with scroll left.
-        const leftEdge = Math.min(this.spacerLeft.positionLeft, 0);
+        const leftEdge = Math.min(store.getters.spacerLeft.positionLeft, 0);
         if (
           store.state.timeMarkers[0].positionCenter - leftEdge >
           newDistance
@@ -140,7 +140,8 @@ export default Vue.extend({
         }
 
         const rightEdge = Math.max(
-          this.spacerRight.positionLeft + this.spacerRight.width,
+          store.getters.spacerRight.positionLeft +
+            store.getters.spacerRight.width,
           store.state.spacerPageEdge.positionLeft +
             store.state.spacerPageEdge.width
         );

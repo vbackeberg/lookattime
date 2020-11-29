@@ -2,7 +2,7 @@ import BoxModel from "@/models/box-model";
 import store from "@/store";
 import Vue from "vue";
 import ViewFocuser from "./view-focuser";
-import TimeMarkerCreator from "./time-marker-creator";
+import TimeMarkerCreator from "./time-marker/time-marker-creator";
 import SpaceExtender from './space-management/space-extender';
 
 /**

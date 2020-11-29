@@ -35,8 +35,8 @@ import Zoomer from "@/timeline/zoomer";
 import Date from "@/components/timeline-event/Date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
-import TimeMarkerCreator from "@/timeline/time-marker-creator";
 import SpaceWatcher from "@/timeline/space-management/space-watcher";
+import TimeMarkerCreator from "@/timeline/time-marker/time-marker-creator";
 
 let zoomer: Zoomer;
 let timeMarkerCreator: TimeMarkerCreator;

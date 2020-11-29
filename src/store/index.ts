@@ -98,6 +98,10 @@ export default new Vuex.Store({
 
     decrementTimeMarkerDepth(state) {
       state.timeMarkerDepth /= 10;
+    },
+
+    setTimeMarkerDepth(state, value: number) {
+      state.timeMarkerDepth = value;
     }
   },
 

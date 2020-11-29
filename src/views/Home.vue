@@ -34,7 +34,7 @@ export default Vue.extend({
 
   data() {
     return {
-      date: 1812,
+      date: 1821,
       importance: 101
     };
   },

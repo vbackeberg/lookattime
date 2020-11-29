@@ -1,4 +1,5 @@
 import store from "@/store";
+import PositionTranslator from "../position-translator";
 import TimeMarkerCreator from "./time-marker-creator";
 
 export default class TimeMarkerWatcher {
@@ -22,31 +23,35 @@ export default class TimeMarkerWatcher {
     // On zoom out:
     if (newDistance < oldDistance) {
       // TODO: Instead of 0, compare with scroll left.
-      const leftEdge = Math.min(store.getters.spacerLeft.positionLeft, 0);
-      if (store.state.timeMarkers[0].positionCenter - leftEdge > newDistance) {
-        store.commit(
-          "unshiftTimeMarkers",
-          this.timeMarkerCreator.createMarkersLeft // TODO call function
-        );
-      }
-
-      const rightEdge = Math.max(
-        store.getters.spacerRight.positionLeft +
-          store.getters.spacerRight.width,
-        store.state.spacerPageEdge.positionLeft +
-          store.state.spacerPageEdge.width
+      const relativeLeftEdge = PositionTranslator.toRelativePosition(
+        Math.min(store.getters.spacerLeft.positionLeft, 0)
       );
-      if (
-        rightEdge -
-          store.state.timeMarkers[store.state.timeMarkers.length - 1]
-            .positionCenter >
-        newDistance
-      ) {
-        store.commit(
-          "pushTimeMarkers",
-          this.timeMarkerCreator.createMarkersRight // TODO call function
-        );
-      }
+      store.commit(
+        "unshiftTimeMarkers",
+        this.timeMarkerCreator.createMarkersLeft(
+          store.state.timeMarkers[0],
+          relativeLeftEdge,
+          store.state.timeMarkerDepth
+        )
+      );
+
+      const relativeRightEdge = PositionTranslator.toRelativePosition(
+        Math.max(
+          store.getters.spacerRight.positionLeft +
+            store.getters.spacerRight.width,
+          store.state.spacerPageEdge.positionLeft +
+            store.state.spacerPageEdge.width
+        )
+      );
+
+      store.commit(
+        "pushTimeMarkers",
+        this.timeMarkerCreator.createMarkersRight(
+          store.state.timeMarkers[store.state.timeMarkers.length - 1],
+          relativeRightEdge,
+          store.state.timeMarkerDepth
+        )
+      );
     }
 
     if (newDistance > maxDistance) {

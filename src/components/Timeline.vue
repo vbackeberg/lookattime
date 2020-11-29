@@ -36,10 +36,10 @@ import Date from "@/components/timeline-event/Date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
 import SpaceWatcher from "@/timeline/space-management/space-watcher";
-import TimeMarkerCreator from "@/timeline/time-marker/time-marker-creator";
+import TimeMarkerWatcher from "@/timeline/time-marker/time-marker-watcher";
 
 let zoomer: Zoomer;
-let timeMarkerCreator: TimeMarkerCreator;
+let timeMarkerWatcher: TimeMarkerWatcher;
 
 export default Vue.extend({
   name: "Timeline",
@@ -57,7 +57,7 @@ export default Vue.extend({
 
     zoomer = Zoomer.Instance;
     new SpaceWatcher(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
-    timeMarkerCreator = TimeMarkerCreator.Instance;
+    timeMarkerWatcher = TimeMarkerWatcher.Instance;
 
     window.addEventListener("wheel", (e: WheelEvent) => {
       if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
@@ -114,58 +114,7 @@ export default Vue.extend({
 
   watch: {
     timeMarkerDistance(newDistance, oldDistance) {
-      if (store.state.boxes.length < 2) return;
-
-      const maxDistance = 500;
-      const minDistance = 200;
-
-      // On zoom in:
-      if (newDistance > oldDistance) {
-        // TODO Check if markers have been moved outside
-        // the spacer-bounded area and remove them.
-      }
-
-      // On zoom out:
-      if (newDistance < oldDistance) {
-        // TODO: Instead of 0, compare with scroll left.
-        const leftEdge = Math.min(store.getters.spacerLeft.positionLeft, 0);
-        if (
-          store.state.timeMarkers[0].positionCenter - leftEdge >
-          newDistance
-        ) {
-          store.commit(
-            "unshiftTimeMarkers",
-            timeMarkerCreator.createMarkersLeft // TODO call function
-          );
-        }
-
-        const rightEdge = Math.max(
-          store.getters.spacerRight.positionLeft +
-            store.getters.spacerRight.width,
-          store.state.spacerPageEdge.positionLeft +
-            store.state.spacerPageEdge.width
-        );
-        if (
-          rightEdge -
-            store.state.timeMarkers[store.state.timeMarkers.length - 1]
-              .positionCenter >
-          newDistance
-        ) {
-          store.commit(
-            "pushTimeMarkers",
-            timeMarkerCreator.createMarkersRight // TODO call function
-          );
-        }
-      }
-
-      if (newDistance > maxDistance) {
-        // Add in between
-      }
-
-      if (newDistance < minDistance) {
-        // remove markers at current depth
-        // increase depth by ^10
-      }
+      timeMarkerWatcher.watch(newDistance, oldDistance);
     }
   }
 });

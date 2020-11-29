@@ -119,26 +119,39 @@ export default Vue.extend({
       const maxDistance = 500;
       const minDistance = 200;
 
-      // TODO Check if markers have been moved outside
-      // the spacer-bounded area and remove them.
-
-      const leftEdge = Math.min(this.spacerLeft.positionLeft, 0);
-      if (store.state.timeMarkers[0].positionCenter - leftEdge > newDistance) {
-        store.commit("unshiftTimeMarkers", timeMarkerCreator.createMarkersLeft);
+      // On zoom in:
+      if (newDistance > oldDistance) {
+        // TODO Check if markers have been moved outside
+        // the spacer-bounded area and remove them.
       }
 
-      const rightEdge = Math.max(
-        this.spacerRight.positionLeft + this.spacerRight.width,
-        store.state.spacerPageEdge.positionLeft +
-          store.state.spacerPageEdge.width
-      );
-      if (
-        rightEdge -
-          store.state.timeMarkers[store.state.timeMarkers.length - 1]
-            .positionCenter >
-        newDistance
-      ) {
-        store.commit("pushTimeMarkers", timeMarkerCreator.createMarkersRight);
+      // On zoom out:
+      if (newDistance < oldDistance) {
+        // TODO: Instead of 0, compare with scroll left.
+        const leftEdge = Math.min(this.spacerLeft.positionLeft, 0);
+        if (
+          leftEdge - store.state.timeMarkers[0].positionCenter >
+          newDistance
+        ) {
+          store.commit(
+            "unshiftTimeMarkers",
+            timeMarkerCreator.createMarkersLeft
+          );
+        }
+
+        const rightEdge = Math.max(
+          this.spacerRight.positionLeft + this.spacerRight.width,
+          store.state.spacerPageEdge.positionLeft +
+            store.state.spacerPageEdge.width
+        );
+        if (
+          rightEdge -
+            store.state.timeMarkers[store.state.timeMarkers.length - 1]
+              .positionCenter >
+          newDistance
+        ) {
+          store.commit("pushTimeMarkers", timeMarkerCreator.createMarkersRight);
+        }
       }
 
       if (newDistance > maxDistance) {

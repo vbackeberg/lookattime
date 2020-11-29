@@ -33,10 +33,10 @@ import SpacerLeft from "@/components/SpacerLeft.vue";
 import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
 import Date from "@/components/timeline-event/Date.vue";
-import SpaceWatcher from "@/timeline/space-watcher";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
 import TimeMarkerCreator from "@/timeline/time-marker-creator";
+import SpaceWatcher from "@/timeline/space-management/space-watcher";
 
 let zoomer: Zoomer;
 let timeMarkerCreator: TimeMarkerCreator;

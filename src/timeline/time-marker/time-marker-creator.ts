@@ -23,7 +23,7 @@ export default class TimeMarkerCreator {
     const firstMarker = this.createFirstMarker(
       relativeRightEdge,
       relativeLeftEdge,
-      base,
+      1,
       base
     );
     timeMarkers.push(firstMarker);

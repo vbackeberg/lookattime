@@ -23,7 +23,7 @@ export default class TimeMarkerCreator {
     const firstMarker = this.createFirstMarker(
       relativeRightEdge,
       relativeLeftEdge,
-      1,
+      base ** -this.countDecimals(relativeRightEdge),
       base
     );
     timeMarkers.push(firstMarker);
@@ -162,6 +162,18 @@ export default class TimeMarkerCreator {
       );
     }
     return markers;
+  }
+
+  private countDecimals(number: number) {
+    if (!isFinite(number)) return 0;
+
+    let factor = 1;
+    let numberOfDecimals = 0;
+    while (Math.round(number * factor) / factor !== number) {
+      factor *= 10;
+      numberOfDecimals++;
+    }
+    return numberOfDecimals;
   }
 
   private static instance: TimeMarkerCreator;

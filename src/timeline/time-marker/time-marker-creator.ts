@@ -120,12 +120,12 @@ export default class TimeMarkerCreator {
   public createMarkersLeft(
     leftmostMarker: TimeMarkerModel,
     relativeLeftEdge: number,
-    markerDistance: number
+    depth: number
   ): TimeMarkerModel[] {
     // first marker, 1899, 10
     const distanceToEdge = leftmostMarker.date - relativeLeftEdge; // 1900 - 1899 = 1
-    const numberOfMarkers = Math.floor(distanceToEdge / markerDistance); // floor (1 / 10) = 0
-    const absoluteMarkerDistance = markerDistance * store.state.zoomLevel;
+    const numberOfMarkers = Math.floor(distanceToEdge / depth); // floor (1 / 10) = 0
+    const absoluteMarkerDistance = depth * store.state.zoomLevel;
     const markers = [] as TimeMarkerModel[];
 
     for (let i = 1; i <= numberOfMarkers; i++) {
@@ -133,8 +133,8 @@ export default class TimeMarkerCreator {
         new TimeMarkerModel(
           leftmostMarker.positionCenter - absoluteMarkerDistance * i,
           uuid(),
-          leftmostMarker.date - markerDistance * i,
-          markerDistance // relative marker distance = depth = power
+          leftmostMarker.date - depth * i,
+          depth // relative marker distance = depth = power
         )
       );
     }
@@ -145,12 +145,12 @@ export default class TimeMarkerCreator {
   public createMarkersRight(
     rightmostMarker: TimeMarkerModel,
     relativeRightEdge: number,
-    markerDistance: number
+    depth: number
   ): TimeMarkerModel[] {
     // second marker, 1950, 10
     const distanceToEdge = relativeRightEdge - rightmostMarker.date; // 1950 - 1910 = 40
-    const numberOfMarkers = Math.floor(distanceToEdge / markerDistance); // floor (40 / 10) = 4
-    const absoluteMarkerDistance = markerDistance * store.state.zoomLevel;
+    const numberOfMarkers = Math.floor(distanceToEdge / depth); // floor (40 / 10) = 4
+    const absoluteMarkerDistance = depth * store.state.zoomLevel;
     const markers = [] as TimeMarkerModel[];
 
     for (let i = 1; i <= numberOfMarkers; i++) {
@@ -158,8 +158,8 @@ export default class TimeMarkerCreator {
         new TimeMarkerModel(
           rightmostMarker.positionCenter + absoluteMarkerDistance * i,
           uuid(),
-          rightmostMarker.date + markerDistance * i,
-          markerDistance // relative marker distance = depth = power
+          rightmostMarker.date + depth * i,
+          depth // relative marker distance = depth = power
         )
       );
     }

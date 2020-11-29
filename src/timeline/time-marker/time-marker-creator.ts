@@ -1,23 +1,20 @@
 import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store";
 import { v4 as uuid } from "uuid";
+import PositionTranslator from "../position-translator";
 export default class TimeMarkerCreator {
   public createTimeMarkers() {
-    const relativeLeftEdge = Math.min(
-      (store.getters.spacerLeft.positionLeft - store.state.timelineZero) /
-        store.state.zoomLevel,
-      (0 - store.state.timelineZero) / store.state.zoomLevel // TODO: Instead of 0, compare with scroll left.
+    const relativeLeftEdge = PositionTranslator.toRelativePosition(
+      Math.min(store.getters.spacerLeft.positionLeft, 0) // TODO: Instead of 0, compare with scroll left.
     );
 
-    const relativeRightEdge = Math.max(
-      (store.getters.spacerRight.positionLeft +
-        store.getters.spacerRight.width -
-        store.state.timelineZero) /
-        store.state.zoomLevel,
-      (store.state.spacerPageEdge.positionLeft +
-        store.state.spacerPageEdge.width -
-        store.state.timelineZero) /
-        store.state.zoomLevel
+    const relativeRightEdge = PositionTranslator.toRelativePosition(
+      Math.max(
+        store.getters.spacerRight.positionLeft +
+          store.getters.spacerRight.width,
+        store.state.spacerPageEdge.positionLeft +
+          store.state.spacerPageEdge.width
+      )
     );
 
     const timeMarkers = [] as TimeMarkerModel[];
@@ -117,7 +114,8 @@ export default class TimeMarkerCreator {
     ); // 2. return 1910
   }
 
-  public createMarkersLeft( //TODO: Refactor: fillSpaceWithMarkers to the left. Reduce parameters accordingly.
+  public createMarkersLeft(
+    //TODO: Refactor: fillSpaceWithMarkers to the left. Reduce parameters accordingly.
     leftmostMarker: TimeMarkerModel,
     relativeLeftEdge: number,
     depth: number

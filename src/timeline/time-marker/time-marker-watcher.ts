@@ -22,7 +22,6 @@ export default class TimeMarkerWatcher {
 
     // On zoom out:
     if (newDistance < oldDistance) {
-      // TODO: Instead of 0, compare with scroll left.
       const relativeLeftEdge = PositionTranslator.toRelativePosition(
         Math.min(store.getters.spacerLeft.positionLeft, 0)
       );

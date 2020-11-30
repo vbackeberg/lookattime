@@ -92,7 +92,6 @@ export default Vue.extend({
       );
     },
 
-    //TODO: Move time markers into separate component
     timeMarkers(): TimeMarkerModel[] {
       return store.state.timeMarkers;
     },

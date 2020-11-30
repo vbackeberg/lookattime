@@ -81,7 +81,7 @@ export default class TimeMarkerCreator {
       highestPossibleDepth;
 
     return new TimeMarkerModel(
-      store.state.timelineZero + date * store.state.zoomLevel, // TODO: position translator to absolute position
+      PositionTranslator.toAbsolutePosition(date),
       uuid(),
       date,
       highestPossibleDepth
@@ -109,7 +109,7 @@ export default class TimeMarkerCreator {
       }
     }
     return new TimeMarkerModel(
-      store.state.timelineZero + secondMarkerDate * store.state.zoomLevel,
+      PositionTranslator.toAbsolutePosition(secondMarkerDate),
       uuid(),
       secondMarkerDate,
       power

@@ -19,14 +19,14 @@ export default class TimeMarkerCreator {
       )
     );
 
-    const timeMarkers = [] as TimeMarkerModel[];
+    const markers = [] as TimeMarkerModel[];
 
     const firstMarker = this.createFirstMarker(
       relativeRightEdge,
       relativeLeftEdge,
       -this.countDecimals(relativeRightEdge)
     );
-    timeMarkers.push(firstMarker);
+    markers.push(firstMarker);
 
     const secondMarker = this.createSecondMarker(
       firstMarker.date,
@@ -34,9 +34,9 @@ export default class TimeMarkerCreator {
       relativeRightEdge,
       firstMarker.depth
     );
-    timeMarkers.push(secondMarker);
+    markers.push(secondMarker);
 
-    store.commit("setTimeMarkers", timeMarkers);
+    store.commit("setTimeMarkers", markers);
     store.commit("setTimeMarkerDepth", secondMarker.depth);
 
     this.createMarkersLeft();

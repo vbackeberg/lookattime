@@ -1,7 +1,7 @@
 <template>
   <transition>
     <div
-      class="marker zoomable"
+      class="marker zoom-transition zoomable"
       v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
     >
       {{ date }}

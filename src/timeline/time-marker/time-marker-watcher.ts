@@ -1,5 +1,4 @@
 import store from "@/store";
-import PositionTranslator from "../position-translator";
 import TimeMarkerCreator from "./time-marker-creator";
 
 export default class TimeMarkerWatcher {

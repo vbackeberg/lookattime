@@ -1,7 +1,6 @@
 import store from '@/store';
 
 export default class TimeMarkerRemover {
-
   public removeMarkersLeft() {
     const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft);
 
@@ -32,7 +31,6 @@ export default class TimeMarkerRemover {
       store.commit("setTimeMarkers", store.state.timeMarkers.slice(0, index));
     }
   }
-
 
   private static instance: TimeMarkerRemover;
   public static get Instance() {

@@ -14,11 +14,13 @@
     ></div>
     <div id="buffer-bottom-area">
       <date v-for="box in boxes" :key="box.id" v-bind:box="box"></date>
-      <timeMarker
-        v-for="timeMarker in timeMarkers"
-        v-bind="timeMarker"
-        :key="timeMarker.id"
-      ></timeMarker>
+      <transition-group name="time-markers">
+        <timeMarker
+          v-for="timeMarker in timeMarkers"
+          v-bind="timeMarker"
+          :key="timeMarker.id"
+        ></timeMarker>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -155,5 +157,17 @@ export default Vue.extend({
 
 #buffer-bottom-area {
   flex: 4;
+}
+
+.time-markers-enter-active {
+  transition: all 3000ms ease;
+}
+
+.time-markers-enter {
+  opacity: 0;
+}
+
+.time-markers-enter-to {
+  opacity: 1;
 }
 </style>

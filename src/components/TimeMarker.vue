@@ -41,11 +41,4 @@ export default Vue.extend({
   height: 16px;
   background-color: brown;
 }
-.v-enter-active {
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.v-leave-active {
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
 </style>

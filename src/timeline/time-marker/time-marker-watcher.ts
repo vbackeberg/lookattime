@@ -21,10 +21,11 @@ export default class TimeMarkerWatcher {
     }
 
     // On zoom out:
-    if (newDistance < oldDistance) {
+    else if (newDistance < oldDistance) {
       const relativeLeftEdge = PositionTranslator.toRelativePosition(
-        Math.min(store.getters.spacerLeft.positionLeft, 0)
+        Math.min(0, store.getters.spacerLeft.positionLeft)
       );
+
       store.commit(
         "unshiftTimeMarkers",
         this.timeMarkerCreator.createMarkersLeft(

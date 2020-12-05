@@ -1,11 +1,15 @@
 import store from "@/store";
 import { Constants } from "./constants";
 import TimeMarkerCreator from "./time-marker-creator";
+import TimeMarkerRemover from "./time-marker-remover";
 
 export default class TimeMarkerWatcher {
   private timeMarkerCreator: TimeMarkerCreator;
+  private timeMarkerRemover: TimeMarkerRemover;
+
   constructor() {
     this.timeMarkerCreator = TimeMarkerCreator.Instance;
+    this.timeMarkerRemover = TimeMarkerRemover.Instance;
   }
 
   public watch(newDistance: number, oldDistance: number) {
@@ -17,8 +21,8 @@ export default class TimeMarkerWatcher {
 
     // On zoom in:
     if (newDistance > oldDistance) {
-      this.timeMarkerCreator.removeMarkersLeft();
-      this.timeMarkerCreator.removeMarkersRight();
+      this.timeMarkerRemover.removeMarkersLeft();
+      this.timeMarkerRemover.removeMarkersRight();
     }
 
     // On zoom out:

@@ -22,15 +22,8 @@ export default class TimeMarkerWatcher {
 
     // On zoom out:
     else if (newDistance < oldDistance) {
-      store.commit(
-        "unshiftTimeMarkers",
-        this.timeMarkerCreator.createMarkersLeft()
-      );
-
-      store.commit(
-        "pushTimeMarkers",
-        this.timeMarkerCreator.createMarkersRight()
-      );
+      this.timeMarkerCreator.createMarkersLeft();
+      this.timeMarkerCreator.createMarkersRight();
     }
 
     if (newDistance > maxDistance) {

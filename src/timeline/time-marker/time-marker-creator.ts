@@ -101,8 +101,7 @@ export default class TimeMarkerCreator {
     );
   }
 
-  //TODO do not return markers but push them to store directly
-  public createMarkersLeft(): TimeMarkerModel[] {
+  public createMarkersLeft() {
     const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft);
     const lowestMarker = store.state.timeMarkers[0];
     const distanceToEdge = lowestMarker.positionCenter - leftEdge;
@@ -122,10 +121,10 @@ export default class TimeMarkerCreator {
       );
     }
 
-    return markers;
+    store.commit("unshiftTimeMarkers", markers);
   }
 
-  public createMarkersRight(): TimeMarkerModel[] {
+  public createMarkersRight() {
     const rightEdge = Math.max(
       store.getters.spacerRight.positionLeft + store.getters.spacerRight.width,
       store.state.spacerPageEdge.positionLeft + store.state.spacerPageEdge.width
@@ -148,7 +147,8 @@ export default class TimeMarkerCreator {
         )
       );
     }
-    return markers;
+
+    store.commit("pushTimeMarkers", markers);
   }
 
   public removeMarkersLeft() {

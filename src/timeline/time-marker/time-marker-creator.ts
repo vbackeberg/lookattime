@@ -101,6 +101,7 @@ export default class TimeMarkerCreator {
     );
   }
 
+  //TODO do not return markers but push them to store directly
   public createMarkersLeft(): TimeMarkerModel[] {
     const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft);
     const lowestMarker = store.state.timeMarkers[0];

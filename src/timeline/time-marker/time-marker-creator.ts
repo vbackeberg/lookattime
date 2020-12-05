@@ -5,7 +5,7 @@ import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";
 import { round } from "mathjs";
 export default class TimeMarkerCreator {
-  public createTimeMarkers() {
+  public initiateTimeMarkers() {
     const relativeLeftEdge = PositionTranslator.toRelativePosition(
       Math.min(store.getters.spacerLeft.positionLeft, 0)
     );

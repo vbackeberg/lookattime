@@ -33,7 +33,7 @@ export default class BoxCreator {
     this.focusView(box);
 
     if (store.state.boxes.length === 2 && store.state.timeMarkers.length === 0) {
-      this.timeMarkerCreator.createTimeMarkers();
+      this.timeMarkerCreator.initiateTimeMarkers();
     }
   }
 

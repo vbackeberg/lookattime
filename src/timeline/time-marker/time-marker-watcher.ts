@@ -16,8 +16,8 @@ export default class TimeMarkerWatcher {
 
     // On zoom in:
     if (newDistance > oldDistance) {
-      // TODO Check if markers have been moved outside
-      // the spacer-bounded area and remove them.
+      this.timeMarkerCreator.removeMarkersLeft();
+      this.timeMarkerCreator.removeMarkersRight();
     }
 
     // On zoom out:

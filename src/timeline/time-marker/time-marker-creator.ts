@@ -116,7 +116,7 @@ export default class TimeMarkerCreator {
           lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
           uuid(),
           lowestMarker.date - store.state.timeMarkerDepth * i,
-          store.state.timeMarkerDepth
+          store.state.timeMarkerDepth // TODO: Problem: Every 10th marker should have higher depth and so on.
         )
       );
     }

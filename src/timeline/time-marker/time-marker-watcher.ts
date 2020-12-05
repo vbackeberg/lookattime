@@ -22,35 +22,14 @@ export default class TimeMarkerWatcher {
 
     // On zoom out:
     else if (newDistance < oldDistance) {
-      const relativeLeftEdge = PositionTranslator.toRelativePosition(
-        Math.min(0, store.getters.spacerLeft.positionLeft)
-      );
-
       store.commit(
         "unshiftTimeMarkers",
-        this.timeMarkerCreator.createMarkersLeft(
-          store.state.timeMarkers[0],
-          relativeLeftEdge,
-          store.state.timeMarkerDepth
-        )
-      );
-
-      const relativeRightEdge = PositionTranslator.toRelativePosition(
-        Math.max(
-          store.getters.spacerRight.positionLeft +
-            store.getters.spacerRight.width,
-          store.state.spacerPageEdge.positionLeft +
-            store.state.spacerPageEdge.width
-        )
+        this.timeMarkerCreator.createMarkersLeft()
       );
 
       store.commit(
         "pushTimeMarkers",
-        this.timeMarkerCreator.createMarkersRight(
-          store.state.timeMarkers[store.state.timeMarkers.length - 1],
-          relativeRightEdge,
-          store.state.timeMarkerDepth
-        )
+        this.timeMarkerCreator.createMarkersRight()
       );
     }
 

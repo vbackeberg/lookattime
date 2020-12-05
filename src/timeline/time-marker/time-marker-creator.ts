@@ -7,7 +7,7 @@ import { round } from "mathjs";
 export default class TimeMarkerCreator {
   public createTimeMarkers() {
     const relativeLeftEdge = PositionTranslator.toRelativePosition(
-      Math.min(store.getters.spacerLeft.positionLeft, 0) // TODO: Instead of 0, compare with scroll left.
+      Math.min(store.getters.spacerLeft.positionLeft, 0)
     );
 
     const relativeRightEdge = PositionTranslator.toRelativePosition(
@@ -36,24 +36,11 @@ export default class TimeMarkerCreator {
     );
     timeMarkers.push(secondMarker);
 
-    timeMarkers.unshift(
-      ...this.createMarkersLeft(
-        secondMarker.date < firstMarker.date ? secondMarker : firstMarker,
-        relativeLeftEdge,
-        secondMarker.depth
-      )
-    );
-
-    timeMarkers.push(
-      ...this.createMarkersRight(
-        secondMarker.date > firstMarker.date ? secondMarker : firstMarker,
-        relativeRightEdge,
-        secondMarker.depth
-      )
-    );
-
     store.commit("setTimeMarkers", timeMarkers);
     store.commit("setTimeMarkerDepth", secondMarker.depth);
+
+    this.createMarkersLeft();
+    this.createMarkersRight();
   }
 
   private createFirstMarker(
@@ -114,23 +101,22 @@ export default class TimeMarkerCreator {
     );
   }
 
-  public createMarkersLeft(
-    leftmostMarker: TimeMarkerModel,
-    relativeLeftEdge: number,
-    depth: number
-  ): TimeMarkerModel[] {
-    const distanceToEdge = leftmostMarker.date - relativeLeftEdge;
-    const numberOfMarkers = Math.floor(distanceToEdge / depth);
-    const absoluteMarkerDistance = depth * store.state.zoomLevel;
+  public createMarkersLeft(): TimeMarkerModel[] {
+    const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft);
+    const lowestMarker = store.state.timeMarkers[0];
+    const distanceToEdge = lowestMarker.positionCenter - leftEdge;
+    const numberOfMarkers = Math.floor(
+      distanceToEdge / store.getters.timeMarkerDistance
+    );
     const markers = [] as TimeMarkerModel[];
 
     for (let i = 1; i <= numberOfMarkers; i++) {
       markers.push(
         new TimeMarkerModel(
-          leftmostMarker.positionCenter - absoluteMarkerDistance * i,
+          lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
           uuid(),
-          leftmostMarker.date - depth * i,
-          depth
+          lowestMarker.date - store.state.timeMarkerDepth * i,
+          store.state.timeMarkerDepth
         )
       );
     }
@@ -138,23 +124,26 @@ export default class TimeMarkerCreator {
     return markers;
   }
 
-  public createMarkersRight(
-    rightmostMarker: TimeMarkerModel,
-    relativeRightEdge: number,
-    depth: number
-  ): TimeMarkerModel[] {
-    const distanceToEdge = relativeRightEdge - rightmostMarker.date;
-    const numberOfMarkers = Math.floor(distanceToEdge / depth);
-    const absoluteMarkerDistance = depth * store.state.zoomLevel;
+  public createMarkersRight(): TimeMarkerModel[] {
+    const rightEdge = Math.max(
+      store.getters.spacerRight.positionLeft + store.getters.spacerRight.width,
+      store.state.spacerPageEdge.positionLeft + store.state.spacerPageEdge.width
+    );
+    const highestMarker =
+      store.state.timeMarkers[store.state.timeMarkers.length - 1];
+    const distanceToEdge = rightEdge - highestMarker.positionCenter;
+    const numberOfMarkers = Math.floor(
+      distanceToEdge / store.getters.timeMarkerDistance
+    );
     const markers = [] as TimeMarkerModel[];
 
     for (let i = 1; i <= numberOfMarkers; i++) {
       markers.push(
         new TimeMarkerModel(
-          rightmostMarker.positionCenter + absoluteMarkerDistance * i,
+          highestMarker.positionCenter + store.getters.timeMarkerDistance * i,
           uuid(),
-          rightmostMarker.date + depth * i,
-          depth
+          highestMarker.date + store.state.timeMarkerDepth * i,
+          store.state.timeMarkerDepth
         )
       );
     }

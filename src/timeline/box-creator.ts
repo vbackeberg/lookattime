@@ -11,15 +11,11 @@ import SpaceExtender from './space-management/space-extender';
  */
 export default class BoxCreator {
   private timelineElement: HTMLElement;
-  private spacerLeftElement: HTMLElement;
   private viewFocuser: ViewFocuser;
   private timeMarkerCreator: TimeMarkerCreator;
 
   private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
-    this.spacerLeftElement = document.getElementById(
-      "spacer-left"
-    ) as HTMLElement;
     this.viewFocuser = ViewFocuser.Instance;
     this.timeMarkerCreator = TimeMarkerCreator.Instance;
   }

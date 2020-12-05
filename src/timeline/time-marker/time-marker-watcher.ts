@@ -1,4 +1,5 @@
 import store from "@/store";
+import { Constants } from "./constants";
 import TimeMarkerCreator from "./time-marker-creator";
 
 export default class TimeMarkerWatcher {
@@ -31,8 +32,16 @@ export default class TimeMarkerWatcher {
     }
 
     if (newDistance < minDistance) {
-      // remove markers at current depth
-      // increase depth by ^10
+      store.commit(
+        "setTimeMarkerDepth",
+        store.state.timeMarkerDepth * Constants.MARKER_BASE
+      );
+
+      const markers = store.state.timeMarkers.filter(
+        marker => marker.depth >= store.state.timeMarkerDepth
+      );
+
+      store.commit("setTimeMarkers", markers);
     }
   }
 

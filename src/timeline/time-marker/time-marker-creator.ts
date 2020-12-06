@@ -50,7 +50,7 @@ export default class TimeMarkerCreator {
   ): TimeMarkerModel {
     // Additional rounding fixes Chrome bug: https://stackoverflow.com/questions/55958535
     const depth = round(
-      Constants.MARKER_BASE ** (exponent + 1),
+      Constants.DEPTH_BASE ** (exponent + 1),
       Math.abs(exponent + 1)
     );
 
@@ -62,7 +62,7 @@ export default class TimeMarkerCreator {
       );
     }
 
-    const highestPossibleDepth = Constants.MARKER_BASE ** exponent;
+    const highestPossibleDepth = Constants.DEPTH_BASE ** exponent;
     const date =
       Math.floor(relativeRightEdge / highestPossibleDepth) *
       highestPossibleDepth;
@@ -89,7 +89,7 @@ export default class TimeMarkerCreator {
           firstMarkerDate,
           relativeLeftEdge,
           relativeRightEdge,
-          power / Constants.MARKER_BASE
+          power / Constants.DEPTH_BASE
         );
       }
     }

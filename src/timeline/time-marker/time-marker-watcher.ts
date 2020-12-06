@@ -38,7 +38,7 @@ export default class TimeMarkerWatcher {
     if (newDistance < minDistance) {
       store.commit(
         "setTimeMarkerDepth",
-        store.state.timeMarkerDepth * Constants.MARKER_BASE
+        store.state.timeMarkerDepth * Constants.DEPTH_BASE
       );
 
       const markers = store.state.timeMarkers.filter(

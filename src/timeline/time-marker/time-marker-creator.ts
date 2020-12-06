@@ -35,17 +35,17 @@ export default class TimeMarkerCreator {
   }
 
   private createFirstMarker(
-    relativeRightEdge: number,
-    relativeLeftEdge: number
+    highestDate: number,
+    lowestDate: number
   ): TimeMarkerModel {
     let depth = 1;
 
-    while (Math.floor(relativeRightEdge / depth) * depth > relativeLeftEdge) {
+    while (Math.floor(highestDate / depth) * depth > lowestDate) {
       depth *= Constants.DEPTH_BASE;
     }
     depth /= Constants.DEPTH_BASE;
 
-    const date = Math.floor(relativeRightEdge / depth) * depth;
+    const date = Math.floor(highestDate / depth) * depth;
 
     return new TimeMarkerModel(
       PositionTranslator.toAbsolutePosition(date),

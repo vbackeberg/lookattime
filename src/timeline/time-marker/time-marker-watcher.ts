@@ -1,3 +1,4 @@
+import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store";
 import { Constants } from "./constants";
 import TimeMarkerCreator from "./time-marker-creator";
@@ -22,12 +23,22 @@ export default class TimeMarkerWatcher {
       this.timeMarkerRemover.removeMarkersRight();
 
       if (newDistance > Constants.MAX_DISTANCE) {
-        // Add in between
-        // Decrease depth.
-        // If depth < 1 change time system to the next lower system.
-        // Ex.: From years to months. From seconds to milliseconds
+        if (store.state.timeMarkerDepth === 1) {
+          // If depth < 1 change time system to the next lower system.
+          // Ex.: From years to months. From seconds to milliseconds
+        }
 
+        store.commit(
+          "setTimeMarkerDepth",
+          store.state.timeMarkerDepth / Constants.DEPTH_BASE
+        );
 
+        const markers = [] as TimeMarkerModel[];
+        for (let i = 0; i < store.state.timeMarkers.length; i++) {
+          // for each existing marker add 9 new markers
+          // existing: 1900, new: 19[10, 20, 30, 40, 50, 60, 70, 80 ,90] 
+        
+        }
       }
     }
 

@@ -24,11 +24,10 @@ export default class TimeMarkerCreator {
       firstMarker.depth
     );
 
-    const markers = [] as TimeMarkerModel[];
-    markers.push(firstMarker, secondMarker);
-    markers.sort((a, b) => a.date - b.date);
-
-    store.commit("setTimeMarkers", markers);
+    store.commit(
+      "setTimeMarkers",
+      [firstMarker, secondMarker].sort((a, b) => a.date - b.date)
+    );
     store.commit("setTimeMarkerDepth", secondMarker.depth);
 
     this.createMarkersLeft();

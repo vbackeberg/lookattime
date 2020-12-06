@@ -30,8 +30,8 @@ export default class TimeMarkerCreator {
     );
     store.commit("setTimeMarkerDepth", secondMarker.depth);
 
-    this.createMarkersLeft();
-    this.createMarkersRight();
+    this.addMarkersLeft();
+    this.addMarkersRight();
   }
 
   private createFirstMarker(
@@ -83,7 +83,7 @@ export default class TimeMarkerCreator {
     );
   }
 
-  public createMarkersLeft() {
+  public addMarkersLeft() {
     const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft);
     const lowestMarker = store.state.timeMarkers[0];
     const distanceToEdge = lowestMarker.positionCenter - leftEdge;
@@ -107,7 +107,7 @@ export default class TimeMarkerCreator {
     store.commit("unshiftTimeMarkers", markers);
   }
 
-  public createMarkersRight() {
+  public addMarkersRight() {
     const rightEdge = Math.max(
       store.getters.spacerRight.positionLeft + store.getters.spacerRight.width,
       store.state.spacerPageEdge.positionLeft + store.state.spacerPageEdge.width

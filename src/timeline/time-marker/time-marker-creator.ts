@@ -134,8 +134,11 @@ export default class TimeMarkerCreator {
   }
 
   private depthOf(date: number) {
-    let depth = store.state.timeMarkerDepth;
+    if (date === 0) {
+      return Number.MAX_SAFE_INTEGER;
+    }
 
+    let depth = store.state.timeMarkerDepth;
     while (date % depth === 0) {
       depth *= Constants.DEPTH_BASE;
     }

@@ -16,19 +16,18 @@ export default class TimeMarkerWatcher {
     if (store.state.boxes.length < 2 || store.state.timeMarkers.length < 2)
       return;
 
-    const maxDistance = 1000;
-    const minDistance = 100;
-
     // On zoom in:
     if (newDistance > oldDistance) {
       this.timeMarkerRemover.removeMarkersLeft();
       this.timeMarkerRemover.removeMarkersRight();
 
-      if (newDistance > maxDistance) {
+      if (newDistance > Constants.MAX_DISTANCE) {
         // Add in between
         // Decrease depth.
         // If depth < 1 change time system to the next lower system.
         // Ex.: From years to months. From seconds to milliseconds
+
+
       }
     }
 
@@ -37,7 +36,7 @@ export default class TimeMarkerWatcher {
       this.timeMarkerCreator.addMarkersLeft();
       this.timeMarkerCreator.addMarkersRight();
 
-      if (newDistance < minDistance) {
+      if (newDistance < Constants.MIN_DISTANCE) {
         store.commit(
           "setTimeMarkerDepth",
           store.state.timeMarkerDepth * Constants.DEPTH_BASE

@@ -3,21 +3,10 @@ import store from "@/store";
 import { v4 as uuid } from "uuid";
 import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";
-import { round } from "mathjs";
 export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
-    const relativeLeftEdge = PositionTranslator.toRelativePosition(
-      Math.min(store.getters.spacerLeft.positionLeft, 0)
-    );
-
-    const relativeRightEdge = PositionTranslator.toRelativePosition(
-      Math.max(
-        store.getters.spacerRight.positionLeft +
-          store.getters.spacerRight.width,
-        store.state.spacerPageEdge.positionLeft +
-          store.state.spacerPageEdge.width
-      )
-    );
+    const relativeLeftEdge = PositionTranslator.toRelativePosition(store.getters.leftEdge);
+    const relativeRightEdge = PositionTranslator.toRelativePosition(store.getters.rightEdge);
 
     const markers = [] as TimeMarkerModel[];
 

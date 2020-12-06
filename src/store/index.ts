@@ -54,6 +54,17 @@ export default new Vuex.Store({
       } as SpacerModel;
     },
 
+    leftEdge(state, getters): number {
+      return Math.min(0, getters.spacerLeft.positionLeft);
+    },
+
+    rightEdge(state, getters): number {
+      return Math.max(
+        getters.spacerRight.positionLeft + getters.spacerRight.width,
+        state.spacerPageEdge.positionLeft + state.spacerPageEdge.width
+      );
+    },
+
     timeMarkerDistance(state): number {
       return state.timeMarkers.length < 2
         ? 0

@@ -111,12 +111,13 @@ export default class TimeMarkerCreator {
     const markers = [] as TimeMarkerModel[];
 
     for (let i = 1; i <= numberOfMarkers; i++) {
+      const date = lowestMarker.date - store.state.timeMarkerDepth * i;
       markers.push(
         new TimeMarkerModel(
           lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
           uuid(),
-          lowestMarker.date - store.state.timeMarkerDepth * i,
-          store.state.timeMarkerDepth // TODO: Problem: Every 10th marker should have higher depth and so on.
+          date,
+          this.depthOf(date)
         )
       );
     }
@@ -138,17 +139,28 @@ export default class TimeMarkerCreator {
     const markers = [] as TimeMarkerModel[];
 
     for (let i = 1; i <= numberOfMarkers; i++) {
+      const date = highestMarker.date + store.state.timeMarkerDepth * i;
       markers.push(
         new TimeMarkerModel(
           highestMarker.positionCenter + store.getters.timeMarkerDistance * i,
           uuid(),
-          highestMarker.date + store.state.timeMarkerDepth * i,
-          store.state.timeMarkerDepth
+          date,
+          this.depthOf(date)
         )
       );
     }
 
     store.commit("pushTimeMarkers", markers);
+  }
+
+  private depthOf(date: number) {
+    let depth = store.state.timeMarkerDepth;
+
+    while (date % depth === 0) {
+      depth *= Constants.DEPTH_BASE;
+    }
+
+    return depth /= Constants.DEPTH_BASE;
   }
 
   private countDecimals(number: number) {

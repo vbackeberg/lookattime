@@ -27,8 +27,8 @@ export default class TimeMarkerWatcher {
 
     // On zoom out:
     else if (newDistance < oldDistance) {
-      this.timeMarkerCreator.createMarkersLeft();
-      this.timeMarkerCreator.createMarkersRight();
+      this.timeMarkerCreator.addMarkersLeft();
+      this.timeMarkerCreator.addMarkersRight();
     }
 
     if (newDistance > maxDistance) {

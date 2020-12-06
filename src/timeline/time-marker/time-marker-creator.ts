@@ -58,17 +58,17 @@ export default class TimeMarkerCreator {
     firstMarkerDate: number,
     relativeLeftEdge: number,
     relativeRightEdge: number,
-    power: number
+    depth: number
   ): TimeMarkerModel {
-    let secondMarkerDate = firstMarkerDate - power;
+    let secondMarkerDate = firstMarkerDate - depth;
     if (secondMarkerDate < relativeLeftEdge) {
-      secondMarkerDate = firstMarkerDate + power;
+      secondMarkerDate = firstMarkerDate + depth;
       if (secondMarkerDate > relativeRightEdge) {
         return this.createSecondMarker(
           firstMarkerDate,
           relativeLeftEdge,
           relativeRightEdge,
-          power / Constants.DEPTH_BASE
+          depth / Constants.DEPTH_BASE
         );
       }
     }
@@ -76,7 +76,7 @@ export default class TimeMarkerCreator {
       PositionTranslator.toAbsolutePosition(secondMarkerDate),
       uuid(),
       secondMarkerDate,
-      power
+      depth
     );
   }
 

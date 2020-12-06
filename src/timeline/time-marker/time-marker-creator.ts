@@ -139,21 +139,9 @@ export default class TimeMarkerCreator {
       depth *= Constants.DEPTH_BASE;
     }
 
-    return depth /= Constants.DEPTH_BASE;
+    return (depth /= Constants.DEPTH_BASE);
   }
-
-  private countDecimals(number: number) {
-    if (!isFinite(number)) return 0;
-
-    let factor = 1;
-    let numberOfDecimals = 0;
-    while (Math.round(number * factor) / factor !== number) {
-      factor *= 10;
-      numberOfDecimals++;
-    }
-    return numberOfDecimals;
-  }
-
+  
   private static instance: TimeMarkerCreator;
   public static get Instance() {
     return this.instance || (this.instance = new this());

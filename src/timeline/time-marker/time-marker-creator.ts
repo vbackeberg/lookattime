@@ -45,9 +45,7 @@ export default class TimeMarkerCreator {
     }
     depth /= Constants.DEPTH_BASE;
 
-    const date =
-      Math.floor(relativeRightEdge / depth) *
-      depth;
+    const date = Math.floor(relativeRightEdge / depth) * depth;
 
     return new TimeMarkerModel(
       PositionTranslator.toAbsolutePosition(date),
@@ -144,7 +142,7 @@ export default class TimeMarkerCreator {
 
     return (depth /= Constants.DEPTH_BASE);
   }
-  
+
   private static instance: TimeMarkerCreator;
   public static get Instance() {
     return this.instance || (this.instance = new this());

@@ -16,8 +16,8 @@ export default class TimeMarkerWatcher {
     if (store.state.boxes.length < 2 || store.state.timeMarkers.length < 2)
       return;
 
-    const maxDistance = 500;
-    const minDistance = 200;
+    const maxDistance = 1000;
+    const minDistance = 100;
 
     // On zoom in:
     if (newDistance > oldDistance) {

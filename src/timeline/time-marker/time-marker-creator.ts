@@ -5,10 +5,12 @@ import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";
 export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
-    const relativeLeftEdge = PositionTranslator.toRelativePosition(store.getters.leftEdge);
-    const relativeRightEdge = PositionTranslator.toRelativePosition(store.getters.rightEdge);
-
-    const markers = [] as TimeMarkerModel[];
+    const relativeLeftEdge = PositionTranslator.toRelativePosition(
+      store.getters.leftEdge
+    );
+    const relativeRightEdge = PositionTranslator.toRelativePosition(
+      store.getters.rightEdge
+    );
 
     const firstMarker = this.createFirstMarker(
       relativeRightEdge,
@@ -21,6 +23,8 @@ export default class TimeMarkerCreator {
       relativeRightEdge,
       firstMarker.depth
     );
+
+    const markers = [] as TimeMarkerModel[];
     markers.push(firstMarker, secondMarker);
     markers.sort((a, b) => a.date - b.date);
 

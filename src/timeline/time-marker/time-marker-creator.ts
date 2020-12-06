@@ -32,7 +32,8 @@ export default class TimeMarkerCreator {
       relativeRightEdge,
       firstMarker.depth
     );
-    markers.push(secondMarker);
+    markers.push(firstMarker, secondMarker);
+    markers.sort((a, b) => a.date - b.date);
 
     store.commit("setTimeMarkers", markers);
     store.commit("setTimeMarkerDepth", secondMarker.depth);

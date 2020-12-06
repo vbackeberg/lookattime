@@ -23,10 +23,8 @@ export default class TimeMarkerCreator {
 
     const firstMarker = this.createFirstMarker(
       relativeRightEdge,
-      relativeLeftEdge,
-      -this.countDecimals(relativeRightEdge)
+      relativeLeftEdge
     );
-    markers.push(firstMarker);
 
     const secondMarker = this.createSecondMarker(
       firstMarker.date,
@@ -45,33 +43,24 @@ export default class TimeMarkerCreator {
 
   private createFirstMarker(
     relativeRightEdge: number,
-    relativeLeftEdge: number,
-    exponent: number
+    relativeLeftEdge: number
   ): TimeMarkerModel {
-    // Additional rounding fixes Chrome bug: https://stackoverflow.com/questions/55958535
-    const depth = round(
-      Constants.DEPTH_BASE ** (exponent + 1),
-      Math.abs(exponent + 1)
-    );
+    let depth = 1;
 
-    if (Math.floor(relativeRightEdge / depth) * depth > relativeLeftEdge) {
-      return this.createFirstMarker(
-        relativeRightEdge,
-        relativeLeftEdge,
-        exponent + 1
-      );
+    while (Math.floor(relativeRightEdge / depth) * depth > relativeLeftEdge) {
+      depth *= Constants.DEPTH_BASE;
     }
+    depth /= Constants.DEPTH_BASE;
 
-    const highestPossibleDepth = Constants.DEPTH_BASE ** exponent;
     const date =
-      Math.floor(relativeRightEdge / highestPossibleDepth) *
-      highestPossibleDepth;
+      Math.floor(relativeRightEdge / depth) *
+      depth;
 
     return new TimeMarkerModel(
       PositionTranslator.toAbsolutePosition(date),
       uuid(),
       date,
-      highestPossibleDepth
+      depth
     );
   }
 

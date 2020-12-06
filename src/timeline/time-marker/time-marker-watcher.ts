@@ -23,29 +23,30 @@ export default class TimeMarkerWatcher {
     if (newDistance > oldDistance) {
       this.timeMarkerRemover.removeMarkersLeft();
       this.timeMarkerRemover.removeMarkersRight();
+
+      if (newDistance > maxDistance) {
+        // Add in between
+        // Decrease depth.
+        // If depth < 1 change time system to the next lower system.
+        // Ex.: From years to months. From seconds to milliseconds
+      }
     }
 
     // On zoom out:
     else if (newDistance < oldDistance) {
       this.timeMarkerCreator.addMarkersLeft();
       this.timeMarkerCreator.addMarkersRight();
-    }
 
-    if (newDistance > maxDistance) {
-      // Add in between
-    }
-
-    if (newDistance < minDistance) {
-      store.commit(
-        "setTimeMarkerDepth",
-        store.state.timeMarkerDepth * Constants.DEPTH_BASE
-      );
-
-      const markers = store.state.timeMarkers.filter(
-        marker => marker.depth >= store.state.timeMarkerDepth
-      );
-
-      store.commit("setTimeMarkers", markers);
+      if (newDistance < minDistance) {
+        store.commit(
+          "setTimeMarkerDepth",
+          store.state.timeMarkerDepth * Constants.DEPTH_BASE
+        );
+        const markers = store.state.timeMarkers.filter(
+          marker => marker.depth >= store.state.timeMarkerDepth
+        );
+        store.commit("setTimeMarkers", markers);
+      }
     }
   }
 

@@ -92,7 +92,7 @@ export default class TimeMarkerCreator {
     if (numberOfMarkers > 0) {
       const markers = [] as TimeMarkerModel[];
 
-      for (let i = 1; i <= numberOfMarkers; i++) {
+      for (let i = numberOfMarkers; i > 0; i--) {
         const date = lowestMarker.date - store.state.timeMarkerDepth * i;
         markers.push(
           new TimeMarkerModel(

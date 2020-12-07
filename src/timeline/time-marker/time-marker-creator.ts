@@ -88,21 +88,24 @@ export default class TimeMarkerCreator {
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );
-    const markers = [] as TimeMarkerModel[];
 
-    for (let i = 1; i <= numberOfMarkers; i++) {
-      const date = lowestMarker.date - store.state.timeMarkerDepth * i;
-      markers.push(
-        new TimeMarkerModel(
-          lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
-          uuid(),
-          date,
-          this.depthOf(date)
-        )
-      );
+    if (numberOfMarkers > 0) {
+      const markers = [] as TimeMarkerModel[];
+
+      for (let i = 1; i <= numberOfMarkers; i++) {
+        const date = lowestMarker.date - store.state.timeMarkerDepth * i;
+        markers.push(
+          new TimeMarkerModel(
+            lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
+            uuid(),
+            date,
+            this.depthOf(date)
+          )
+        );
+      }
+
+      store.commit("unshiftTimeMarkers", markers);
     }
-
-    store.commit("unshiftTimeMarkers", markers);
   }
 
   public addMarkersRight() {
@@ -116,21 +119,24 @@ export default class TimeMarkerCreator {
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );
-    const markers = [] as TimeMarkerModel[];
 
-    for (let i = 1; i <= numberOfMarkers; i++) {
-      const date = highestMarker.date + store.state.timeMarkerDepth * i;
-      markers.push(
-        new TimeMarkerModel(
-          highestMarker.positionCenter + store.getters.timeMarkerDistance * i,
-          uuid(),
-          date,
-          this.depthOf(date)
-        )
-      );
+    if (numberOfMarkers > 0) {
+      const markers = [] as TimeMarkerModel[];
+
+      for (let i = 1; i <= numberOfMarkers; i++) {
+        const date = highestMarker.date + store.state.timeMarkerDepth * i;
+        markers.push(
+          new TimeMarkerModel(
+            highestMarker.positionCenter + store.getters.timeMarkerDistance * i,
+            uuid(),
+            date,
+            this.depthOf(date)
+          )
+        );
+      }
+
+      store.commit("pushTimeMarkers", markers);
     }
-
-    store.commit("pushTimeMarkers", markers);
   }
 
   private depthOf(date: number) {

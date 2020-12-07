@@ -28,17 +28,7 @@ export default class TimeMarkerWatcher {
           // Ex.: From years to months. From seconds to milliseconds
         }
 
-        store.commit(
-          "setTimeMarkerDepth",
-          store.state.timeMarkerDepth / Constants.DEPTH_BASE
-        );
-
-        const markers = [] as TimeMarkerModel[];
-        for (let i = 0; i < store.state.timeMarkers.length; i++) {
-          // for each existing marker add 9 new markers
-          // existing: 1900, new: 19[10, 20, 30, 40, 50, 60, 70, 80 ,90] 
-        
-        }
+        this.timeMarkerCreator.addMarkersBetween();
       }
     }
 

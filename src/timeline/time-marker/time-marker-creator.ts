@@ -139,6 +139,35 @@ export default class TimeMarkerCreator {
     }
   }
 
+  public addMarkersBetween() {
+    store.commit(
+      "setTimeMarkerDepth",
+      store.state.timeMarkerDepth / Constants.DEPTH_BASE
+    );
+
+    const start = Date.now();
+
+    const markers = [] as TimeMarkerModel[];
+    for (let i = 0; i < store.state.timeMarkers.length - 1; i++) {
+      markers[i * 10] = store.state.timeMarkers[i];
+      for (let m = 1; m < 10; m++) {
+        markers[i * 10 + m] = new TimeMarkerModel(
+          store.state.timeMarkers[i].positionCenter +
+            (store.getters.timeMarkerDistance / 10) * m,
+          uuid(),
+          store.state.timeMarkers[i].date + store.state.timeMarkerDepth * m,
+          store.state.timeMarkerDepth
+        );
+      }
+    }
+    markers[markers.length] =
+      store.state.timeMarkers[store.state.timeMarkers.length - 1];
+
+    console.log("new array took: " + (Date.now() - start));
+    store.commit("setTimeMarkers", markers);
+    console.log("new array and commit took: " + (Date.now() - start));
+  }
+
   private depthOf(date: number) {
     if (date === 0) {
       return Number.MAX_SAFE_INTEGER;

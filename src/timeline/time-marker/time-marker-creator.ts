@@ -5,22 +5,22 @@ import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";
 export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
-    const relativeLeftEdge = PositionTranslator.toRelativePosition(
+    const lowestDate = PositionTranslator.toRelativePosition(
       store.getters.leftEdge
     );
-    const relativeRightEdge = PositionTranslator.toRelativePosition(
+    const highestDate = PositionTranslator.toRelativePosition(
       store.getters.rightEdge
     );
 
     const firstMarker = this.createFirstMarker(
-      relativeRightEdge,
-      relativeLeftEdge
+      highestDate,
+      lowestDate
     );
 
     const secondMarker = this.createSecondMarker(
       firstMarker.date,
-      relativeLeftEdge,
-      relativeRightEdge,
+      lowestDate,
+      highestDate,
       firstMarker.depth
     );
 
@@ -57,18 +57,18 @@ export default class TimeMarkerCreator {
 
   private createSecondMarker(
     firstMarkerDate: number,
-    relativeLeftEdge: number,
-    relativeRightEdge: number,
+    lowestDate: number,
+    highestDate: number,
     depth: number
   ): TimeMarkerModel {
     let secondMarkerDate = firstMarkerDate - depth;
-    if (secondMarkerDate < relativeLeftEdge) {
+    if (secondMarkerDate < lowestDate) {
       secondMarkerDate = firstMarkerDate + depth;
-      if (secondMarkerDate > relativeRightEdge) {
+      if (secondMarkerDate > highestDate) {
         return this.createSecondMarker(
           firstMarkerDate,
-          relativeLeftEdge,
-          relativeRightEdge,
+          lowestDate,
+          highestDate,
           depth / Constants.DEPTH_BASE
         );
       }

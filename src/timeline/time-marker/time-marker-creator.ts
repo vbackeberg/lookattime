@@ -104,7 +104,7 @@ export default class TimeMarkerCreator {
         );
       }
 
-      store.commit("unshiftTimeMarkers", markers);
+      store.commit("unshiftTimeMarkers", ...markers);
     }
   }
 
@@ -135,7 +135,7 @@ export default class TimeMarkerCreator {
         );
       }
 
-      store.commit("pushTimeMarkers", markers);
+      store.commit("pushTimeMarkers", ...markers);
     }
   }
 

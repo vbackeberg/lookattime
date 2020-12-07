@@ -38,14 +38,12 @@ export default class TimeMarkerWatcher {
       this.timeMarkerCreator.addMarkersRight();
 
       if (newDistance < Constants.MIN_DISTANCE) {
-        store.commit(
-          "setTimeMarkerDepth",
-          store.state.timeMarkerDepth * Constants.DEPTH_BASE
-        );
-        const markers = store.state.timeMarkers.filter(
-          marker => marker.depth >= store.state.timeMarkerDepth
-        );
-        store.commit("setTimeMarkers", markers);
+        if (!Number.isSafeInteger(store.state.timeMarkerDepth)) {
+          // Change time system to the next higher system.
+          // Ex.: From months to years. From milliseconds to seconds.
+          // Or throw exception
+        }
+        this.timeMarkerRemover.removeMarkersLowestDepth();
       }
     }
   }

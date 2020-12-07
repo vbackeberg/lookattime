@@ -1,4 +1,5 @@
 import store from "@/store";
+import { Constants } from "./constants";
 
 export default class TimeMarkerRemover {
   public removeMarkersLeft() {
@@ -21,6 +22,23 @@ export default class TimeMarkerRemover {
       console.log("Remove markers above index: " + index);
       store.commit("setTimeMarkers", store.state.timeMarkers.slice(0, index));
     }
+  }
+
+  public removeMarkersLowestDepth() {
+    store.commit(
+      "setTimeMarkerDepth",
+      store.state.timeMarkerDepth * Constants.DEPTH_BASE
+    );
+
+    const start = Date.now();
+
+    const markers = store.state.timeMarkers.filter(
+      marker => marker.depth >= store.state.timeMarkerDepth
+    );
+
+    console.log("remove between took: " + (Date.now() - start));
+    store.commit("setTimeMarkers", markers);
+    console.log("remove between and commit took: " + (Date.now() - start));
   }
 
   private static instance: TimeMarkerRemover;

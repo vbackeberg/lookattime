@@ -160,7 +160,7 @@ export default Vue.extend({
 }
 
 .time-markers-enter-active {
-  transition: all 3000ms ease;
+  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .time-markers-enter {

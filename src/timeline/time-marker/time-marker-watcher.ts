@@ -1,4 +1,3 @@
-import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store";
 import { Constants } from "./constants";
 import TimeMarkerCreator from "./time-marker-creator";
@@ -16,6 +15,7 @@ export default class TimeMarkerWatcher {
   public watch(newDistance: number, oldDistance: number) {
     if (store.state.boxes.length < 2 || store.state.timeMarkers.length < 2)
       return;
+    // TODO: What if only one time marker left: Add new marker on the left (will be hidden in the negative).
 
     // On zoom in:
     if (newDistance > oldDistance) {

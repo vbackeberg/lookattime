@@ -163,9 +163,9 @@ export default class TimeMarkerCreator {
     markers[markers.length] =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
 
-    console.log("new array took: " + (Date.now() - start));
+    console.log("add between took: " + (Date.now() - start));
     store.commit("setTimeMarkers", markers);
-    console.log("new array and commit took: " + (Date.now() - start));
+    console.log("add between and commit took: " + (Date.now() - start));
   }
 
   private depthOf(date: number) {

@@ -6,9 +6,8 @@ export default class TimeMarkerRemover {
       marker => marker.positionCenter > store.getters.leftEdge
     );
 
-    console.log("Remove markers below index: " + index);
-
     if (index > 0) {
+      console.log("Remove markers below index: " + index);
       store.commit("setTimeMarkers", store.state.timeMarkers.slice(index));
     }
   }
@@ -18,9 +17,8 @@ export default class TimeMarkerRemover {
       marker => marker.positionCenter > store.getters.rightEdge
     );
 
-    console.log("Remove markers above index: " + index);
-
     if (index > -1) {
+      console.log("Remove markers above index: " + index);
       store.commit("setTimeMarkers", store.state.timeMarkers.slice(0, index));
     }
   }

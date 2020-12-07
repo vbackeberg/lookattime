@@ -13,7 +13,8 @@ export default class TimeMarkerWatcher {
   }
 
   public watch(newDistance: number, oldDistance: number) {
-    if (store.state.boxes.length < 2 || store.state.timeMarkers.length < 2)
+    if (store.state.timeMarkers.length === 0) {
+      this.timeMarkerCreator.initiateTimeMarkers();
       return;
     }
 

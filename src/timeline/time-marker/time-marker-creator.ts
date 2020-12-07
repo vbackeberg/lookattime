@@ -168,6 +168,21 @@ export default class TimeMarkerCreator {
     console.log("add between and commit took: " + (Date.now() - start));
   }
 
+
+  public addSingleMarkerLeft() {
+    store.commit(
+      "unshiftTimeMarkers",
+      new TimeMarkerModel(
+        PositionTranslator.toAbsolutePosition(
+          store.state.timeMarkers[0].date - store.state.timeMarkerDepth
+        ),
+        uuid(),
+        store.state.timeMarkers[0].date - store.state.timeMarkerDepth,
+        store.state.timeMarkerDepth
+      )
+    );
+  }
+
   private depthOf(date: number) {
     if (date === 0) {
       return Number.MAX_SAFE_INTEGER;

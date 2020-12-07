@@ -15,12 +15,20 @@ export default class TimeMarkerWatcher {
   public watch(newDistance: number, oldDistance: number) {
     if (store.state.boxes.length < 2 || store.state.timeMarkers.length < 2)
       return;
-    // TODO: What if only one time marker left: Add new marker on the left (will be hidden in the negative).
+    }
+
+    if (store.state.timeMarkers.length === 1) {
+      // TODO: What if only one time marker left: Add new marker on the left (will be hidden in the negative).
+      this.timeMarkerCreator.addSingleMarkerLeft();
+      return;
+    }
 
     // On zoom in:
     if (newDistance > oldDistance) {
-      this.timeMarkerRemover.removeMarkersLeft();
-      this.timeMarkerRemover.removeMarkersRight();
+      if (store.state.timeMarkers.length > 2) {
+        this.timeMarkerRemover.removeMarkersLeft();
+        this.timeMarkerRemover.removeMarkersRight();
+      }
 
       if (newDistance > Constants.MAX_DISTANCE) {
         if (store.state.timeMarkerDepth === 1) {

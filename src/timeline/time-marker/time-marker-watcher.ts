@@ -33,7 +33,9 @@ export default class TimeMarkerWatcher {
 
       if (newDistance > Constants.MAX_DISTANCE) {
         if (store.state.timeMarkerDepth === 1) {
-          // If depth < 1 change time system to the next lower system.
+          return;
+
+          // TODO: If depth < 1 change time system to the next lower system.
           // Ex.: From years to months. From seconds to milliseconds
         }
 
@@ -47,11 +49,14 @@ export default class TimeMarkerWatcher {
       this.timeMarkerCreator.addMarkersRight();
 
       if (newDistance < Constants.MIN_DISTANCE) {
-        if (!Number.isSafeInteger(store.state.timeMarkerDepth)) {
-          // Change time system to the next higher system.
+        if (store.state.timeMarkerDepth === Number.MAX_SAFE_INTEGER) {
+          return;
+
+          // TODO: Change time system to the next higher system.
           // Ex.: From months to years. From milliseconds to seconds.
           // Or throw exception
         }
+
         this.timeMarkerRemover.removeMarkersLowestDepth();
       }
     }

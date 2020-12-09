@@ -145,7 +145,7 @@ export default class TimeMarkerCreator {
     const start = Date.now();
 
     const markers = [] as TimeMarkerModel[];
-    for (let i = 0; i < store.state.timeMarkers.length - 1; i++) {
+    for (let i = 0, n = store.state.timeMarkers.length; i < n - 1; i++) {
       markers[i * 10] = store.state.timeMarkers[i];
       for (let m = 1; m < 10; m++) {
         markers[i * 10 + m] = new TimeMarkerModel(

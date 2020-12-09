@@ -6,7 +6,8 @@ import Vue from "vue";
  */
 export default class SpaceCutter {
   public static async cutLeftSpace(timelineElement: Element, distance: number) {
-    for (let element of document.getElementsByClassName("zoomable")) {
+    const elements = document.getElementsByClassName("zoomable")
+    for (let element of elements) {
       element.classList.remove("zoom-transition");
     }
 
@@ -31,7 +32,7 @@ export default class SpaceCutter {
         store.state.spacerPageEdge.width
     );
 
-    for (let element of document.getElementsByClassName("zoomable")) {
+    for (let element of elements) {
       element.classList.add("zoom-transition");
     }
   }

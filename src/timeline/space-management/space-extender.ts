@@ -9,7 +9,8 @@ export default class SpaceExtender {
     timelineElement: Element,
     distance: number
   ) {
-    for (let element of document.getElementsByClassName("zoomable")) {
+    const elements = document.getElementsByClassName("zoomable")
+    for (let element of elements) {
       element.classList.remove("zoom-transition");
     }
 
@@ -35,7 +36,7 @@ export default class SpaceExtender {
 
     timelineElement.scrollBy(distance, 0);
 
-    for (let element of document.getElementsByClassName("zoomable")) {
+    for (let element of elements) {
       element.classList.add("zoom-transition");
     }
   }

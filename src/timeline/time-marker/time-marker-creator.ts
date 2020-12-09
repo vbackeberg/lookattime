@@ -12,10 +12,7 @@ export default class TimeMarkerCreator {
       store.getters.rightEdge
     );
 
-    const firstMarker = this.createFirstMarker(
-      highestDate,
-      lowestDate
-    );
+    const firstMarker = this.createFirstMarker(highestDate, lowestDate);
 
     const secondMarker = this.createSecondMarker(
       firstMarker.date,

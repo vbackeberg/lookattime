@@ -104,7 +104,7 @@ export default class TimeMarkerCreator {
         );
       }
 
-      store.commit("unshiftTimeMarkers", ...markers);
+      store.commit("unshiftTimeMarkers", markers);
     }
   }
 
@@ -135,7 +135,7 @@ export default class TimeMarkerCreator {
         );
       }
 
-      store.commit("pushTimeMarkers", ...markers);
+      store.commit("pushTimeMarkers", markers);
     }
   }
 
@@ -168,10 +168,8 @@ export default class TimeMarkerCreator {
     console.log("add between and commit took: " + (Date.now() - start));
   }
 
-
   public addSingleMarkerLeft() {
-    store.commit(
-      "unshiftTimeMarkers",
+    store.commit("unshiftTimeMarkers", [
       new TimeMarkerModel(
         PositionTranslator.toAbsolutePosition(
           store.state.timeMarkers[0].date - store.state.timeMarkerDepth
@@ -180,7 +178,7 @@ export default class TimeMarkerCreator {
         store.state.timeMarkers[0].date - store.state.timeMarkerDepth,
         store.state.timeMarkerDepth
       )
-    );
+    ]);
   }
 
   private depthOf(date: number) {

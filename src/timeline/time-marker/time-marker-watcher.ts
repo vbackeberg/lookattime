@@ -19,7 +19,6 @@ export default class TimeMarkerWatcher {
     }
 
     if (store.state.timeMarkers.length === 1) {
-      // TODO: What if only one time marker left: Add new marker on the left (will be hidden in the negative).
       this.timeMarkerCreator.addSingleMarkerLeft();
       return;
     }

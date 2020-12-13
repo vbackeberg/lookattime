@@ -15,15 +15,21 @@ export default class ScrollObserver {
     this.timelineElement.addEventListener("scroll", () => {
       console.log("------------------------------------------------------");
       this.determineEdges();
-      this.determineBoundingMarkers();
-      this.changeVisibility();
+
+      if (store.state.timeMarkers.length > 0) {
+        this.determineBoundingMarkers();
+        this.changeVisibility();
+      }
     });
   }
 
   private determineEdges() {
     this.viewportLeftEdge = this.timelineElement.scrollLeft;
-    this.viewportRightEdge = this.viewportLeftEdge + this.timelineElement.clientWidth;
-    console.log("viewport from " + this.viewportLeftEdge + " to " + this.viewportRightEdge);
+    this.viewportRightEdge =
+      this.viewportLeftEdge + this.timelineElement.clientWidth;
+    console.log(
+      "viewport from " + this.viewportLeftEdge + " to " + this.viewportRightEdge
+    );
   }
 
   private determineBoundingMarkers() {

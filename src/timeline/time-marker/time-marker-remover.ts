@@ -1,6 +1,9 @@
 import store from "@/store";
 import { Constants } from "./constants";
 
+/**
+ * Removes time markers from the sides and from between.
+ */
 export default class TimeMarkerRemover {
   public removeMarkersLeft() {
     const index = store.state.timeMarkers.findIndex(

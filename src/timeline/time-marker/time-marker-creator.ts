@@ -146,8 +146,6 @@ export default class TimeMarkerCreator {
       store.state.timeMarkerDepth / Constants.DEPTH_BASE
     );
 
-    const start = Date.now();
-
     const markers = [] as TimeMarkerModel[];
     for (let i = 0, n = store.state.timeMarkers.length; i < n - 1; i++) {
       markers[i * 10] = store.state.timeMarkers[i];
@@ -164,9 +162,7 @@ export default class TimeMarkerCreator {
     markers[markers.length] =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
 
-    console.log("add between took: " + (Date.now() - start));
     store.commit("setTimeMarkers", markers);
-    console.log("add between and commit took: " + (Date.now() - start));
   }
 
   public addSingleMarkerLeft() {

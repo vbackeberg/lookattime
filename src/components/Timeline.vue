@@ -117,9 +117,6 @@ export default Vue.extend({
 
   watch: {
     timeMarkerDistance(newDistance, oldDistance) {
-      console.log(
-        "old distance: " + oldDistance + " new distance: " + newDistance
-      );
       timeMarkerWatcher.watch(newDistance, oldDistance);
     }
   }

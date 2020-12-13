@@ -26,41 +26,43 @@ export default class TimeMarkerWatcher {
       return;
     }
 
-    // On zoom in:
     if (newDistance > oldDistance) {
-      if (store.state.timeMarkers.length > 2) {
-        this.timeMarkerRemover.removeMarkersLeft();
-        this.timeMarkerRemover.removeMarkersRight();
-      }
-
-      if (newDistance > Constants.MAX_DISTANCE) {
-        if (store.state.timeMarkerDepth === 1) {
-          return;
-
-          // TODO: If depth < 1 change time system to the next lower system.
-          // Ex.: From years to months. From seconds to milliseconds
-        }
-
-        this.timeMarkerCreator.addMarkersBetween();
-      }
+      this.onZoomIn(newDistance);
+    } else if (newDistance < oldDistance) {
+      this.onZoomOut(newDistance);
+    }
+  }
+  private onZoomIn(newDistance: number) {
+    if (store.state.timeMarkers.length > 2) {
+      this.timeMarkerRemover.removeMarkersLeft();
+      this.timeMarkerRemover.removeMarkersRight();
     }
 
-    // On zoom out:
-    else if (newDistance < oldDistance) {
-      this.timeMarkerCreator.addMarkersLeft();
-      this.timeMarkerCreator.addMarkersRight();
-
-      if (newDistance < Constants.MIN_DISTANCE) {
-        if (store.state.timeMarkerDepth === Number.MAX_SAFE_INTEGER) {
-          return;
-
-          // TODO: Change time system to the next higher system.
-          // Ex.: From months to years. From milliseconds to seconds.
-          // Or throw exception
-        }
-
-        this.timeMarkerRemover.removeMarkersLowestDepth();
+    if (newDistance > Constants.MAX_DISTANCE) {
+      if (store.state.timeMarkerDepth === 1) {
+        return;
+        // TODO: If depth < 1 change time system to the next lower system.
+        // Ex.: From years to months. From seconds to milliseconds
       }
+
+      this.timeMarkerCreator.addMarkersBetween();
+    }
+  }
+
+  private onZoomOut(newDistance: number) {
+    this.timeMarkerCreator.addMarkersLeft();
+    this.timeMarkerCreator.addMarkersRight();
+
+    if (newDistance < Constants.MIN_DISTANCE) {
+      if (store.state.timeMarkerDepth === Number.MAX_SAFE_INTEGER) {
+        return;
+
+        // TODO: Change time system to the next higher system.
+        // Ex.: From months to years. From milliseconds to seconds.
+        // Or throw exception
+      }
+
+      this.timeMarkerRemover.removeMarkersLowestDepth();
     }
   }
 

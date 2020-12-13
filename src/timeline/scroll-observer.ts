@@ -7,7 +7,7 @@ export default class ScrollObserver {
   private firstWithinBounds = 0;
   private lastWithinBounds = 0;
 
-  constructor() {
+  private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
     this.timelineElement.addEventListener("scroll", (e: Event) => {
       console.log("------------------------------------------------------");

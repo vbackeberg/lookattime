@@ -3,6 +3,10 @@ import store from "@/store";
 import { v4 as uuid } from "uuid";
 import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";
+
+/**
+ * Initiates the time marker array. Adds markers on the sides and in between.
+ */
 export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
     const lowestDate = PositionTranslator.toRelativePosition(

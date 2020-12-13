@@ -5,8 +5,8 @@ import store from "@/store";
  */
 export default class ScrollObserver {
   private timelineElement: HTMLElement;
-  private leftEdge = 0; // TODO: rename to viewportLeftEdge
-  private rightEdge = 0;
+  private viewportLeftEdge = 0;
+  private viewportRightEdge = 0;
   private firstWithinBounds = 0;
   private lastWithinBounds = 0;
 
@@ -21,18 +21,18 @@ export default class ScrollObserver {
   }
 
   private determineEdges() {
-    this.leftEdge = this.timelineElement.scrollLeft;
-    this.rightEdge = this.leftEdge + this.timelineElement.clientWidth;
-    console.log("viewport from " + this.leftEdge + " to " + this.rightEdge);
+    this.viewportLeftEdge = this.timelineElement.scrollLeft;
+    this.viewportRightEdge = this.viewportLeftEdge + this.timelineElement.clientWidth;
+    console.log("viewport from " + this.viewportLeftEdge + " to " + this.viewportRightEdge);
   }
 
   private determineBoundingMarkers() {
     this.firstWithinBounds = store.state.timeMarkers.findIndex(
-      marker => marker.positionCenter > this.leftEdge
+      marker => marker.positionCenter > this.viewportLeftEdge
     );
 
     const firstOutsideBounds = store.state.timeMarkers.findIndex(
-      marker => marker.positionCenter > this.rightEdge
+      marker => marker.positionCenter > this.viewportRightEdge
     );
     firstOutsideBounds > -1
       ? (this.lastWithinBounds = firstOutsideBounds - 1)

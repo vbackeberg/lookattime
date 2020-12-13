@@ -6,7 +6,7 @@ export default class SpaceObserver {
   private timelineElement: HTMLElement;
   private spacerLeftElement: HTMLElement;
 
-  constructor() {
+  private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
     this.spacerLeftElement = document.getElementById("spacer-left") as HTMLElement;
 
@@ -25,5 +25,10 @@ export default class SpaceObserver {
         );
       }
     });
+  }
+
+  private static instance: SpaceObserver;
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
   }
 }

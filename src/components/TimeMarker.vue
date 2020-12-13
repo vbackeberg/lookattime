@@ -4,12 +4,13 @@
       class="marker zoom-transition zoomable"
       v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
     >
-      {{ date }}
+      {{ date }}, {{ show }}
     </div>
   </transition>
 </template>
 
 <script lang="ts">
+import TimeMarkerModel from "@/models/time-marker-model";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -17,19 +18,21 @@ export default Vue.extend({
 
   data() {
     return {
-      width: 4
+      width: TimeMarkerModel.width,
+      widthOffset: TimeMarkerModel.width / 2
     };
   },
 
   props: {
     positionCenter: Number,
     id: String,
-    date: Number
+    date: Number,
+    show: Boolean
   },
 
   computed: {
     positionLeft(): number {
-      return this.positionCenter - this.width / 2;
+      return this.positionCenter - this.widthOffset;
     }
   }
 });

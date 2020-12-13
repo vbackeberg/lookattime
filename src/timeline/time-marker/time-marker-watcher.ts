@@ -3,6 +3,9 @@ import { Constants } from "./constants";
 import TimeMarkerCreator from "./time-marker-creator";
 import TimeMarkerRemover from "./time-marker-remover";
 
+/**
+ * Manages the time marker array from changes in the time marker distance.
+ */
 export default class TimeMarkerWatcher {
   private timeMarkerCreator: TimeMarkerCreator;
   private timeMarkerRemover: TimeMarkerRemover;

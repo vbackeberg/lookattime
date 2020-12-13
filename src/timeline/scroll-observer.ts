@@ -1,5 +1,8 @@
 import store from "@/store";
 
+/**
+ * Observes scroll events to hide all time markers outside of the viewport.
+ */
 export default class ScrollObserver {
   private timelineElement: HTMLElement;
   private leftEdge = 0; // TODO: rename to viewportLeftEdge

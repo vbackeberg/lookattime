@@ -2,6 +2,9 @@ import store from "@/store";
 import SpaceCutter from "./space-cutter";
 import SpaceExtender from "./space-extender";
 
+/**
+ * Observes movements of the left spacer and calls space cutter or space extender accordingly. 
+ */
 export default class SpaceObserver {
   private timelineElement: HTMLElement;
   private spacerLeftElement: HTMLElement;

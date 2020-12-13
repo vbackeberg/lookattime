@@ -2,7 +2,7 @@ import store from "@/store";
 
 export default class ScrollObserver {
   private timelineElement: HTMLElement;
-  private leftEdge = 0;
+  private leftEdge = 0; // TODO: rename to viewportLeftEdge
   private rightEdge = 0;
   private firstWithinBounds = 0;
   private lastWithinBounds = 0;

@@ -8,7 +8,9 @@ export default class SpaceObserver {
 
   private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
-    this.spacerLeftElement = document.getElementById("spacer-left") as HTMLElement;
+    this.spacerLeftElement = document.getElementById(
+      "spacer-left"
+    ) as HTMLElement;
 
     this.spacerLeftElement.addEventListener("transitionend", () => {
       const expendableLeftSpace = Math.min(
@@ -23,8 +25,14 @@ export default class SpaceObserver {
           this.timelineElement,
           -store.getters.spacerLeft.positionLeft
         );
+      } else {
+        this.notifyScrollObserver();
       }
     });
+  }
+
+  private notifyScrollObserver() {
+    this.timelineElement.dispatchEvent(new CustomEvent("scroll"));
   }
 
   private static instance: SpaceObserver;

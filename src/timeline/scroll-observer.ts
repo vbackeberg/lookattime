@@ -28,9 +28,12 @@ export default class ScrollObserver {
       marker => marker.positionCenter > this.leftEdge
     );
 
-    this.lastWithinBounds = store.state.timeMarkers.findIndex(
-      marker => marker.positionCenter > this.rightEdge - 1
+    const firstOutsideBounds = store.state.timeMarkers.findIndex(
+      marker => marker.positionCenter > this.rightEdge
     );
+    firstOutsideBounds > -1
+      ? (this.lastWithinBounds = firstOutsideBounds - 1)
+      : (this.lastWithinBounds = store.state.timeMarkers.length - 1);
 
     console.log("index first marker within bounds " + this.firstWithinBounds);
     console.log("index last marker within bounds " + this.lastWithinBounds);
@@ -45,14 +48,12 @@ export default class ScrollObserver {
       store.state.timeMarkers[i].show = true;
     }
 
-    if (this.lastWithinBounds > -1) {
-      for (
-        let i = this.lastWithinBounds + 1, n = store.state.timeMarkers.length;
-        i < n;
-        i++
-      ) {
-        store.state.timeMarkers[i].show = false;
-      }
+    for (
+      let i = this.lastWithinBounds + 1, n = store.state.timeMarkers.length;
+      i < n;
+      i++
+    ) {
+      store.state.timeMarkers[i].show = false;
     }
   }
 

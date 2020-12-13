@@ -61,6 +61,7 @@ export default Vue.extend({
     zoomer = Zoomer.Instance;
     SpaceObserver.Instance;
     timeMarkerWatcher = TimeMarkerWatcher.Instance;
+    ScrollObserver.Instance;
 
     window.addEventListener("wheel", (e: WheelEvent) => {
       if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
@@ -68,8 +69,6 @@ export default Vue.extend({
       }
       this.changeZoom(e);
     });
-
-    ScrollObserver.Instance;
   },
 
   computed: {

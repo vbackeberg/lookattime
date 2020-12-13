@@ -12,7 +12,7 @@ export default class ScrollObserver {
 
   private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
-    this.timelineElement.addEventListener("scroll", (e: Event) => {
+    this.timelineElement.addEventListener("scroll", () => {
       console.log("------------------------------------------------------");
       this.determineEdges();
       this.determineBoundingMarkers();

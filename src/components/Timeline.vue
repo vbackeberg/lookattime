@@ -39,6 +39,7 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
 import SpaceWatcher from "@/timeline/space-management/space-watcher";
 import TimeMarkerWatcher from "@/timeline/time-marker/time-marker-watcher";
+import ScrollObserver from "@/timeline/scroll-observer";
 
 let zoomer: Zoomer;
 let timeMarkerWatcher: TimeMarkerWatcher;
@@ -67,6 +68,8 @@ export default Vue.extend({
       }
       this.changeZoom(e);
     });
+
+    ScrollObserver.Instance;
   },
 
   computed: {
@@ -95,7 +98,7 @@ export default Vue.extend({
     },
 
     timeMarkers(): TimeMarkerModel[] {
-      return store.state.timeMarkers;
+      return store.getters.timeMarkersVisible;
     },
 
     timeMarkerDistance(): number {

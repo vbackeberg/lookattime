@@ -37,7 +37,7 @@ import Zoomer from "@/timeline/zoomer";
 import Date from "@/components/timeline-event/Date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/TimeMarker.vue";
-import SpaceWatcher from "@/timeline/space-management/space-watcher";
+import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerWatcher from "@/timeline/time-marker/time-marker-watcher";
 import ScrollObserver from "@/timeline/scroll-observer";
 
@@ -59,7 +59,7 @@ export default Vue.extend({
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
     zoomer = Zoomer.Instance;
-    new SpaceWatcher(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
+    new SpaceObserver(this.$el, (this.$refs.spacerLeftElement as Vue).$el);
     timeMarkerWatcher = TimeMarkerWatcher.Instance;
 
     window.addEventListener("wheel", (e: WheelEvent) => {

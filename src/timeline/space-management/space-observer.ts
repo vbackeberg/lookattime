@@ -2,7 +2,7 @@ import store from "@/store";
 import SpaceCutter from "./space-cutter";
 import SpaceExtender from "./space-extender";
 
-export default class SpaceWatcher {
+export default class SpaceObserver {
   constructor(timelineElement: Element, spacerLeftElement: Element) {
     spacerLeftElement.addEventListener("transitionend", () => {
       const expendableLeftSpace = Math.min(

@@ -3,9 +3,7 @@
     <div
       class="marker zoom-transition zoomable"
       v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
-    >
-      {{ date }}
-    </div>
+    ></div>
   </transition>
 </template>
 
@@ -40,7 +38,8 @@ export default Vue.extend({
 <style scoped lang="scss">
 .marker {
   position: absolute;
-  height: 16px;
-  background-color: brown;
+  height: 12px;
+  background-color: #000;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>

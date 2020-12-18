@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Timeline from "@/components/Timeline.vue";
+import Timeline from "@/components/timeline.vue";
 import BoxModel from "@/models/box-model";
 import store from "@/store";
 import BoxCreator from "@/timeline/box-creator";

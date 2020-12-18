@@ -43,7 +43,7 @@
 import BoxModel from "@/models/box-model";
 import store from "@/store";
 import Vue from "vue";
-import Connector from "./Connector.vue";
+import Connector from "./connector.vue";
 
 export default Vue.extend({
   name: "Box",

@@ -26,17 +26,17 @@
 </template>
 
 <script lang="ts">
-import Box from "@/components/timeline-event/Box.vue";
+import Box from "@/components/timeline-event/box.vue";
 import Vue from "vue";
 import BoxModel from "@/models/box-model";
 import SpacerModel from "@/models/spacer-model";
-import Spacer from "@/components/spacer/Spacer.vue";
-import SpacerLeft from "@/components/spacer/SpacerLeft.vue";
+import Spacer from "@/components/spacer/spacer.vue";
+import SpacerLeft from "@/components/spacer/spacer-left.vue";
 import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
-import Date from "@/components/timeline-event/Date.vue";
+import Date from "@/components/timeline-event/date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
-import TimeMarker from "@/components/TimeMarker.vue";
+import TimeMarker from "@/components/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerWatcher from "@/timeline/time-marker/time-marker-watcher";
 import ScrollObserver from "@/timeline/scroll-observer";

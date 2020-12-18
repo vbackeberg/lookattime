@@ -13,7 +13,7 @@ export default new Vuex.Store({
 
     boxes: [] as BoxModel[],
 
-    spacerPageEdge: { // TODO: Rename to spacerRightEdge
+    spacerPageEdge: {
       positionLeft: 0,
       width: 1
     } as SpacerModel,

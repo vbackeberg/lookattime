@@ -4,7 +4,7 @@
       class="marker zoom-transition zoomable"
       v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
     >
-      {{ date }}, {{ show }}
+      {{ date }}
     </div>
   </transition>
 </template>
@@ -26,8 +26,7 @@ export default Vue.extend({
   props: {
     positionCenter: Number,
     id: String,
-    date: Number,
-    show: Boolean
+    date: Number
   },
 
   computed: {

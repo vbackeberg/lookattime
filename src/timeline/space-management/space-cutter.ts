@@ -5,8 +5,11 @@ import Vue from "vue";
  * Cuts expendable space on the left by given distance. Takes care of removing animations during position shifting.
  */
 export default class SpaceCutter {
-  public static async cutLeftSpace(timelineElement: Element, distance: number) {
-    const elements = document.getElementsByClassName("zoomable")
+  public static async cutLeftSpace(
+    timelineElement: HTMLElement,
+    distance: number
+  ) {
+    const elements = document.getElementsByClassName("zoomable");
     for (let element of elements) {
       element.classList.remove("zoom-transition");
     }

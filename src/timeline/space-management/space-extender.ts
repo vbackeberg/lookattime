@@ -6,7 +6,7 @@ import Vue from "vue";
  */
 export default class SpaceExtender {
   public static async extendLeftSpace(
-    timelineElement: Element,
+    timelineElement: HTMLElement,
     distance: number
   ) {
     const elements = document.getElementsByClassName("zoomable")

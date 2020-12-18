@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    timelineElement: {} as HTMLElement,
     timelineZero: 0,
     zoomLevel: 1,
 
@@ -25,12 +26,8 @@ export default new Vuex.Store({
   getters: {
     spacerLeft(state): SpacerModel {
       const lowestBox = state.boxes[0];
-
-      const timelineElement = document.getElementById(
-        "timeline"
-      ) as HTMLElement;
       const width =
-        timelineElement?.clientWidth / 2 - BoxModel.expandedWidth / 2;
+        state.timelineElement.clientWidth / 2 - BoxModel.expandedWidth / 2;
 
       return {
         positionLeft:
@@ -42,15 +39,10 @@ export default new Vuex.Store({
     spacerRight(state): SpacerModel {
       const highestBox = state.boxes[state.boxes.length - 1];
 
-      // TODO: Problem: How to avoid recalculation?
-      // Mutation: Set timelineElement in store. Call it on timeline mounted.
-      const timelineElement = document.getElementById(
-        "timeline"
-      ) as HTMLElement;
-
       return {
         positionLeft: highestBox?.positionCenter + BoxModel.expandedWidth / 2,
-        width: timelineElement?.clientWidth / 2 - BoxModel.expandedWidth / 2
+        width:
+          state.timelineElement.clientWidth / 2 - BoxModel.expandedWidth / 2
       } as SpacerModel;
     },
 

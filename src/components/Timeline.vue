@@ -56,6 +56,10 @@ export default Vue.extend({
   },
 
   mounted() {
+    store.state.timelineElement = document.getElementById(
+      "timeline"
+    ) as HTMLElement;
+
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
     zoomer = Zoomer.Instance;

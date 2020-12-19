@@ -13,12 +13,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Timeline from "@/components/timeline.vue";
-import BoxModel from "@/models/box-model";
-import store from "@/store";
-import BoxCreator from "@/timeline/box-creator";
 import CreateBoxForm from "@/components/create-box-form.vue";
-
-let boxCreator: BoxCreator;
 
 export default Vue.extend({
   name: "Home",
@@ -28,22 +23,12 @@ export default Vue.extend({
     CreateBoxForm
   },
 
-  mounted() {
-    boxCreator = BoxCreator.Instance;
-    this.addBox();
-  },
-
   data() {
     return {
       date: 1921,
       importance: 101,
       showCreateBoxForm: false
     };
-  },
-  methods: {
-    addBox() {
-      return true;
-    }
   }
 });
 </script>

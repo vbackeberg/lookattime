@@ -5,7 +5,13 @@
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-  name: "CreateBoxDialog"
+  name: "CreateBoxDialog",
+
+  methods: {
+    close() {
+      this.$emit("close");
+    }
+  }
 });
 </script>
 

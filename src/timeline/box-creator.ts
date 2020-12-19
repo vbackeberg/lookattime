@@ -3,7 +3,7 @@ import store from "@/store";
 import Vue from "vue";
 import ViewFocuser from "./view-focuser";
 import TimeMarkerCreator from "./time-marker/time-marker-creator";
-import SpaceExtender from './space-management/space-extender';
+import SpaceExtender from "./space-management/space-extender";
 
 /**
  * Adds box to store. Handles possible space extension. Scrolls to new box.
@@ -32,7 +32,10 @@ export default class BoxCreator {
 
     this.focusView(box);
 
-    if (store.state.boxes.length === 2 && store.state.timeMarkers.length === 0) {
+    if (
+      store.state.boxes.length === 2 &&
+      store.state.timeMarkers.length === 0
+    ) {
       this.timeMarkerCreator.initiateTimeMarkers();
     }
   }

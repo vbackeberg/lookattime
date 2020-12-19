@@ -10,7 +10,7 @@ export default class SpaceCutter {
     distance: number
   ) {
     const elements = document.getElementsByClassName("zoomable");
-    for (let element of elements) {
+    for (const element of elements) {
       element.classList.remove("zoom-transition");
     }
 
@@ -35,7 +35,7 @@ export default class SpaceCutter {
         store.state.spacerPageEdge.width
     );
 
-    for (let element of elements) {
+    for (const element of elements) {
       element.classList.add("zoom-transition");
     }
   }

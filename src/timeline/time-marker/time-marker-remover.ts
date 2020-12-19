@@ -31,7 +31,6 @@ export default class TimeMarkerRemover {
       store.state.timeMarkerDepth * Constants.DEPTH_BASE
     );
 
-
     const markers = store.state.timeMarkers.filter(
       marker => marker.depth >= store.state.timeMarkerDepth
     );

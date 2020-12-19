@@ -1,12 +1,11 @@
 <template>
   <div class="home">
     <div class="controls">
-      <input v-model.number="date" type="number" />
-      <input v-model.number="importance" type="number" />
-      <button v-on:click="addBox(date, importance)">
-        Add new
-      </button>
+      <v-btn color="accent" large @click.stop="showCreateBoxForm = true"
+        >Add Event</v-btn
+      >
     </div>
+    <create-box-form v-model="showCreateBoxForm" />
     <timeline ref="timelineElement"></timeline>
   </div>
 </template>
@@ -17,6 +16,7 @@ import Timeline from "@/components/timeline.vue";
 import BoxModel from "@/models/box-model";
 import store from "@/store";
 import BoxCreator from "@/timeline/box-creator";
+import CreateBoxForm from "@/components/create-box-form.vue";
 
 let boxCreator: BoxCreator;
 
@@ -24,34 +24,25 @@ export default Vue.extend({
   name: "Home",
 
   components: {
-    Timeline
+    Timeline,
+    CreateBoxForm
   },
 
   mounted() {
     boxCreator = BoxCreator.Instance;
-    this.addBox(1804, 100);
+    this.addBox();
   },
 
   data() {
     return {
       date: 1921,
-      importance: 101
+      importance: 101,
+      showCreateBoxForm: false
     };
   },
   methods: {
-    addBox(date: number, importance: number) {
-      const absolutePosition =
-        store.state.timelineZero + date * store.state.zoomLevel;
-
-      boxCreator.addBox(
-        new BoxModel(
-          absolutePosition,
-          store.state.boxes.length,
-          "text",
-          date,
-          importance
-        )
-      );
+    addBox() {
+      return true;
     }
   }
 });

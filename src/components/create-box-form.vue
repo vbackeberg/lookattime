@@ -42,10 +42,17 @@
 <script lang="ts">
 import Vue from "vue";
 import BoxCreator from "@/timeline/box-creator";
-import BoxModel from "@/models/box-model";
 
 export default Vue.extend({
   name: "CreateBoxForm",
+
+  data() {
+    return {
+      date: 1516,
+      text: "",
+      importance: 100
+    };
+  },
 
   props: {
     value: Boolean
@@ -69,9 +76,8 @@ export default Vue.extend({
     },
 
     addBox() {
-      const box = new BoxModel();
-
-      BoxCreator.Instance.addBox(box);
+      // TODO Tigh input values to these parameters
+      BoxCreator.Instance.addBox(this.text, this.date, this.importance);
     },
 
     back() {

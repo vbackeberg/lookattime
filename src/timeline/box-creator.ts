@@ -4,6 +4,7 @@ import Vue from "vue";
 import ViewFocuser from "./view-focuser";
 import TimeMarkerCreator from "./time-marker/time-marker-creator";
 import SpaceExtender from "./space-management/space-extender";
+import PositionTranslator from "./position-translator";
 
 /**
  * Adds box to store. Handles possible space extension. Scrolls to new box.
@@ -20,7 +21,15 @@ export default class BoxCreator {
     this.timeMarkerCreator = TimeMarkerCreator.Instance;
   }
 
-  public async addBox(box: BoxModel) {
+  public async addBox(text: string, date: number, importance: number) {
+    const box = new BoxModel(
+      PositionTranslator.toAbsolutePosition(date),
+      store.state.boxes.length,
+      text,
+      date,
+      importance
+    );
+
     store.commit("addBox", box);
 
     await Vue.nextTick();

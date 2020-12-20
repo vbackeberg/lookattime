@@ -56,7 +56,8 @@ export default Vue.extend({
     positionCenter: Number,
     id: Number,
     text: String,
-    importance: Number
+    importance: Number,
+    images: Array
   },
 
   computed: {

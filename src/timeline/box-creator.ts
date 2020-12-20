@@ -21,13 +21,14 @@ export default class BoxCreator {
     this.timeMarkerCreator = TimeMarkerCreator.Instance;
   }
 
-  public async addBox(text: string, date: number, importance: number) {
+  public async addBox(text: string, date: number, importance: number, images: File[]) {
     const box = new BoxModel(
       PositionTranslator.toAbsolutePosition(date),
       store.state.boxes.length,
       text,
       date,
-      importance
+      importance,
+      images
     );
 
     store.commit("addBox", box);

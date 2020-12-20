@@ -23,7 +23,14 @@
               />
             </v-col>
             <v-col cols="12" sm="6" align-self="center">
-              <v-file-input outlined small-chips multiple label="Add images" />
+              <v-file-input
+                accept="image/*"
+                outlined
+                small-chips
+                multiple
+                label="Add images"
+                v-model="images"
+              />
             </v-col>
             <v-col cols="12">
               <v-textarea
@@ -61,7 +68,8 @@ export default Vue.extend({
     return {
       date: 1516,
       text: "",
-      importance: 100
+      importance: 100,
+      images: [] as File[]
     };
   },
 
@@ -82,7 +90,12 @@ export default Vue.extend({
 
   methods: {
     create() {
-      BoxCreator.Instance.addBox(this.text, this.date, this.importance);
+      BoxCreator.Instance.addBox(
+        this.text,
+        this.date,
+        this.importance,
+        this.images
+      );
       this.show = false;
     },
 

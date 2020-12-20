@@ -1,19 +1,21 @@
 <template>
   <v-dialog v-model="show" persistent max-width="600">
     <v-card>
-      <v-card-title class="headline">
-        Create a new event
+      <v-card-title class="headline justify-center">
+        Create your new event
       </v-card-title>
       <v-card-text>
         <v-container>
           <v-row>
             <v-col cols="12" sm="6">
+              <v-text-field label="Year" required />
               <v-text-field label="Title" required />
             </v-col>
-            <v-col cols="12" sm="6">
-              <v-icon />
+            <v-col cols="12" sm="6" align-self="center">
+              <v-file-input outlined small-chips multiple label="Add images" />
             </v-col>
-            <v-col cols="12"> <v-text-field label="Text" required /> </v-col
+            <v-col cols="12">
+              <v-textarea label="Text" required auto-grow outlined /> </v-col
           ></v-row>
         </v-container>
       </v-card-text>
@@ -22,7 +24,7 @@
         <v-btn color="secondary" text @click.stop="back()">
           Back
         </v-btn>
-        <v-btn color="primary" text @click.stop="show = false">
+        <v-btn color="primary" @click.stop="show = false">
           Create
         </v-btn>
       </v-card-actions>

@@ -1,5 +1,6 @@
 <template>
   <div id="timeline">
+    <create-box-form v-model="showCreateBoxForm" />
     <div id="buffer-top-area">
       <spacer v-bind="spacerRight"></spacer>
       <spacer-left ref="spacerLeftElement" v-bind="spacerLeft"></spacer-left>
@@ -21,6 +22,16 @@
           :key="timeMarker.id"
         ></timeMarker>
       </transition-group>
+      <v-btn
+        id="fab"
+        fab
+        large
+        fixed
+        right
+        color="accent"
+        @click.stop="showCreateBoxForm = true"
+        ><v-icon>mdi-plus</v-icon></v-btn
+      >
     </div>
   </div>
 </template>
@@ -40,6 +51,7 @@ import TimeMarker from "@/components/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerWatcher from "@/timeline/time-marker/time-marker-watcher";
 import ScrollObserver from "@/timeline/scroll-observer";
+import CreateBoxForm from "@/components/create-box-form.vue";
 
 let zoomer: Zoomer;
 let timeMarkerWatcher: TimeMarkerWatcher;
@@ -52,7 +64,12 @@ export default Vue.extend({
     Spacer,
     SpacerLeft,
     Date,
-    TimeMarker
+    TimeMarker,
+    CreateBoxForm
+  },
+
+  data() {
+    return { showCreateBoxForm: false };
   },
 
   mounted() {
@@ -160,6 +177,11 @@ export default Vue.extend({
 
 #buffer-bottom-area {
   flex: 4;
+}
+
+#fab {
+  margin-top: 64px;
+  margin-right: 64px;
 }
 
 .time-markers-enter-active,

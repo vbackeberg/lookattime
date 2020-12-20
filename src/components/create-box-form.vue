@@ -42,7 +42,7 @@
         <v-btn color="secondary" text @click.stop="back()">
           Back
         </v-btn>
-        <v-btn color="primary" @click.stop="show = false">
+        <v-btn color="primary" @click.stop="create()">
           Create
         </v-btn>
       </v-card-actions>
@@ -82,13 +82,8 @@ export default Vue.extend({
 
   methods: {
     create() {
-      this.addBox();
-      this.show = false;
-    },
-
-    addBox() {
-      // TODO Tigh input values to these parameters
       BoxCreator.Instance.addBox(this.text, this.date, this.importance);
+      this.show = false;
     },
 
     back() {

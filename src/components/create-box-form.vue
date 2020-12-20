@@ -8,14 +8,21 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="6">
-              <v-text-field label="Year" required />
+              <v-text-field label="Year" required type="number" />
               <v-text-field label="Title" required />
+              <v-text-field label="Importance" required type="number" />
             </v-col>
             <v-col cols="12" sm="6" align-self="center">
               <v-file-input outlined small-chips multiple label="Add images" />
             </v-col>
             <v-col cols="12">
-              <v-textarea label="Text" required auto-grow outlined /> </v-col
+              <v-textarea
+                label="Text"
+                required
+                auto-grow
+                outlined
+                type="text"
+              /> </v-col
           ></v-row>
         </v-container>
       </v-card-text>

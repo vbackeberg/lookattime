@@ -12,14 +12,14 @@
                 label="Year"
                 required
                 type="number"
-                v-model="date"
+                v-model.number="date"
               />
               <v-text-field label="Title" required />
               <v-text-field
                 label="Importance"
                 required
                 type="number"
-                v-model="importance"
+                v-model.number="importance"
               />
             </v-col>
             <v-col cols="12" sm="6" align-self="center">

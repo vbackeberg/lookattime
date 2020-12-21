@@ -146,8 +146,9 @@ export default Vue.extend({
 .content {
   box-sizing: border-box;
   background-color: #fff;
-  border: 2px solid #000;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1px solid #fff;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
   white-space: normal;
   overflow-y: hidden;
@@ -188,7 +189,7 @@ export default Vue.extend({
 
   width: 100%;
   padding: 8px;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 .bubble {

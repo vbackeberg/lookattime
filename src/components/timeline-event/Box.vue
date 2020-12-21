@@ -24,7 +24,7 @@
           <div class="image-container">
             <v-img :src="image" class="image" alt="time event image"></v-img>
           </div>
-          {{ text }}
+          <v-card-text class="text">{{ text }}</v-card-text>
         </div>
       </transition>
     </div>
@@ -153,7 +153,6 @@ export default Vue.extend({
   white-space: normal;
   overflow-y: hidden;
   overflow-wrap: break-word;
-  text-align: justify;
 
   font-size: 0.875em;
 }
@@ -166,6 +165,10 @@ export default Vue.extend({
   max-width: 110px;
   max-height: 100px;
   margin-left: 10px;
+}
+
+.text {
+  text-align: left;
 }
 
 .grow-transition {

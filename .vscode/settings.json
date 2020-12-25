@@ -4,5 +4,10 @@
   "azureFunctions.projectRuntime": "~3",
   "debug.internalConsoleOptions": "neverOpen",
   "azureFunctions.preDeployTask": "publish",
-  "eslint.workingDirectories": [{ "directory": "./web", "changeProcessCWD": true }]
+  "eslint.workingDirectories": [
+    { "directory": "./web", "changeProcessCWD": true }
+  ],
+  "files.exclude": {
+    "**/.history": true
+  }
 }

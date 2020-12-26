@@ -3,6 +3,9 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "axios";
+import TimeEventResponse from "@/api/time-event-response";
+import TimeEventResponseMapper from "@/api/time-event-response-mapper";
 
 Vue.use(Vuex);
 
@@ -101,10 +104,27 @@ export default new Vuex.Store({
 
     setTimeMarkerDepth(state, value: number) {
       state.timeMarkerDepth = value;
+    },
+
+    setTimeEvents(state, timeEvents: BoxModel[]) {
+      state.boxes = timeEvents;
     }
   },
 
-  actions: {},
+  actions: {
+    async loadTimeEvents({ commit }) {
+      const response = (await (
+        await axios.get("http://localhost:7071/api/get-timeline")
+      ).data) as TimeEventResponse[];
+
+      const timeEvents = [] as BoxModel[];
+      for (let i = 0; i < response.length; i++) {
+        timeEvents.push(TimeEventResponseMapper.map(response[i]));
+      }
+
+      commit("setTimeEvents", timeEvents);
+    }
+  },
 
   modules: {}
 });

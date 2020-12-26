@@ -22,7 +22,11 @@
       <transition>
         <div v-if="!hide">
           <div class="image-container">
-            <v-img :src="image" class="image" alt="time event image"></v-img>
+            <v-img
+              src="@/assets/testimg.jpg"
+              class="image"
+              alt="time event image"
+            ></v-img>
           </div>
           <v-card-text class="text">{{ text }}</v-card-text>
         </div>
@@ -61,10 +65,6 @@ export default Vue.extend({
   },
 
   computed: {
-    image(): string {
-      return URL.createObjectURL((this.images as File[])[0]);
-    },
-
     styleZoomContainer() {
       return {
         left: this.positionCenter - BoxModel.expandedWidth / 2 + "px",

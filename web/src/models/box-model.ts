@@ -6,7 +6,7 @@ export default class BoxModel {
   text: string;
   date: number;
   importance: number;
-  images: File[];
+  imageIds: number[]; 
 
   constructor(
     positionCenter: number,
@@ -14,13 +14,13 @@ export default class BoxModel {
     text: string,
     date: number,
     importance: number,
-    images: File[]
+    imageIds: number[]
   ) {
     this.positionCenter = positionCenter;
     this.id = id;
     this.text = text;
     this.date = date;
     this.importance = importance;
-    this.images = images;
+    this.imageIds = imageIds;
   }
 }

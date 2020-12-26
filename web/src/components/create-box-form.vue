@@ -69,7 +69,8 @@ export default Vue.extend({
       date: 1516,
       text: "",
       importance: 100,
-      images: [] as File[]
+      imageids: [1, 6] as number[],
+      images: [] as File[] //TODO remove when implementing image upload
     };
   },
 
@@ -94,7 +95,7 @@ export default Vue.extend({
         this.text,
         this.date,
         this.importance,
-        this.images
+        this.imageids
       );
       this.show = false;
     },

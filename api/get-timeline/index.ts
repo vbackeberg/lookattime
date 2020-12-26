@@ -19,8 +19,8 @@ const httpTrigger: AzureFunction = async function (
     {
       id: 2,
       title: "Event 2",
-      date: 1510,
-      importance: 20,
+      date: 1513,
+      importance: 21,
       text: "Text Text Text Text Text Text Text Text Text Text ",
       imageIds: [6, 11],
     },

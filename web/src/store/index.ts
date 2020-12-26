@@ -46,6 +46,7 @@ export default new Vuex.Store({
       } as SpacerModel;
     },
 
+    //TODO use _
     leftEdge(state, getters): number {
       return Math.min(0, getters.spacerLeft.positionLeft);
     },

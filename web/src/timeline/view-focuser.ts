@@ -1,4 +1,4 @@
-import BoxModel from "@/models/box-model";
+import TimeEventModel from "@/models/time-event-model";
 import store from "@/store";
 import Zoomer from "./zoomer";
 
@@ -27,7 +27,7 @@ export default class ViewFocuser {
     this.checkOutOfBounds(absoluteLeft, absoluteRight);
 
     const absoluteDistance = absoluteRight - absoluteLeft;
-    const margin = BoxModel.expandedWidth + 32;
+    const margin = TimeEventModel.expandedWidth + 32;
     const zoomFactor =
       (this.timelineElement.clientWidth - margin) / absoluteDistance;
     const absoluteCenter = absoluteLeft + absoluteDistance / 2;
@@ -40,12 +40,12 @@ export default class ViewFocuser {
   }
 
   /**
-   * Centers the specified box in the view.
+   * Centers the specified timeEvent in the view.
    *
-   * @param box The box to put focus on
+   * @param timeEvent The timeEvent to put focus on
    */
-  public focusOnBox(box: BoxModel) {
-    const position = box.positionCenter - this.timelineElement.clientWidth / 2;
+  public focusOnTimeEvent(timeEvent: TimeEventModel) {
+    const position = timeEvent.positionCenter - this.timelineElement.clientWidth / 2;
     this.timelineElement.scrollTo({
       left: position,
       behavior: "smooth"

@@ -8,7 +8,7 @@ export default class Zoomer {
   }
 
   /**
-   * Moves all boxes towards or away from the reference position by the zoom factor.
+   * Moves all timeEvents towards or away from the reference position by the zoom factor.
    * Re-aligns spacer for right page edge.
    * Moves timeline zero.
    */
@@ -18,16 +18,16 @@ export default class Zoomer {
   }
 
   private reposition(zoomFactor: number, referencePosition: number) {
-    this.repositionBoxes(zoomFactor, referencePosition);
+    this.repositionTimeEvents(zoomFactor, referencePosition);
     this.repositionSpacerPageEdge();
     this.repositionTimelineZero(zoomFactor, referencePosition);
     this.repositionTimeMarkers(zoomFactor, referencePosition);
   }
 
-  private repositionBoxes(zoomFactor: number, referencePosition: number) {
-    store.state.boxes.forEach(box => {
-      const distance = (box.positionCenter - referencePosition) * zoomFactor;
-      box.positionCenter = referencePosition + distance;
+  private repositionTimeEvents(zoomFactor: number, referencePosition: number) {
+    store.state.timeEvents.forEach(timeEvent => {
+      const distance = (timeEvent.positionCenter - referencePosition) * zoomFactor;
+      timeEvent.positionCenter = referencePosition + distance;
     });
   }
 

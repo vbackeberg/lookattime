@@ -1,20 +1,28 @@
 <template>
   <div id="timeline">
-    <create-box-form v-model="showCreateBoxForm" />
+    <create-time-event-form v-model="showCreateTimeEventForm" />
     <div id="buffer-top-area">
       <spacer v-bind="spacerRight"></spacer>
       <spacer-left ref="spacerLeftElement" v-bind="spacerLeft"></spacer-left>
       <spacer v-bind="spacerPageEdge"></spacer>
     </div>
-    <div id="box-area">
-      <box v-for="box in boxes" :key="box.id" v-bind="box"></box>
+    <div id="time-event-area">
+      <time-event
+        v-for="timeEvent in timeEvents"
+        :key="timeEvent.id"
+        v-bind="timeEvent"
+      ></time-event>
     </div>
     <div
       id="horizontal-line"
       v-bind:style="{ width: horizontalLineWidth + 'px' }"
     ></div>
     <div id="buffer-bottom-area">
-      <date v-for="box in boxes" :key="box.id" v-bind:box="box"></date>
+      <date
+        v-for="timeEvent in timeEvents"
+        :key="timeEvent.id"
+        v-bind:timeEvent="timeEvent"
+      ></date>
       <transition-group name="time-markers">
         <timeMarker
           v-for="timeMarker in timeMarkers"
@@ -29,7 +37,7 @@
         fixed
         right
         color="accent"
-        @click.stop="showCreateBoxForm = true"
+        @click.stop="showCreateTimeEventForm = true"
         ><v-icon>mdi-plus</v-icon></v-btn
       >
     </div>
@@ -37,9 +45,9 @@
 </template>
 
 <script lang="ts">
-import Box from "@/components/timeline-event/box.vue";
+import TimeEvent from "@/components/timeline-event/time-event.vue";
 import Vue from "vue";
-import BoxModel from "@/models/box-model";
+import TimeEventModel from "@/models/time-event-model";
 import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/spacer/spacer.vue";
 import SpacerLeft from "@/components/spacer/spacer-left.vue";
@@ -51,7 +59,7 @@ import TimeMarker from "@/components/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerWatcher from "@/timeline/time-marker/time-marker-watcher";
 import ScrollObserver from "@/timeline/scroll-observer";
-import CreateBoxForm from "@/components/create-box-form.vue";
+import CreateTimeEventForm from "@/components/create-time-event-form.vue";
 
 let zoomer: Zoomer;
 let timeMarkerWatcher: TimeMarkerWatcher;
@@ -60,16 +68,16 @@ export default Vue.extend({
   name: "Timeline",
 
   components: {
-    Box,
+    TimeEvent,
     Spacer,
     SpacerLeft,
     Date,
     TimeMarker,
-    CreateBoxForm
+    CreateTimeEventForm
   },
 
   data() {
-    return { showCreateBoxForm: false };
+    return { showCreateTimeEventForm: false };
   },
 
   async mounted() {
@@ -95,8 +103,8 @@ export default Vue.extend({
   },
 
   computed: {
-    boxes(): BoxModel[] {
-      return store.state.boxes;
+    timeEvents(): TimeEventModel[] {
+      return store.state.timeEvents;
     },
     //TODO move spacers and space observer into a spacer component
     spacerRight(): SpacerModel {
@@ -164,7 +172,7 @@ export default Vue.extend({
   flex: 1 0 20px;
 }
 
-#box-area {
+#time-event-area {
   flex: 2 0 200px;
 
   position: relative;

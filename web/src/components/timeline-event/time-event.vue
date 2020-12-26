@@ -44,13 +44,13 @@
 </template>
 
 <script lang="ts">
-import BoxModel from "@/models/box-model";
+import TimeEventModel from "@/models/time-event-model";
 import store from "@/store";
 import Vue from "vue";
 import Connector from "./connector.vue";
 
 export default Vue.extend({
-  name: "Box",
+  name: "TimeEvent",
 
   components: {
     Connector
@@ -67,27 +67,41 @@ export default Vue.extend({
   computed: {
     styleZoomContainer() {
       return {
-        left: this.positionCenter - BoxModel.expandedWidth / 2 + "px",
-        width: BoxModel.expandedWidth + "px"
+        left: this.positionCenter - TimeEventModel.expandedWidth / 2 + "px",
+        width: TimeEventModel.expandedWidth + "px"
       };
     },
 
-    boxIndex(): number {
-      return store.state.boxes.findIndex(box => box.id === this.id);
+    timeEventIndex(): number {
+      return store.state.timeEvents.findIndex(
+        timeEvent => timeEvent.id === this.id
+      );
     },
 
     collapse(): boolean {
-      if (this.shouldShrink(this.boxIndex, -1, BoxModel.expandedWidth))
+      if (
+        this.shouldShrink(this.timeEventIndex, -1, TimeEventModel.expandedWidth)
+      )
         return true;
-      if (this.shouldShrink(this.boxIndex, 1, BoxModel.expandedWidth))
+      if (
+        this.shouldShrink(this.timeEventIndex, 1, TimeEventModel.expandedWidth)
+      )
         return true;
       return false;
     },
 
     hide(): boolean {
-      if (this.shouldShrink(this.boxIndex, -1, BoxModel.collapsedWidth))
+      if (
+        this.shouldShrink(
+          this.timeEventIndex,
+          -1,
+          TimeEventModel.collapsedWidth
+        )
+      )
         return true;
-      if (this.shouldShrink(this.boxIndex, 1, BoxModel.collapsedWidth))
+      if (
+        this.shouldShrink(this.timeEventIndex, 1, TimeEventModel.collapsedWidth)
+      )
         return true;
       return false;
     }
@@ -95,20 +109,21 @@ export default Vue.extend({
 
   methods: {
     shouldShrink(
-      currentBoxIndex: number,
+      currentTimeEventIndex: number,
       indexChange: number,
       width: number
     ): boolean {
-      const neighborBox = store.state.boxes[currentBoxIndex + indexChange];
+      const neighborTimeEvent =
+        store.state.timeEvents[currentTimeEventIndex + indexChange];
 
-      if (!neighborBox) {
+      if (!neighborTimeEvent) {
         return false;
       }
 
       const collision =
         (this.positionCenter +
           (indexChange * width) / 2 -
-          (neighborBox.positionCenter + (-indexChange * width) / 2)) *
+          (neighborTimeEvent.positionCenter + (-indexChange * width) / 2)) *
           indexChange >
         0;
 
@@ -116,14 +131,14 @@ export default Vue.extend({
         return false;
       }
 
-      const hasPrecedence = this.importance > neighborBox.importance;
+      const hasPrecedence = this.importance > neighborTimeEvent.importance;
 
       if (!hasPrecedence) {
         return true;
       }
 
       return this.shouldShrink(
-        currentBoxIndex + indexChange,
+        currentTimeEventIndex + indexChange,
         indexChange,
         width
       );

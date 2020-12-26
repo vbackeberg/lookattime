@@ -1,4 +1,4 @@
-import BoxModel from "@/models/box-model";
+import TimeEventModel from "@/models/time-event-model";
 import TimeMarkerModel from "@/models/time-marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
@@ -15,7 +15,7 @@ export default new Vuex.Store({
     timelineZero: 0,
     zoomLevel: 1,
 
-    boxes: [] as BoxModel[],
+    timeEvents: [] as TimeEventModel[],
 
     spacerPageEdge: {
       positionLeft: 0,
@@ -28,24 +28,24 @@ export default new Vuex.Store({
 
   getters: {
     spacerLeft(state): SpacerModel {
-      const lowestBox = state.boxes[0];
+      const lowestTimeEvent = state.timeEvents[0];
       const width =
-        state.timelineElement.clientWidth / 2 - BoxModel.expandedWidth / 2;
+        state.timelineElement.clientWidth / 2 - TimeEventModel.expandedWidth / 2;
 
       return {
         positionLeft:
-          lowestBox?.positionCenter - BoxModel.expandedWidth / 2 - width,
+          lowestTimeEvent?.positionCenter - TimeEventModel.expandedWidth / 2 - width,
         width: width
       } as SpacerModel;
     },
 
     spacerRight(state): SpacerModel {
-      const highestBox = state.boxes[state.boxes.length - 1];
+      const highestTimeEvent = state.timeEvents[state.timeEvents.length - 1];
 
       return {
-        positionLeft: highestBox?.positionCenter + BoxModel.expandedWidth / 2,
+        positionLeft: highestTimeEvent?.positionCenter + TimeEventModel.expandedWidth / 2,
         width:
-          state.timelineElement.clientWidth / 2 - BoxModel.expandedWidth / 2
+          state.timelineElement.clientWidth / 2 - TimeEventModel.expandedWidth / 2
       } as SpacerModel;
     },
 
@@ -81,9 +81,9 @@ export default new Vuex.Store({
       state.zoomLevel *= value;
     },
 
-    addBox(state, box: BoxModel) {
-      state.boxes.push(box);
-      state.boxes.sort((a, b) => a.positionCenter - b.positionCenter);
+    addTimeEvent(state, timeEvent: TimeEventModel) {
+      state.timeEvents.push(timeEvent);
+      state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
     },
 
     setSpacerPageEdgePosition(state, positionLeft: number) {
@@ -106,8 +106,8 @@ export default new Vuex.Store({
       state.timeMarkerDepth = value;
     },
 
-    setTimeEvents(state, timeEvents: BoxModel[]) {
-      state.boxes = timeEvents;
+    setTimeEvents(state, timeEvents: TimeEventModel[]) {
+      state.timeEvents = timeEvents;
     }
   },
 
@@ -117,7 +117,7 @@ export default new Vuex.Store({
         await axios.get("http://localhost:7071/api/get-timeline")
       ).data) as TimeEventResponse[];
 
-      const timeEvents = [] as BoxModel[];
+      const timeEvents = [] as TimeEventModel[];
       for (let i = 0; i < response.length; i++) {
         timeEvents.push(TimeEventResponseMapper.map(response[i]));
       }

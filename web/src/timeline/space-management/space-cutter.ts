@@ -14,8 +14,8 @@ export default class SpaceCutter {
       element.classList.remove("zoom-transition");
     }
 
-    store.state.boxes.forEach(box => {
-      box.positionCenter -= distance;
+    store.state.timeEvents.forEach(timeEvent => {
+      timeEvent.positionCenter -= distance;
     });
 
     store.state.timeMarkers.forEach(timeMarker => {

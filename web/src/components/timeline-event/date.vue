@@ -2,55 +2,61 @@
   <div class="date zoom-transition zoomable" v-bind:style="styleDate">
     <transition>
       <div v-if="!hide" class="inner">
-        {{ this.box.date }}
+        {{ this.timeEvent.date }}
       </div>
     </transition>
   </div>
 </template>
 
 <script lang="ts">
-import BoxModel from "@/models/box-model";
+import TimeEventModel from "@/models/time-event-model";
 import store from "@/store";
 import Vue from "vue";
 export default Vue.extend({
   name: "Date",
 
   props: {
-    box: BoxModel
+    timeEvent: TimeEventModel
   },
 
   computed: {
     styleDate() {
       return {
-        left: this.box.positionCenter - BoxModel.expandedWidth / 2 + "px",
-        width: BoxModel.expandedWidth + "px"
+        left:
+          this.timeEvent.positionCenter -
+          TimeEventModel.expandedWidth / 2 +
+          "px",
+        width: TimeEventModel.expandedWidth + "px"
       };
     },
 
-    boxIndex(): number {
-      return store.state.boxes.findIndex(box => box.id === this.box.id);
+    timeEventIndex(): number {
+      return store.state.timeEvents.findIndex(
+        timeEvent => timeEvent.id === this.timeEvent.id
+      );
     },
 
     hide(): boolean {
-      if (this.hideRecursive(this.boxIndex, -1)) return true;
-      if (this.hideRecursive(this.boxIndex, 1)) return true;
+      if (this.hideRecursive(this.timeEventIndex, -1)) return true;
+      if (this.hideRecursive(this.timeEventIndex, 1)) return true;
       return false;
     }
   },
 
   methods: {
-    hideRecursive(currentBoxIndex: number, indexChange: number): boolean {
-      const neighborBox = store.state.boxes[currentBoxIndex + indexChange];
+    hideRecursive(currentTimeEventIndex: number, indexChange: number): boolean {
+      const neighborTimeEvent =
+        store.state.timeEvents[currentTimeEventIndex + indexChange];
 
-      if (!neighborBox) {
+      if (!neighborTimeEvent) {
         return false;
       }
 
       const collision =
-        (this.box.positionCenter +
-          (indexChange * BoxModel.collapsedWidth) / 2 -
-          (neighborBox.positionCenter +
-            (-indexChange * BoxModel.collapsedWidth) / 2)) *
+        (this.timeEvent.positionCenter +
+          (indexChange * TimeEventModel.collapsedWidth) / 2 -
+          (neighborTimeEvent.positionCenter +
+            (-indexChange * TimeEventModel.collapsedWidth) / 2)) *
           indexChange >
         0;
 
@@ -58,13 +64,17 @@ export default Vue.extend({
         return false;
       }
 
-      const hasPrecedence = this.box.importance > neighborBox.importance;
+      const hasPrecedence =
+        this.timeEvent.importance > neighborTimeEvent.importance;
 
       if (!hasPrecedence) {
         return true;
       }
 
-      return this.hideRecursive(currentBoxIndex + indexChange, indexChange);
+      return this.hideRecursive(
+        currentTimeEventIndex + indexChange,
+        indexChange
+      );
     }
   }
 });

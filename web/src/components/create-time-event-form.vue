@@ -59,10 +59,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import BoxCreator from "@/timeline/box-creator";
+import TimeEventCreator from "@/timeline/time-event-creator";
 
 export default Vue.extend({
-  name: "CreateBoxForm",
+  name: "CreateTimeEventForm",
 
   data() {
     return {
@@ -91,7 +91,7 @@ export default Vue.extend({
 
   methods: {
     create() {
-      BoxCreator.Instance.addBox(
+      TimeEventCreator.Instance.addTimeEvent(
         this.text,
         this.date,
         this.importance,

@@ -1,4 +1,4 @@
-import BoxModel from "@/models/box-model";
+import TimeEventModel from "@/models/time-event-model";
 import store from "@/store";
 import Vue from "vue";
 import ViewFocuser from "./view-focuser";
@@ -7,10 +7,10 @@ import SpaceExtender from "./space-management/space-extender";
 import PositionTranslator from "./position-translator";
 
 /**
- * Adds box to store. Handles possible space extension. Scrolls to new box.
+ * Adds timeEvent to store. Handles possible space extension. Scrolls to new timeEvent.
  * Adds time new markers.
  */
-export default class BoxCreator {
+export default class TimeEventCreator {
   private timelineElement: HTMLElement;
   private viewFocuser: ViewFocuser;
   private timeMarkerCreator: TimeMarkerCreator;
@@ -21,17 +21,17 @@ export default class BoxCreator {
     this.timeMarkerCreator = TimeMarkerCreator.Instance;
   }
 
-  public async addBox(text: string, date: number, importance: number, imageIds: number[]) {
-    const box = new BoxModel(
+  public async addTimeEvent(text: string, date: number, importance: number, imageIds: number[]) {
+    const timeEvent = new TimeEventModel(
       PositionTranslator.toAbsolutePosition(date),
-      store.state.boxes.length,
+      store.state.timeEvents.length,
       text,
       date,
       importance,
       imageIds
     );
 
-    store.commit("addBox", box);
+    store.commit("addTimeEvent", timeEvent);
 
     await Vue.nextTick();
 
@@ -40,28 +40,28 @@ export default class BoxCreator {
       -store.getters.spacerLeft.positionLeft
     );
 
-    this.focusView(box);
+    this.focusView(timeEvent);
 
     if (
-      store.state.boxes.length === 2 &&
+      store.state.timeEvents.length === 2 &&
       store.state.timeMarkers.length === 0
     ) {
       this.timeMarkerCreator.initiateTimeMarkers();
     }
   }
 
-  private focusView(box: BoxModel) {
-    if (store.state.boxes.length === 2) {
+  private focusView(timeEvent: TimeEventModel) {
+    if (store.state.timeEvents.length === 2) {
       this.viewFocuser.focusOnRange(
-        store.state.boxes[0].date,
-        store.state.boxes[1].date
+        store.state.timeEvents[0].date,
+        store.state.timeEvents[1].date
       );
     } else {
-      this.viewFocuser.focusOnBox(box);
+      this.viewFocuser.focusOnTimeEvent(timeEvent);
     }
   }
 
-  private static instance: BoxCreator;
+  private static instance: TimeEventCreator;
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }

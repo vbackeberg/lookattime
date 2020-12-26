@@ -61,7 +61,7 @@ export default Vue.extend({
     id: Number,
     text: String,
     importance: Number,
-    images: Array
+    imagesIds: Array
   },
 
   computed: {

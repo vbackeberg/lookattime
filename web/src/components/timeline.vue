@@ -98,7 +98,7 @@ export default Vue.extend({
     boxes(): BoxModel[] {
       return store.state.boxes;
     },
-
+    //TODO move spacers and space observer into a spacer component
     spacerRight(): SpacerModel {
       return store.getters.spacerRight;
     },

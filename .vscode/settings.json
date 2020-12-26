@@ -1,13 +1,14 @@
 {
-  "azureFunctions.deploySubpath": "api/bin/Release/netcoreapp3.1/publish",
-  "azureFunctions.projectLanguage": "C#",
+  "azureFunctions.deploySubpath": "api",
+  "azureFunctions.projectLanguage": "TypeScript",
   "azureFunctions.projectRuntime": "~3",
   "debug.internalConsoleOptions": "neverOpen",
-  "azureFunctions.preDeployTask": "publish",
+  "azureFunctions.preDeployTask": "npm prune",
   "eslint.workingDirectories": [
     { "directory": "./web", "changeProcessCWD": true }
   ],
   "files.exclude": {
     "**/.history": true
-  }
+  },
+  "azureFunctions.postDeployTask": "npm install"
 }

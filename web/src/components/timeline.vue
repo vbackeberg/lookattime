@@ -72,7 +72,7 @@ export default Vue.extend({
     return { showCreateBoxForm: false };
   },
 
-  mounted() {
+  async mounted() {
     store.state.timelineElement = document.getElementById(
       "timeline"
     ) as HTMLElement;
@@ -90,6 +90,8 @@ export default Vue.extend({
       }
       this.changeZoom(e);
     });
+
+    store.dispatch("loadTimeEvents");
   },
 
   computed: {

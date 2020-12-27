@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import TimeEvent from "@/components/timeline-event/time-event.vue";
+import TimeEvent from "@/components/time-event/time-event.vue";
 import Vue from "vue";
 import TimeEventModel from "@/models/time-event-model";
 import SpacerModel from "@/models/spacer-model";
@@ -53,7 +53,7 @@ import Spacer from "@/components/spacer/spacer.vue";
 import SpacerLeft from "@/components/spacer/spacer-left.vue";
 import store from "@/store";
 import Zoomer from "@/timeline/zoomer";
-import Date from "@/components/timeline-event/date.vue";
+import Date from "@/components/time-event/date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";

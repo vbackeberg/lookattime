@@ -13,13 +13,6 @@ export default Vue.extend({
 
   components: {
     Timeline
-  },
-
-  data() {
-    return {
-      date: 1921,
-      importance: 101
-    };
   }
 });
 </script>

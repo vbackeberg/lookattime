@@ -2,7 +2,7 @@ import TimeEventModel from "@/models/time-event-model";
 import store from "@/store";
 import Vue from "vue";
 import ViewFocuser from "./view-focuser";
-import TimeMarkerCreator from "./time-marker/time-marker-creator";
+import TimeMarkerCreator from "./time-marker-management/time-marker-creator";
 import SpaceExtender from "./space-management/space-extender";
 import PositionTranslator from "./position-translator";
 

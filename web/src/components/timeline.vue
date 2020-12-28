@@ -58,7 +58,7 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-watcher";
-import ScrollObserver from "@/timeline/scroll-observer";
+import ScrollObserver from "@/timeline/visibility-management/scroll-observer";
 import CreateTimeEventForm from "@/components/create-time-event-form.vue";
 
 let zoomer: Zoomer;

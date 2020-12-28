@@ -22,14 +22,13 @@ export default Vue.extend({
 
   data() {
     return {
-      width: TimeMarkerModel.width,
-      widthOffset: TimeMarkerModel.width / 2
+      width: TimeMarkerModel.width
     };
   },
 
   computed: {
     positionLeft(): number {
-      return this.positionCenter - this.widthOffset;
+      return this.positionCenter - TimeMarkerModel.widthOffset;
     }
   }
 });

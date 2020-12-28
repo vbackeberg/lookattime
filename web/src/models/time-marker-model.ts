@@ -1,5 +1,6 @@
 export default class TimeMarkerModel {
   static width = 4;
+  static widthOffset = TimeMarkerModel.width / 2;
   positionCenter: number;
   id: string;
   date: number;

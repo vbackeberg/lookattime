@@ -169,11 +169,11 @@ export default Vue.extend({
 }
 
 #buffer-top-area {
-  flex: 1 0 20px;
+  flex: 2 0 20px;
 }
 
 #time-event-area {
-  flex: 2 0 200px;
+  flex: 4 0 200px;
 
   position: relative;
 }

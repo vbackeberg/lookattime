@@ -14,17 +14,17 @@ import Vue from "vue";
 export default Vue.extend({
   name: "TimeMarker",
 
+  props: {
+    positionCenter: Number,
+    id: String,
+    date: Number
+  },
+
   data() {
     return {
       width: TimeMarkerModel.width,
       widthOffset: TimeMarkerModel.width / 2
     };
-  },
-
-  props: {
-    positionCenter: Number,
-    id: String,
-    date: Number
   },
 
   computed: {

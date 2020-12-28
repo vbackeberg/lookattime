@@ -237,7 +237,7 @@ export default Vue.extend({
 .card-image {
   height: 40%;
   min-height: 50px;
-  max-height: 150px;
+  max-height: 200px;
 }
 
 .card-text {

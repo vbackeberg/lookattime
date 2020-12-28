@@ -3,7 +3,7 @@ import TimeEventHider from "./time-event-hider";
 import TimeMarkerHider from "./time-marker-hider";
 
 /**
- * Observes scroll events to hide all time markers outside of the viewport.
+ * Observes scroll events, determines viewport boundaries and calls element hiders.
  */
 export default class ScrollObserver {
   private timelineElement: HTMLElement;

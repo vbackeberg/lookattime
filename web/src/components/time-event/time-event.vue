@@ -125,17 +125,17 @@ export default Vue.extend({
       indexChange: number,
       width: number
     ): boolean {
-      const neighborTimeEvent =
+      const neighbor =
         store.state.timeEvents[currentTimeEventIndex + indexChange];
 
-      if (!neighborTimeEvent) {
+      if (!neighbor) {
         return false;
       }
 
       const collision =
         (this.positionCenter +
           (indexChange * width) / 2 -
-          (neighborTimeEvent.positionCenter + (-indexChange * width) / 2)) *
+          (neighbor.positionCenter + (-indexChange * width) / 2)) *
           indexChange >
         0;
 
@@ -143,7 +143,7 @@ export default Vue.extend({
         return false;
       }
 
-      const hasPrecedence = this.importance > neighborTimeEvent.importance;
+      const hasPrecedence = this.importance > neighbor.importance;
 
       if (!hasPrecedence) {
         return true;

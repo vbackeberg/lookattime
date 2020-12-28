@@ -1,7 +1,7 @@
 <template>
   <div
     class="zoom-container zoom-transition zoomable"
-    v-bind:style="styleZoomContainer"
+    v-bind:style="[styleWidth, styleTranslate]"
   >
     <div
       class="grow-transition"
@@ -72,11 +72,21 @@ export default Vue.extend({
     imagesIds: Array
   },
 
-  computed: {
-    styleZoomContainer() {
-      return {
-        left: this.positionCenter - TimeEventModel.expandedWidth / 2 + "px",
+  data() {
+    return {
+      styleWidth: {
         width: TimeEventModel.expandedWidth + "px"
+      }
+    };
+  },
+
+  computed: {
+    styleTranslate() {
+      return {
+        transform:
+          "translateX(" +
+          (this.positionCenter - TimeEventModel.expandedWidth / 2) +
+          "px)"
       };
     },
 

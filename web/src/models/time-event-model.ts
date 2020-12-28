@@ -1,7 +1,7 @@
 export default class TimeEventModel {
-  positionCenter: number;
   static expandedWidth = 300;
   static collapsedWidth = 50;
+  positionCenter: number;
   id: number;
   text: string;
   date: number;

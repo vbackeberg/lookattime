@@ -103,10 +103,6 @@ export default Vue.extend({
   },
 
   computed: {
-    timeEvents(): TimeEventModel[] {
-      return store.state.timeEvents;
-    },
-
     spacerRight(): SpacerModel {
       return store.getters.spacerRight;
     },
@@ -125,6 +121,10 @@ export default Vue.extend({
           store.state.spacerPageEdge.width,
         this.spacerRight.positionLeft + this.spacerRight.width
       );
+    },
+
+    timeEvents(): TimeEventModel[] {
+      return store.state.timeEvents;
     },
 
     timeMarkers(): TimeMarkerModel[] {

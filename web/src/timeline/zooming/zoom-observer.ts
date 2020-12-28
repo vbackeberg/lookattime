@@ -1,4 +1,4 @@
-import Zoomer from "../zoomer";
+import Zoomer from "./zoomer";
 
 /**
  * Observes mouse wheel events

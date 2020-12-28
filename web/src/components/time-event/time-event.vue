@@ -108,7 +108,11 @@ export default Vue.extend({
       )
         return true;
       if (
-        this.shouldShrink(this.timeEventIndex, 1, TimeEventModel.collapsedWidth)
+        this.shouldShrink(
+          this.timeEventIndex,
+          +1,
+          TimeEventModel.collapsedWidth
+        )
       )
         return true;
       return false;

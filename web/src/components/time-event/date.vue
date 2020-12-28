@@ -1,5 +1,8 @@
 <template>
-  <div class="date zoom-transition zoomable" v-bind:style="styleDate">
+  <div
+    class="date zoom-transition zoomable"
+    v-bind:style="[styleWidth, styleTranslate]"
+  >
     <transition>
       <div v-if="!hide" class="inner">
         {{ this.timeEvent.date }}
@@ -19,14 +22,21 @@ export default Vue.extend({
     timeEvent: TimeEventModel
   },
 
-  computed: {
-    styleDate() {
-      return {
-        left:
-          this.timeEvent.positionCenter -
-          TimeEventModel.expandedWidth / 2 +
-          "px",
+  data() {
+    return {
+      styleWidth: {
         width: TimeEventModel.expandedWidth + "px"
+      }
+    };
+  },
+
+  computed: {
+    styleTranslate(): object {
+      return {
+        transform:
+          "translateX(" +
+          (this.timeEvent.positionCenter - TimeEventModel.expandedWidth / 2) +
+          "px)"
       };
     },
 

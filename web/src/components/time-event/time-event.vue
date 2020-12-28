@@ -81,7 +81,7 @@ export default Vue.extend({
   },
 
   computed: {
-    styleTranslate() {
+    styleTranslate(): object {
       return {
         transform:
           "translateX(" +

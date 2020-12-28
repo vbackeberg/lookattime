@@ -35,7 +35,7 @@ export default Vue.extend({
       return {
         transform:
           "translateX(" +
-          (this.timeEvent.positionCenter - TimeEventModel.expandedWidth / 2) +
+          (this.timeEvent.positionCenter - TimeEventModel.expandedWidthOffset) +
           "px)"
       };
     },

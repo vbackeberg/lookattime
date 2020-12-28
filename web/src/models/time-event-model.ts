@@ -1,5 +1,6 @@
 export default class TimeEventModel {
   static expandedWidth = 300;
+  static expandedWidthOffset = TimeEventModel.expandedWidth / 2;
   static collapsedWidth = 50;
   positionCenter: number;
   id: number;

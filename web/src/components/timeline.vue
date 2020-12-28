@@ -52,7 +52,6 @@ import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/spacer/spacer.vue";
 import SpacerLeft from "@/components/spacer/spacer-left.vue";
 import store from "@/store";
-import Zoomer from "@/timeline/zoomer";
 import Date from "@/components/time-event/date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/time-marker.vue";
@@ -60,8 +59,8 @@ import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-watcher";
 import ScrollObserver from "@/timeline/visibility-management/scroll-observer";
 import CreateTimeEventForm from "@/components/create-time-event-form.vue";
+import ZoomObserver from "@/timeline/zooming/zoom-observer";
 
-let zoomer: Zoomer;
 let timeMarkerWatcher: TimeMarkerWatcher;
 
 export default Vue.extend({
@@ -87,17 +86,10 @@ export default Vue.extend({
 
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
-    zoomer = Zoomer.Instance;
     SpaceObserver.Instance;
     timeMarkerWatcher = TimeMarkerWatcher.Instance;
     ScrollObserver.Instance;
-
-    window.addEventListener("wheel", (e: WheelEvent) => {
-      if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
-        return;
-      }
-      this.changeZoom(e);
-    });
+    ZoomObserver.Instance;
 
     store.dispatch("loadTimeEvents");
   },
@@ -133,16 +125,6 @@ export default Vue.extend({
 
     timeMarkerDistance(): number {
       return store.getters.timeMarkerDistance;
-    }
-  },
-
-  methods: {
-    changeZoom(e: WheelEvent) {
-      if (e.deltaY < 0) {
-        zoomer.zoom(1.1, e.pageX + this.$el.scrollLeft);
-      } else if (e.deltaY > 0) {
-        zoomer.zoom(0.92, e.pageX + this.$el.scrollLeft);
-      }
     }
   },
 

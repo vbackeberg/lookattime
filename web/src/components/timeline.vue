@@ -124,7 +124,7 @@ export default Vue.extend({
     },
 
     timeEvents(): TimeEventModel[] {
-      return store.state.timeEvents;
+      return store.getters.timeEventsVisible;
     },
 
     timeMarkers(): TimeMarkerModel[] {

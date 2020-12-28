@@ -247,17 +247,4 @@ export default Vue.extend({
 .card-text {
   text-align: left;
 }
-
-.v-enter-active {
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.v-leave-active {
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.v-enter,
-.v-leave-to {
-  opacity: 0;
-}
 </style>

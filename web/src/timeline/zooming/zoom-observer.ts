@@ -1,7 +1,7 @@
 import Zoomer from "./zoomer";
 
 /**
- * Observes mouse wheel events
+ * Observes mouse wheel events and calls zoomer with zoom factor according to wheel spin direction.
  */
 export default class ZoomObserver {
   private timelineElement: HTMLElement;

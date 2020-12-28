@@ -106,7 +106,7 @@ export default Vue.extend({
     timeEvents(): TimeEventModel[] {
       return store.state.timeEvents;
     },
-    //TODO move spacers and space observer into a spacer component
+
     spacerRight(): SpacerModel {
       return store.getters.spacerRight;
     },

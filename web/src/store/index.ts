@@ -81,11 +81,6 @@ export default new Vuex.Store({
       state.zoomLevel *= value;
     },
 
-    addTimeEvent(state, timeEvent: TimeEventModel) {
-      state.timeEvents.push(timeEvent);
-      state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
-    },
-
     setSpacerPageEdgePosition(state, positionLeft: number) {
       state.spacerPageEdge.positionLeft = positionLeft;
     },
@@ -108,6 +103,11 @@ export default new Vuex.Store({
 
     setTimeEvents(state, timeEvents: TimeEventModel[]) {
       state.timeEvents = timeEvents;
+    },
+
+    addTimeEvent(state, timeEvent: TimeEventModel) {
+      state.timeEvents.push(timeEvent);
+      state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
     }
   },
 

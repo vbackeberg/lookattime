@@ -6,7 +6,8 @@ export default class TimeEventModel {
   text: string;
   date: number;
   importance: number;
-  imageIds: number[]; 
+  imageIds: number[];
+  show = false;
 
   constructor(
     positionCenter: number,

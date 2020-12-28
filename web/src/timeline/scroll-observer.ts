@@ -17,8 +17,8 @@ export default class ScrollObserver {
       this.determineEdges();
 
       if (store.state.timeMarkers.length > 0) {
-        this.determineBoundingMarkers();
-        this.changeVisibility();
+        this.determineBoundingTimeMarkers();
+        this.changeTimeMarkerVisibility();
       }
     });
   }
@@ -32,7 +32,7 @@ export default class ScrollObserver {
     );
   }
 
-  private determineBoundingMarkers() {
+  private determineBoundingTimeMarkers() {
     this.firstWithinBounds = store.state.timeMarkers.findIndex(
       marker => marker.positionCenter > this.viewportLeftEdge
     );
@@ -48,7 +48,7 @@ export default class ScrollObserver {
     console.log("index last marker within bounds " + this.lastWithinBounds);
   }
 
-  private changeVisibility() {
+  private changeTimeMarkerVisibility() {
     for (let i = 0; i < this.firstWithinBounds; i++) {
       store.state.timeMarkers[i].show = false;
     }

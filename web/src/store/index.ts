@@ -69,6 +69,10 @@ export default new Vuex.Store({
 
     timeMarkersVisible(state): TimeMarkerModel[] {
       return state.timeMarkers.filter(marker => marker.show);
+    },
+
+    timeEventsVisible(state): TimeEventModel[] {
+      return state.timeEvents.filter(timeEvent => timeEvent.show)
     }
   },
 

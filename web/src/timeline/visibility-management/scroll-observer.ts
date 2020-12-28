@@ -26,6 +26,13 @@ export default class ScrollObserver {
           viewportRightEdge
         );
       }
+
+      if (store.state.timeEvents.length > 0) {
+        TimeEventHider.changeTimeEventVisibility(
+          viewportLeftEdge,
+          viewportRightEdge
+        );
+      }
     });
   }
 

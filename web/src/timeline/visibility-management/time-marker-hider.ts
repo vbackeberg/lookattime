@@ -11,9 +11,6 @@ export default class TimeMarkerHider {
     const firstWithinBounds = this.getFirstWithinBounds(viewportLeftEdge);
     const lastWithinBounds = this.getLastWithinBounds(viewportRightEdge);
 
-    console.log("index first marker within bounds " + firstWithinBounds);
-    console.log("index last marker within bounds " + lastWithinBounds);
-
     for (let i = 0; i < firstWithinBounds; i++) {
       store.state.timeMarkers[i].show = false;
     }

@@ -10,15 +10,10 @@ export default class ScrollObserver {
   private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
     this.timelineElement.addEventListener("scroll", () => {
-      console.log("------------------------------------------------------");
 
       const viewportLeftEdge = this.timelineElement.scrollLeft;
       const viewportRightEdge =
         viewportLeftEdge + this.timelineElement.clientWidth;
-
-      console.log(
-        "viewport from " + viewportLeftEdge + " to " + viewportRightEdge
-      );
 
       if (store.state.timeMarkers.length > 0) {
         TimeMarkerHider.changeTimeMarkerVisibility(

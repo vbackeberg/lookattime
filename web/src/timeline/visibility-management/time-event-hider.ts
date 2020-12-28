@@ -12,9 +12,6 @@ export default class TimeEventHider {
     const firstWithinBounds = this.getFirstWithinBounds(viewportLeftEdge);
     const lastWithinBounds = this.getLastWithinBounds(viewportRightEdge);
 
-    console.log("index first time event within bounds " + firstWithinBounds);
-    console.log("index last time event within bounds " + lastWithinBounds);
-
     for (let i = 0; i < firstWithinBounds; i++) {
       store.state.timeEvents[i].show = false;
     }

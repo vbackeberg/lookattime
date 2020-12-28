@@ -20,16 +20,24 @@
       }"
     >
       <transition>
-        <div v-if="!hide">
-          <div class="image-container">
-            <v-img
-              src="@/assets/testimg.jpg"
-              class="image"
-              alt="time event image"
-            ></v-img>
-          </div>
-          <v-card-text class="text">{{ text }}</v-card-text>
-        </div>
+        <v-card class="card" v-if="!collapse">
+          <!-- TODO: remove vuetify css classes -->
+          <!-- TODO: determine title text color from background  color -->
+          <v-img
+            src="@/assets/testimg.jpg"
+            class="card-image white--text align-end"
+            alt="time event image"
+          >
+            <v-card-title>The coronation</v-card-title>
+          </v-img>
+          <v-card-text class="card-text"
+            >Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+            Lorem ipsum dolor sit amet.</v-card-text
+          >
+        </v-card>
       </transition>
     </div>
     <connector
@@ -154,36 +162,7 @@ export default Vue.extend({
 
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-end;
   align-items: center;
-}
-
-.content {
-  box-sizing: border-box;
-  background-color: #fff;
-  border: 1px solid #fff;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-
-  white-space: normal;
-  overflow-y: hidden;
-  overflow-wrap: break-word;
-
-  font-size: 0.875em;
-}
-
-.image-container {
-  float: right;
-}
-
-.image {
-  max-width: 110px;
-  max-height: 100px;
-  margin-left: 10px;
-}
-
-.text {
-  text-align: left;
 }
 
 .grow-transition {
@@ -202,11 +181,21 @@ export default Vue.extend({
   flex: 16 0 auto;
 }
 
+.content {
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #fff;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+
+  overflow: hidden;
+  font-size: 0.875em;
+}
+
 .box {
-  flex: 4 1 auto;
+  flex: 5 1 50px;
 
   width: 100%;
-  padding: 8px;
   border-radius: 4px;
 }
 
@@ -234,11 +223,25 @@ export default Vue.extend({
 }
 
 .connector-box {
-  flex: 1 0 68px;
+  flex: 1 0 50px;
 }
 
 .connector-bubble {
   flex: 1 0 2px;
+}
+
+.card {
+  height: 100%;
+}
+
+.card-image {
+  height: 40%;
+  min-height: 50px;
+  max-height: 150px;
+}
+
+.card-text {
+  text-align: left;
 }
 
 .v-enter-active {

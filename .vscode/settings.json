@@ -10,5 +10,8 @@
   "files.exclude": {
     "**/.history": true
   },
-  "azureFunctions.postDeployTask": "npm install"
+  "azureFunctions.postDeployTask": "npm install",
+  "cSpell.words": [
+    "zoomer"
+  ]
 }

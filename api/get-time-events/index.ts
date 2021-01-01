@@ -55,16 +55,18 @@ function executeQuery(connection: Connection, id: number): string {
   );
   request.addParameter("id", TYPES.Int, id);
 
-  let result = "";
+  let response = "[";
   request.on("row", function (columns) {
     columns.forEach(function (column) {
       if (column.value === null) {
         console.log("NULL");
       } else {
-        result += column.value + " ";
+        response += "{" + column.value + "},";
       }
     });
-    console.log(result);
+    response = response.substr(0, response.length - 1);
+    response += "]";
+    console.log(response);
   });
 
   request.on("done", function (rowCount, _) {
@@ -72,7 +74,7 @@ function executeQuery(connection: Connection, id: number): string {
   });
   connection.execSql(request);
 
-  return result;
+  return response;
 }
 
 export default httpTrigger;

@@ -11,10 +11,12 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "mssql": "^6.3.1",
     "tedious": "^9.2.1"
   },
   "devDependencies": {
     "@azure/functions": "^1.0.2-beta2",
+    "@types/mssql": "^6.0.7",
     "@types/tedious": "4.0.3",
     "eslint": "7.10.0",
     "eslint-config-prettier": "^7.1.0",

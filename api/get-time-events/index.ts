@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { Connection, Request, TYPES } from "tedious";
+const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -10,71 +10,23 @@ const httpTrigger: AzureFunction = async function (
     req.query.timelineId || (req.body && req.body.timelineId)
   );
 
-  const config = {
-    authentication: {
-      options: {
-        userName: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-      },
-      type: "default",
-    },
-    server: process.env.DB_SERVER,
-    options: {
-      database: process.env.DB_DATABASE,
-      encrypt: true,
-      validateBulkLoadParameters: true,
-    },
-  };
+  try {
+    await sql.connect(
+      `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
+    );
 
-  const connection = new Connection(config);
-  connection.connect();
+    const result = await sql.query(
+      `select * from timeEvents where timelineId = ${timelineId}`
+    );
 
-  let response = "";
-  connection.on("connect", function (err) {
-    if (err) {
-      console.log("Error: ", err);
-    }
-    console.log("connected");
+    context.res = {
+      body: result.recordset,
+    };
 
-    response = executeQuery(connection, timelineId);
-  });
-
-  context.res = {
-    body: response,
-  };
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
 };
-
-function executeQuery(connection: Connection, id: number): string {
-  const request = new Request(
-    "SELECT * from timeEvents where timelineId = @id",
-    function (err) {
-      if (err) {
-        console.log(err);
-      }
-    }
-  );
-  request.addParameter("id", TYPES.Int, id);
-
-  let response = "[";
-  request.on("row", function (columns) {
-    columns.forEach(function (column) {
-      if (column.value === null) {
-        console.log("NULL");
-      } else {
-        response += "{" + column.value + "},";
-      }
-    });
-    response = response.substr(0, response.length - 1);
-    response += "]";
-    console.log(response);
-  });
-
-  request.on("done", function (rowCount, _) {
-    console.log(rowCount + " rows returned");
-  });
-  connection.execSql(request);
-
-  return response;
-}
 
 export default httpTrigger;

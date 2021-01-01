@@ -1,12 +1,12 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { Connection, Request } from "tedious";
+import { Connection, Request, TYPES } from "tedious";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
-  const name = req.query.name || (req.body && req.body.name);
+  const id = parseInt(req.query.id || (req.body && req.body.id));
 
   const config = {
     authentication: {
@@ -34,25 +34,25 @@ const httpTrigger: AzureFunction = async function (
     }
     console.log("connected");
 
-    response = executeQuery(connection);
+    response = executeQuery(connection, id);
   });
-
-  const responseMessage = name
-    ? "Hello, " + name + ". This HTTP triggered function executed successfully."
-    : response;
 
   context.res = {
     // status: 200, /* Defaults to 200 */
-    body: responseMessage,
+    body: response,
   };
 };
 
-function executeQuery(connection): string {
-  const request = new Request("SELECT * from timelines", function (err) {
-    if (err) {
-      console.log(err);
+function executeQuery(connection: Connection, id: number): string {
+  const request = new Request(
+    "SELECT * from timelines where id = @id",
+    function (err) {
+      if (err) {
+        console.log(err);
+      }
     }
-  });
+  );
+  request.addParameter("id", TYPES.Int, id);
 
   let result = "";
   request.on("row", function (columns) {
@@ -66,7 +66,7 @@ function executeQuery(connection): string {
     console.log(result);
   });
 
-  request.on("done", function (rowCount, more) {
+  request.on("done", function (rowCount, _) {
     console.log(rowCount + " rows returned");
   });
   connection.execSql(request);

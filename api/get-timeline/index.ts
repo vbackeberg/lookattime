@@ -27,18 +27,19 @@ const httpTrigger: AzureFunction = async function (
   const connection = new Connection(config);
   connection.connect();
 
+  let response = "";
   connection.on("connect", function (err) {
     if (err) {
       console.log("Error: ", err);
     }
     console.log("connected");
 
-    executeQuery(connection);
+    response = executeQuery(connection);
   });
 
   const responseMessage = name
     ? "Hello, " + name + ". This HTTP triggered function executed successfully."
-    : "response";
+    : response;
 
   context.res = {
     // status: 200, /* Defaults to 200 */
@@ -46,7 +47,7 @@ const httpTrigger: AzureFunction = async function (
   };
 };
 
-function executeQuery(connection) {
+function executeQuery(connection): string {
   const request = new Request("SELECT * from timelines", function (err) {
     if (err) {
       console.log(err);
@@ -63,13 +64,14 @@ function executeQuery(connection) {
       }
     });
     console.log(result);
-    result = "";
   });
 
   request.on("done", function (rowCount, more) {
     console.log(rowCount + " rows returned");
   });
   connection.execSql(request);
+
+  return result;
 }
 
 export default httpTrigger;

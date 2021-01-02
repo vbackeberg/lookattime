@@ -23,6 +23,8 @@ export default new Vuex.Store({
     } as SpacerModel,
 
     timeMarkers: [] as TimeMarkerModel[],
+    timeMarkerDepth: 1,
+
     timelineId: 1
   },
 
@@ -30,11 +32,14 @@ export default new Vuex.Store({
     spacerLeft(state): SpacerModel {
       const lowestTimeEvent = state.timeEvents[0];
       const width =
-        state.timelineElement.clientWidth / 2 - TimeEventModel.expandedWidth / 2;
+        state.timelineElement.clientWidth / 2 -
+        TimeEventModel.expandedWidth / 2;
 
       return {
         positionLeft:
-          lowestTimeEvent?.positionCenter - TimeEventModel.expandedWidth / 2 - width,
+          lowestTimeEvent?.positionCenter -
+          TimeEventModel.expandedWidth / 2 -
+          width,
         width: width
       } as SpacerModel;
     },
@@ -43,9 +48,11 @@ export default new Vuex.Store({
       const highestTimeEvent = state.timeEvents[state.timeEvents.length - 1];
 
       return {
-        positionLeft: highestTimeEvent?.positionCenter + TimeEventModel.expandedWidth / 2,
+        positionLeft:
+          highestTimeEvent?.positionCenter + TimeEventModel.expandedWidth / 2,
         width:
-          state.timelineElement.clientWidth / 2 - TimeEventModel.expandedWidth / 2
+          state.timelineElement.clientWidth / 2 -
+          TimeEventModel.expandedWidth / 2
       } as SpacerModel;
     },
 
@@ -72,7 +79,7 @@ export default new Vuex.Store({
     },
 
     timeEventsVisible(state): TimeEventModel[] {
-      return state.timeEvents.filter(timeEvent => timeEvent.show)
+      return state.timeEvents.filter(timeEvent => timeEvent.show);
     }
   },
 

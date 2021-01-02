@@ -3,7 +3,7 @@
     {
       "id": 1,
       "timelineId": 1,
-      "title": "timeline 1",
+      "title": "event 1 timeline 1",
       "textValue": "text text text",
       "dateValue": 1500,
       "importanceValue": 10
@@ -11,10 +11,18 @@
     {
       "id": 2,
       "timelineId": 1,
-      "title": "timeline 1",
+      "title": "event 2 timeline 1",
       "textValue": "text text text",
       "dateValue": 1510,
       "importanceValue": 11
+    },
+    {
+      "id": 3,
+      "timelineId": 1,
+      "title": "event 3 timeline 1",
+      "textValue": "text text text",
+      "dateValue": 1512,
+      "importanceValue": 12
     }
   ],
   "get-timeline": [

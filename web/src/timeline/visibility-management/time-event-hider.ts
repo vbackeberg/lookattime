@@ -5,6 +5,8 @@ import store from "@/store";
  * Hide time events that are outside the viewport and shows time events that are inside the viewport.
  */
 export default class TimeEventHider {
+  private static margin = 1500;
+
   public static changeTimeEventVisibility(
     viewportLeftEdge: number,
     viewportRightEdge: number
@@ -32,16 +34,16 @@ export default class TimeEventHider {
   private static getFirstWithinBounds(viewportLeftEdge: number): number {
     return store.state.timeEvents.findIndex(
       timeEvent =>
-        timeEvent.positionCenter + TimeEventModel.expandedWidth / 2 >
-        viewportLeftEdge
+        timeEvent.positionCenter + TimeEventModel.expandedWidthOffset >
+        viewportLeftEdge - this.margin
     );
   }
 
   private static getLastWithinBounds(viewportRightEdge: number): number {
     const firstOutsideBounds = store.state.timeEvents.findIndex(
       timeEvent =>
-        timeEvent.positionCenter - TimeEventModel.expandedWidth / 2 >
-        viewportRightEdge
+        timeEvent.positionCenter - TimeEventModel.expandedWidthOffset >
+        viewportRightEdge + this.margin
     );
 
     return firstOutsideBounds > -1

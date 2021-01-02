@@ -33,5 +33,6 @@ body {
   padding: 0px;
   margin: 0px;
   overscroll-behavior-y: none;
+  overflow-y: hidden !important;
 }
 </style>

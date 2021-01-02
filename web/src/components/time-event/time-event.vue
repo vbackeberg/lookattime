@@ -20,15 +20,17 @@
       }"
     >
       <transition>
-        <v-card class="card" v-if="!collapse">
+        <v-card class="card">
           <v-img
             src="@/assets/testimg.jpg"
             class="card-image white--text align-end"
             alt="time event image"
           >
-            <v-card-title>{{ title }}</v-card-title>
+            <v-card-title v-if="!collapse">{{ title }}</v-card-title>
           </v-img>
-          <v-card-text class="card-text">{{ text }}</v-card-text>
+          <v-card-text v-if="!collapse" class="card-text">{{
+            text
+          }}</v-card-text>
         </v-card>
       </transition>
     </div>

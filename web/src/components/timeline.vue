@@ -60,6 +60,7 @@ import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-wat
 import ScrollObserver from "@/timeline/visibility-management/scroll-observer";
 import CreateTimeEventForm from "@/components/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
+import ViewFocuser from "@/timeline/view-focuser";
 
 let timeMarkerWatcher: TimeMarkerWatcher;
 
@@ -79,7 +80,7 @@ export default Vue.extend({
     return { showCreateTimeEventForm: false };
   },
 
-  async mounted() {
+  mounted() {
     store.state.timelineElement = document.getElementById(
       "timeline"
     ) as HTMLElement;
@@ -91,7 +92,7 @@ export default Vue.extend({
     ScrollObserver.Instance;
     ZoomObserver.Instance;
 
-    store.dispatch("loadTimeEvents");
+    this.loadTimeEvents();
   },
 
   computed: {
@@ -125,6 +126,21 @@ export default Vue.extend({
 
     timeMarkerDistance(): number {
       return store.getters.timeMarkerDistance;
+    }
+  },
+
+  methods: {
+    async loadTimeEvents() {
+      await store.dispatch("loadTimeEvents");
+
+      if (store.state.timeEvents.length === 1) {
+        ViewFocuser.Instance.focusOnTimeEvent(store.state.timeEvents[0]);
+      } else if (store.state.timeEvents.length > 1) {
+        ViewFocuser.Instance.focusOnRange(
+          store.state.timeEvents[0].date,
+          store.state.timeEvents[store.state.timeEvents.length - 1].date
+        );
+      }
     }
   },
 

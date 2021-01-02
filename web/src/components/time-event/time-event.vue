@@ -21,8 +21,6 @@
     >
       <transition>
         <v-card class="card" v-if="!collapse">
-          <!-- TODO: remove vuetify css classes -->
-          <!-- TODO: determine title text color from background  color -->
           <v-img
             src="@/assets/testimg.jpg"
             class="card-image white--text align-end"

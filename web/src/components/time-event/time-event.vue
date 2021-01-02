@@ -26,7 +26,7 @@
             class="card-image white--text align-end"
             alt="time event image"
           >
-            <v-card-title>The coronation</v-card-title>
+            <v-card-title>{{ title }}</v-card-title>
           </v-img>
           <v-card-text class="card-text">{{ text }}</v-card-text>
         </v-card>
@@ -61,7 +61,8 @@ export default Vue.extend({
     id: Number,
     text: String,
     importance: Number,
-    imagesIds: Array
+    imageIds: Array,
+    title: String
   },
 
   data() {

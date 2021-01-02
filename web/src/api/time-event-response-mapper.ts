@@ -10,7 +10,8 @@ export default class TimeEventResponseMapper {
       response.textValue,
       response.dateValue,
       response.importanceValue,
-      [1]
+      [1],
+      response.title
     );
   }
 }

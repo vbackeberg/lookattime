@@ -8,6 +8,8 @@ export default class TimeEventModel {
   date: number;
   importance: number;
   imageIds: number[];
+
+  title: string;
   show = false;
 
   constructor(
@@ -16,7 +18,8 @@ export default class TimeEventModel {
     text: string,
     date: number,
     importance: number,
-    imageIds: number[]
+    imageIds: number[],
+    title: string
   ) {
     this.positionCenter = positionCenter;
     this.id = id;
@@ -24,5 +27,6 @@ export default class TimeEventModel {
     this.date = date;
     this.importance = importance;
     this.imageIds = imageIds;
+    this.title = title;
   }
 }

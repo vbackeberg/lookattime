@@ -21,14 +21,15 @@ export default class TimeEventCreator {
     this.timeMarkerCreator = TimeMarkerCreator.Instance;
   }
 
-  public async addTimeEvent(text: string, date: number, importance: number, imageIds: number[]) {
+  public async addTimeEvent(text: string, date: number, importance: number, imageIds: number[], title: string) {
     const timeEvent = new TimeEventModel(
       PositionTranslator.toAbsolutePosition(date),
       store.state.timeEvents.length,
       text,
       date,
       importance,
-      imageIds
+      imageIds,
+      title
     );
 
     store.commit("addTimeEvent", timeEvent);

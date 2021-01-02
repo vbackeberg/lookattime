@@ -168,6 +168,7 @@ export default Vue.extend({
 .zoom-container {
   position: absolute;
   height: 100%;
+  backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX
 
   display: flex;
   flex-flow: column nowrap;

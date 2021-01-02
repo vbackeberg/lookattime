@@ -1,9 +1,11 @@
 <template>
   <v-app id="app">
     <v-app-bar app flat>
+      <v-app-bar-nav-icon> </v-app-bar-nav-icon>
       <v-spacer />
       <v-toolbar-title>Look at time</v-toolbar-title>
       <v-spacer />
+      <v-avatar color="primary" class="avatar">VB</v-avatar>
     </v-app-bar>
     <v-main>
       <router-view />
@@ -34,5 +36,9 @@ body {
   margin: 0px;
   overscroll-behavior-y: none;
   overflow-y: hidden !important;
+}
+
+.avatar {
+  color: #fff;
 }
 </style>

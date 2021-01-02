@@ -1,11 +1,11 @@
 <template>
   <v-app id="app">
     <v-app-bar app flat>
-      <v-app-bar-nav-icon> </v-app-bar-nav-icon>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-spacer />
-      <v-toolbar-title>Look at time</v-toolbar-title>
+      <v-toolbar-title class="app-bar-title">Look at time</v-toolbar-title>
       <v-spacer />
-      <v-avatar color="primary" class="avatar">VB</v-avatar>
+      <v-avatar color="primary" class="app-bar-avatar">VB</v-avatar>
     </v-app-bar>
     <v-main>
       <router-view />
@@ -38,7 +38,12 @@ body {
   overflow-y: hidden !important;
 }
 
-.avatar {
+.app-bar-title {
+  user-select: none;
+}
+
+.app-bar-avatar {
   color: #fff;
+  user-select: none;
 }
 </style>

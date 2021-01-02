@@ -1,5 +1,10 @@
 <template>
   <v-app id="app">
+    <v-app-bar app flat>
+      <v-spacer />
+      <v-toolbar-title>Look at time</v-toolbar-title>
+      <v-spacer />
+    </v-app-bar>
     <v-main>
       <router-view />
     </v-main>

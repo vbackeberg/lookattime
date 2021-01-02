@@ -118,7 +118,7 @@ export default new Vuex.Store({
   actions: {
     async loadTimeEvents({ commit }) {
       const response = (await (
-        await axios.get("http://localhost:7071/api/get-timeline")
+        await axios.get("http://localhost:7071/api/get-time-events?timelineId=1")
       ).data) as TimeEventResponse[];
 
       const timeEvents = [] as TimeEventModel[];

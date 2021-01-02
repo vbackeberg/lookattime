@@ -30,13 +30,7 @@
           >
             <v-card-title>The coronation</v-card-title>
           </v-img>
-          <v-card-text class="card-text"
-            >Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet.</v-card-text
-          >
+          <v-card-text class="card-text">{{ text }}</v-card-text>
         </v-card>
       </transition>
     </div>

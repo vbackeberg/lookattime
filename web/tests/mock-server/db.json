@@ -18,6 +18,6 @@
     }
   ],
   "get-timeline": [
-    { "id": 1, "userId": 1, "title": "timeline 1 userId 1" }
+    { "id": 1, "userId": "4d66d1b4-ff18-4f2d-883d-ab6f24cecb05", "title": "timeline 1 userId 1" }
   ]
 }

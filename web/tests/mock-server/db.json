@@ -1,0 +1,23 @@
+{
+  "get-time-events": [
+    {
+      "id": 1,
+      "timelineId": 1,
+      "title": "timeline 1",
+      "textValue": "text text text",
+      "dateValue": 1500,
+      "importanceValue": 10
+    },
+    {
+      "id": 2,
+      "timelineId": 1,
+      "title": "timeline 1",
+      "textValue": "text text text",
+      "dateValue": 1510,
+      "importanceValue": 11
+    }
+  ],
+  "get-timeline": [
+    { "id": 1, "userId": 1, "title": "timeline 1 userId 1" }
+  ]
+}

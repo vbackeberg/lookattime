@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve --port 80",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "mock-server": "json-server --watch db.json --port 7071"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -41,6 +42,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
+    "json-server": "^0.16.3",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "sass": "^1.26.10",

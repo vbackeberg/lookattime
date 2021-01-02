@@ -23,7 +23,7 @@ export default new Vuex.Store({
     } as SpacerModel,
 
     timeMarkers: [] as TimeMarkerModel[],
-    timeMarkerDepth: 1
+    timelineId: 1
   },
 
   getters: {
@@ -118,7 +118,10 @@ export default new Vuex.Store({
   actions: {
     async loadTimeEvents({ commit }) {
       const response = (await (
-        await axios.get("http://localhost:7071/api/get-time-events?timelineId=1")
+        await axios.get(
+          "http://localhost:7071/api/get-time-events?timelineId=" +
+            this.state.timelineId
+        )
       ).data) as TimeEventResponse[];
 
       const timeEvents = [] as TimeEventModel[];

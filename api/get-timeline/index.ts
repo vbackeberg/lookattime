@@ -6,7 +6,7 @@ const httpTrigger: AzureFunction = async function (
   req: HttpRequest
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
-  const id = parseInt(req.query.id || (req.body && req.body.id));
+  const userId = parseInt(req.query.userId || (req.body && req.body.userId));
 
   try {
     await sql.connect(
@@ -14,7 +14,7 @@ const httpTrigger: AzureFunction = async function (
     );
 
     const result = await sql.query(
-      `select * from timelines where id = ${id}`
+      `select * from timelines where userId = ${userId}`
     );
 
     context.res = {

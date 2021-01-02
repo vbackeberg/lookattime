@@ -45,7 +45,8 @@ export default class ViewFocuser {
    * @param timeEvent The timeEvent to put focus on
    */
   public focusOnTimeEvent(timeEvent: TimeEventModel) {
-    const position = timeEvent.positionCenter - this.timelineElement.clientWidth / 2;
+    const position =
+      timeEvent.positionCenter - this.timelineElement.clientWidth / 2;
     this.timelineElement.scrollTo({
       left: position,
       behavior: "smooth"

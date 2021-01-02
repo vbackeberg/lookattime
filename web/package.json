@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "mock-server": "json-server --watch db.json --port 7071"
+    "mock-server": "json-server --watch ./tests/mock-server/db.json  --port 7071"
   },
   "dependencies": {
     "axios": "^0.21.1",

@@ -1,7 +1,8 @@
 export default class TimeEventResponse {
   id!: number;
-  text!: string;
-  date!: number;
-  importance!: number;
-  imageIds!: number[];
+  timelineId!: number;
+  title!: string;
+  textValue!: string;
+  dateValue!: number;
+  importanceValue!: number;
 }

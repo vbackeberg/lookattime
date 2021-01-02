@@ -5,12 +5,12 @@ import PositionTranslator from "@/timeline/position-translator";
 export default class TimeEventResponseMapper {
   public static map(response: TimeEventResponse): TimeEventModel {
     return new TimeEventModel(
-      PositionTranslator.toAbsolutePosition(response.date),
+      PositionTranslator.toAbsolutePosition(response.dateValue),
       response.id,
-      response.text,
-      response.date,
-      response.importance,
-      response.imageIds
+      response.textValue,
+      response.dateValue,
+      response.importanceValue,
+      [1]
     );
   }
 }

@@ -20,7 +20,7 @@
       }"
     >
       <transition>
-        <v-card class="card">
+        <v-card v-if="!hide" class="card">
           <v-img
             src="@/assets/testimg.jpg"
             class="card-image white--text align-end"

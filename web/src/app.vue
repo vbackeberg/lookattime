@@ -5,9 +5,11 @@
       <v-spacer />
       <v-toolbar-title class="app-bar-title">Look at time</v-toolbar-title>
       <v-spacer />
-      <v-menu>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on">a </v-btn></template
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }"
+          ><v-avatar v-ripple color="primary" class="app-bar-avatar" v-on="on"
+            >VB</v-avatar
+          ></template
         >
         <v-list>
           <v-list-item v-if="hasUserId">{{ userId }}</v-list-item>

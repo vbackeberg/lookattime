@@ -26,7 +26,8 @@ export default new Vuex.Store({
     timeMarkers: [] as TimeMarkerModel[],
     timeMarkerDepth: 1,
 
-    timelineId: "fd28e213-f56b-4302-aada-9ca15da1215c"
+    timelineId: "fd28e213-f56b-4302-aada-9ca15da1215c",
+    userId: ""
   },
 
   getters: {
@@ -120,6 +121,10 @@ export default new Vuex.Store({
     addTimeEvent(state, timeEvent: TimeEventModel) {
       state.timeEvents.push(timeEvent);
       state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
+    },
+
+    setUserId(state, userId: string) {
+      state.userId = userId;
     }
   },
 

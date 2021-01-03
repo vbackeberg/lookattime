@@ -14,7 +14,12 @@
                 type="number"
                 v-model.number="date"
               />
-              <v-text-field label="Title" required />
+              <v-text-field
+                label="Title"
+                required
+                type="text"
+                v-model="title"
+              />
               <v-text-field
                 label="Importance"
                 required
@@ -68,6 +73,7 @@ export default Vue.extend({
     return {
       date: 1516,
       text: "",
+      title: "",
       importance: 100,
       imageids: [1, 6] as number[],
       images: [] as File[] //TODO remove when implementing image upload
@@ -95,7 +101,8 @@ export default Vue.extend({
         this.text,
         this.date,
         this.importance,
-        this.imageids
+        this.imageids,
+        this.title
       );
       this.show = false;
     },

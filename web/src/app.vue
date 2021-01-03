@@ -5,7 +5,17 @@
       <v-spacer />
       <v-toolbar-title class="app-bar-title">Look at time</v-toolbar-title>
       <v-spacer />
-      <v-avatar color="primary" class="app-bar-avatar">VB</v-avatar>
+      <v-menu>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on">a </v-btn></template
+        >
+        <v-list>
+          <v-list-item v-if="hasUserId">{{ userId }}</v-list-item>
+          <v-list-item v-if="!hasUserId" v-on:click="createUser()"
+            >Create User</v-list-item
+          >
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <router-view />
@@ -14,8 +24,26 @@
 </template>
 
 <script lang="ts">
+import UserService from "./user/user-service";
+
 export default {
-  name: "App"
+  name: "App",
+
+  computed: {
+    userId(): string {
+      return UserService.getUserId();
+    },
+
+    hasUserId(): boolean {
+      return UserService.hasUserId();
+    }
+  },
+
+  methods: {
+    createUser() {
+      UserService.createUserId();
+    }
+  }
 };
 </script>
 

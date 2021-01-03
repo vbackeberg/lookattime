@@ -43,7 +43,11 @@ export default {
 
   methods: {
     createUser() {
-      UserService.createUserId();
+      try {
+        UserService.createUserId();
+      } catch (e) {
+        console.error("Could not create user id.", e);
+      }
     }
   }
 };

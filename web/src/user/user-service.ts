@@ -22,9 +22,10 @@ export default class UserService {
 
     window.localStorage.setItem("userId", userId);
 
-    const response = await axios.post(
-      "http://localhost:7071/api/create-user?id=" + this.getUserId()
-    );
+    const response = await axios.post("http://localhost:7071/api/create-user", {
+      id: this.getUserId(),
+      nameValue: "User Name"
+    });
 
     if (
       !response.status.toString().startsWith("2") &&

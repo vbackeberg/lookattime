@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Timeline from "@/components/timeline.vue";
+import Timeline from "@/components/timeline/timeline.vue";
 
 export default Vue.extend({
   name: "Home",

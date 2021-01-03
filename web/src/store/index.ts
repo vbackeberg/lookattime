@@ -144,7 +144,7 @@ export default new Vuex.Store({
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
       axios.post(
-        "http://localhost:7071/api/create-time-event",
+        "http://localhost:7071/api/create-time-event", // TODO: set correct url via prod environment
         TimeEventRequestMapper.map(timeEvent, this.state.timelineId)
       );
 

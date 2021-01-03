@@ -136,6 +136,8 @@ export default new Vuex.Store({
         timeEvents.push(TimeEventResponseMapper.map(response[i]));
       }
 
+      timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
+      
       commit("setTimeEvents", timeEvents);
     }
   },

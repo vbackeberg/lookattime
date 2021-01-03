@@ -3,7 +3,7 @@ import axios from "axios";
 import { v4 as uuid, validate as validUuid } from "uuid";
 
 export default class UserService {
-  public static getUserId(): string {
+  private static getUserId(): string {
     if (this.hasUserId()) {
       return window.localStorage.getItem("userId") as string;
     } else {
@@ -11,7 +11,7 @@ export default class UserService {
     }
   }
 
-  public static hasUserId(): boolean {
+  private static hasUserId(): boolean {
     const userId = window.localStorage.getItem("userId");
 
     if (!userId || !validUuid(userId)) return false;

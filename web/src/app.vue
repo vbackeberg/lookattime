@@ -13,6 +13,9 @@
         >
         <v-list>
           <v-list-item v-if="hasUserId">{{ userId }}</v-list-item>
+          <v-list-item v-if="hasUserId" v-on:click="deleteUser()"
+            >Delete User</v-list-item
+          >
           <v-list-item v-if="!hasUserId" v-on:click="createUser()"
             >Create User</v-list-item
           >
@@ -47,6 +50,13 @@ export default {
         await UserService.createUserId();
       } catch (e) {
         console.error("Could not create user id.", e);
+      }
+    },
+    async deleteUser() {
+      try {
+        await UserService.deleteUserId();
+      } catch (e) {
+        console.log("Could not delete user id.", e);
       }
     }
   }

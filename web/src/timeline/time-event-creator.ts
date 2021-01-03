@@ -33,7 +33,8 @@ export default class TimeEventCreator {
       title
     );
 
-    store.commit("addTimeEvent", timeEvent);
+    store.dispatch("addTimeEvent", timeEvent);
+      
 
     await Vue.nextTick();
 

@@ -6,6 +6,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import TimeEventResponse from "@/api/time-event-response";
 import TimeEventResponseMapper from "@/api/time-event-response-mapper";
+import TimeEventRequestMapper from "@/api/time-event/time-event-request-mapper";
 
 Vue.use(Vuex);
 
@@ -139,6 +140,15 @@ export default new Vuex.Store({
       timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
       
       commit("setTimeEvents", timeEvents);
+    },
+
+    async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
+      axios.post(
+        "http://localhost:7071/api/create-time-event",
+        TimeEventRequestMapper.map(timeEvent, this.state.timelineId)
+      );
+
+      commit("addTimeEvent", timeEvent);
     }
   },
 

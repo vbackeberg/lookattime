@@ -3,7 +3,7 @@ export default class TimeEventModel {
   static expandedWidthOffset = TimeEventModel.expandedWidth / 2;
   static collapsedWidth = 50;
   positionCenter: number;
-  id: number;
+  id: string;
   text: string;
   date: number;
   importance: number;
@@ -14,7 +14,7 @@ export default class TimeEventModel {
 
   constructor(
     positionCenter: number,
-    id: number,
+    id: string,
     text: string,
     date: number,
     importance: number,

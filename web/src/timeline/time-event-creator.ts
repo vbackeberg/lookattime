@@ -5,6 +5,7 @@ import ViewFocuser from "./view-focuser";
 import TimeMarkerCreator from "./time-marker-management/time-marker-creator";
 import SpaceExtender from "./space-management/space-extender";
 import PositionTranslator from "./position-translator";
+import { v4 as uuid } from "uuid";
 
 /**
  * Adds timeEvent to store. Handles possible space extension. Scrolls to new timeEvent.
@@ -24,7 +25,7 @@ export default class TimeEventCreator {
   public async addTimeEvent(text: string, date: number, importance: number, imageIds: number[], title: string) {
     const timeEvent = new TimeEventModel(
       PositionTranslator.toAbsolutePosition(date),
-      store.state.timeEvents.length,
+      uuid(),
       text,
       date,
       importance,

@@ -60,7 +60,7 @@ export default Vue.extend({
 
   props: {
     positionCenter: Number,
-    id: Number,
+    id: String,
     text: String,
     importance: Number,
     imageIds: Array,

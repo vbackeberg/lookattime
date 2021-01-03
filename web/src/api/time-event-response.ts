@@ -1,5 +1,5 @@
 export default class TimeEventResponse {
-  id!: number;
+  id!: string;
   timelineId!: number;
   title!: string;
   textValue!: string;

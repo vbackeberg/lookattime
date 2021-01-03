@@ -25,7 +25,7 @@ export default new Vuex.Store({
     timeMarkers: [] as TimeMarkerModel[],
     timeMarkerDepth: 1,
 
-    timelineId: 1
+    timelineId: "862fe383-1ae6-4da3-b2ca-1a4c8d89176e"
   },
 
   getters: {

@@ -6,7 +6,7 @@ export default class UserService {
     if (this.hasUserId()) {
       return window.localStorage.getItem("userId") as string;
     } else {
-      throw new Error("No user id found.");
+      throw new Error("No user id in local storage.");
     }
   }
 

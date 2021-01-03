@@ -8,6 +8,7 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
   const id = req.query.id || (req.body && req.body.id);
+  
   if (!validUuid(id)) {
     context.res = {
       status: 400,

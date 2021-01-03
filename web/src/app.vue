@@ -42,9 +42,9 @@ export default {
   },
 
   methods: {
-    createUser() {
+    async createUser() {
       try {
-        UserService.createUserId();
+        await UserService.createUserId();
       } catch (e) {
         console.error("Could not create user id.", e);
       }

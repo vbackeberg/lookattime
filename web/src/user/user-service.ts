@@ -29,7 +29,7 @@ export default class UserService {
       "http://localhost:7071/api/delete-user?id=" + this.getUserId()
     );
 
-    if (response.status.toString().startsWith("2")) {
+    if (!response.status.toString().startsWith("2")) {
       throw new Error("Server did not respond with status 2xx.");
     }
 

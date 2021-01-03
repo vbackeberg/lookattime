@@ -17,10 +17,20 @@ export default class UserService {
     return true;
   }
 
-  public static createUserId() {
-    window.localStorage.setItem("userId", uuid());
-    if (!this.hasUserId()) {
-      throw new Error("User id could not be created in local storage.");
+  public static async createUserId() {
+    const userId = uuid();
+
+    window.localStorage.setItem("userId", userId);
+
+    const response = await axios.post(
+      "http://localhost:7071/api/create-user?id=" + this.getUserId()
+    );
+
+    if (
+      !response.status.toString().startsWith("2") &&
+      !response.status.toString().startsWith("3")
+    ) {
+      throw new Error("Server responded with an error.");
     }
   }
 

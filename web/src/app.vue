@@ -12,11 +12,11 @@
           ></template
         >
         <v-list>
-          <v-list-item v-if="hasUserId">{{ userId }}</v-list-item>
-          <v-list-item v-if="hasUserId" v-on:click="deleteUser()"
+          <v-list-item v-if="userId">{{ userId }}</v-list-item>
+          <v-list-item v-if="userId" v-on:click="deleteUser()"
             >Delete User</v-list-item
           >
-          <v-list-item v-if="!hasUserId" v-on:click="createUser()"
+          <v-list-item v-if="!userId" v-on:click="createUser()"
             >Create User</v-list-item
           >
         </v-list>
@@ -30,17 +30,14 @@
 
 <script lang="ts">
 import UserService from "./user/user-service";
+import store from "./store";
 
 export default {
   name: "App",
 
   computed: {
     userId(): string {
-      return UserService.getUserId();
-    },
-
-    hasUserId(): boolean {
-      return UserService.hasUserId();
+      return store.state.userId;
     }
   },
 

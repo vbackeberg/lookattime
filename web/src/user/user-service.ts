@@ -1,3 +1,4 @@
+import store from "@/store";
 import axios from "axios";
 import { v4 as uuid, validate as validUuid } from "uuid";
 
@@ -33,6 +34,8 @@ export default class UserService {
     ) {
       throw new Error("Server responded with an error.");
     }
+
+    store.commit("setUserId", userId);
   }
 
   public static async deleteUserId() {
@@ -49,5 +52,7 @@ export default class UserService {
     if (this.hasUserId()) {
       throw new Error("User id could not be deleted from local storage.");
     }
+
+    store.commit("setUserId", "");
   }
 }

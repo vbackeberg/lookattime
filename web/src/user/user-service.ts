@@ -2,7 +2,7 @@ import Database from "@/local-database/database";
 import store from "@/store";
 import { v4 as uuid, validate as validUuid } from "uuid";
 
-export default class UserService {
+export default class UserService { // TODO remove this service and access userId via database
   private constructor() {
     if (this.hasUserId()) {
       store.commit("setUserId", this.getUserId());

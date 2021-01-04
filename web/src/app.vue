@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <v-app-bar app flat color="#fff">
+      <manage-timelines-form v-model="showManageTimelinesForm" />
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-spacer />
       <router-link to="/"
@@ -17,6 +18,11 @@
         >
         <v-list>
           <v-list-item v-if="userId">{{ userId }}</v-list-item>
+          <v-list-item
+            v-if="userId"
+            @click.stop="showManageTimelinesForm = true"
+            >My timelines</v-list-item
+          >
           <v-list-item v-if="userId" v-on:click="deleteUser()"
             >Delete User</v-list-item
           >
@@ -45,12 +51,21 @@
 <script lang="ts">
 import UserService from "./user/user-service";
 import store from "./store";
+import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
 
 export default {
   name: "App",
 
+  components: {
+    ManageTimelinesForm
+  },
+
   mounted() {
     UserService.Instance;
+  },
+
+  data() {
+    return { showManageTimelinesForm: false };
   },
 
   computed: {

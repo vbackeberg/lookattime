@@ -159,9 +159,8 @@ export default new Vuex.Store({
       const timelines = await Database.Instance.getTimelines(this.state.userId);
       commit("setTimelines", timelines);
 
-      if (timelines[0]) {
-        commit("setSelectedTimelineId", timelines[0]);
-        dispatch("loadTimeEvents");
+      if (timelines) {
+        dispatch("setSelectedTimelineId", timelines[0].id);
       }
     },
 

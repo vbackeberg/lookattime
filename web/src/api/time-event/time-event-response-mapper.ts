@@ -2,7 +2,6 @@ import TimeEventModel from "@/models/time-event-model";
 import TimeEventResponse from "@/api/time-event/time-event-response";
 import PositionTranslator from "@/timeline/position-translator";
 
-//TODO Move into time event dir
 export default class TimeEventResponseMapper {
   public static map(response: TimeEventResponse): TimeEventModel {
     return new TimeEventModel(

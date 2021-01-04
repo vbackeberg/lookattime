@@ -3,7 +3,13 @@ import store from "@/store";
 import { v4 as uuid, validate as validUuid } from "uuid";
 
 export default class UserService {
-  private static getUserId(): string {
+  private constructor() {
+    if (this.hasUserId()) {
+      store.commit("setUserId", this.getUserId());
+    }
+  }
+
+  private getUserId(): string {
     if (this.hasUserId()) {
       return window.localStorage.getItem("userId") as string;
     } else {
@@ -11,14 +17,14 @@ export default class UserService {
     }
   }
 
-  private static hasUserId(): boolean {
+  private hasUserId(): boolean {
     const userId = window.localStorage.getItem("userId");
 
     if (!userId || !validUuid(userId)) return false;
     return true;
   }
 
-  public static async createUserId() {
+  public async createUserId() {
     const userId = uuid();
 
     window.localStorage.setItem("userId", userId);
@@ -28,7 +34,7 @@ export default class UserService {
     store.commit("setUserId", userId);
   }
 
-  public static async deleteUserId() {
+  public async deleteUserId() {
     await Database.Instance.deleteUser(this.getUserId());
 
     window.localStorage.removeItem("userId");
@@ -38,5 +44,10 @@ export default class UserService {
     }
 
     store.commit("setUserId", "");
+  }
+
+  private static instance: UserService;
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
   }
 }

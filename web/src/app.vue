@@ -49,6 +49,10 @@ import store from "./store";
 export default {
   name: "App",
 
+  mounted() {
+    UserService.Instance;
+  },
+
   computed: {
     userId(): string {
       return store.state.userId;
@@ -58,14 +62,14 @@ export default {
   methods: {
     async createUser() {
       try {
-        await UserService.createUserId();
+        await UserService.Instance.createUserId();
       } catch (e) {
         console.error("Could not create user id.", e);
       }
     },
     async deleteUser() {
       try {
-        await UserService.deleteUserId();
+        await UserService.Instance.deleteUserId();
       } catch (e) {
         console.log("Could not delete user id.", e);
       }

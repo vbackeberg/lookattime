@@ -5,6 +5,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Database from "@/local-database/database";
 import Timeline from "@/api/timeline/timeline";
+import ViewFocuser from "@/timeline/view-focuser";
 
 Vue.use(Vuex);
 
@@ -148,6 +149,18 @@ export default new Vuex.Store({
       timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
 
       commit("setTimeEvents", timeEvents);
+
+      // TODO remove logic from store.
+      // TODO FIx timemarker not initiating
+      // TODO Fix not scrolling
+      if (this.state.timeEvents.length === 1) {
+        ViewFocuser.Instance.focusOnTimeEvent(this.state.timeEvents[0]);
+      } else if (this.state.timeEvents.length > 1) {
+        ViewFocuser.Instance.focusOnRange(
+          this.state.timeEvents[0].date,
+          this.state.timeEvents[this.state.timeEvents.length - 1].date
+        );
+      }
     },
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {

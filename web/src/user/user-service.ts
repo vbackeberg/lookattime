@@ -29,14 +29,10 @@ export default class UserService { // TODO remove this service and access userId
 
     window.localStorage.setItem("userId", userId);
 
-    await Database.Instance.postUser(this.getUserId(), "User name");
-
     await store.dispatch("setUserId", userId);
   }
 
   public async deleteUserId() {
-    await Database.Instance.deleteUser(this.getUserId());
-
     window.localStorage.removeItem("userId");
 
     if (this.hasUserId()) {

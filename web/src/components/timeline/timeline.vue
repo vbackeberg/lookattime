@@ -91,8 +91,6 @@ export default Vue.extend({
     timeMarkerWatcher = TimeMarkerWatcher.Instance;
     ScrollObserver.Instance;
     ZoomObserver.Instance;
-
-    this.loadTimeEvents();
   },
 
   computed: {
@@ -126,21 +124,6 @@ export default Vue.extend({
 
     timeMarkerDistance(): number {
       return store.getters.timeMarkerDistance;
-    }
-  },
-
-  methods: {
-    async loadTimeEvents() {
-      await store.dispatch("loadTimeEvents");
-
-      if (store.state.timeEvents.length === 1) {
-        ViewFocuser.Instance.focusOnTimeEvent(store.state.timeEvents[0]);
-      } else if (store.state.timeEvents.length > 1) {
-        ViewFocuser.Instance.focusOnRange(
-          store.state.timeEvents[0].date,
-          store.state.timeEvents[store.state.timeEvents.length - 1].date
-        );
-      }
     }
   },
 

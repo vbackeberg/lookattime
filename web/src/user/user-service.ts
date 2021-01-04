@@ -1,5 +1,5 @@
+import HttpClient from "@/api/http-client";
 import store from "@/store";
-import axios from "axios";
 import { v4 as uuid, validate as validUuid } from "uuid";
 
 export default class UserService {
@@ -23,29 +23,13 @@ export default class UserService {
 
     window.localStorage.setItem("userId", userId);
 
-    const response = await axios.post("http://localhost:7071/api/create-user", {
-      id: this.getUserId(),
-      nameValue: "User Name"
-    });
-
-    if (
-      !response.status.toString().startsWith("2") &&
-      !response.status.toString().startsWith("3")
-    ) {
-      throw new Error("Server responded with an error.");
-    }
+    await HttpClient.postUser(this.getUserId(), "User name");
 
     store.commit("setUserId", userId);
   }
 
   public static async deleteUserId() {
-    const response = await axios.delete(
-      "http://localhost:7071/api/delete-user?id=" + this.getUserId()
-    );
-
-    if (!response.status.toString().startsWith("2")) {
-      throw new Error("Server did not respond with status 2xx.");
-    }
+    await HttpClient.deleteUser(this.getUserId());
 
     window.localStorage.removeItem("userId");
 

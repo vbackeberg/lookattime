@@ -23,8 +23,9 @@ export default new Vuex.Store({
     timeMarkers: [] as TimeMarkerModel[],
     timeMarkerDepth: 1,
 
-    timelineId: "fd28e213-f56b-4302-aada-9ca15da1215c",
-    userId: ""
+    userId: "",
+    selectedTimelineId: "",
+    timelines: [] as TimelineResponse[]
   },
 
   getters: {
@@ -122,14 +123,22 @@ export default new Vuex.Store({
 
     setUserId(state, id: string) {
       state.userId = id;
+    },
+
+    setSelectedTimelineId(state, id: string) {
+      state.selectedTimelineId = id;
+    },
+
+    setTimelines(state, timelines: TimelineResponse[]) {
+      state.timelines = timelines;
+    }
   },
 
   actions: {
     async loadTimeEvents({ commit }) {
       if (this.state.userId) {
         const timeEvents = await Database.Instance.getTimeEvents(
-          this.state.timelineId
-        );
+        this.state.selectedTimelineId
 
         timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
 
@@ -139,7 +148,7 @@ export default new Vuex.Store({
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
       if (this.state.userId) {
-        Database.Instance.postTimeEvent(timeEvent, this.state.timelineId);
+          this.state.selectedTimelineId
       }
       commit("addTimeEvent", timeEvent);
     }

@@ -3,7 +3,11 @@
     <v-app-bar app flat color="#fff">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-spacer />
-      <v-toolbar-title class="app-bar-title">Look at time</v-toolbar-title>
+      <router-link to="/"
+        ><v-toolbar-title class="app-bar-title"
+          >Look at time</v-toolbar-title
+        ></router-link
+      >
       <v-spacer />
       <v-menu offset-y>
         <template v-slot:activator="{ on }"
@@ -76,10 +80,15 @@ body {
 
 .app-bar-title {
   user-select: none;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .app-bar-avatar {
   color: #fff;
   user-select: none;
+}
+
+a {
+  text-decoration: none;
 }
 </style>

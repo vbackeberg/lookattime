@@ -31,9 +31,9 @@
     </v-main>
     <v-footer app color="white" padless>
       <v-row justify="center" no-gutters>
-        <v-btn text rounded class="my-2" to="/about" x-small>
+        <!-- <v-btn text rounded class="my-2" to="/about" x-small>
           Impressum
-        </v-btn>
+        </v-btn> -->
         <v-btn text rounded class="my-2" x-small>
           Blog
         </v-btn>

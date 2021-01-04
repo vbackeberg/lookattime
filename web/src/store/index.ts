@@ -4,6 +4,7 @@ import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
 import Database from "@/local-database/database";
+import TimelineResponse from "@/api/timeline/timeline-response";
 
 Vue.use(Vuex);
 
@@ -136,21 +137,39 @@ export default new Vuex.Store({
 
   actions: {
     async loadTimeEvents({ commit }) {
-      if (this.state.userId) {
-        const timeEvents = await Database.Instance.getTimeEvents(
+      const timeEvents = await Database.Instance.getTimeEvents(
         this.state.selectedTimelineId
+      );
 
-        timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
+      timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
 
-        commit("setTimeEvents", timeEvents);
-      }
+      commit("setTimeEvents", timeEvents);
     },
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
       if (this.state.userId) {
+        Database.Instance.postTimeEvent(
+          timeEvent,
           this.state.selectedTimelineId
+        );
       }
       commit("addTimeEvent", timeEvent);
+    },
+
+    async loadTimelines({ commit, dispatch }) {
+      const timelines = await Database.Instance.getTimelines(this.state.userId);
+      commit("setTimelines", timelines);
+
+      if (timelines[0]) {
+        commit("setSelectedTimelineId", timelines[0]);
+        dispatch("loadTimeEvents");
+      }
+    },
+
+    async setUserId({ commit, dispatch }, userId) {
+      commit("setUserId", userId);
+
+      dispatch("loadTimelines");
     }
   },
 

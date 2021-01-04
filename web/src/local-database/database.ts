@@ -51,7 +51,7 @@ export default class Database extends Dexie {
     const response = (await this.timeEvents
       .where("timelineId")
       .equals(timelineId)
-      .toArray()) as TimeEventResponse[];
+      .toArray()) as TimeEventResponse[]; // TODO probably wrong object
 
     const timeEvents = [] as TimeEventModel[];
     for (let i = 0; i < response.length; i++) {

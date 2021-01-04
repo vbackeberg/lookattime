@@ -151,12 +151,7 @@ export default new Vuex.Store({
     },
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
-      if (this.state.userId) {
-        Database.Instance.postTimeEvent(
-          timeEvent,
-          this.state.selectedTimelineId
-        );
-      }
+      Database.Instance.postTimeEvent(timeEvent, this.state.selectedTimelineId);
       commit("addTimeEvent", timeEvent);
     },
 

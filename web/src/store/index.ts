@@ -4,7 +4,7 @@ import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
 import Database from "@/local-database/database";
-import TimelineResponse from "@/api/timeline/timeline-response";
+import Timeline from "@/api/timeline/timeline";
 
 Vue.use(Vuex);
 
@@ -26,7 +26,7 @@ export default new Vuex.Store({
 
     userId: "",
     selectedTimelineId: "",
-    timelines: [] as TimelineResponse[]
+    timelines: [] as Timeline[]
   },
 
   getters: {
@@ -130,7 +130,7 @@ export default new Vuex.Store({
       state.selectedTimelineId = id;
     },
 
-    setTimelines(state, timelines: TimelineResponse[]) {
+    setTimelines(state, timelines: Timeline[]) {
       state.timelines = timelines;
     }
   },

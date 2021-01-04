@@ -3,7 +3,7 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
-import HttpClient from "@/api/http-client";
+import Database from "@/local-database/database";
 
 Vue.use(Vuex);
 
@@ -128,7 +128,7 @@ export default new Vuex.Store({
   actions: {
     async loadTimeEvents({ commit }) {
       if (this.state.userId) {
-        const timeEvents = await HttpClient.getTimeEvents(
+        const timeEvents = await Database.Instance.getTimeEvents(
           this.state.timelineId
         );
 
@@ -140,7 +140,7 @@ export default new Vuex.Store({
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
       if (this.state.userId) {
-        HttpClient.postTimeEvent(timeEvent, this.state.timelineId);
+        Database.Instance.postTimeEvent(timeEvent, this.state.timelineId);
       }
       commit("addTimeEvent", timeEvent);
     }

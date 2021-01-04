@@ -1,4 +1,4 @@
-import HttpClient from "@/api/http-client";
+import Database from "@/local-database/database";
 import store from "@/store";
 import { v4 as uuid, validate as validUuid } from "uuid";
 
@@ -23,13 +23,13 @@ export default class UserService {
 
     window.localStorage.setItem("userId", userId);
 
-    await HttpClient.postUser(this.getUserId(), "User name");
+    await Database.Instance.postUser(this.getUserId(), "User name");
 
     store.commit("setUserId", userId);
   }
 
   public static async deleteUserId() {
-    await HttpClient.deleteUser(this.getUserId());
+    await Database.Instance.deleteUser(this.getUserId());
 
     window.localStorage.removeItem("userId");
 

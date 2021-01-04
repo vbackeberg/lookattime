@@ -3,10 +3,7 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
-import TimeEventResponse from "@/api/time-event/time-event-response";
-import TimeEventResponseMapper from "@/api/time-event/time-event-response-mapper";
-import TimeEventRequestMapper from "@/api/time-event/time-event-request-mapper";
+import HttpClient from "@/api/http-client";
 
 Vue.use(Vuex);
 
@@ -131,17 +128,9 @@ export default new Vuex.Store({
   actions: {
     async loadTimeEvents({ commit }) {
       if (this.state.userId) {
-        const response = (await (
-          await axios.get(
-            "http://localhost:7071/api/get-time-events?timelineId=" +
-              this.state.timelineId
-          )
-        ).data) as TimeEventResponse[];
-
-        const timeEvents = [] as TimeEventModel[];
-        for (let i = 0; i < response.length; i++) {
-          timeEvents.push(TimeEventResponseMapper.map(response[i]));
-        }
+        const timeEvents = await HttpClient.getTimeEvents(
+          this.state.timelineId
+        );
 
         timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
 
@@ -151,10 +140,7 @@ export default new Vuex.Store({
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
       if (this.state.userId) {
-        axios.post(
-          "http://localhost:7071/api/create-time-event", // TODO: set correct url via prod environment
-          TimeEventRequestMapper.map(timeEvent, this.state.timelineId)
-        );
+        HttpClient.postTimeEvent(timeEvent, this.state.timelineId);
       }
       commit("addTimeEvent", timeEvent);
     }

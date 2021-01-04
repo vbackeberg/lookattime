@@ -170,6 +170,11 @@ export default new Vuex.Store({
       commit("addTimeline", timeline);
     },
 
+    async setSelectedTimelineId({ commit, dispatch }, id: string) {
+      commit("setSelectedTimelineId", id);
+      dispatch("loadTimeEvents");
+    },
+
     async setUserId({ commit, dispatch }, userId) {
       commit("setUserId", userId);
 

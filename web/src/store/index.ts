@@ -135,7 +135,7 @@ export default new Vuex.Store({
     },
 
     addTimeline(state, timeline: Timeline) {
-      state.timelines.push(timeline)
+      state.timelines.push(timeline);
     }
   },
 

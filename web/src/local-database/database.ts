@@ -1,6 +1,8 @@
 import TimeEventRequestMapper from "@/api/time-event/time-event-request-mapper";
 import TimeEventResponse from "@/api/time-event/time-event-response";
 import TimeEventResponseMapper from "@/api/time-event/time-event-response-mapper";
+import TimelineRequest from "@/api/timeline/timeline-request";
+import TimelineResponse from "@/api/timeline/timeline-response";
 import TimeEventModel from "@/models/time-event-model";
 import Dexie, { Table } from "dexie";
 
@@ -59,6 +61,21 @@ export default class Database extends Dexie {
     }
 
     return timeEvents;
+  }
+
+  public async postTimeline(timelineRequest: TimelineRequest) {
+    this.timelines.add({
+      id: timelineRequest.id,
+      userId: timelineRequest.userId,
+      title: timelineRequest.title
+    });
+  }
+
+  public async getTimelines(userId: string): Promise<TimelineResponse[]> {
+    return (await this.timelines
+      .where("userId")
+      .equals(userId)
+      .toArray()) as TimelineResponse[];
   }
 
   private static instance: Database;

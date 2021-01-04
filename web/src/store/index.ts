@@ -120,9 +120,8 @@ export default new Vuex.Store({
       state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
     },
 
-    setUserId(state, userId: string) {
-      state.userId = userId;
-    }
+    setUserId(state, id: string) {
+      state.userId = id;
   },
 
   actions: {

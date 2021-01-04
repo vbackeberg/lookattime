@@ -130,29 +130,32 @@ export default new Vuex.Store({
 
   actions: {
     async loadTimeEvents({ commit }) {
-      const response = (await (
-        await axios.get(
-          "http://localhost:7071/api/get-time-events?timelineId=" +
-            this.state.timelineId
-        )
-      ).data) as TimeEventResponse[];
+      if (this.state.userId) {
+        const response = (await (
+          await axios.get(
+            "http://localhost:7071/api/get-time-events?timelineId=" +
+              this.state.timelineId
+          )
+        ).data) as TimeEventResponse[];
 
-      const timeEvents = [] as TimeEventModel[];
-      for (let i = 0; i < response.length; i++) {
-        timeEvents.push(TimeEventResponseMapper.map(response[i]));
+        const timeEvents = [] as TimeEventModel[];
+        for (let i = 0; i < response.length; i++) {
+          timeEvents.push(TimeEventResponseMapper.map(response[i]));
+        }
+
+        timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
+
+        commit("setTimeEvents", timeEvents);
       }
-
-      timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
-      
-      commit("setTimeEvents", timeEvents);
     },
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
-      axios.post(
-        "http://localhost:7071/api/create-time-event", // TODO: set correct url via prod environment
-        TimeEventRequestMapper.map(timeEvent, this.state.timelineId)
-      );
-
+      if (this.state.userId) {
+        axios.post(
+          "http://localhost:7071/api/create-time-event", // TODO: set correct url via prod environment
+          TimeEventRequestMapper.map(timeEvent, this.state.timelineId)
+        );
+      }
       commit("addTimeEvent", timeEvent);
     }
   },

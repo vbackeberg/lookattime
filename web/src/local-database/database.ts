@@ -37,7 +37,7 @@ export default class Database extends Dexie {
   public async postTimeEvent(timeEvent: TimeEventModel, timelineId: string) {
     const request = TimeEventRequestMapper.map(timeEvent, timelineId);
 
-    return this.timeEvents.add({
+    this.timeEvents.add({
       id: request.id,
       timelineId: request.timelineId,
       title: request.title,

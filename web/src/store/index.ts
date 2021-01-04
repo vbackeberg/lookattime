@@ -132,6 +132,10 @@ export default new Vuex.Store({
 
     setTimelines(state, timelines: Timeline[]) {
       state.timelines = timelines;
+    },
+
+    addTimeline(state, timeline: Timeline) {
+      state.timelines.push(timeline)
     }
   },
 
@@ -164,6 +168,11 @@ export default new Vuex.Store({
         commit("setSelectedTimelineId", timelines[0]);
         dispatch("loadTimeEvents");
       }
+    },
+
+    async addTimeline({ commit }, timeline: Timeline) {
+      Database.Instance.postTimeline(timeline);
+      commit("addTimeline", timeline);
     },
 
     async setUserId({ commit, dispatch }, userId) {

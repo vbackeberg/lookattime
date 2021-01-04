@@ -5,7 +5,7 @@ import { v4 as uuid, validate as validUuid } from "uuid";
 export default class UserService { // TODO remove this service and access userId via database
   private constructor() {
     if (this.hasUserId()) {
-      store.commit("setUserId", this.getUserId());
+      store.dispatch("setUserId", this.getUserId());
     }
   }
 
@@ -31,7 +31,7 @@ export default class UserService { // TODO remove this service and access userId
 
     await Database.Instance.postUser(this.getUserId(), "User name");
 
-    store.commit("setUserId", userId);
+    await store.dispatch("setUserId", userId);
   }
 
   public async deleteUserId() {
@@ -43,7 +43,7 @@ export default class UserService { // TODO remove this service and access userId
       throw new Error("User id could not be deleted from local storage.");
     }
 
-    store.commit("setUserId", "");
+    store.dispatch("setUserId", "");
   }
 
   private static instance: UserService;

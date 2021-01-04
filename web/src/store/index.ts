@@ -4,8 +4,8 @@ import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import TimeEventResponse from "@/api/time-event-response";
-import TimeEventResponseMapper from "@/api/time-event-response-mapper";
+import TimeEventResponse from "@/api/time-event/time-event-response";
+import TimeEventResponseMapper from "@/api/time-event/time-event-response-mapper";
 import TimeEventRequestMapper from "@/api/time-event/time-event-request-mapper";
 
 Vue.use(Vuex);

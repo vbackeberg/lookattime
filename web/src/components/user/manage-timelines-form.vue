@@ -12,7 +12,7 @@
               :key="timeline.id"
               v-on:click="select(timeline.id)"
             >
-              {{ timeline.id }}
+              {{ timeline.title }}
             </v-list-item>
             <v-list-item v-on:click="create()">
               Create new timeline</v-list-item

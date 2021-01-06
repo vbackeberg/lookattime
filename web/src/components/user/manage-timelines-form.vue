@@ -45,6 +45,18 @@ export default Vue.extend({
     value: Boolean
   },
 
+  data() {
+    return {
+      selectedTimelineIndex: 0
+    };
+  },
+
+  created() {
+    this.selectedTimelineIndex = this.timelines.indexOf(
+      store.state.selectedTimeline
+    );
+  },
+
   computed: {
     show: {
       get(): boolean {
@@ -57,10 +69,6 @@ export default Vue.extend({
 
     timelines() {
       return store.state.timelines;
-    },
-
-    selectedTimelineIndex(): number {
-      return this.timelines.indexOf(store.state.selectedTimeline);
     }
   },
 

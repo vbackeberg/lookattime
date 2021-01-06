@@ -66,6 +66,8 @@ export default Vue.extend({
     },
 
     async create() {
+      this.show = false;
+
       const timeline = {
         id: uuid(),
         userId: store.state.userId,
@@ -73,8 +75,6 @@ export default Vue.extend({
       } as Timeline;
       await store.dispatch("addTimeline", timeline);
       store.dispatch("setSelectedTimelineId", timeline.id);
-
-      this.show = false;
     },
 
     back() {

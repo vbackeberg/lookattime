@@ -27,7 +27,7 @@ export default new Vuex.Store({
     timeMarkerDepth: 1,
 
     userId: "",
-    selectedTimelineId: "",
+    selectedTimeline: {} as Timeline,
     timelines: [] as Timeline[]
   },
 
@@ -128,8 +128,8 @@ export default new Vuex.Store({
       state.userId = id;
     },
 
-    setSelectedTimelineId(state, id: string) {
-      state.selectedTimelineId = id;
+    setSelectedTimeline(state, timeline: Timeline) {
+      state.selectedTimeline = timeline;
     },
 
     setTimelines(state, timelines: Timeline[]) {
@@ -144,7 +144,7 @@ export default new Vuex.Store({
   actions: {
     async loadTimeEvents({ commit }) {
       const timeEvents = await Database.Instance.getTimeEvents(
-        this.state.selectedTimelineId
+        this.state.selectedTimeline.id
       );
 
       timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
@@ -164,7 +164,7 @@ export default new Vuex.Store({
     },
 
     async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
-      Database.Instance.postTimeEvent(timeEvent, this.state.selectedTimelineId);
+      Database.Instance.postTimeEvent(timeEvent, this.state.selectedTimeline.id);
       commit("addTimeEvent", timeEvent);
     },
 
@@ -173,7 +173,7 @@ export default new Vuex.Store({
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);
-        dispatch("setSelectedTimelineId", timelines[0].id);
+        dispatch("setSelectedTimeline", timelines[0]);
       } else {
         dispatch("addTimeline", {
           id: uuid(),
@@ -188,8 +188,8 @@ export default new Vuex.Store({
       commit("addTimeline", timeline);
     },
 
-    async setSelectedTimelineId({ commit, dispatch }, id: string) {
-      commit("setSelectedTimelineId", id);
+    async setSelectedTimeline({ commit, dispatch }, timeline: Timeline) {
+      commit("setSelectedTimeline", timeline);
       dispatch("loadTimeEvents");
     },
 

@@ -10,7 +10,7 @@
             <v-list-item
               v-for="timeline in timelines"
               :key="timeline.id"
-              v-on:click="select(timeline.id)"
+              v-on:click="select(timeline)"
             >
               {{ timeline.title }}
             </v-list-item>
@@ -59,8 +59,8 @@ export default Vue.extend({
   },
 
   methods: {
-    select(id: string) {
-      store.dispatch("setSelectedTimelineId", id);
+    select(timeline: Timeline) {
+      store.dispatch("setSelectedTimeline", timeline);
 
       this.show = false;
     },
@@ -74,7 +74,7 @@ export default Vue.extend({
         title: "title"
       } as Timeline;
       await store.dispatch("addTimeline", timeline);
-      store.dispatch("setSelectedTimelineId", timeline.id);
+      store.dispatch("setSelectedTimeline", timeline);
     },
 
     back() {

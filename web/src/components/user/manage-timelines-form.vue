@@ -7,16 +7,18 @@
       <v-card-text>
         <v-container>
           <v-list>
-            <v-list-item
-              v-for="timeline in timelines"
-              :key="timeline.id"
-              v-on:click="select(timeline)"
-            >
-              {{ timeline.title }}
-            </v-list-item>
-            <v-list-item v-on:click="create()">
-              Create new timeline</v-list-item
-            >
+            <v-list-item-group v-model="selectedTimelineIndex">
+              <v-list-item
+                v-for="timeline in timelines"
+                :key="timeline.id"
+                v-on:click="select(timeline)"
+              >
+                {{ timeline.title }}
+              </v-list-item>
+              <v-list-item v-on:click="create()">
+                Create new timeline</v-list-item
+              >
+            </v-list-item-group>
           </v-list>
         </v-container>
       </v-card-text>
@@ -55,6 +57,10 @@ export default Vue.extend({
 
     timelines() {
       return store.state.timelines;
+    },
+
+    selectedTimelineIndex(): number {
+      return this.timelines.indexOf(store.state.selectedTimeline);
     }
   },
 

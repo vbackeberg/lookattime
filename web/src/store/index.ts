@@ -7,6 +7,7 @@ import Database from "@/local-database/database";
 import Timeline from "@/api/timeline/timeline";
 import ViewFocuser from "@/timeline/view-focuser";
 import { v4 as uuid } from "uuid";
+import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
 
 Vue.use(Vuex);
 
@@ -151,15 +152,22 @@ export default new Vuex.Store({
 
       commit("setTimeEvents", timeEvents);
 
-      // TODO remove logic from store.
-      // TODO Fix not scrolling, after loading existing time markers from db.
-      if (this.state.timeEvents.length === 1) {
-        ViewFocuser.Instance.focusOnTimeEvent(this.state.timeEvents[0]);
-      } else if (this.state.timeEvents.length > 1) {
-        ViewFocuser.Instance.focusOnRange(
-          this.state.timeEvents[0].date,
-          this.state.timeEvents[this.state.timeEvents.length - 1].date
-        );
+      if (timeEvents.length > 1) {
+        // TODO: Problem:
+        // If switching from timeline with events to timeline without, markers will stay.
+        // If no time events there is still a scrollbar, which will trigger time marker hider.
+        TimeMarkerCreator.Instance.initiateTimeMarkers();
+
+        // TODO remove logic from store.
+        // TODO Fix not scrolling, after loading existing time markers from db.
+        if (this.state.timeEvents.length === 1) {
+          ViewFocuser.Instance.focusOnTimeEvent(this.state.timeEvents[0]);
+        } else if (this.state.timeEvents.length > 1) {
+          ViewFocuser.Instance.focusOnRange(
+            this.state.timeEvents[0].date,
+            this.state.timeEvents[this.state.timeEvents.length - 1].date
+          );
+        }
       }
     },
 

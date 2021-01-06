@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts">
-import Database from "@/local-database/database";
 import Vue from "vue";
 import { v4 as uuid } from "uuid";
 import store from "@/store";
@@ -66,13 +65,13 @@ export default Vue.extend({
       this.show = false;
     },
 
-    create() {
+    async create() {
       const timeline = {
         id: uuid(),
         userId: store.state.userId,
         title: "title"
       } as Timeline;
-      Database.Instance.postTimeline(timeline);
+      await store.dispatch("addTimeline", timeline);
       store.dispatch("setSelectedTimelineId", timeline.id);
 
       this.show = false;

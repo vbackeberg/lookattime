@@ -17,17 +17,8 @@
           ></template
         >
         <v-list>
-          <v-list-item v-if="userId">{{ userId }}</v-list-item>
-          <v-list-item
-            v-if="userId"
-            @click.stop="showManageTimelinesForm = true"
+          <v-list-item @click.stop="showManageTimelinesForm = true"
             >My timelines</v-list-item
-          >
-          <v-list-item v-if="userId" v-on:click="deleteUser()"
-            >Delete User</v-list-item
-          >
-          <v-list-item v-if="!userId" v-on:click="createUser()"
-            >Create User</v-list-item
           >
         </v-list>
       </v-menu>
@@ -50,7 +41,6 @@
 
 <script lang="ts">
 import UserService from "./user/user-service";
-import store from "./store";
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
 
 export default {
@@ -66,29 +56,6 @@ export default {
 
   data() {
     return { showManageTimelinesForm: false };
-  },
-
-  computed: {
-    userId(): string {
-      return store.state.userId;
-    }
-  },
-
-  methods: {
-    async createUser() {
-      try {
-        await UserService.Instance.createUserId();
-      } catch (e) {
-        console.error("Could not create user id.", e);
-      }
-    },
-    async deleteUser() {
-      try {
-        await UserService.Instance.deleteUserId();
-      } catch (e) {
-        console.log("Could not delete user id.", e);
-      }
-    }
   }
 };
 </script>

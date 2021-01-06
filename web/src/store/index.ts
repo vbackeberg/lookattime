@@ -6,6 +6,7 @@ import Vuex from "vuex";
 import Database from "@/local-database/database";
 import Timeline from "@/api/timeline/timeline";
 import ViewFocuser from "@/timeline/view-focuser";
+import { v4 as uuid } from "uuid";
 
 Vue.use(Vuex);
 
@@ -169,10 +170,16 @@ export default new Vuex.Store({
 
     async loadTimelines({ commit, dispatch }) {
       const timelines = await Database.Instance.getTimelines(this.state.userId);
-      commit("setTimelines", timelines);
 
-      if (timelines) {
+      if (timelines.length > 0) {
+        commit("setTimelines", timelines);
         dispatch("setSelectedTimelineId", timelines[0].id);
+      } else {
+        dispatch("addTimeline", {
+          id: uuid(),
+          userId: this.state.userId,
+          title: "My timeline"
+        } as Timeline);
       }
     },
 

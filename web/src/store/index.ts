@@ -151,8 +151,7 @@ export default new Vuex.Store({
       commit("setTimeEvents", timeEvents);
 
       // TODO remove logic from store.
-      // TODO FIx timemarker not initiating
-      // TODO Fix not scrolling
+      // TODO Fix not scrolling, after loading existing time markers from db.
       if (this.state.timeEvents.length === 1) {
         ViewFocuser.Instance.focusOnTimeEvent(this.state.timeEvents[0]);
       } else if (this.state.timeEvents.length > 1) {

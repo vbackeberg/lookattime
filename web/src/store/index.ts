@@ -119,6 +119,7 @@ export default new Vuex.Store({
     },
 
     setTimeEvents(state, timeEvents: TimeEventModel[]) {
+      timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
       state.timeEvents = timeEvents;
     },
 
@@ -149,8 +150,6 @@ export default new Vuex.Store({
       const timeEvents = await Database.Instance.getTimeEvents(
         this.state.selectedTimeline.id
       );
-
-      timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
 
       commit("setTimeEvents", timeEvents);
 

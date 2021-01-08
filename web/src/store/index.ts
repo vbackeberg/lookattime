@@ -168,13 +168,15 @@ export default new Vuex.Store({
           state.timeEvents[state.timeEvents.length - 1].date
         );
       }
-      
+
       // TODO: If time marker distance changes at this point, it will trigger time marker creation
       commit("setTimeMarkers", [] as TimeMarkerModel[]);
-      
+
       if (state.timeEvents.length === 2) {
         TimeMarkerCreator.Instance.initiateTimeMarkers();
       }
+
+      // TODO: When loading time event and no scroll, then visibility observer won't notice and show no events.
     },
 
     async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {

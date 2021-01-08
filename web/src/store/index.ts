@@ -217,7 +217,7 @@ export default new Vuex.Store({
       let user = await database.getUser();
       if (!user) {
         user = { id: uuid(), name: "User Name" } as User;
-        database.postUser(user);
+        await database.postUser(user);
       }
 
       dispatch("setUser", user);

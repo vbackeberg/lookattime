@@ -27,9 +27,10 @@ export default new Vuex.Store({
     timeMarkers: [] as TimeMarkerModel[],
     timeMarkerDepth: 1,
 
-    userId: "",
     selectedTimeline: {} as Timeline,
-    timelines: [] as Timeline[]
+    timelines: [] as Timeline[],
+
+    userId: "",
   },
 
   getters: {
@@ -125,10 +126,6 @@ export default new Vuex.Store({
       state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
     },
 
-    setUserId(state, id: string) {
-      state.userId = id;
-    },
-
     setSelectedTimeline(state, timeline: Timeline) {
       state.selectedTimeline = timeline;
     },
@@ -139,6 +136,10 @@ export default new Vuex.Store({
 
     addTimeline(state, timeline: Timeline) {
       state.timelines.push(timeline);
+    },
+
+    setUserId(state, id: string) {
+      state.userId = id;
     }
   },
 

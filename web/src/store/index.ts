@@ -153,22 +153,16 @@ export default new Vuex.Store({
 
       commit("setTimeEvents", timeEvents);
 
-      if (timeEvents.length > 1) {
-        // TODO: Problem:
-        // If switching from timeline with events to timeline without, markers will stay.
-        // If no time events there is still a scrollbar, which will trigger time marker hider.
-        TimeMarkerCreator.Instance.initiateTimeMarkers();
+      const viewFocuser = ViewFocuser.Instance;
 
-        // TODO remove logic from store.
-        // TODO Fix not scrolling, after loading existing time markers from db.
-        if (state.timeEvents.length === 1) {
-          ViewFocuser.Instance.focusOnTimeEvent(state.timeEvents[0]);
-        } else if (timeEvents.length > 1) {
-          ViewFocuser.Instance.focusOnRange(
-            state.timeEvents[0].date,
-            state.timeEvents[state.timeEvents.length - 1].date
-          );
-        }
+      if (state.timeEvents.length === 1) {
+        viewFocuser.focusOnTimeEvent(state.timeEvents[0]);
+      } else if (state.timeEvents.length > 1) {
+        viewFocuser.focusOnRange(
+          state.timeEvents[0].date,
+          state.timeEvents[state.timeEvents.length - 1].date
+        );
+      }
       }
     },
 

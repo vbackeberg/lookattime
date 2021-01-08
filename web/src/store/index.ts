@@ -173,10 +173,7 @@ export default new Vuex.Store({
     },
 
     async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {
-      Database.Instance.postTimeEvent(
-        timeEvent,
-        state.selectedTimeline.id
-      );
+      Database.Instance.postTimeEvent(timeEvent, state.selectedTimeline.id);
       commit("addTimeEvent", timeEvent);
     },
 
@@ -207,7 +204,6 @@ export default new Vuex.Store({
 
     async setUser({ commit, dispatch }, user) {
       commit("setUser", user);
-
       dispatch("loadTimelines");
     },
 

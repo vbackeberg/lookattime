@@ -8,6 +8,7 @@ import Timeline from "@/api/timeline/timeline";
 import ViewFocuser from "@/timeline/view-focuser";
 import { v4 as uuid } from "uuid";
 import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
+import User from "@/api/user/user";
 
 Vue.use(Vuex);
 
@@ -30,7 +31,7 @@ export default new Vuex.Store({
     selectedTimeline: {} as Timeline,
     timelines: [] as Timeline[],
 
-    userId: "",
+    user: {} as User
   },
 
   getters: {
@@ -138,8 +139,8 @@ export default new Vuex.Store({
       state.timelines.push(timeline);
     },
 
-    setUserId(state, id: string) {
-      state.userId = id;
+    setUser(state, user: User) {
+      state.user = user;
     }
   },
 
@@ -172,16 +173,16 @@ export default new Vuex.Store({
       }
     },
 
-    async addTimeEvent({ commit }, timeEvent: TimeEventModel) {
+    async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {
       Database.Instance.postTimeEvent(
         timeEvent,
-        this.state.selectedTimeline.id
+        state.selectedTimeline.id
       );
       commit("addTimeEvent", timeEvent);
     },
 
-    async loadTimelines({ commit, dispatch }) {
-      const timelines = await Database.Instance.getTimelines(this.state.userId);
+    async loadTimelines({ commit, dispatch, state }) {
+      const timelines = await Database.Instance.getTimelines(state.user.id);
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);
@@ -189,7 +190,7 @@ export default new Vuex.Store({
       } else {
         dispatch("addTimeline", {
           id: uuid(),
-          userId: this.state.userId,
+          userId: this.state.user.id,
           title: "My timeline"
         } as Timeline);
       }
@@ -205,10 +206,22 @@ export default new Vuex.Store({
       dispatch("loadTimeEvents");
     },
 
-    async setUserId({ commit, dispatch }, userId) {
-      commit("setUserId", userId);
+    async setUser({ commit, dispatch }, user) {
+      commit("setUser", user);
 
       dispatch("loadTimelines");
+    },
+
+    async loadUser({ dispatch }) {
+      const database = Database.Instance;
+
+      let user = await database.getUser();
+      if (!user) {
+        user = { id: uuid(), name: "User Name" } as User;
+        database.postUser(user);
+      }
+
+      dispatch("setUser", user);
     }
   },
 

@@ -84,7 +84,7 @@ export default Vue.extend({
 
       const timeline = {
         id: uuid(),
-        userId: store.state.userId,
+        userId: store.state.user.id,
         title: "Timeline"
       } as Timeline;
       await store.dispatch("addTimeline", timeline);

@@ -40,8 +40,8 @@
 </template>
 
 <script lang="ts">
-import UserService from "./user/user-service";
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
+import store from "./store";
 
 export default {
   name: "App",
@@ -50,8 +50,8 @@ export default {
     ManageTimelinesForm
   },
 
-  mounted() {
-    UserService.Instance;
+  async mounted() {
+    await store.dispatch("loadUser");
   },
 
   data() {

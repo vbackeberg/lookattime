@@ -146,9 +146,9 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async loadTimeEvents({ commit }) {
+    async loadTimeEvents({ commit, state }) {
       const timeEvents = await Database.Instance.getTimeEvents(
-        this.state.selectedTimeline.id
+        state.selectedTimeline.id
       );
 
       commit("setTimeEvents", timeEvents);
@@ -161,12 +161,12 @@ export default new Vuex.Store({
 
         // TODO remove logic from store.
         // TODO Fix not scrolling, after loading existing time markers from db.
-        if (this.state.timeEvents.length === 1) {
-          ViewFocuser.Instance.focusOnTimeEvent(this.state.timeEvents[0]);
-        } else if (this.state.timeEvents.length > 1) {
+        if (state.timeEvents.length === 1) {
+          ViewFocuser.Instance.focusOnTimeEvent(state.timeEvents[0]);
+        } else if (timeEvents.length > 1) {
           ViewFocuser.Instance.focusOnRange(
-            this.state.timeEvents[0].date,
-            this.state.timeEvents[this.state.timeEvents.length - 1].date
+            state.timeEvents[0].date,
+            state.timeEvents[state.timeEvents.length - 1].date
           );
         }
       }

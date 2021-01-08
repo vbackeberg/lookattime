@@ -9,10 +9,14 @@ import ViewFocuser from "@/timeline/view-focuser";
 import { v4 as uuid } from "uuid";
 import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
 import User from "@/api/user/user";
+import viewReset from "@/timeline/view-resetter";
+import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-watcher";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [],
+
   state: {
     timelineElement: {} as HTMLElement,
     timelineZero: 0,
@@ -153,6 +157,7 @@ export default new Vuex.Store({
 
       commit("setTimeEvents", timeEvents);
 
+      // TODO: Move into separate component. Duplicated code in time event creator. Maybe use store plugin.
       const viewFocuser = ViewFocuser.Instance;
 
       if (state.timeEvents.length === 1) {
@@ -163,6 +168,12 @@ export default new Vuex.Store({
           state.timeEvents[state.timeEvents.length - 1].date
         );
       }
+      
+      // TODO: If time marker distance changes at this point, it will trigger time marker creation
+      commit("setTimeMarkers", [] as TimeMarkerModel[]);
+      
+      if (state.timeEvents.length === 2) {
+        TimeMarkerCreator.Instance.initiateTimeMarkers();
       }
     },
 

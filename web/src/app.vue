@@ -13,7 +13,7 @@
       <v-menu offset-y>
         <template v-slot:activator="{ on }"
           ><v-avatar v-ripple color="primary" class="app-bar-avatar" v-on="on"
-            >VB</v-avatar
+            >🤓</v-avatar
           ></template
         >
         <v-list>
@@ -82,6 +82,8 @@ body {
 .app-bar-avatar {
   color: #fff;
   user-select: none;
+  font-size: 24px;
+  vertical-align: text-top;
 }
 
 a {

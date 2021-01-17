@@ -2,7 +2,7 @@
   <v-dialog v-model="show" max-width="600">
     <v-card>
       <v-card-title class="headline justify-center">
-        Select one of your timelines
+        Pick a timeline or create a new one!
       </v-card-title>
       <v-card-text>
         <v-container>

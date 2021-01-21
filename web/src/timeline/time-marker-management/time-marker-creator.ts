@@ -5,34 +5,48 @@ import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";
 
 /**
- * Initiates the time marker array. Adds markers on the sides and in between.
+ * Initiates the time marker array. Adds a marker at date 0 and expands markers to both sides.
  */
 export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
-    const lowestDate = PositionTranslator.toRelativePosition(
-      store.getters.leftEdge
-    );
-    const highestDate = PositionTranslator.toRelativePosition(
-      store.getters.rightEdge
-    );
+    const firstMarker = this.createFirstMarker1();
+    const secondMarker = this.createSecondMarker1();
 
-    const firstMarker = this.createFirstMarker(highestDate, lowestDate);
-
-    const secondMarker = this.createSecondMarker(
-      firstMarker.date,
-      lowestDate,
-      highestDate,
-      firstMarker.depth
-    );
-
-    store.commit(
-      "setTimeMarkers",
-      [firstMarker, secondMarker].sort((a, b) => a.date - b.date)
-    );
+    store.commit("setTimeMarkers", [firstMarker, secondMarker]);
     store.commit("setTimeMarkerDepth", secondMarker.depth);
 
     this.addMarkersLeft();
     this.addMarkersRight();
+  }
+
+  private createFirstMarker1() {
+    return new TimeMarkerModel(
+      store.state.timelineZero,
+      uuid(),
+      0,
+      Number.MAX_SAFE_INTEGER
+    );
+  }
+
+  private createSecondMarker1() {
+    const highestDate = PositionTranslator.toRelativePosition(
+      store.state.timelineElement.scrollLeft +
+        store.state.timelineElement.clientWidth
+    );
+
+    let depth = 1;
+
+    while (depth < highestDate) {
+      depth *= Constants.DEPTH_BASE;
+    }
+    depth /= Constants.DEPTH_BASE;
+
+    return new TimeMarkerModel(
+      PositionTranslator.toAbsolutePosition(depth),
+      uuid(),
+      depth,
+      depth
+    );
   }
 
   private createFirstMarker(

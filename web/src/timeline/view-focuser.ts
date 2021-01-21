@@ -17,7 +17,7 @@ export default class ViewFocuser {
    * @param left Relative start of time range
    * @param right Relative end of time range
    */
-  public focusOnRange(left: number, right: number) {
+  public focusOnDateRange(left: number, right: number) {
     const absoluteLeft =
       store.state.timelineZero + left * store.state.zoomLevel;
 

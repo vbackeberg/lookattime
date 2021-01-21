@@ -55,7 +55,7 @@ export default class TimeEventCreator {
 
   private focusView(timeEvent: TimeEventModel) {
     if (store.state.timeEvents.length === 2) {
-      this.viewFocuser.focusOnRange(
+      this.viewFocuser.focusOnDateRange(
         store.state.timeEvents[0].date,
         store.state.timeEvents[1].date
       );

@@ -41,29 +41,46 @@ export default new Vuex.Store({
   getters: {
     spacerLeft(state): SpacerModel { // TODO put repostion logic back into zoomer?
       const lowestTimeEvent = state.timeEvents[0];
-      const width =
-        state.timelineElement.clientWidth / 2 -
-        TimeEventModel.expandedWidth / 2;
 
-      return {
-        positionLeft:
-          lowestTimeEvent?.positionCenter -
-          TimeEventModel.expandedWidth / 2 -
-          width,
-        width: width
-      } as SpacerModel;
+      if (!lowestTimeEvent) {
+        return {
+          positionLeft: 0,
+          width: state.timelineElement.clientWidth / 2
+        } as SpacerModel;
+      } else {
+        const width =
+          state.timelineElement.clientWidth / 2 -
+          TimeEventModel.expandedWidth / 2;
+
+        return {
+          positionLeft:
+            lowestTimeEvent?.positionCenter -
+            TimeEventModel.expandedWidth / 2 -
+            width,
+          width: width
+        } as SpacerModel;
+      }
     },
 
     spacerRight(state): SpacerModel {
       const highestTimeEvent = state.timeEvents[state.timeEvents.length - 1];
 
-      return {
-        positionLeft:
-          highestTimeEvent?.positionCenter + TimeEventModel.expandedWidth / 2,
-        width:
-          state.timelineElement.clientWidth / 2 -
-          TimeEventModel.expandedWidth / 2
-      } as SpacerModel;
+      if (!highestTimeEvent) {
+        return {
+          positionLeft:
+            state.timelineElement.scrollLeft +
+            state.timelineElement.clientWidth / 2,
+          width: state.timelineElement.clientWidth / 2
+        } as SpacerModel;
+      } else {
+        return {
+          positionLeft:
+            highestTimeEvent?.positionCenter + TimeEventModel.expandedWidth / 2,
+          width:
+            state.timelineElement.clientWidth / 2 -
+            TimeEventModel.expandedWidth / 2
+        } as SpacerModel;
+      }
     },
 
     leftEdge(_, getters): number {

@@ -68,9 +68,7 @@ export default new Vuex.Store({
 
       if (!highestTimeEvent) {
         return {
-          positionLeft:
-            state.timelineElement.scrollLeft +
-            state.timelineElement.clientWidth / 2,
+          positionLeft: 0 + state.timelineElement.clientWidth / 2,
           width: state.timelineElement.clientWidth / 2
         } as SpacerModel;
       } else {

@@ -51,12 +51,6 @@ export default Vue.extend({
         this.$emit("input", value);
       }
     }
-  },
-
-  methods: {
-    back() {
-      this.show = false;
-    }
   }
 });
 </script>

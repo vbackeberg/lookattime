@@ -48,8 +48,7 @@ export default class ViewFocuser {
     const position =
       timeEvent.positionCenter - this.timelineElement.clientWidth / 2;
     this.timelineElement.scrollTo({
-      left: position,
-      behavior: "smooth"
+      left: position
     });
   }
 

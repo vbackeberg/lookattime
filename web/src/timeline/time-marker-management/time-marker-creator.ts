@@ -83,7 +83,7 @@ export default class TimeMarkerCreator {
   }
 
   public addMarkersLeft() {
-    const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft);
+    const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft); // Use store left edge
     const lowestMarker = store.state.timeMarkers[0];
     const distanceToEdge = lowestMarker.positionCenter - leftEdge;
     const numberOfMarkers = Math.floor(

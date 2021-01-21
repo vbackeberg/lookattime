@@ -39,7 +39,7 @@ export default new Vuex.Store({
   },
 
   getters: {
-    spacerLeft(state): SpacerModel {
+    spacerLeft(state): SpacerModel { // TODO put repostion logic back into zoomer?
       const lowestTimeEvent = state.timeEvents[0];
       const width =
         state.timelineElement.clientWidth / 2 -

@@ -5,12 +5,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Database from "@/local-database/database";
 import Timeline from "@/api/timeline/timeline";
-import ViewFocuser from "@/timeline/view-focuser";
 import { v4 as uuid } from "uuid";
-import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
 import User from "@/api/user/user";
-import viewReset from "@/timeline/view-resetter";
-import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-watcher";
+import ViewResetter from "@/timeline/viewport/view-resetter";
 
 Vue.use(Vuex);
 

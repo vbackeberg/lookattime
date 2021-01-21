@@ -174,26 +174,7 @@ export default new Vuex.Store({
 
       commit("setTimeEvents", timeEvents);
 
-      // TODO: Move into separate component. Duplicated code in time event creator. Maybe use store plugin.
-      const viewFocuser = ViewFocuser.Instance;
-
-      if (state.timeEvents.length === 1) {
-        viewFocuser.focusOnTimeEvent(state.timeEvents[0]);
-      } else if (state.timeEvents.length > 1) {
-        viewFocuser.focusOnRange(
-          state.timeEvents[0].date,
-          state.timeEvents[state.timeEvents.length - 1].date
-        );
-      }
-
-      // TODO: If time marker distance changes at this point, it will trigger time marker creation
-      commit("setTimeMarkers", [] as TimeMarkerModel[]);
-
-      if (state.timeEvents.length === 2) {
-        TimeMarkerCreator.Instance.initiateTimeMarkers();
-      }
-
-      // TODO: When loading time event and no scroll, then visibility observer won't notice and show no events.
+      ViewResetter.Instance.initiate();
     },
 
     async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {

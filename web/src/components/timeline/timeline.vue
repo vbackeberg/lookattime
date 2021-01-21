@@ -142,6 +142,7 @@ export default Vue.extend({
   width: 100%;
   white-space: nowrap;
   overflow-y: hidden;
+  overflow-x: scroll;
   position: relative;
   background-color: #fff;
 

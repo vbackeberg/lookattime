@@ -39,7 +39,8 @@ export default new Vuex.Store({
   },
 
   getters: {
-    spacerLeft(state): SpacerModel { // TODO put repostion logic back into zoomer?
+    spacerLeft(state): SpacerModel {
+      // TODO put repostion logic back into zoomer?
       const lowestTimeEvent = state.timeEvents[0];
 
       if (!lowestTimeEvent) {

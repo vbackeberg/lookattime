@@ -18,7 +18,7 @@
           desktop or laptop.
         </p>
         <p>
-          Read about this at
+          Or take a look behind the curtain at
           <a href="https://www.blog.lookattime.com">blog.lookattime.com</a>.
         </p></v-card-text
       >

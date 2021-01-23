@@ -1,7 +1,7 @@
 import TimeEventModel from "@/models/time-event-model";
 import store from "@/store";
 import Vue from "vue";
-import ViewFocuser from "./view-focuser";
+import ViewFocuser from "./viewport/view-focuser";
 import PositionTranslator from "./position-translator";
 import { v4 as uuid } from "uuid";
 

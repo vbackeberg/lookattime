@@ -1,7 +1,7 @@
 import store from "@/store";
 import SpaceCutter from "../space-management/space-cutter";
 import SpaceExtender from "../space-management/space-extender";
-import ViewFocuser from "../view-focuser";
+import ViewFocuser from "./view-focuser";
 import Vue from "vue";
 
 /**

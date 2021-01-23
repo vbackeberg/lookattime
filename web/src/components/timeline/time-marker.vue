@@ -2,7 +2,7 @@
   <transition>
     <div
       class="marker zoom-transition zoomable"
-      v-bind:style="{ left: positionLeft + 'px', width: width + 'px' }"
+      v-bind:style="[styleWidth, styleTranslate]"
     ></div>
   </transition>
 </template>
@@ -22,13 +22,20 @@ export default Vue.extend({
 
   data() {
     return {
-      width: TimeMarkerModel.width
+      styleWidth: {
+        width: TimeMarkerModel.width + "px"
+      }
     };
   },
 
   computed: {
-    positionLeft(): number {
-      return this.positionCenter - TimeMarkerModel.widthOffset;
+    styleTranslate(): object {
+      return {
+        transform:
+          "translateX(" +
+          (this.positionCenter - TimeMarkerModel.widthOffset) +
+          "px)"
+      };
     }
   }
 });

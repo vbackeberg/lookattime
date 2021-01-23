@@ -28,7 +28,7 @@ export default class HttpClient {
    * @param userId
    * @param name
    */
-  static async postUser(user: UserModel) {
+  static async createUser(user: UserModel) {
     const response = await axios.post(
       "http://localhost:7071/api/create-user",
       UserApiMapper.toApi(user)

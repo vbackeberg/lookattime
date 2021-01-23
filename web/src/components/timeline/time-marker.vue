@@ -1,5 +1,5 @@
 <template>
-  <transition>
+  <transition appear>
     <div
       class="marker zoom-transition zoomable"
       v-bind:style="[styleWidth, styleTranslate]"
@@ -47,5 +47,14 @@ export default Vue.extend({
   height: 12px;
   background-color: #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 300ms ease;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

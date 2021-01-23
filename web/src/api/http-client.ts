@@ -8,7 +8,7 @@ import UserApiMapper from "./user/user-api-mapper";
 
 export default class HttpClient {
   /**
-   * Call API to delete a user.
+   * Calls API to delete a user.
    *
    * @param userId
    */

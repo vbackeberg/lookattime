@@ -157,7 +157,7 @@ export default Vue.extend({
 #time-event-area {
   flex: 4 0 200px;
 
-  position: relative;
+  position: relative; // TODO check if still needed
 }
 
 #horizontal-line {

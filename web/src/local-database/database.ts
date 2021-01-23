@@ -69,7 +69,7 @@ export default class Database extends Dexie {
     return timeEvents;
   }
 
-  public async postTimeline(request: Timeline) {
+  public async createTimeline(request: Timeline) {
     this.timelines.add({
       id: request.id,
       userId: request.userId,

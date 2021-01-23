@@ -9,8 +9,8 @@ import { Constants } from "./constants";
  */
 export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
-    const firstMarker = this.createFirstMarker1();
-    const secondMarker = this.createSecondMarker1();
+    const firstMarker = this.createFirstMarker();
+    const secondMarker = this.createSecondMarker();
 
     store.commit("setTimeMarkers", [firstMarker, secondMarker]);
     store.commit("setTimeMarkerDepth", secondMarker.depth);
@@ -19,7 +19,7 @@ export default class TimeMarkerCreator {
     this.addMarkersRight();
   }
 
-  private createFirstMarker1() {
+  private createFirstMarker() {
     return new TimeMarkerModel(
       store.state.timelineZero,
       uuid(),
@@ -28,7 +28,7 @@ export default class TimeMarkerCreator {
     );
   }
 
-  private createSecondMarker1() {
+  private createSecondMarker() {
     const highestDate = PositionTranslator.toRelativePosition(
       store.state.timelineElement.scrollLeft +
         store.state.timelineElement.clientWidth
@@ -45,53 +45,6 @@ export default class TimeMarkerCreator {
       PositionTranslator.toAbsolutePosition(depth),
       uuid(),
       depth,
-      depth
-    );
-  }
-
-  private createFirstMarker(
-    highestDate: number,
-    lowestDate: number
-  ): TimeMarkerModel {
-    let depth = 1;
-
-    while (Math.floor(highestDate / depth) * depth > lowestDate) {
-      depth *= Constants.DEPTH_BASE;
-    }
-    depth /= Constants.DEPTH_BASE;
-
-    const date = Math.floor(highestDate / depth) * depth;
-
-    return new TimeMarkerModel(
-      PositionTranslator.toAbsolutePosition(date),
-      uuid(),
-      date,
-      depth
-    );
-  }
-
-  private createSecondMarker(
-    firstMarkerDate: number,
-    lowestDate: number,
-    highestDate: number,
-    depth: number
-  ): TimeMarkerModel {
-    let secondMarkerDate = firstMarkerDate - depth;
-    if (secondMarkerDate < lowestDate) {
-      secondMarkerDate = firstMarkerDate + depth;
-      if (secondMarkerDate > highestDate) {
-        return this.createSecondMarker(
-          firstMarkerDate,
-          lowestDate,
-          highestDate,
-          depth / Constants.DEPTH_BASE
-        );
-      }
-    }
-    return new TimeMarkerModel(
-      PositionTranslator.toAbsolutePosition(secondMarkerDate),
-      uuid(),
-      secondMarkerDate,
       depth
     );
   }

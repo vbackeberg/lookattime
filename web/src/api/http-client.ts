@@ -1,8 +1,10 @@
 import TimeEventModel from "@/models/time-event-model";
+import UserModel from "@/models/user-model";
 import axios from "axios";
 import TimeEventRequestMapper from "./time-event/time-event-request-mapper";
 import TimeEventResponse from "./time-event/time-event-response";
 import TimeEventResponseMapper from "./time-event/time-event-response-mapper";
+import UserApiMapper from "./user/user-api-mapper";
 
 export default class HttpClient {
   /**
@@ -26,11 +28,11 @@ export default class HttpClient {
    * @param userId
    * @param name
    */
-  static async postUser(userId: string, name: string) {
-    const response = await axios.post("http://localhost:7071/api/create-user", {
-      id: userId,
-      nameValue: "User Name"
-    });
+  static async postUser(user: UserModel) {
+    const response = await axios.post(
+      "http://localhost:7071/api/create-user",
+      UserApiMapper.toApi(user)
+    );
 
     if (
       !response.status.toString().startsWith("2") &&

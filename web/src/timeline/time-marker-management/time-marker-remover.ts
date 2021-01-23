@@ -11,7 +11,7 @@ export default class TimeMarkerRemover {
     );
 
     if (index > 0) {
-      store.commit("setTimeMarkers", store.state.timeMarkers.slice(index));
+      store.commit("setTimeMarkers", store.state.timeMarkers.slice(index)); //TODO Performance issue
     }
   }
 
@@ -21,7 +21,7 @@ export default class TimeMarkerRemover {
     );
 
     if (index > -1) {
-      store.commit("setTimeMarkers", store.state.timeMarkers.slice(0, index));
+      store.commit("setTimeMarkers", store.state.timeMarkers.slice(0, index)); //TODO Performance issue
     }
   }
 

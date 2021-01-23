@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
-import store from "./store";
+import store from "@/store/store";
 
 export default {
   name: "App",

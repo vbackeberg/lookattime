@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from "@/store/store";
 import TimeEventHider from "./time-event-hider";
 import TimeMarkerHider from "./time-marker-hider";
 

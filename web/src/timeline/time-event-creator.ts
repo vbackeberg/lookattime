@@ -1,5 +1,5 @@
 import TimeEventModel from "@/models/time-event-model";
-import store from "@/store";
+import store from "@/store/store";
 import Vue from "vue";
 import ViewFocuser from "./viewport/view-focuser";
 import PositionTranslator from "./position-translator";

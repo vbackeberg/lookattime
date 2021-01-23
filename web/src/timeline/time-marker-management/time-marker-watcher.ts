@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from "@/store/store";
 import { Constants } from "./constants";
 import TimeMarkerCreator from "./time-marker-creator";
 import TimeMarkerRemover from "./time-marker-remover";

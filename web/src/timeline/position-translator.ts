@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from "@/store/store";
 
 export default class PositionTranslator {
   public static toAbsolutePosition(relativePosition: number): number {

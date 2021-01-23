@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from "@/store/store";
 import SpaceCutter from "../space-management/space-cutter";
 import SpaceExtender from "../space-management/space-extender";
 import ViewFocuser from "./view-focuser";

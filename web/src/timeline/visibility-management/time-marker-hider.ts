@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from "@/store/store";
 
 /**
  * Hides time markers that are outside the viewport and shows time markers that are inside the viewport.

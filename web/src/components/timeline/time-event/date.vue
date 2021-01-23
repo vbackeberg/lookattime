@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import TimeEventModel from "@/models/time-event-model";
-import store from "@/store";
+import store from "@/store/store";
 import Vue from "vue";
 export default Vue.extend({
   name: "Date",

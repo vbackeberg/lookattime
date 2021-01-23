@@ -49,7 +49,7 @@ import TimeEventModel from "@/models/time-event-model";
 import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/timeline/spacer/spacer.vue";
 import SpacerLeft from "@/components/timeline/spacer/spacer-left.vue";
-import store from "@/store";
+import store from "@/store/store";
 import Date from "@/components/timeline/time-event/date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/timeline/time-marker.vue";

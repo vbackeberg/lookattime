@@ -1,5 +1,5 @@
 import TimeEventModel from "@/models/time-event-model";
-import store from "@/store";
+import store from "@/store/store";
 import Zoomer from "../zooming/zoomer";
 
 export default class ViewFocuser {

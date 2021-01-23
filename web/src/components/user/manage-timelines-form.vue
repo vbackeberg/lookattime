@@ -35,7 +35,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { v4 as uuid } from "uuid";
-import store from "@/store";
+import store from "@/store/store";
 import Timeline from "@/api/timeline/timeline";
 
 export default Vue.extend({

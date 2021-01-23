@@ -1,5 +1,5 @@
 import TimeEventModel from "@/models/time-event-model";
-import store from "@/store";
+import store from "@/store/store";
 
 /**
  * Hide time events that are outside the viewport and shows time events that are inside the viewport.

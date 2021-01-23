@@ -7,6 +7,7 @@ import Database from "@/local-database/database";
 import Timeline from "@/api/timeline/timeline";
 import { v4 as uuid } from "uuid";
 import ViewResetter from "@/timeline/viewport/view-resetter";
+import HttpClient from "@/api/http-client";
 import UserModel from "@/models/user-model";
 import UserApiMapper from "@/api/user/user-api-mapper";
 
@@ -192,6 +193,7 @@ export default new Vuex.Store({
 
     async loadTimelines({ commit, dispatch, state }) {
       const timelines = await Database.Instance.getTimelines(state.user.id);
+      // const timelines1 = await HttpClient.getTimelines(state.user.id);
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);

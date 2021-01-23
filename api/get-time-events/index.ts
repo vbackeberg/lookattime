@@ -7,7 +7,8 @@ const httpTrigger: AzureFunction = async function (
   req: HttpRequest
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
-  const timelineId = req.query.timelineId || (req.body && req.body.timelineId);
+
+  const timelineId = req.query.timelineId;
 
   if (!validUuid(timelineId)) {
     context.res = {

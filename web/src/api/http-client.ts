@@ -5,11 +5,10 @@ import TimeEventResponse from "./time-event/time-event-response";
 import TimeEventResponseMapper from "./time-event/time-event-response-mapper";
 
 export default class HttpClient {
-
   /**
    * Call API to delete a user.
-   * 
-   * @param userId 
+   *
+   * @param userId
    */
   static async deleteUser(userId: string) {
     const response = await axios.delete(
@@ -23,9 +22,9 @@ export default class HttpClient {
 
   /**
    * Calls API to create a new user.
-   * 
-   * @param userId 
-   * @param name 
+   *
+   * @param userId
+   * @param name
    */
   static async postUser(userId: string, name: string) {
     const response = await axios.post("http://localhost:7071/api/create-user", {
@@ -43,9 +42,9 @@ export default class HttpClient {
 
   /**
    * Calls API to create a new time event for given timeline.
-   * 
-   * @param timeEvent 
-   * @param timelineId 
+   *
+   * @param timeEvent
+   * @param timelineId
    */
   public static createTimeEvent(timeEvent: TimeEventModel, timelineId: string) {
     axios.post(

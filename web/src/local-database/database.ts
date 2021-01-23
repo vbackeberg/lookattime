@@ -2,8 +2,10 @@ import TimeEventRequestMapper from "@/api/time-event/time-event-request-mapper";
 import TimeEventResponse from "@/api/time-event/time-event-response";
 import TimeEventResponseMapper from "@/api/time-event/time-event-response-mapper";
 import Timeline from "@/api/timeline/timeline";
-import User from "@/api/user/user";
+import UserApiModel from "@/api/user/user-api-model";
+import UserApiMapper from "@/api/user/user-api-mapper";
 import TimeEventModel from "@/models/time-event-model";
+import UserModel from "@/models/user-model";
 import Dexie, { Table } from "dexie";
 
 export default class Database extends Dexie {
@@ -25,8 +27,8 @@ export default class Database extends Dexie {
     this.timeEvents = this.table("timeEvents");
   }
 
-  public async getUser(): Promise<User> {
-    return ((await this.users.toArray()) as User[])[0];
+  public async getUser(): Promise<UserApiModel> {
+    return ((await this.users.toArray()) as UserApiModel[])[0];
   }
 
   public async deleteUser(id: string) {
@@ -36,8 +38,8 @@ export default class Database extends Dexie {
       .delete();
   }
 
-  public async postUser(user: User) {
-    return this.users.add(user);
+  public async createUser(user: UserModel) {
+    return this.users.add(UserApiMapper.toApi(user));
   }
 
   public async postTimeEvent(timeEvent: TimeEventModel, timelineId: string) {

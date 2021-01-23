@@ -1,4 +1,4 @@
-export default class UserRequest {
+export default class UserApiModel {
   id!: string;
   nameValue!: string;
 }

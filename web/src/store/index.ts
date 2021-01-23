@@ -6,8 +6,9 @@ import Vuex from "vuex";
 import Database from "@/local-database/database";
 import Timeline from "@/api/timeline/timeline";
 import { v4 as uuid } from "uuid";
-import User from "@/api/user/user";
 import ViewResetter from "@/timeline/viewport/view-resetter";
+import UserModel from "@/models/user-model";
+import UserApiMapper from "@/api/user/user-api-mapper";
 
 Vue.use(Vuex);
 
@@ -32,7 +33,7 @@ export default new Vuex.Store({
     selectedTimeline: {} as Timeline,
     timelines: [] as Timeline[],
 
-    user: {} as User
+    user: {} as UserModel
   },
 
   getters: {
@@ -156,7 +157,7 @@ export default new Vuex.Store({
       state.timelines.push(timeline);
     },
 
-    setUser(state, user: User) {
+    setUser(state, user: UserModel) {
       state.user = user;
     }
   },
@@ -224,11 +225,10 @@ export default new Vuex.Store({
 
       let user = await database.getUser();
       if (!user) {
-        user = { id: uuid(), name: "User Name" } as User;
-        await database.postUser(user);
+        await database.createUser(new UserModel(uuid(), "User Name"));
       }
 
-      dispatch("setUser", user);
+      dispatch("setUser", UserApiMapper.toModel(user));
     }
   },
 

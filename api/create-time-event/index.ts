@@ -8,6 +8,7 @@ const httpTrigger: AzureFunction = async function (
   req: HttpRequest
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
+
   const timeEventRequest = req.body as TimeEventRequest;
 
   if (!validRequest(timeEventRequest)) {

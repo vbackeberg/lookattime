@@ -162,6 +162,18 @@ export default new Vuex.Store({
   },
 
   actions: {
+    async setTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
+      commit("setTimeMarkers", timeMarkers);
+    },
+
+    async pushTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
+      commit("pushTimeMarkers", timeMarkers);
+    },
+
+    async unshiftTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
+      commit("unshiftTimeMarkers", timeMarkers);
+    },
+
     async loadTimeEvents({ commit, state }) {
       const timeEvents = await Database.Instance.getTimeEvents(
         state.selectedTimeline.id

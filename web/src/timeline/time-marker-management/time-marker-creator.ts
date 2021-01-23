@@ -119,7 +119,7 @@ export default class TimeMarkerCreator {
         );
       }
 
-      store.commit("unshiftTimeMarkers", markers);
+      store.dispatch("unshiftTimeMarkers", markers);
     }
   }
 
@@ -150,7 +150,7 @@ export default class TimeMarkerCreator {
         );
       }
 
-      store.commit("pushTimeMarkers", markers);
+      store.dispatch("pushTimeMarkers", markers);
     }
   }
 
@@ -177,6 +177,7 @@ export default class TimeMarkerCreator {
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
 
     store.commit("setTimeMarkers", markers);
+    store.dispatch("setTimeMarkers", markers);
   }
 
   public addSingleMarkerLeft() {

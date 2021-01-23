@@ -46,10 +46,10 @@ export default class HttpClient {
    * @param timeEvent
    * @param timelineId
    */
-  public static createTimeEvent(timeEvent: TimeEventModel, timelineId: string) {
+  public static createTimeEvent(timeEvent: TimeEventModel, timelineId: string, userId: string) {
     axios.post(
       "http://localhost:7071/api/create-time-event",
-      TimeEventRequestMapper.map(timeEvent, timelineId)
+      TimeEventRequestMapper.map(timeEvent, timelineId, userId)
     );
   }
 

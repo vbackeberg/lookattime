@@ -1,4 +1,5 @@
 export default class TimeEventRequest {
+  userId!: string;
   id!: string;
   timelineId!: string;
   title!: string;

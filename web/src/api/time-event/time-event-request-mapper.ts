@@ -4,9 +4,11 @@ import TimeEventRequest from "./time-event-request";
 export default class TimeEventRequestMapper {
   public static map(
     timeEvent: TimeEventModel,
-    timelineId: string
+    timelineId: string,
+    userId: string
   ): TimeEventRequest {
     return {
+      userId: userId,
       id: timeEvent.id,
       timelineId: timelineId,
       title: timeEvent.title,

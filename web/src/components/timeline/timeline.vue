@@ -23,13 +23,11 @@
         :key="timeEvent.id"
         v-bind:timeEvent="timeEvent"
       ></date>
-      <transition-group name="time-markers">
-        <timeMarker
-          v-for="timeMarker in timeMarkers"
-          v-bind="timeMarker"
-          :key="timeMarker.id"
-        ></timeMarker>
-      </transition-group>
+      <timeMarker
+        v-for="timeMarker in timeMarkers"
+        v-bind="timeMarker"
+        :key="timeMarker.id"
+      ></timeMarker>
       <v-btn
         id="fab"
         fab
@@ -174,15 +172,5 @@ export default Vue.extend({
 #fab {
   margin-top: 64px;
   margin-right: 64px;
-}
-
-.time-markers-enter-active,
-.time-markers-leave-active {
-  transition: opacity 300ms ease-in-out;
-}
-
-.time-markers-enter,
-.time-markers-leave-to {
-  opacity: 0;
 }
 </style>

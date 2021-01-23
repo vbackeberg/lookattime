@@ -21,7 +21,7 @@ const httpTrigger: AzureFunction = async function (
       );
 
       const result = await sql.query(
-        `select * from timelines where userId = '${userId}'`
+        `select * from timelines where userId = '${userId}';`
       );
 
       context.res = {

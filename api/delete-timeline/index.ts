@@ -22,7 +22,7 @@ const httpTrigger: AzureFunction = async function (
       );
 
       const result = await sql.query(
-        `delete from timelines where id = '${id}' and userId = '${userId}'`
+        `delete from timelines where id = '${id}' and userId = '${userId}';`
       );
 
       console.log(result);

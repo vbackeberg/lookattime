@@ -43,6 +43,24 @@ export default class HttpClient {
   }
 
   /**
+   * Calls API to delete a time event.
+   *
+   * @param timeEventId
+   */
+  static async deleteTimeEvent(timeEventId: string, userId: string) {
+    const response = await axios.delete(
+      "http://localhost:7071/api/delete-time-event?id=" +
+        timeEventId +
+        "&userId=" +
+        userId
+    );
+
+    if (!response.status.toString().startsWith("2")) {
+      throw new Error("Server did not respond with status 2xx.");
+    }
+  }
+
+  /**
    * Calls API to create a new time event for given timeline.
    *
    * @param timeEvent

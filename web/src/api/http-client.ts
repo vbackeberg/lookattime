@@ -5,7 +5,7 @@ import axios from "axios";
 import TimeEventRequestMapper from "./time-event/time-event-request-mapper";
 import TimeEventResponse from "./time-event/time-event-response";
 import TimeEventResponseMapper from "./time-event/time-event-response-mapper";
-import Timeline from "./timeline/timeline";
+import TimelineRequest from "./timeline/timeline-request";
 import TimelineResponseMapper from "./timeline/timeline-response-mapper";
 import UserApiMapper from "./user/user-api-mapper";
 
@@ -125,7 +125,7 @@ export default class HttpClient {
    *
    * @param timeline
    */
-  public static async createTimeline(timeline: Timeline) {
+  public static async createTimeline(timeline: TimelineRequest) {
     const response = await axios.post(
       "http://localhost:7071/api/create-timeline",
       timeline
@@ -144,12 +144,12 @@ export default class HttpClient {
    *
    * @param userId
    */
-  public static async getTimelines(userId: string): Promise<Timeline[]> {
+  public static async getTimelines(userId: string): Promise<TimelineRequest[]> {
     const response = await axios.get(
       "http://localhost:7071/api/get-timelines?userId=" + userId
     );
 
-    const timelines = [] as Timeline[];
+    const timelines = [] as TimelineRequest[];
     for (let i = 0; i < response.data.length; i++) {
       timelines.push(response.data[i]);
     }

@@ -177,7 +177,7 @@ export default new Vuex.Store({
     },
 
     async loadTimeEvents({ commit, state }) {
-      const timeEvents = await Database.Instance.getTimeEvents(
+      const timeEvents = await HttpClient.getTimeEvents(
         state.selectedTimeline.id
       );
 
@@ -187,17 +187,12 @@ export default new Vuex.Store({
     },
 
     async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {
-      Database.Instance.createTimeEvent(
-        timeEvent,
-        state.selectedTimeline.id,
-        state.user.id
-      );
+      HttpClient.createTimeEvent(timeEvent, state.selectedTimeline.id, state.user.id)
       commit("addTimeEvent", timeEvent);
     },
 
     async loadTimelines({ commit, dispatch, state }) {
-      const timelines = await Database.Instance.getTimelines(state.user.id);
-      // const timelines1 = await HttpClient.getTimelines(state.user.id);
+      const timelines = await HttpClient.getTimelines(state.user.id);
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);
@@ -212,7 +207,7 @@ export default new Vuex.Store({
     },
 
     async addTimeline({ commit }, timeline: TimelineModel) {
-      Database.Instance.createTimeline(timeline);
+      HttpClient.createTimeline(timeline);
       commit("addTimeline", timeline);
     },
 

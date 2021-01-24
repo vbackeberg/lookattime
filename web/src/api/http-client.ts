@@ -1,10 +1,12 @@
 import TimeEventModel from "@/models/time-event-model";
+import TimelineModel from "@/models/timeline-model";
 import UserModel from "@/models/user-model";
 import axios from "axios";
 import TimeEventRequestMapper from "./time-event/time-event-request-mapper";
 import TimeEventResponse from "./time-event/time-event-response";
 import TimeEventResponseMapper from "./time-event/time-event-response-mapper";
 import Timeline from "./timeline/timeline";
+import TimelineResponseMapper from "./timeline/timeline-response-mapper";
 import UserApiMapper from "./user/user-api-mapper";
 
 export default class HttpClient {
@@ -153,5 +155,18 @@ export default class HttpClient {
     }
 
     return timelines;
+  }
+
+  /**
+   * Retrieves a timeline.
+   *
+   * @param userId
+   */
+  public static async getTimeline(timelineId: string): Promise<TimelineModel> {
+    const response = await axios.get(
+      "http://localhost:7071/api/get-timeline?id=" + timelineId
+    );
+
+    return TimelineResponseMapper.map(response.data);
   }
 }

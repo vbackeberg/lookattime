@@ -220,12 +220,7 @@ export default new Vuex.Store({
       }
     },
 
-    async setUser({ commit, dispatch }, user) {
-      commit("setUser", user);
-      dispatch("loadTimelines");
-    },
-
-    async loadUser({ dispatch }) {
+    async loadUser({ commit, dispatch }) {
       const database = Database.Instance;
 
       let user = await database.getUser();
@@ -240,7 +235,8 @@ export default new Vuex.Store({
         await HttpClient.createUser(user);
       }
 
-      dispatch("setUser", user);
+      commit("setUser", user);
+      dispatch("loadTimelines");
     }
   },
 

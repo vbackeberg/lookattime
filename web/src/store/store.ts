@@ -233,7 +233,14 @@ export default new Vuex.Store({
         await database.createUser(new UserModel(uuid(), "User Name"));
       }
 
-      dispatch("setUser", UserApiMapper.toModel(user));
+      try {
+        await HttpClient.getUser(user.id);
+      } catch (e) {
+        console.log(e);
+        await HttpClient.createUser(user);
+      }
+
+      dispatch("setUser", user);
     }
   },
 

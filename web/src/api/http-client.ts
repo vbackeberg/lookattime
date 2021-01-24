@@ -160,7 +160,7 @@ export default class HttpClient {
   /**
    * Retrieves a timeline.
    *
-   * @param userId
+   * @param timelineId
    */
   public static async getTimeline(timelineId: string): Promise<TimelineModel> {
     const response = await axios.get(

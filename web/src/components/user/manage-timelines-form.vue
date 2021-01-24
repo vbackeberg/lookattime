@@ -36,7 +36,7 @@
 import Vue from "vue";
 import { v4 as uuid } from "uuid";
 import store from "@/store/store";
-import Timeline from "@/api/timeline/timeline";
+import TimelineModel from "@/models/timeline-model";
 
 export default Vue.extend({
   name: "ManageTimelinesForm",
@@ -73,7 +73,7 @@ export default Vue.extend({
   },
 
   methods: {
-    select(timeline: Timeline) {
+    select(timeline: TimelineModel) {
       store.dispatch("setSelectedTimeline", timeline);
 
       this.show = false;
@@ -82,11 +82,12 @@ export default Vue.extend({
     async create() {
       this.show = false;
 
-      const timeline = {
-        id: uuid(),
-        userId: store.state.user.id,
-        title: "Timeline"
-      } as Timeline;
+      const timeline = new TimelineModel(
+        uuid(),
+        store.state.user.id,
+        "Timeline"
+      );
+
       await store.dispatch("addTimeline", timeline);
       store.dispatch("setSelectedTimeline", timeline);
     },

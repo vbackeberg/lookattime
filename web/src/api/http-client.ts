@@ -53,6 +53,10 @@ export default class HttpClient {
     const response = await axios.get(
       "http://localhost:7071/api/get-user?id=" + userId
     );
+    
+    if (!response.status.toString().startsWith("2")) {
+      throw new Error("Server did not respond with status 2xx.");
+    }
 
     return UserApiMapper.toModel(response.data);
   }

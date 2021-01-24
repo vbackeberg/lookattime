@@ -8,7 +8,6 @@ import { v4 as uuid } from "uuid";
 import ViewResetter from "@/timeline/viewport/view-resetter";
 import HttpClient from "@/api/http-client";
 import UserModel from "@/models/user-model";
-import UserApiMapper from "@/api/user/user-api-mapper";
 import TimelineModel from "@/models/timeline-model";
 
 Vue.use(Vuex);

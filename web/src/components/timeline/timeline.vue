@@ -166,7 +166,7 @@ export default Vue.extend({
 }
 
 #buffer-bottom-area {
-  flex: 4;
+  flex: 4; // TODO check if position relative is needed
 }
 
 #fab {

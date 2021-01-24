@@ -45,7 +45,20 @@ export default class HttpClient {
   }
 
   /**
-   * Calls API to delete a time event.
+   * Retrieves a user.
+   *
+   * @param userId
+   */
+  public static async getUser(userId: string): Promise<UserModel> {
+    const response = await axios.get(
+      "http://localhost:7071/api/get-user?id=" + userId
+    );
+
+    return UserApiMapper.toModel(response.data);
+  }
+
+  /**
+   * Calls API to delete a time event for given user.
    *
    * @param timeEventId
    * @param userId

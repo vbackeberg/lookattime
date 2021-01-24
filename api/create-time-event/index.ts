@@ -32,12 +32,13 @@ const httpTrigger: AzureFunction = async function (
   }
 };
 
-function validRequest(timeEventRequest: TimeEventRequest) {
-  if (!validUuid(timeEventRequest.id)) return false;
-  if (!validUuid(timeEventRequest.timelineId)) return false;
-  if (isNaN(timeEventRequest.dateValue)) return false;
-  if (isNaN(timeEventRequest.importanceValue)) return false;
-  return true;
+function validRequest(timeEventRequest: TimeEventRequest): boolean {
+  return (
+    validUuid(timeEventRequest.id) &&
+    validUuid(timeEventRequest.timelineId) &&
+    !isNaN(timeEventRequest.dateValue) &&
+    !isNaN(timeEventRequest.importanceValue)
+  );
 }
 
 export default httpTrigger;

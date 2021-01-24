@@ -32,7 +32,7 @@ const httpTrigger: AzureFunction = async function (
     }
   }
 };
-function validRequest(id: string, timelineId: string, userId: string) {
+function validRequest(id: string, timelineId: string, userId: string): boolean {
   return validUuid(id) && validUuid(timelineId) && validUuid(userId);
 }
 export default httpTrigger;

@@ -31,9 +31,8 @@ const httpTrigger: AzureFunction = async function (
   }
 };
 
-function validRequest(timelineRequest: TimelineRequest) {
-  if (!validUuid(timelineRequest.id)) return false;
-  if (!validUuid(timelineRequest.userId)) return false;
+function validRequest(timelineRequest: TimelineRequest): boolean {
+  return validUuid(timelineRequest.id) && validUuid(timelineRequest.userId);
 }
 
 export default httpTrigger;

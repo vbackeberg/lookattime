@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "mssql": "^6.3.1",
-    "tedious": "^9.2.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

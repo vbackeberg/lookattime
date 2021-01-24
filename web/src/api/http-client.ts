@@ -144,14 +144,14 @@ export default class HttpClient {
    *
    * @param userId
    */
-  public static async getTimelines(userId: string): Promise<TimelineRequest[]> {
+  public static async getTimelines(userId: string): Promise<TimelineModel[]> {
     const response = await axios.get(
       "http://localhost:7071/api/get-timelines?userId=" + userId
     );
 
-    const timelines = [] as TimelineRequest[];
+    const timelines = [] as TimelineModel[];
     for (let i = 0; i < response.data.length; i++) {
-      timelines.push(response.data[i]);
+      timelines.push(TimelineResponseMapper.map(response.data[i]));
     }
 
     return timelines;

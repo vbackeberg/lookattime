@@ -106,6 +106,8 @@ export default class HttpClient {
       "http://localhost:7071/api/get-time-events?timelineId=" + timelineId
     );
 
+    // TODO: Examine whether to catch 404 or work with empty array.
+
     response.data as TimeEventResponse[];
 
     const timeEvents = [] as TimeEventModel[];
@@ -163,6 +165,8 @@ export default class HttpClient {
     const response = await axios.get(
       "http://localhost:7071/api/get-timelines?userId=" + userId
     );
+
+    // TODO: Examine whether to catch 404 or work with empty array.
 
     const timelines = [] as TimelineModel[];
     for (let i = 0; i < response.data.length; i++) {

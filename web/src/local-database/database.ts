@@ -1,7 +1,6 @@
 import TimeEventRequestMapper from "@/api/time-event/time-event-request-mapper";
 import TimeEventResponse from "@/api/time-event/time-event-response";
 import TimeEventResponseMapper from "@/api/time-event/time-event-response-mapper";
-import TimelineRequest from "@/api/timeline/timeline-request";
 import UserApiModel from "@/api/user/user-api-model";
 import UserApiMapper from "@/api/user/user-api-mapper";
 import TimeEventModel from "@/models/time-event-model";

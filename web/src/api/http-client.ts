@@ -4,6 +4,7 @@ import axios from "axios";
 import TimeEventRequestMapper from "./time-event/time-event-request-mapper";
 import TimeEventResponse from "./time-event/time-event-response";
 import TimeEventResponseMapper from "./time-event/time-event-response-mapper";
+import Timeline from "./timeline/timeline";
 import UserApiMapper from "./user/user-api-mapper";
 
 export default class HttpClient {
@@ -97,5 +98,60 @@ export default class HttpClient {
     }
 
     return timeEvents;
+  }
+
+  /**
+   * Calls API to delete a timeline.
+   *
+   * @param timelineId
+   */
+  static async deleteTimeline(timelineId: string, userId: string) {
+    const response = await axios.delete(
+      "http://localhost:7071/api/delete-timeline?id=" +
+        timelineId +
+        "&userId=" +
+        userId
+    );
+
+    if (!response.status.toString().startsWith("2")) {
+      throw new Error("Server did not respond with status 2xx.");
+    }
+  }
+
+  /**
+   * Calls API to create a new timeline.
+   *
+   * @param timeline
+   */
+  public static async createTimeline(timeline: Timeline) {
+    const response = await axios.post(
+      "http://localhost:7071/api/create-timeline",
+      timeline
+    );
+
+    if (
+      !response.status.toString().startsWith("2") &&
+      !response.status.toString().startsWith("3")
+    ) {
+      throw new Error("Server responded with an error.");
+    }
+  }
+
+  /**
+   * Retrieves timelines for given user from API.
+   *
+   * @param userId
+   */
+  public static async getTimelines(userId: string): Promise<Timeline[]> {
+    const response = await axios.get(
+      "http://localhost:7071/api/get-timelines?userId=" + userId
+    );
+
+    const timelines = [] as Timeline[];
+    for (let i = 0; i < response.data.length; i++) {
+      timelines.push(response.data[i]);
+    }
+
+    return timelines;
   }
 }

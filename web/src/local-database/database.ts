@@ -10,6 +10,7 @@ import Dexie, { Table } from "dexie";
 import TimelineModel from "@/models/timeline-model";
 import TimelineResponse from "@/api/timeline/timeline-response";
 import TimelineResponseMapper from "@/api/timeline/timeline-response-mapper";
+import TimelineRequestMapper from "@/api/timeline/timeline-request-mapper";
 
 export default class Database extends Dexie {
   private users: Table;
@@ -76,7 +77,9 @@ export default class Database extends Dexie {
     return timeEvents;
   }
 
-  public async createTimeline(request: TimelineRequest) {
+  public async createTimeline(timeline: TimelineModel) {
+    const request = TimelineRequestMapper.map(timeline);
+
     this.timelines.add({
       id: request.id,
       userId: request.userId,
@@ -94,7 +97,7 @@ export default class Database extends Dexie {
     for (let i = 0; i < response.length; i++) {
       timelines.push(TimelineResponseMapper.map(response[i]));
     }
-    
+
     return timelines;
   }
 

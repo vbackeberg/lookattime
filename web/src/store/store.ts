@@ -207,7 +207,7 @@ export default new Vuex.Store({
       }
     },
 
-    async addTimeline({ commit }, timeline: Timeline) {
+    async addTimeline({ commit }, timeline: TimelineModel) {
       Database.Instance.createTimeline(timeline);
       commit("addTimeline", timeline);
     },

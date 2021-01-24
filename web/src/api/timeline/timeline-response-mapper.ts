@@ -3,6 +3,7 @@ import TimelineResponse from "./timeline-response";
 
 export default class TimelineResponseMapper {
   public static map(response: TimelineResponse): TimelineModel {
-    return new TimelineModel(response.id, "", response.title);
+    const userId = response.userId ? response.userId : "";
+    return new TimelineModel(response.id, userId, response.title);
   }
 }

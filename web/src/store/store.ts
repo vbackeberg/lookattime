@@ -227,10 +227,7 @@ export default new Vuex.Store({
         await database.createUser(new UserModel(uuid(), "User Name"));
       }
 
-      try {
-        await HttpClient.getUser(user.id);
-      } catch (e) {
-        console.log(e);
+      if (!await HttpClient.getUser(user.id)) {
         await HttpClient.createUser(user);
       }
 

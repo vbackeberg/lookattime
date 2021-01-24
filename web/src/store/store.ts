@@ -4,12 +4,12 @@ import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
 import Database from "@/local-database/database";
-import Timeline from "@/api/timeline/timeline";
 import { v4 as uuid } from "uuid";
 import ViewResetter from "@/timeline/viewport/view-resetter";
 import HttpClient from "@/api/http-client";
 import UserModel from "@/models/user-model";
 import UserApiMapper from "@/api/user/user-api-mapper";
+import TimelineModel from "@/models/timeline-model";
 
 Vue.use(Vuex);
 
@@ -31,8 +31,8 @@ export default new Vuex.Store({
     timeMarkers: [] as TimeMarkerModel[],
     timeMarkerDepth: 1,
 
-    selectedTimeline: {} as Timeline,
-    timelines: [] as Timeline[],
+    selectedTimeline: {} as TimelineModel,
+    timelines: [] as TimelineModel[],
 
     user: {} as UserModel
   },
@@ -146,15 +146,15 @@ export default new Vuex.Store({
       state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
     },
 
-    setSelectedTimeline(state, timeline: Timeline) {
+    setSelectedTimeline(state, timeline: TimelineModel) {
       state.selectedTimeline = timeline;
     },
 
-    setTimelines(state, timelines: Timeline[]) {
+    setTimelines(state, timelines: TimelineModel[]) {
       state.timelines = timelines;
     },
 
-    addTimeline(state, timeline: Timeline) {
+    addTimeline(state, timeline: TimelineModel) {
       state.timelines.push(timeline);
     },
 
@@ -187,7 +187,11 @@ export default new Vuex.Store({
     },
 
     async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {
-      Database.Instance.createTimeEvent(timeEvent, state.selectedTimeline.id, state.user.id);
+      Database.Instance.createTimeEvent(
+        timeEvent,
+        state.selectedTimeline.id,
+        state.user.id
+      );
       commit("addTimeEvent", timeEvent);
     },
 
@@ -203,7 +207,7 @@ export default new Vuex.Store({
           id: uuid(),
           userId: this.state.user.id,
           title: "My timeline"
-        } as Timeline);
+        } as TimelineModel);
       }
     },
 
@@ -212,7 +216,7 @@ export default new Vuex.Store({
       commit("addTimeline", timeline);
     },
 
-    async setSelectedTimeline({ commit, dispatch }, timeline: Timeline) {
+    async setSelectedTimeline({ commit, dispatch }, timeline: TimelineModel) {
       commit("setSelectedTimeline", timeline);
       dispatch("loadTimeEvents");
     },

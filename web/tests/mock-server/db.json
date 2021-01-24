@@ -1,24 +1,24 @@
 {
   "get-time-events": [
     {
-      "id": 1,
-      "timelineId": 1,
+      "id": "ff944d61-6afc-4354-b6b1-a113756e66f0",
+      "timelineId": "f743870b-b876-4bca-b798-c8ff01e9f994",
       "title": "event 1 timeline 1",
       "textValue": "text text text",
       "dateValue": 1500,
       "importanceValue": 10
     },
     {
-      "id": 2,
-      "timelineId": 1,
+      "id": "00ece43f-7301-4df8-9248-53a18d784d60",
+      "timelineId": "f743870b-b876-4bca-b798-c8ff01e9f994",
       "title": "event 2 timeline 1",
       "textValue": "text text text",
       "dateValue": 1510,
       "importanceValue": 11
     },
     {
-      "id": 3,
-      "timelineId": 1,
+      "id": "a14e48d4-b869-4a26-b80d-6b65fd5e68a4",
+      "timelineId": "f743870b-b876-4bca-b798-c8ff01e9f994",
       "title": "event 3 timeline 1",
       "textValue": "text text text",
       "dateValue": 1512,
@@ -26,6 +26,10 @@
     }
   ],
   "get-timelines": [
-    { "id": 1, "userId": "4d66d1b4-ff18-4f2d-883d-ab6f24cecb05", "title": "timeline 1 userId 1" }
-  ]
+    {
+      "id": "f743870b-b876-4bca-b798-c8ff01e9f994",
+      "userId": "4d66d1b4-ff18-4f2d-883d-ab6f24cecb05",
+      "title": "timeline 1 userId 1"
+    }
+  ],
 }

@@ -1,12 +1,15 @@
 import TimeEventRequestMapper from "@/api/time-event/time-event-request-mapper";
 import TimeEventResponse from "@/api/time-event/time-event-response";
 import TimeEventResponseMapper from "@/api/time-event/time-event-response-mapper";
-import Timeline from "@/api/timeline/timeline";
+import TimelineRequest from "@/api/timeline/timeline-request";
 import UserApiModel from "@/api/user/user-api-model";
 import UserApiMapper from "@/api/user/user-api-mapper";
 import TimeEventModel from "@/models/time-event-model";
 import UserModel from "@/models/user-model";
 import Dexie, { Table } from "dexie";
+import TimelineModel from "@/models/timeline-model";
+import TimelineResponse from "@/api/timeline/timeline-response";
+import TimelineResponseMapper from "@/api/timeline/timeline-response-mapper";
 
 export default class Database extends Dexie {
   private users: Table;
@@ -42,7 +45,11 @@ export default class Database extends Dexie {
     return this.users.add(UserApiMapper.toApi(user));
   }
 
-  public async createTimeEvent(timeEvent: TimeEventModel, timelineId: string, userId: string) {
+  public async createTimeEvent(
+    timeEvent: TimeEventModel,
+    timelineId: string,
+    userId: string
+  ) {
     const request = TimeEventRequestMapper.map(timeEvent, timelineId, userId);
 
     this.timeEvents.add({
@@ -69,7 +76,7 @@ export default class Database extends Dexie {
     return timeEvents;
   }
 
-  public async createTimeline(request: Timeline) {
+  public async createTimeline(request: TimelineRequest) {
     this.timelines.add({
       id: request.id,
       userId: request.userId,
@@ -77,11 +84,18 @@ export default class Database extends Dexie {
     });
   }
 
-  public async getTimelines(userId: string): Promise<Timeline[]> {
-    return (await this.timelines
+  public async getTimelines(userId: string): Promise<TimelineModel[]> {
+    const response = (await this.timelines
       .where("userId")
       .equals(userId)
-      .toArray()) as Timeline[];
+      .toArray()) as TimelineResponse[];
+
+    const timelines = [] as TimelineModel[];
+    for (let i = 0; i < response.length; i++) {
+      timelines.push(TimelineResponseMapper.map(response[i]));
+    }
+    
+    return timelines;
   }
 
   private static instance: Database;

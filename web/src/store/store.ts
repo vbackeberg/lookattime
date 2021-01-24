@@ -212,11 +212,10 @@ export default new Vuex.Store({
         commit("setTimelines", timelines);
         dispatch("setSelectedTimeline", timelines[0]);
       } else {
-        await dispatch("addTimeline", {
-          id: uuid(),
-          userId: this.state.user.id,
-          title: "My timeline"
-        } as TimelineModel);
+        await dispatch(
+          "addTimeline",
+          new TimelineModel(uuid(), this.state.user.id, "My timeline")
+        );
         dispatch("setSelectedTimeline", state.timelines[0]);
       }
     },

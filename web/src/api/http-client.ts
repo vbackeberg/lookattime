@@ -28,8 +28,7 @@ export default class HttpClient {
   /**
    * Calls API to create a new user.
    *
-   * @param userId
-   * @param name
+   * @param user
    */
   static async createUser(user: UserModel) {
     const response = await axios.post(
@@ -49,6 +48,7 @@ export default class HttpClient {
    * Calls API to delete a time event.
    *
    * @param timeEventId
+   * @param userId
    */
   static async deleteTimeEvent(timeEventId: string, userId: string) {
     const response = await axios.delete(
@@ -64,10 +64,11 @@ export default class HttpClient {
   }
 
   /**
-   * Calls API to create a new time event for given timeline.
+   * Calls API to create a new time event for given timeline and user.
    *
    * @param timeEvent
    * @param timelineId
+   * @param userId
    */
   public static createTimeEvent(
     timeEvent: TimeEventModel,
@@ -103,9 +104,10 @@ export default class HttpClient {
   }
 
   /**
-   * Calls API to delete a timeline.
+   * Calls API to delete a timeline for given user.
    *
    * @param timelineId
+   * @param userId
    */
   static async deleteTimeline(timelineId: string, userId: string) {
     const response = await axios.delete(

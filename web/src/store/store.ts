@@ -176,6 +176,11 @@ export default new Vuex.Store({
       commit("unshiftTimeMarkers", timeMarkers);
     },
 
+    async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {
+      HttpClient.createTimeEvent(timeEvent, state.selectedTimeline.id, state.user.id)
+      commit("addTimeEvent", timeEvent);
+    },
+
     async loadTimeEvents({ commit, state }) {
       const timeEvents = await HttpClient.getTimeEvents(
         state.selectedTimeline.id
@@ -186,9 +191,14 @@ export default new Vuex.Store({
       ViewResetter.Instance.initiate();
     },
 
-    async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {
-      HttpClient.createTimeEvent(timeEvent, state.selectedTimeline.id, state.user.id)
-      commit("addTimeEvent", timeEvent);
+    async setSelectedTimeline({ commit, dispatch }, timeline: TimelineModel) {
+      commit("setSelectedTimeline", timeline);
+      dispatch("loadTimeEvents");
+    },
+
+    async addTimeline({ commit }, timeline: TimelineModel) {
+      HttpClient.createTimeline(timeline);
+      commit("addTimeline", timeline);
     },
 
     async loadTimelines({ commit, dispatch, state }) {
@@ -204,16 +214,6 @@ export default new Vuex.Store({
           title: "My timeline"
         } as TimelineModel);
       }
-    },
-
-    async addTimeline({ commit }, timeline: TimelineModel) {
-      HttpClient.createTimeline(timeline);
-      commit("addTimeline", timeline);
-    },
-
-    async setSelectedTimeline({ commit, dispatch }, timeline: TimelineModel) {
-      commit("setSelectedTimeline", timeline);
-      dispatch("loadTimeEvents");
     },
 
     async setUser({ commit, dispatch }, user) {

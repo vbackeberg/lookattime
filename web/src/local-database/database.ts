@@ -30,7 +30,7 @@ export default class Database extends Dexie {
     this.timeEvents = this.table("timeEvents");
   }
 
-  public async getUser(): Promise<UserApiModel> {
+  public async getUser(): Promise<UserApiModel> { // return domain model
     return ((await this.users.toArray()) as UserApiModel[])[0];
   }
 

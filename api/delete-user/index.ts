@@ -7,9 +7,9 @@ const httpTrigger: AzureFunction = async function (
   req: HttpRequest
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
-  
+
   const id = req.query.id;
-  
+
   if (!validUuid(id)) {
     context.res = {
       status: 400,
@@ -20,9 +20,7 @@ const httpTrigger: AzureFunction = async function (
         `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
       );
 
-      const result = await sql.query(
-        `delete from users where id = '${id}';`
-      );
+      const result = await sql.query(`delete from users where id = '${id}';`);
 
       console.log(result);
     } catch (e) {

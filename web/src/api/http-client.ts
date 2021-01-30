@@ -2,6 +2,7 @@ import TimeEventModel from "@/models/time-event-model";
 import TimelineModel from "@/models/timeline-model";
 import UserModel from "@/models/user-model";
 import axios from "axios";
+import ImageRequestMapper from "./image/image-request-mapper";
 import TimeEventRequestMapper from "./time-event/time-event-request-mapper";
 import TimeEventResponse from "./time-event/time-event-response";
 import TimeEventResponseMapper from "./time-event/time-event-response-mapper";
@@ -187,5 +188,26 @@ export default class HttpClient {
     );
 
     return TimelineResponseMapper.map(response.data);
+  }
+
+  /**
+   * Calls API to store an image.
+   *
+   * @param image
+   */
+  public static async storeImage(image: File): Promise<string> {
+    const response = await axios.post(
+      "http://localhost:7071/api/store-image",
+      ImageRequestMapper.map(image)
+    );
+
+    if (
+      !response.status.toString().startsWith("2") &&
+      !response.status.toString().startsWith("3")
+    ) {
+      throw new Error("Server responded with an error.");
+    }
+
+    return "response.id";
   }
 }

@@ -11,7 +11,9 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.4.0",
     "mssql": "^6.3.1",
+    "parse-multipart": "^1.0.4",
     "uuid": "^8.3.2",
     "validate-image-type": "^1.1.1"
   },

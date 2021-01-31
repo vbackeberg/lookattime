@@ -29,7 +29,7 @@
             </v-col>
             <v-col cols="12" sm="6" align-self="center">
               <v-file-input
-                accept="image/*"
+                accept="image/jpeg, image/gif, image/png, image/svg+xml"
                 outlined
                 small-chips
                 multiple

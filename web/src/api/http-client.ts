@@ -214,4 +214,21 @@ export default class HttpClient {
     return TimelineResponseMapper.map(response.data);
   }
 
+  /**
+   * Calls API to update a time event for given timeline and user.
+   *
+   * @param timeEvent
+   * @param timelineId
+   * @param userId
+   */
+  public static updateTimeEvent(
+    timeEvent: TimeEventModel,
+    timelineId: string,
+    userId: string
+  ) {
+    axios.post(
+      "http://localhost:7071/api/update-time-event",
+      TimeEventRequestMapper.map(timeEvent, timelineId, userId)
+    );
+  }
 }

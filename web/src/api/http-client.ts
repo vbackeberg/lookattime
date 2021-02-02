@@ -46,6 +46,27 @@ export default class HttpClient {
   }
 
   /**
+   * Calls API to store an image.
+   *
+   * @param image
+   */
+  public static async storeImage(image: File, timeEventId: string): Promise<string> {
+    const response = await axios.post(
+      "http://localhost:7071/api/store-image?timeEventId=" + timeEventId,
+      ImageRequestMapper.map(image)
+    );
+
+    if (
+      !response.status.toString().startsWith("2") &&
+      !response.status.toString().startsWith("3")
+    ) {
+      throw new Error("Server responded with an error.");
+    }
+
+    return "response.id";
+  }
+
+  /**
    * Retrieves a user.
    *
    * @param userId
@@ -190,24 +211,4 @@ export default class HttpClient {
     return TimelineResponseMapper.map(response.data);
   }
 
-  /**
-   * Calls API to store an image.
-   *
-   * @param image
-   */
-  public static async storeImage(image: File): Promise<string> {
-    const response = await axios.post(
-      "http://localhost:7071/api/store-image",
-      ImageRequestMapper.map(image)
-    );
-
-    if (
-      !response.status.toString().startsWith("2") &&
-      !response.status.toString().startsWith("3")
-    ) {
-      throw new Error("Server responded with an error.");
-    }
-
-    return "response.id";
-  }
 }

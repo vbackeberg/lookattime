@@ -50,7 +50,10 @@ export default class HttpClient {
    *
    * @param image
    */
-  public static async storeImage(image: File, timeEventId: string): Promise<string> {
+  public static async storeImage(
+    image: File,
+    timeEventId: string
+  ): Promise<string> {
     const response = await axios.post(
       "http://localhost:7071/api/store-image?timeEventId=" + timeEventId,
       ImageRequestMapper.map(image)

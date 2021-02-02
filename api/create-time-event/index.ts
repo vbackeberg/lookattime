@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validate as validUuid } from "uuid";
-import TimeEventRequest from "./time-event-request";
+import TimeEventRequest from "../shared/time-event-request";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (

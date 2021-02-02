@@ -145,6 +145,11 @@ export default new Vuex.Store({
       state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
     },
 
+    updateTimeEvent(state, timeEvent: TimeEventModel) {
+      const index = state.timeEvents.findIndex(timeEvent => timeEvent.id);
+      state.timeEvents[index] = timeEvent;
+    },
+
     setSelectedTimeline(state, timeline: TimelineModel) {
       state.selectedTimeline = timeline;
     },
@@ -173,6 +178,15 @@ export default new Vuex.Store({
 
     async unshiftTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
       commit("unshiftTimeMarkers", timeMarkers);
+    },
+
+    async updateTimeEvent({ commit, state }, timeEvent: TimeEventModel) {
+      HttpClient.updateTimeEvent(
+        timeEvent,
+        state.selectedTimeline.id,
+        state.user.id
+      );
+      commit("updateTimeEvent", timeEvent);
     },
 
     async addTimeEvent({ commit, state }, timeEvent: TimeEventModel) {

@@ -7,7 +7,7 @@ export default class TimeEventModel {
   text: string;
   date: number;
   importance: number;
-  imageIds: number[];
+  imageIds: string[];
 
   title: string;
   show = false;
@@ -18,7 +18,7 @@ export default class TimeEventModel {
     text: string,
     date: number,
     importance: number,
-    imageIds: number[],
+    imageIds: string[],
     title: string
   ) {
     this.positionCenter = positionCenter;

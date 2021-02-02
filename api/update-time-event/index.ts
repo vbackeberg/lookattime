@@ -22,7 +22,7 @@ const httpTrigger: AzureFunction = async function (
       );
 
       const result = await sql.query(
-        `update timeEvents set id = '${timeEventRequest.id}', timelineId = '${timeEventRequest.timelineId}', title = '${timeEventRequest.title}', textValue = '${timeEventRequest.textValue}', dateValue = ${timeEventRequest.dateValue}, importanceValue = ${timeEventRequest.importanceValue};`
+        `update timeEvents set timelineId = '${timeEventRequest.timelineId}', title = '${timeEventRequest.title}', textValue = '${timeEventRequest.textValue}', dateValue = ${timeEventRequest.dateValue}, importanceValue = ${timeEventRequest.importanceValue} where id = '${timeEventRequest.id}';`
       );
 
       console.log(result);

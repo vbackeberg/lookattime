@@ -75,8 +75,7 @@ export default Vue.extend({
       text: "",
       title: "",
       importance: 100,
-      imageids: [1, 6] as number[],
-      images: [] as File[] //TODO remove when implementing image upload
+      images: [] as File[]
     };
   },
 

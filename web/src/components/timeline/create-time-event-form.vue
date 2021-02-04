@@ -75,6 +75,7 @@ export default Vue.extend({
       text: "",
       title: "",
       importance: 100,
+      imageids: [] as string[],
       images: [] as File[]
     };
   },

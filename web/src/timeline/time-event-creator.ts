@@ -17,15 +17,16 @@ export default class TimeEventCreator {
   }
 
   public async addTimeEvent(
+    id: string,
     text: string,
     date: number,
     importance: number,
-    imageIds: number[],
+    imageIds: string[],
     title: string
-  ) {
+  ): Promise<TimeEventModel> {
     const timeEvent = new TimeEventModel(
       PositionTranslator.toAbsolutePosition(date),
-      uuid(),
+      id,
       text,
       date,
       importance,
@@ -38,6 +39,8 @@ export default class TimeEventCreator {
     await Vue.nextTick();
 
     this.focusView(timeEvent);
+
+    return timeEvent;
   }
 
   private focusView(timeEvent: TimeEventModel) {

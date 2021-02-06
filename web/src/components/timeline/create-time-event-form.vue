@@ -96,8 +96,11 @@ export default Vue.extend({
   },
 
   methods: {
-    create() {
-      TimeEventCreator.Instance.addTimeEvent(
+    async create() {
+      const id = uuid();
+
+      const timeEvent = await TimeEventCreator.Instance.addTimeEvent(
+        id,
         this.text,
         this.date,
         this.importance,

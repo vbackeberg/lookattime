@@ -20,7 +20,7 @@ const httpTrigger: AzureFunction = async function (
       await sql.connect(
         `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
       );
-
+// TODO check correct user
       const result = await sql.query(
         `insert into timeEvents values ('${timeEventRequest.id}', '${timeEventRequest.timelineId}', '${timeEventRequest.title}', '${timeEventRequest.textValue}', ${timeEventRequest.dateValue}, ${timeEventRequest.importanceValue});`
       );

@@ -10,11 +10,9 @@ import { v4 as uuid } from "uuid";
  * Adds time new markers.
  */
 export default class TimeEventCreator {
-  private timelineElement: HTMLElement;
   private viewFocuser: ViewFocuser;
 
   private constructor() {
-    this.timelineElement = document.getElementById("timeline") as HTMLElement;
     this.viewFocuser = ViewFocuser.Instance;
   }
 

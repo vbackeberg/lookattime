@@ -23,12 +23,17 @@ const httpTrigger: AzureFunction = async function (
       const result = await sql.query(
         `select id, title from timelines where id = '${id}';`
       );
-
-      context.res = {
-        body: result.recordset,
-      };
-
       console.log(result);
+
+      if (!result.recordset[0]) {
+        context.res = {
+          status: 404,
+        };
+      } else {
+        context.res = {
+          body: result.recordset[0],
+        };
+      }
     } catch (e) {
       console.log(e);
     }

@@ -9,11 +9,7 @@ export default class UserLocalStorage {
   }
 
   public getUserId(): string {
-    if (this.hasUserId()) {
-      return window.localStorage.getItem("userId") as string;
-    } else {
-      throw new Error("No user id in local storage.");
-    }
+    return window.localStorage.getItem("userId") as string;
   }
 
   private hasUserId(): boolean {

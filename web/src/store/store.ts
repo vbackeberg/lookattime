@@ -3,12 +3,12 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
-import Database from "@/local-database/database";
 import { v4 as uuid } from "uuid";
 import ViewResetter from "@/timeline/viewport/view-resetter";
 import HttpClient from "@/api/http-client";
 import UserModel from "@/models/user-model";
 import TimelineModel from "@/models/timeline-model";
+import UserLocalStorage from "@/user/user-local-storage";
 
 Vue.use(Vuex);
 
@@ -234,19 +234,19 @@ export default new Vuex.Store({
     },
 
     async loadUser({ commit, dispatch }) {
-      const database = Database.Instance;
+      try {
+        const userId = UserLocalStorage.Instance.getUserId();
+        let user = await HttpClient.getUser(userId);
+        if (!user) {
+          user = { id: userId, name: "Time traveler" } as UserModel;
+          await HttpClient.createUser(user);
+        }
 
-      let user = await database.getUser();
-      if (!user) {
-        await database.createUser(new UserModel(uuid(), "User Name"));
+        commit("setUser", user);
+        dispatch("loadTimelines");
+      } catch (e) {
+        console.error(e);
       }
-
-      if (!(await HttpClient.getUser(user.id))) {
-        await HttpClient.createUser(user);
-      }
-
-      commit("setUser", user);
-      dispatch("loadTimelines");
     }
   },
 

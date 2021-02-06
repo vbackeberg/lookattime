@@ -20,9 +20,9 @@ const httpTrigger: AzureFunction = async function (
       await sql.connect(
         `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
       );
-// TODO check correct user
+      
       const result = await sql.query(
-        `insert into timeEvents values ('${timeEventRequest.id}', '${timeEventRequest.timelineId}', '${timeEventRequest.title}', '${timeEventRequest.textValue}', ${timeEventRequest.dateValue}, ${timeEventRequest.importanceValue});`
+        `if exists ( select * from timelines where id = '${timeEventRequest.timelineId}' and userId = '${timeEventRequest.userId}') insert into timeEvents values ('${timeEventRequest.id}', '${timeEventRequest.timelineId}', '${timeEventRequest.title}', '${timeEventRequest.textValue}', ${timeEventRequest.dateValue}, ${timeEventRequest.importanceValue});`
       );
 
       console.log(result);
@@ -36,6 +36,7 @@ function validRequest(timeEventRequest: TimeEventRequest): boolean {
   return (
     validUuid(timeEventRequest.id) &&
     validUuid(timeEventRequest.timelineId) &&
+    validUuid(timeEventRequest.userId) &&
     !isNaN(timeEventRequest.dateValue) &&
     !isNaN(timeEventRequest.importanceValue)
   );

@@ -234,19 +234,18 @@ export default new Vuex.Store({
     },
 
     async loadUser({ commit, dispatch }) {
-      try {
-        const userId = UserLocalStorage.Instance.getUserId();
-        let user = await HttpClient.getUser(userId);
-        if (!user) {
-          user = { id: userId, name: "Time traveler" } as UserModel;
-          await HttpClient.createUser(user);
-        }
+      const userId = UserLocalStorage.Instance.getUserId();
 
-        commit("setUser", user);
-        dispatch("loadTimelines");
+      let user: UserModel;
+      try {
+        user = await HttpClient.getUser(userId);
       } catch (e) {
-        console.error(e);
+        user = { id: userId, name: "Time traveler" } as UserModel;
+        await HttpClient.createUser(user);
       }
+
+      commit("setUser", user);
+      dispatch("loadTimelines");
     }
   },
 

@@ -131,8 +131,6 @@ export default class HttpClient {
       "http://localhost:7071/api/get-time-events?timelineId=" + timelineId
     );
 
-    // TODO: Examine whether to catch 404 or work with empty array.
-
     response.data as TimeEventResponse[];
 
     const timeEvents = [] as TimeEventModel[];

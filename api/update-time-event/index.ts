@@ -22,7 +22,7 @@ const httpTrigger: AzureFunction = async function (
       );
 
       const result = await sql.query(
-        `update timeEvents set timelineId = '${timeEventRequest.timelineId}', title = '${timeEventRequest.title}', textValue = '${timeEventRequest.textValue}', dateValue = ${timeEventRequest.dateValue}, importanceValue = ${timeEventRequest.importanceValue} where id = '${timeEventRequest.id}';`
+      `if exists ( select * from timelines where id = '${timeEventRequest.timelineId}' and userId = '${timeEventRequest.userId}') update timeEvents set title = '${timeEventRequest.title}', textValue = '${timeEventRequest.textValue}', dateValue = ${timeEventRequest.dateValue}, importanceValue = ${timeEventRequest.importanceValue} where id = '${timeEventRequest.id}' and timelineId = '${timeEventRequest.timelineId}';`
       );
 
       console.log(result);
@@ -36,6 +36,7 @@ function validRequest(timeEventRequest: TimeEventRequest): boolean {
   return (
     validUuid(timeEventRequest.id) &&
     validUuid(timeEventRequest.timelineId) &&
+    validUuid(timeEventRequest.userId) &&
     !isNaN(timeEventRequest.dateValue) &&
     !isNaN(timeEventRequest.importanceValue)
   );

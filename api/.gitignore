@@ -1,3 +1,7 @@
+# SQL test queries
+tests/sql
+
+
 # Logs
 logs
 *.log

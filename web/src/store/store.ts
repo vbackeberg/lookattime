@@ -227,7 +227,7 @@ export default new Vuex.Store({
       } else {
         await dispatch(
           "addTimeline",
-          new TimelineModel(uuid(), this.state.user.id, "My timeline")
+          new TimelineModel(uuid(), state.user.id, "My timeline")
         );
         dispatch("setSelectedTimeline", state.timelines[0]);
       }

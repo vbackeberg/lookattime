@@ -2,8 +2,7 @@ import { v4 as uuid, validate as validUuid } from "uuid";
 
 export default class UserLocalStorage {
   private constructor() {
-    if (this.hasUserId()) {
-    } else {
+    if (!this.hasUserId()) {
       this.createUserId();
     }
   }

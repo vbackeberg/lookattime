@@ -65,6 +65,9 @@
 <script lang="ts">
 import Vue from "vue";
 import TimeEventCreator from "@/timeline/time-event-creator";
+import HttpClient from "@/api/http-client";
+import { v4 as uuid } from "uuid";
+import store from "@/store/store";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -72,10 +75,9 @@ export default Vue.extend({
   data() {
     return {
       date: 1516,
-      text: "",
-      title: "",
+      text: "Test text",
+      title: "test title",
       importance: 100,
-      imageids: [] as string[],
       images: [] as File[]
     };
   },
@@ -97,16 +99,42 @@ export default Vue.extend({
 
   methods: {
     async create() {
-      const id = uuid();
+      const timeEventId = uuid();
 
       const timeEvent = await TimeEventCreator.Instance.addTimeEvent(
-        id,
+        timeEventId,
         this.text,
         this.date,
         this.importance,
-        this.imageids,
+        [],
         this.title
       );
+
+      const imageIds: string[] = [];
+      const storeImageTasks: Promise<void>[] = [];
+
+      this.images.forEach(async image => {
+        const imageId = uuid();
+
+        imageIds.push(imageId);
+
+        storeImageTasks.push(
+          HttpClient.storeImage(
+            image,
+            imageId,
+            timeEventId,
+            store.state.selectedTimeline.id,
+            store.state.user.id
+          )
+        );
+      });
+
+      await Promise.all(storeImageTasks);
+
+      timeEvent.imageIds = imageIds;
+
+      store.dispatch("updateTimeEvent", timeEvent);
+
       this.show = false;
     },
 

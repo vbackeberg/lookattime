@@ -59,7 +59,7 @@ function validImage(imageData: Buffer): boolean {
     console.warn(result.error);
   }
 
-  return result.ok;
+  return result.ok && imageData.length < 10000000;
 }
 
 function validQueryParameters(query: any): boolean {

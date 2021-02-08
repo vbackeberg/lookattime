@@ -19,7 +19,8 @@
         dot: hide
       }"
     >
-      <transition> <!-- TODO check if still needed, as no enter leave animation exists. -->
+      <!-- TODO check if still needed, as no enter leave animation exists. -->
+      <transition>
         <v-card v-if="!hide" class="card">
           <v-img
             src="@/assets/testimg.jpg"

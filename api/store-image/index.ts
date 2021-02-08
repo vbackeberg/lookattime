@@ -32,7 +32,7 @@ const httpTrigger: AzureFunction = async function (
       );
       const storeImageTask = storeImage(imageId, imageData);
 
-      await storeImageIdTask;
+      await storeImageIdTask; // If blob upload fails, revert imageId query.
       const response = await storeImageTask;
 
       context.res = {

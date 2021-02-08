@@ -49,24 +49,29 @@ export default class HttpClient {
    * Calls API to store an image.
    *
    * @param image
+   * @param imageId
+   * @param timeEventId
+   * @param timelineId
+   * @param userId
    */
   public static async storeImage(
     image: File,
-    timeEventId: string
-  ): Promise<string> {
+    imageId: string,
+    timeEventId: string,
+    timelineId: string,
+    userId: string
+  ): Promise<void> {
     const response = await axios.post(
-      "http://localhost:7071/api/store-image?timeEventId=" + timeEventId,
+      "http://localhost:7071/api/store-image?imageId=" +
+        imageId +
+        "&timeEventId=" +
+        timeEventId +
+        "&timelineId=" +
+        timelineId +
+        "&userId=" +
+        userId,
       ImageRequestMapper.map(image)
     );
-
-    if (
-      !response.status.toString().startsWith("2") &&
-      !response.status.toString().startsWith("3")
-    ) {
-      throw new Error("Server responded with an error.");
-    }
-
-    return "response.id";
   }
 
   /**

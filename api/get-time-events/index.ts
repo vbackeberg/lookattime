@@ -1,5 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validate as validUuid } from "uuid";
+import ImageDto from "./image-dto";
+import TimeEventResponse from "./time-event-response";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -20,15 +22,31 @@ const httpTrigger: AzureFunction = async function (
         `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
       );
 
-      const result = await sql.query(
+      const timeEventsResult = await sql.query(
         `select * from timeEvents where timelineId = '${timelineId}';`
       );
 
+      const imagesResult = await sql.query(
+        `select * from images where timeEventId in (select id from timeEvents where timelineId = '${timelineId}');`
+      );
+
+      const images = imagesResult.recordset as ImageDto[];
+
+      const timeEvents = (timeEventsResult.recordset as TimeEventResponse[]).map(
+        (timeEvent) => {
+          timeEvent.imageIds = images
+            .filter((image) => image.timeEventId === timeEvent.id)
+            .map((image) => image.id);
+
+          return timeEvent;
+        }
+      );
+
       context.res = {
-        body: result.recordset,
+        body: timeEvents,
       };
 
-      console.log(result);
+      console.log(timeEvents);
     } catch (e) {
       console.log(e);
     }

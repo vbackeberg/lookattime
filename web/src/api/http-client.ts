@@ -61,7 +61,7 @@ export default class HttpClient {
     timelineId: string,
     userId: string
   ): Promise<void> {
-    const response = await axios.post(
+    await axios.post(
       "http://localhost:7071/api/store-image?imageId=" +
         imageId +
         "&timeEventId=" +

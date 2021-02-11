@@ -1,8 +1,10 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validateBufferMIMEType } from "validate-image-type";
 import { BlockBlobClient } from "@azure/storage-blob";
-import { validate as validUuid, v4 as uuid } from "uuid";
+import { validate as validUuid } from "uuid";
 import * as multipart from "parse-multipart";
+import { getExtension } from "mime";
+import ImageRequest from "./image-request";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -11,9 +13,9 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
 
-  const imageData = getImageData(req);
+  const image = getImageData(req) as ImageRequest;
 
-  if (!validQueryParameters(req.query) || !validImage(imageData)) {
+  if (!validQueryParameters(req.query) || !(await validImage(image.data))) {
     context.res = {
       status: 400,
     };
@@ -30,9 +32,12 @@ const httpTrigger: AzureFunction = async function (
         timelineId,
         userId
       );
-      const storeImageTask = storeImage(imageId, imageData);
+      const storeImageTask = storeImage(
+        imageId + "." + getExtension(image.type),
+        image.data
+      );
 
-      await storeImageIdTask; // If blob upload fails, revert imageId query.
+      await storeImageIdTask; // TODO If blob upload fails, revert imageId query.
       const response = await storeImageTask;
 
       context.res = {
@@ -44,13 +49,13 @@ const httpTrigger: AzureFunction = async function (
   }
 };
 
-function getImageData(req: HttpRequest): Buffer {
+function getImageData(req: HttpRequest) {
   return multipart.Parse(
     Buffer.from(req.body),
     multipart.getBoundary(req.headers["content-type"])
-  )[0].data;
+  )[0];
 }
-function validImage(imageData: Buffer): boolean {
+async function validImage(imageData: Buffer): Promise<boolean> {
   const result = validateBufferMIMEType(imageData, {
     allowMimeTypes: ["image/jpeg", "image/gif", "image/png", "image/svg+xml"],
   });
@@ -86,14 +91,14 @@ async function storeImageId(
   );
 }
 
-async function storeImage(imageId: string, imageData: Buffer) {
+async function storeImage(blobName: string, imageData: Buffer) {
   const blockBlobClient = new BlockBlobClient(
     process.env.AzureWebJobsStorageLookattime,
     process.env.AzureWebJobsStorageLookattime_ContainerName,
-    imageId
+    blobName
   );
 
-  return await blockBlobClient.upload(imageData, imageData.length);
+  return await blockBlobClient.upload(imageData, imageData.byteLength);
 }
 
 export default httpTrigger;

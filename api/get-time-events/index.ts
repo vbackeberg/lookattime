@@ -34,9 +34,14 @@ const httpTrigger: AzureFunction = async function (
 
       const timeEvents = (timeEventsResult.recordset as TimeEventResponse[]).map(
         (timeEvent) => {
-          timeEvent.imageIds = images
+          timeEvent.imageReferences = images
             .filter((image) => image.timeEventId === timeEvent.id)
-            .map((image) => image.id);
+            .map((image) => {
+              return {
+                id: image.id,
+                extension: image.extension,
+              };
+            });
 
           return timeEvent;
         }

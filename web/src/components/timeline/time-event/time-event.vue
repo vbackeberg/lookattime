@@ -47,6 +47,7 @@
 </template>
 
 <script lang="ts">
+import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 import Vue from "vue";
@@ -64,7 +65,7 @@ export default Vue.extend({
     id: String,
     text: String,
     importance: Number,
-    imageIds: Array,
+    imageReferences: Array,
     title: String
   },
 

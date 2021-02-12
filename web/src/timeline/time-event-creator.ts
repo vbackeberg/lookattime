@@ -4,6 +4,7 @@ import Vue from "vue";
 import ViewFocuser from "./viewport/view-focuser";
 import PositionTranslator from "./position-translator";
 import { v4 as uuid } from "uuid";
+import ImageReferenceModel from "@/models/image-reference-model";
 
 /**
  * Adds timeEvent to store. Handles possible space extension. Scrolls to new timeEvent.
@@ -21,7 +22,7 @@ export default class TimeEventCreator {
     text: string,
     date: number,
     importance: number,
-    imageIds: string[],
+    imageReferences: ImageReferenceModel[],
     title: string
   ): Promise<TimeEventModel> {
     const timeEvent = new TimeEventModel(
@@ -30,7 +31,7 @@ export default class TimeEventCreator {
       text,
       date,
       importance,
-      imageIds,
+      imageReferences,
       title
     );
 

@@ -68,6 +68,8 @@ import TimeEventCreator from "@/timeline/time-event-creator";
 import HttpClient from "@/api/http-client";
 import { v4 as uuid } from "uuid";
 import store from "@/store/store";
+import ImageReferenceModel from "@/models/image-reference-model";
+import { getExtension } from "mime";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -110,13 +112,11 @@ export default Vue.extend({
         this.title
       );
 
-      const imageIds: string[] = [];
+      const imageReferences: ImageReferenceModel[] = [];
       const storeImageTasks: Promise<void>[] = [];
 
       this.images.forEach(async image => {
         const imageId = uuid();
-
-        imageIds.push(imageId);
 
         storeImageTasks.push(
           HttpClient.storeImage(
@@ -127,11 +127,15 @@ export default Vue.extend({
             store.state.user.id
           )
         );
+
+        imageReferences.push(
+          new ImageReferenceModel(imageId, getExtension(image.type) as string)
+        );
       });
 
       await Promise.all(storeImageTasks);
 
-      timeEvent.imageIds = imageIds;
+      timeEvent.imageReferences = imageReferences;
 
       store.dispatch("updateTimeEvent", timeEvent);
 

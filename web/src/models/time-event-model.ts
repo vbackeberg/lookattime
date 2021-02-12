@@ -1,3 +1,5 @@
+import ImageReferenceModel from "./image-reference-model";
+
 export default class TimeEventModel {
   static expandedWidth = 300;
   static expandedWidthOffset = TimeEventModel.expandedWidth / 2;
@@ -7,7 +9,7 @@ export default class TimeEventModel {
   text: string;
   date: number;
   importance: number;
-  imageIds: string[];
+  imageReferences: ImageReferenceModel[];
 
   title: string;
   show = false;
@@ -18,7 +20,7 @@ export default class TimeEventModel {
     text: string,
     date: number,
     importance: number,
-    imageIds: string[],
+    imageReferences: ImageReferenceModel[],
     title: string
   ) {
     this.positionCenter = positionCenter;
@@ -26,7 +28,7 @@ export default class TimeEventModel {
     this.text = text;
     this.date = date;
     this.importance = importance;
-    this.imageIds = imageIds;
+    this.imageReferences = imageReferences;
     this.title = title;
   }
 }

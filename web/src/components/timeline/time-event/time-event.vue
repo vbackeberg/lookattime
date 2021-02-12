@@ -23,7 +23,7 @@
       <transition>
         <v-card v-if="!hide" class="card">
           <v-img
-            src="@/assets/testimg.jpg"
+            v-bind:src="imageSource"
             class="card-image white--text align-end"
             alt="time event image"
           >
@@ -91,6 +91,17 @@ export default Vue.extend({
       return store.state.timeEvents.findIndex(
         timeEvent => timeEvent.id === this.id
       );
+    },
+
+    imageSource(): string {
+      if (this.imageReferences.length < 1) {
+        return "";
+      }
+
+      const imageReference = this.imageReferences[0] as ImageReferenceModel;
+      const baseUrl = "https://lookattime2.blob.core.windows.net/lookattime2/";
+
+      return baseUrl + imageReference.id + "." + imageReference.extension;
     },
 
     collapse(): boolean {

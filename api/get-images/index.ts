@@ -1,25 +1,55 @@
-import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { AzureFunction, Context, HttpRequest } from "@azure/functions";
+import { validate as validUuid } from "uuid";
+import { BlockBlobClient } from "@azure/storage-blob";
+const sql = require("mssql");
 
-const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-    context.log('HTTP trigger function processed a request.');
-    
-    
-    context.log('Node.js Queue trigger function processed', context.bindings.myQueueItem);
-    context.bindings.myOutputBlob = context.bindings.myInputBlob;
-    context.done();
-    
-    
-    
-    const name = (req.query.name || (req.body && req.body.name));
-    const responseMessage = name
-        ? "Hello, " + name + ". This HTTP triggered function executed successfully."
-        : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+const httpTrigger: AzureFunction = async function (
+  context: Context,
+  req: HttpRequest
+): Promise<void> {
+  context.log("HTTP trigger function processed a request.");
 
+  const timeEventId = req.query.timeEventId;
+
+  if (!validUuid(timeEventId)) {
     context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: responseMessage
+      status: 400,
     };
+  } else {
+    try {
+      await sql.connect(
+        `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
+      );
 
+      const result = await sql.query(
+        `select id from images where timeEventId = '${timeEventId}';`
+      );
+
+      const imageIds = (result.recordset as any[]).map((o) => {
+        return o.id;
+      });
+
+      const downloadTasks = [] as Promise<Buffer>[];
+
+      for (let i = 0; i < imageIds.length; i++) {
+        downloadTasks[i] = new BlockBlobClient(
+          process.env.AzureWebJobsStorageLookattime,
+          process.env.AzureWebJobsStorageLookattime_ContainerName,
+          imageIds[i]
+        ).downloadToBuffer();
+        console.log("downloading " + imageIds[i]);
+      }
+
+      const downloads = await Promise.all(downloadTasks);
+      console.log("download finished");
+
+      context.res = {
+        body: downloads,
+      };
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 };
 
 export default httpTrigger;

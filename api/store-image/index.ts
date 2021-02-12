@@ -24,16 +24,19 @@ const httpTrigger: AzureFunction = async function (
     const timeEventId = req.query.timeEventId;
     const timelineId = req.query.timelineId;
     const userId = req.query.userId;
+    const imageExtension = getExtension(image.type);
 
     try {
       const storeImageIdTask = storeImageId(
         imageId,
+        imageExtension,
         timeEventId,
         timelineId,
         userId
       );
+
       const storeImageTask = storeImage(
-        imageId + "." + getExtension(image.type),
+        imageId + "." + imageExtension,
         image.data
       );
 
@@ -78,6 +81,7 @@ function validQueryParameters(query: any): boolean {
 
 async function storeImageId(
   imageId: string,
+  imageExtension: string,
   timeEventId: string,
   timelineId: string,
   userId: string
@@ -87,7 +91,7 @@ async function storeImageId(
   );
 
   return await sql.query(
-    `if exists ( select * from timeEvents where id = '${timeEventId}' and timelineId in (select id from timelines where id = '${timelineId}' and userId = '${userId}')) insert into images values ('${imageId}', '${timeEventId}');`
+    `if exists ( select * from timeEvents where id = '${timeEventId}' and timelineId in (select id from timelines where id = '${timelineId}' and userId = '${userId}')) insert into images values ('${imageId}', '${timeEventId}', '${imageExtension}');`
   );
 }
 

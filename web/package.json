@@ -14,7 +14,6 @@
     "core-js": "^3.8.3",
     "dexie": "^3.0.3",
     "mime": "^2.5.0",
-    "@types/mime": "^2.0.3",
     "uuid": "^8.3.2",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.6",
@@ -25,6 +24,7 @@
     "vuex": "^3.6.0"
   },
   "devDependencies": {
+    "@types/mime": "^2.0.3",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^5.2.4",
     "@types/uuid": "^8.3.0",

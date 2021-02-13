@@ -240,6 +240,7 @@ export default new Vuex.Store({
       try {
         user = await HttpClient.getUser(userId);
       } catch (e) {
+        console.info("The specified user was not found. Recreating it...")
         user = { id: userId, name: "Time traveler" } as UserModel;
         await HttpClient.createUser(user);
       }

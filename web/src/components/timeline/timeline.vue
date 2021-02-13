@@ -89,7 +89,6 @@ export default Vue.extend({
     timeMarkerWatcher = TimeMarkerWatcher.Instance;
     ScrollObserver.Instance;
     ZoomObserver.Instance;
-    TimeMarkerCreator.Instance.initiateTimeMarkers();
   },
 
   computed: {

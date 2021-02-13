@@ -22,7 +22,6 @@
     "@azure/functions": "^1.0.2-beta2",
     "@types/mssql": "^6.0.7",
     "@types/mime": "^2.0.3",
-    "@types/tedious": "4.0.3",
     "@types/uuid": "^8.3.0",
     "eslint": "7.10.0",
     "eslint-config-prettier": "^7.2.0",

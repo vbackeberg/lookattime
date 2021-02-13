@@ -39,7 +39,7 @@ export default class TimeMarkerHider {
       marker => marker.positionCenter > viewportRightEdge
     );
 
-    return firstOutsideBounds > -1
+    return firstOutsideBounds > -1 // TODO: Can firstOutsideBounds be index 0?
       ? firstOutsideBounds - 1
       : store.state.timeMarkers.length - 1;
   }

@@ -1,6 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validate as validUuid } from "uuid";
 import ImageDto from "./image-dto";
+import { sqlConnectionConfig }from "../shared/sql-connection-config";
 import TimeEventResponse from "./time-event-response";
 const sql = require("mssql");
 
@@ -19,7 +20,7 @@ const httpTrigger: AzureFunction = async function (
   } else {
     try {
       await sql.connect(
-        `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
+        sqlConnectionConfig
       );
 
       const timeEventsResult = await sql.query(

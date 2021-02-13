@@ -1,5 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validate as validUuid } from "uuid";
+import { sqlConnectionConfig }from "../shared/sql-connection-config";
 import TimeEventRequest from "../shared/time-event-request";
 const sql = require("mssql");
 
@@ -18,7 +19,7 @@ const httpTrigger: AzureFunction = async function (
   } else {
     try {
       await sql.connect(
-        `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
+        sqlConnectionConfig
       );
 
       //TODO turn this query into a join and check if exists

@@ -5,6 +5,7 @@ import { validate as validUuid } from "uuid";
 import * as multipart from "parse-multipart";
 import { getExtension } from "mime";
 import ImageRequest from "./image-request";
+import { sqlConnectionConfig }from "../shared/sql-connection-config";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -86,9 +87,7 @@ async function storeImageId(
   timelineId: string,
   userId: string
 ) {
-  await sql.connect(
-    `mssql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_SERVER}/${process.env.DB_DATABASE}?encrypt=true`
-  );
+  await sql.connect(sqlConnectionConfig);
 
   return await sql.query(
     `if exists ( select * from timeEvents where id = '${timeEventId}' and timelineId in (select id from timelines where id = '${timelineId}' and userId = '${userId}')) insert into images values ('${imageId}', '${timeEventId}', '${imageExtension}');`

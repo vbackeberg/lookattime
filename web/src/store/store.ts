@@ -53,7 +53,7 @@ export default new Vuex.Store({
 
         return {
           positionLeft:
-            lowestTimeEvent?.positionCenter -
+            lowestTimeEvent.positionCenter -
             TimeEventModel.expandedWidth / 2 -
             width,
           width: width
@@ -72,7 +72,7 @@ export default new Vuex.Store({
       } else {
         return {
           positionLeft:
-            highestTimeEvent?.positionCenter + TimeEventModel.expandedWidth / 2,
+            highestTimeEvent.positionCenter + TimeEventModel.expandedWidth / 2,
           width:
             state.timelineElement.clientWidth / 2 -
             TimeEventModel.expandedWidth / 2

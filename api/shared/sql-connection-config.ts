@@ -6,6 +6,7 @@ export const sqlConnectionConfig = {
   options: {
     encrypt: true,
     enableArithAbort: true,
-    lowerCaseGuids: true
+    lowerCaseGuids: true,
+    connectionTimeout: 60000
   },
 };

@@ -58,7 +58,6 @@ import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-wat
 import VisibilityObserver from "@/timeline/visibility-management/visibility-observer";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
-import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
 
 let timeMarkerWatcher: TimeMarkerWatcher;
 

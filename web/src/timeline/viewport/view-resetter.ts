@@ -16,7 +16,7 @@ export default class ViewResetter {
   public async initiate() {
     const expendableLeftSpace = Math.min(
       store.getters.spacerLeft.positionLeft,
-      store.state.timelineElement.scrollLeft
+      store.state.timelineElement.scrollLeft // TODO: Why consider scroll left? When initiating, we want to position view around the elements and disregard where the view was before (in a previous timeline).
     );
 
     if (expendableLeftSpace > 0) {

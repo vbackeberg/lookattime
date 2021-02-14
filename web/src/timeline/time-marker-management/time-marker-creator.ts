@@ -50,9 +50,8 @@ export default class TimeMarkerCreator {
   }
 
   public addMarkersLeft() {
-    const leftEdge = Math.min(0, store.getters.spacerLeft.positionLeft); // Use store left edge
     const lowestMarker = store.state.timeMarkers[0];
-    const distanceToEdge = lowestMarker.positionCenter - leftEdge;
+    const distanceToEdge = lowestMarker.positionCenter - store.getters.leftEdge;
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );
@@ -77,13 +76,9 @@ export default class TimeMarkerCreator {
   }
 
   public addMarkersRight() {
-    const rightEdge = Math.max(
-      store.getters.spacerRight.positionLeft + store.getters.spacerRight.width,
-      store.state.spacerPageEdge.positionLeft + store.state.spacerPageEdge.width
-    );
     const highestMarker =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
-    const distanceToEdge = rightEdge - highestMarker.positionCenter;
+    const distanceToEdge = store.getters.rightEdge - highestMarker.positionCenter;
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );

@@ -29,8 +29,6 @@ export default class ViewResetter {
         store.state.timelineElement,
         -store.getters.spacerLeft.positionLeft
       );
-    } else {
-      this.notifyVisibilityObserver();
     }
 
     await Vue.nextTick();
@@ -45,6 +43,8 @@ export default class ViewResetter {
         store.state.timeEvents[store.state.timeEvents.length - 1].date
       );
     }
+
+    this.notifyVisibilityObserver();
   }
 
   private notifyVisibilityObserver() {

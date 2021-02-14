@@ -54,12 +54,12 @@ import Date from "@/components/timeline/time-event/date.vue";
 import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/timeline/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
-import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-watcher";
+import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
 import VisibilityObserver from "@/timeline/visibility-management/visibility-observer";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 
-let timeMarkerWatcher: TimeMarkerWatcher;
+let timeMarkerDistanceWatcher: TimeMarkerDistanceWatcher;
 
 export default Vue.extend({
   name: "Timeline",
@@ -85,7 +85,7 @@ export default Vue.extend({
     store.commit("setTimelineZero", this.$el.clientWidth / 2);
 
     SpaceObserver.Instance;
-    timeMarkerWatcher = TimeMarkerWatcher.Instance;
+    timeMarkerDistanceWatcher = TimeMarkerDistanceWatcher.Instance;
     VisibilityObserver.Instance;
     ZoomObserver.Instance;
   },
@@ -126,7 +126,7 @@ export default Vue.extend({
 
   watch: {
     timeMarkerDistance(newDistance, oldDistance) {
-      timeMarkerWatcher.watch(newDistance, oldDistance);
+      timeMarkerDistanceWatcher.watch(newDistance, oldDistance);
     }
   }
 });

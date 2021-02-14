@@ -6,7 +6,7 @@ import TimeMarkerRemover from "./time-marker-remover";
 /**
  * Manages the time marker array from changes in the time marker distance.
  */
-export default class TimeMarkerWatcher {
+export default class TimeMarkerDistanceWatcher {
   private timeMarkerCreator: TimeMarkerCreator;
   private timeMarkerRemover: TimeMarkerRemover;
 
@@ -61,7 +61,7 @@ export default class TimeMarkerWatcher {
     }
   }
 
-  private static instance: TimeMarkerWatcher;
+  private static instance: TimeMarkerDistanceWatcher;
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }

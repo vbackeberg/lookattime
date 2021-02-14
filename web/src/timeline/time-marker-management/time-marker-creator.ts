@@ -124,7 +124,6 @@ export default class TimeMarkerCreator {
     markers[markers.length] =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
 
-    store.commit("setTimeMarkers", markers);
     store.dispatch("setTimeMarkers", markers);
   }
 

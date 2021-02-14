@@ -11,7 +11,6 @@ export default class TimeMarkerRemover {
     );
 
     if (index > 0) {
-      store.commit("setTimeMarkers", store.state.timeMarkers.slice(index)); //TODO Performance issue
       store.dispatch("setTimeMarkers", store.state.timeMarkers.slice(index)); //TODO Performance issue
     }
   }
@@ -22,7 +21,6 @@ export default class TimeMarkerRemover {
     );
 
     if (index > -1) {
-      store.commit("setTimeMarkers", store.state.timeMarkers.slice(0, index)); //TODO Performance issue
       store.dispatch("setTimeMarkers", store.state.timeMarkers.slice(0, index)); //TODO Performance issue
     }
   }
@@ -37,7 +35,6 @@ export default class TimeMarkerRemover {
       marker => marker.depth >= store.state.timeMarkerDepth
     );
 
-    store.commit("setTimeMarkers", markers);
     store.dispatch("setTimeMarkers", markers);
   }
 

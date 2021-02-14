@@ -30,12 +30,12 @@ export default class SpaceObserver {
           -store.getters.spacerLeft.positionLeft
         );
       } else {
-        this.notifyScrollObserver();
+        this.notifyVisibilityObserver();
       }
     });
   }
 
-  private notifyScrollObserver() {
+  private notifyVisibilityObserver() {
     store.state.timelineElement.dispatchEvent(new CustomEvent("scroll"));
   }
 

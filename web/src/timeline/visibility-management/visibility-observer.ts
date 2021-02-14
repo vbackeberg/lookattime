@@ -5,7 +5,7 @@ import TimeMarkerHider from "./time-marker-hider";
 /**
  * Observes scroll events, determines viewport boundaries and calls element hiders.
  */
-export default class ScrollObserver {
+export default class VisibilityObserver {
   private timelineElement: HTMLElement;
   private constructor() {
     this.timelineElement = document.getElementById("timeline") as HTMLElement;
@@ -30,7 +30,7 @@ export default class ScrollObserver {
     });
   }
 
-  private static instance: ScrollObserver;
+  private static instance: VisibilityObserver;
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }

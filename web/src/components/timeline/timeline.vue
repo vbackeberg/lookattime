@@ -55,7 +55,7 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/timeline/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerWatcher from "@/timeline/time-marker-management/time-marker-watcher";
-import ScrollObserver from "@/timeline/visibility-management/scroll-observer";
+import VisibilityObserver from "@/timeline/visibility-management/scroll-observer";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
@@ -87,7 +87,7 @@ export default Vue.extend({
 
     SpaceObserver.Instance;
     timeMarkerWatcher = TimeMarkerWatcher.Instance;
-    ScrollObserver.Instance;
+    VisibilityObserver.Instance;
     ZoomObserver.Instance;
   },
 

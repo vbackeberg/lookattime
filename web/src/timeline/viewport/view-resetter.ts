@@ -30,7 +30,7 @@ export default class ViewResetter {
         -store.getters.spacerLeft.positionLeft
       );
     } else {
-      this.notifyScrollObserver();
+      this.notifyVisibilityObserver();
     }
 
     await Vue.nextTick();
@@ -47,7 +47,7 @@ export default class ViewResetter {
     }
   }
 
-  private notifyScrollObserver() {
+  private notifyVisibilityObserver() {
     store.state.timelineElement.dispatchEvent(new CustomEvent("scroll"));
   }
 

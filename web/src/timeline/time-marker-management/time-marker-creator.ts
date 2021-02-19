@@ -105,7 +105,8 @@ export default class TimeMarkerCreator {
   public addMarkersRight() {
     const highestMarker =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
-    const distanceToEdge = store.getters.rightEdge - highestMarker.positionCenter;
+    const distanceToEdge =
+      store.getters.rightEdge - highestMarker.positionCenter;
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );

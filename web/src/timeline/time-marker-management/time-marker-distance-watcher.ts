@@ -15,7 +15,8 @@ export default class TimeMarkerDistanceWatcher {
     this.timeMarkerRemover = TimeMarkerRemover.Instance;
   }
 
-  public watch(newDistance: number, oldDistance: number) {  // TODO When zoom out, it crashes (probably infinite loop)
+  public watch(newDistance: number, oldDistance: number) {
+    // TODO When zoom out, it crashes (probably infinite loop)
     if (store.state.timeMarkers.length === 1) {
       this.timeMarkerCreator.addSingleMarkerLeft();
       return;

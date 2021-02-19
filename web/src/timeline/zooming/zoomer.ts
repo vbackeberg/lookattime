@@ -26,7 +26,8 @@ export default class Zoomer {
 
   private repositionTimeEvents(zoomFactor: number, referencePosition: number) {
     store.state.timeEvents.forEach(timeEvent => {
-      const distance = (timeEvent.positionCenter - referencePosition) * zoomFactor;
+      const distance =
+        (timeEvent.positionCenter - referencePosition) * zoomFactor;
       timeEvent.positionCenter = referencePosition + distance;
     });
   }

@@ -29,7 +29,7 @@ export default class TimeMarkerCreator {
     this.addMarkersRight();
   }
 
-  private createFirstMarker(
+  public createFirstMarker(
     lowestDate: number,
     highestDate: number
   ): TimeMarkerModel {
@@ -50,7 +50,7 @@ export default class TimeMarkerCreator {
     );
   }
 
-  private createSecondMarker(
+  public createSecondMarker(
     firstMarkerDate: number,
     lowestDate: number,
     highestDate: number,

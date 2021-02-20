@@ -35,19 +35,42 @@ export default class TimeMarkerCreator {
   ): TimeMarkerModel {
     let depth = 1;
 
-    while (Math.floor(highestDate / depth) * depth > lowestDate) {
-      depth *= Constants.DEPTH_BASE;
+    if (lowestDate <= 0 && highestDate >= 0) {
+      return new TimeMarkerModel(
+        store.state.timelineZero,
+        uuid(),
+        0,
+        Number.MAX_SAFE_INTEGER
+      );
+    } else if (lowestDate > 0) {
+      while (Math.trunc(highestDate / depth) * depth > lowestDate) {
+        depth *= Constants.DEPTH_BASE;
+      }
+      depth /= Constants.DEPTH_BASE;
+
+      const date = Math.trunc(highestDate / depth) * depth;
+
+      return new TimeMarkerModel(
+        PositionTranslator.toAbsolutePosition(date),
+        uuid(),
+        date,
+        depth
+      );
+    } else {
+      while (Math.trunc(lowestDate / depth) * depth < highestDate) {
+        depth *= Constants.DEPTH_BASE;
+      }
+      depth /= Constants.DEPTH_BASE;
+
+      const date = Math.trunc(lowestDate / depth) * depth;
+
+      return new TimeMarkerModel(
+        PositionTranslator.toAbsolutePosition(date),
+        uuid(),
+        date,
+        depth
+      );
     }
-    depth /= Constants.DEPTH_BASE;
-
-    const date = Math.floor(highestDate / depth) * depth;
-
-    return new TimeMarkerModel(
-      PositionTranslator.toAbsolutePosition(date),
-      uuid(),
-      date,
-      depth
-    );
   }
 
   public createSecondMarker(

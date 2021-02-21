@@ -22,11 +22,16 @@ export default class TimeMarkerCreator {
       firstMarker.depth
     );
 
-    store.commit("setTimeMarkers", [firstMarker, secondMarker]);
+    store.commit(
+      "setTimeMarkers",
+      [firstMarker, secondMarker].sort((a, b) => a.date - b.date)
+    );
     store.commit("setTimeMarkerDepth", secondMarker.depth);
 
     this.addMarkersLeft();
     this.addMarkersRight();
+
+    store.state.timelineElement.dispatchEvent(new CustomEvent("scroll"));
   }
 
   public createFirstMarker(

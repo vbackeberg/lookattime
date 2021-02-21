@@ -18,7 +18,7 @@ export default class HttpClient {
    */
   static async deleteUser(userId: string) {
     const response = await axios.delete(
-      "http://localhost:7071/api/delete-user?id=" + userId
+      process.env.VUE_APP_API_URL + "/delete-user?id=" + userId
     );
 
     if (!response.status.toString().startsWith("2")) {
@@ -33,7 +33,7 @@ export default class HttpClient {
    */
   static async createUser(user: UserModel) {
     const response = await axios.post(
-      "http://localhost:7071/api/create-user",
+      process.env.VUE_APP_API_URL + "/create-user",
       UserApiMapper.toApi(user)
     );
 
@@ -62,7 +62,8 @@ export default class HttpClient {
     userId: string
   ): Promise<void> {
     await axios.post(
-      "http://localhost:7071/api/store-image?imageId=" +
+      process.env.VUE_APP_API_URL +
+        "/store-image?imageId=" +
         imageId +
         "&timeEventId=" +
         timeEventId +
@@ -81,7 +82,7 @@ export default class HttpClient {
    */
   public static async getUser(userId: string): Promise<UserModel> {
     const response = await axios.get(
-      "http://localhost:7071/api/get-user?id=" + userId
+      process.env.VUE_APP_API_URL + "/get-user?id=" + userId
     );
 
     return UserApiMapper.toModel(response.data);
@@ -95,7 +96,8 @@ export default class HttpClient {
    */
   static async deleteTimeEvent(timeEventId: string, userId: string) {
     const response = await axios.delete(
-      "http://localhost:7071/api/delete-time-event?id=" +
+      process.env.VUE_APP_API_URL +
+        "/delete-time-event?id=" +
         timeEventId +
         "&userId=" +
         userId
@@ -119,7 +121,7 @@ export default class HttpClient {
     userId: string
   ) {
     axios.post(
-      "http://localhost:7071/api/create-time-event",
+      process.env.VUE_APP_API_URL + "/create-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId)
     );
   }
@@ -133,7 +135,7 @@ export default class HttpClient {
     timelineId: string
   ): Promise<TimeEventModel[]> {
     const response = await axios.get(
-      "http://localhost:7071/api/get-time-events?timelineId=" + timelineId
+      process.env.VUE_APP_API_URL + "/get-time-events?timelineId=" + timelineId
     );
 
     response.data as TimeEventResponse[];
@@ -154,7 +156,8 @@ export default class HttpClient {
    */
   static async deleteTimeline(timelineId: string, userId: string) {
     const response = await axios.delete(
-      "http://localhost:7071/api/delete-timeline?id=" +
+      process.env.VUE_APP_API_URL +
+        "/delete-timeline?id=" +
         timelineId +
         "&userId=" +
         userId
@@ -172,7 +175,7 @@ export default class HttpClient {
    */
   public static async createTimeline(timeline: TimelineRequest) {
     const response = await axios.post(
-      "http://localhost:7071/api/create-timeline",
+      process.env.VUE_APP_API_URL + "/create-timeline",
       timeline
     );
 
@@ -191,7 +194,7 @@ export default class HttpClient {
    */
   public static async getTimelines(userId: string): Promise<TimelineModel[]> {
     const response = await axios.get(
-      "http://localhost:7071/api/get-timelines?userId=" + userId
+      process.env.VUE_APP_API_URL + "/get-timelines?userId=" + userId
     );
 
     // TODO: Examine whether to catch 404 or work with empty array.
@@ -211,7 +214,7 @@ export default class HttpClient {
    */
   public static async getTimeline(timelineId: string): Promise<TimelineModel> {
     const response = await axios.get(
-      "http://localhost:7071/api/get-timeline?id=" + timelineId
+      process.env.VUE_APP_API_URL + "/get-timeline?id=" + timelineId
     );
 
     return TimelineResponseMapper.map(response.data);
@@ -230,7 +233,7 @@ export default class HttpClient {
     userId: string
   ) {
     axios.post(
-      "http://localhost:7071/api/update-time-event",
+      process.env.VUE_APP_API_URL + "/update-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId)
     );
   }

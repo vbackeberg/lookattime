@@ -7,6 +7,14 @@
       "request": "attach",
       "port": 9229,
       "preLaunchTask": "func: host start"
-    }
+    },
+    {
+      "name": "Attach to Chrome Localhost",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "url": "localhost",
+      "webRoot": "${workspaceFolder}/web/"
+  }
   ]
 }

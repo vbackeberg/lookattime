@@ -1,6 +1,7 @@
 module.exports = {
   devServer: {
-    disableHostCheck: true
+    disableHostCheck: true,
+    proxy: "http://localhost:7071"
   },
   configureWebpack: {
     devtool: "source-map"

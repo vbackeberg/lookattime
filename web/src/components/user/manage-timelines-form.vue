@@ -74,7 +74,9 @@ export default Vue.extend({
 
   methods: {
     select(timeline: TimelineModel) {
-      store.dispatch("setSelectedTimeline", timeline);
+      if (store.state.selectedTimeline.id != timeline.id) {
+        store.dispatch("setSelectedTimeline", timeline);
+      }
 
       this.show = false;
     },

@@ -133,6 +133,8 @@ export default Vue.extend({
         );
       });
 
+      this.cleanInputs();
+
       await Promise.all(storeImageTasks);
 
       timeEvent.imageReferences = imageReferences;
@@ -142,8 +144,12 @@ export default Vue.extend({
       this.show = false;
     },
 
-    back() {
-      this.show = false;
+    cleanInputs() {
+      this.date = 1516;
+      this.text = "";
+      this.title = "";
+      this.importance = 100;
+      this.images = [] as File[];
     }
   }
 });

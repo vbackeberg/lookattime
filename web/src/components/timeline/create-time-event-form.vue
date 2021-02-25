@@ -135,12 +135,16 @@ export default Vue.extend({
 
       this.cleanInputs();
 
+      this.show = false;
+
       await Promise.all(storeImageTasks);
 
       timeEvent.imageReferences = imageReferences;
 
       store.dispatch("updateTimeEvent", timeEvent);
+    },
 
+    back() {
       this.show = false;
     },
 

@@ -137,11 +137,14 @@ export default Vue.extend({
 
       this.show = false;
 
-      await Promise.all(storeImageTasks);
+      try {
+        await Promise.all(storeImageTasks);
 
-      timeEvent.imageReferences = imageReferences;
-
-      store.dispatch("updateTimeEvent", timeEvent);
+        timeEvent.imageReferences = imageReferences;
+        store.dispatch("updateTimeEvent", timeEvent);
+      } catch (e) {
+        console.warn(e);
+      }
     },
 
     back() {

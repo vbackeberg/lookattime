@@ -73,6 +73,7 @@ import { v4 as uuid } from "uuid";
 import store from "@/store/store";
 import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
+import TimeEventModel from "@/models/time-event-model";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -120,10 +121,8 @@ export default Vue.extend({
 
   methods: {
     async create() {
-      const timeEventId = uuid();
-
       const timeEvent = await TimeEventCreator.Instance.addTimeEvent(
-        timeEventId,
+        uuid(),
         this.text,
         this.date,
         this.importance,
@@ -131,39 +130,13 @@ export default Vue.extend({
         this.title
       );
 
-      const imageReferences: ImageReferenceModel[] = [];
-      const storeImageTasks: Promise<void>[] = [];
-
-      this.images.forEach(async image => {
-        const imageId = uuid();
-
-        storeImageTasks.push(
-          HttpClient.storeImage(
-            image,
-            imageId,
-            timeEventId,
-            store.state.selectedTimeline.id,
-            store.state.user.id
-          )
-        );
-
-        imageReferences.push(
-          new ImageReferenceModel(imageId, getExtension(image.type) as string)
-        );
-      });
+      if (this.images.length > 0) {
+        this.uploadImages(timeEvent);
+      }
 
       this.cleanInputs();
 
       this.show = false;
-
-      try {
-        await Promise.all(storeImageTasks);
-
-        timeEvent.imageReferences = imageReferences;
-        store.dispatch("updateTimeEvent", timeEvent);
-      } catch (e) {
-        console.warn(e);
-      }
     },
 
     back() {
@@ -176,6 +149,37 @@ export default Vue.extend({
       this.title = "";
       this.importance = 100;
       this.images = [] as File[];
+    },
+
+    async uploadImages(timeEvent: TimeEventModel) {
+      const imageReferences: ImageReferenceModel[] = [];
+      const storeImageTasks: Promise<void>[] = [];
+
+      this.images.forEach(async image => {
+        const imageId = uuid();
+
+        storeImageTasks.push(
+          HttpClient.storeImage(
+            image,
+            imageId,
+            timeEvent.id,
+            store.state.selectedTimeline.id,
+            store.state.user.id
+          )
+        );
+
+        imageReferences.push(
+          new ImageReferenceModel(imageId, getExtension(image.type) as string)
+        );
+      });
+
+      try {
+        await Promise.all(storeImageTasks);
+        timeEvent.imageReferences = imageReferences;
+        store.dispatch("updateTimeEvent", timeEvent);
+      } catch (e) {
+        console.warn(e);
+      }
     }
   }
 });

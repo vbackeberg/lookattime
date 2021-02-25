@@ -7,6 +7,5 @@ module.exports = {
     devtool: "source-map"
   },
   lintOnSave: false,
-  transpileDependencies: ["vuetify"],
-  productionSourceMap: true
+  transpileDependencies: ["vuetify"]
 };

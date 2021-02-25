@@ -31,7 +31,13 @@
         <v-btn text rounded class="my-2" to="/about">
           Impressum
         </v-btn>
-        <v-btn text rounded class="my-2">
+        <v-btn
+          text
+          rounded
+          class="my-2"
+          href="https://www.blog.lookattime.com/"
+          target="_blank"
+        >
           Blog
         </v-btn>
       </v-row>

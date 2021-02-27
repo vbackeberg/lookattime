@@ -23,9 +23,11 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+
     <v-main>
       <router-view />
     </v-main>
+
     <v-footer app color="white" padless>
       <v-row justify="center" no-gutters>
         <v-btn text rounded class="my-2" to="/about">
@@ -50,6 +52,10 @@
         </v-btn>
       </v-row>
     </v-footer>
+
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -65,11 +71,13 @@ export default {
   },
 
   async mounted() {
+    this.loading = true;
     await store.dispatch("loadUser");
+    this.loading = false;
   },
 
   data() {
-    return { showManageTimelinesForm: false };
+    return { showManageTimelinesForm: false, loading: true };
   }
 };
 </script>

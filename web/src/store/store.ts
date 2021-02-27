@@ -212,7 +212,7 @@ export default new Vuex.Store({
 
     async setSelectedTimeline({ commit, dispatch }, timeline: TimelineModel) {
       commit("setSelectedTimeline", timeline);
-      dispatch("loadTimeEvents");
+      await dispatch("loadTimeEvents");
     },
 
     async addTimeline({ commit }, timeline: TimelineModel) {
@@ -225,13 +225,13 @@ export default new Vuex.Store({
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);
-        dispatch("setSelectedTimeline", timelines[0]);
+        await dispatch("setSelectedTimeline", timelines[0]);
       } else {
         await dispatch(
           "addTimeline",
           new TimelineModel(uuid(), state.user.id, "My timeline")
         );
-        dispatch("setSelectedTimeline", state.timelines[0]);
+        await dispatch("setSelectedTimeline", state.timelines[0]);
       }
     },
 
@@ -248,7 +248,7 @@ export default new Vuex.Store({
       }
 
       commit("setUser", user);
-      dispatch("loadTimelines");
+      await dispatch("loadTimelines");
     }
   },
 

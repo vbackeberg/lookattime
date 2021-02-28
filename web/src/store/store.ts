@@ -10,7 +10,7 @@ import UserModel from "@/models/user-model";
 import TimelineModel from "@/models/timeline-model";
 import UserLocalStorage from "@/user/user-local-storage";
 import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
-
+import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -212,6 +212,7 @@ export default new Vuex.Store({
 
     async setSelectedTimeline({ commit, dispatch }, timeline: TimelineModel) {
       commit("setSelectedTimeline", timeline);
+      SelectedTimelineLocalStorage.Instance.setSelectedTimelineId(timeline.id);
       await dispatch("loadTimeEvents");
     },
 
@@ -225,7 +226,13 @@ export default new Vuex.Store({
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);
-        await dispatch("setSelectedTimeline", timelines[0]);
+        const selectedTimelineId = SelectedTimelineLocalStorage.Instance.getSelectedTimelineId();
+        await dispatch(
+          "setSelectedTimeline",
+          selectedTimelineId
+            ? timelines.find(timeline => (timeline.id === selectedTimelineId))
+            : timelines[0]
+        );
       } else {
         await dispatch(
           "addTimeline",

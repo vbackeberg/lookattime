@@ -85,6 +85,9 @@
 
 <style scoped>
 .about {
+  height: 100%;
+  position: absolute;
   margin: 16px;
+  overflow-y: scroll;
 }
 </style>

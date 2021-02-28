@@ -39,6 +39,9 @@
         ><v-icon>mdi-plus</v-icon></v-btn
       >
     </div>
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
@@ -74,10 +77,12 @@ export default Vue.extend({
   },
 
   data() {
-    return { showCreateTimeEventForm: false };
+    return { showCreateTimeEventForm: false, loading: true };
   },
 
-  mounted() {
+  async mounted() {
+    this.loading = true;
+
     store.state.timelineElement = document.getElementById(
       "timeline"
     ) as HTMLElement;
@@ -88,6 +93,9 @@ export default Vue.extend({
     timeMarkerDistanceWatcher = TimeMarkerDistanceWatcher.Instance;
     VisibilityObserver.Instance;
     ZoomObserver.Instance;
+
+    await store.dispatch("loadUser");
+    this.loading = false;
   },
 
   computed: {

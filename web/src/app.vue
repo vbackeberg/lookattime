@@ -52,16 +52,11 @@
         </v-btn>
       </v-row>
     </v-footer>
-
-    <v-overlay :value="loading">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
   </v-app>
 </template>
 
 <script lang="ts">
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
-import store from "@/store/store";
 
 export default {
   name: "App",
@@ -70,14 +65,8 @@ export default {
     ManageTimelinesForm
   },
 
-  async mounted() {
-    this.loading = true;
-    await store.dispatch("loadUser");
-    this.loading = false;
-  },
-
   data() {
-    return { showManageTimelinesForm: false, loading: true };
+    return { showManageTimelinesForm: false };
   }
 };
 </script>

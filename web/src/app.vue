@@ -81,8 +81,7 @@ body {
   height: 100%;
   padding: 0px;
   margin: 0px;
-  overscroll-behavior-y: none;
-  overflow-y: hidden !important;
+  overflow-y: hidden;
 }
 
 .app-bar-title {

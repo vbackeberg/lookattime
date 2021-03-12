@@ -36,16 +36,16 @@ const httpTrigger: AzureFunction = async function (
         userId
       );
 
-      const storeImageTask = storeImage(
+      const storeImageBlobTask = storeImageBlob(
         imageId + "." + imageExtension,
         image.data
       );
 
-      await storeImageIdTask; // TODO If blob upload fails, revert imageId query.
-      const response = await storeImageTask;
+      const storeImageIdResponse = await storeImageIdTask; // TODO If blob upload fails, revert imageId query.
+      const storeImageBlobResponse = await storeImageBlobTask;
 
       context.res = {
-        status: response._response.status,
+        status: storeImageBlobResponse._response.status,
       };
     } catch (e) {
       console.warn(e);
@@ -94,7 +94,7 @@ async function storeImageId(
   );
 }
 
-async function storeImage(blobName: string, imageData: Buffer) {
+async function storeImageBlob(blobName: string, imageData: Buffer) {
   const blockBlobClient = new BlockBlobClient(
     process.env.AzureWebJobsStorageLookattime,
     process.env.AzureWebJobsStorageLookattime_ContainerName,

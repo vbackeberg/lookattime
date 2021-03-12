@@ -131,11 +131,10 @@ export default Vue.extend({
       );
 
       if (this.images.length > 0) {
-        this.uploadImages(timeEvent);
+        await this.uploadImages(timeEvent);
       }
 
       this.cleanInputs();
-
       this.show = false;
     },
 
@@ -176,7 +175,7 @@ export default Vue.extend({
       try {
         await Promise.all(storeImageTasks);
         timeEvent.imageReferences = imageReferences;
-        store.dispatch("updateTimeEvent", timeEvent);
+        store.commit("updateTimeEvent", timeEvent);
       } catch (e) {
         console.warn(e);
       }

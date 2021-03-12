@@ -61,6 +61,7 @@ import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-ma
 import VisibilityObserver from "@/timeline/visibility-management/visibility-observer";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
+import TimelineModel from "@/models/timeline-model";
 
 let timeMarkerDistanceWatcher: TimeMarkerDistanceWatcher;
 
@@ -95,6 +96,15 @@ export default Vue.extend({
     ZoomObserver.Instance;
 
     await store.dispatch("loadUser");
+
+    const timelineIdQueryParam = this.$route.query?.timeline;
+    if (timelineIdQueryParam) {
+      await store.dispatch(
+        "setSelectedTimeline",
+        new TimelineModel(timelineIdQueryParam as string, "", "Shared timeline")
+      );
+    }
+
     this.loading = false;
   },
 

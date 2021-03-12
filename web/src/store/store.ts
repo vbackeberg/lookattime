@@ -227,12 +227,19 @@ export default new Vuex.Store({
       if (timelines.length > 0) {
         commit("setTimelines", timelines);
         const selectedTimelineId = SelectedTimelineLocalStorage.Instance.getSelectedTimelineId();
-        await dispatch(
-          "setSelectedTimeline",
-          selectedTimelineId
-            ? timelines.find(timeline => (timeline.id === selectedTimelineId))
-            : timelines[0]
+
+        const timelineFound = timelines.find(
+          timeline => timeline.id === selectedTimelineId
         );
+
+        if (timelineFound) {
+          await dispatch(
+            "setSelectedTimeline",
+            timelines.find(timeline => timeline.id === selectedTimelineId)
+          );
+        } else {
+          await dispatch("setSelectedTimeline", timelines[0]);
+        }
       } else {
         await dispatch(
           "addTimeline",

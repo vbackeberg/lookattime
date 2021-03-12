@@ -89,7 +89,7 @@ async function storeImageId(
 ) {
   await sql.connect(sqlConnectionConfig);
 
-  return await sql.query(
+  return sql.query(
     `if exists ( select * from timeEvents where id = '${timeEventId}' and timelineId in (select id from timelines where id = '${timelineId}' and userId = '${userId}')) insert into images values ('${imageId}', '${timeEventId}', '${imageExtension}');`
   );
 }

@@ -257,6 +257,8 @@ export default Vue.extend({
 
 .card {
   height: 100%;
+  display: flex !important;
+  flex-direction: column;
 }
 
 .card-image {
@@ -266,6 +268,8 @@ export default Vue.extend({
 }
 
 .card-text {
+  flex-grow: 1;
+  overflow-y: auto;
   text-align: left;
 }
 

@@ -27,7 +27,9 @@
             class="card-image white--text align-end"
             alt="time event image"
           >
-            <v-card-title v-if="!collapse">{{ title }}</v-card-title>
+            <v-card-title class="title-text" v-if="!collapse">{{
+              title
+            }}</v-card-title>
           </v-img>
           <v-card-text v-if="!collapse" class="card-text">{{
             text
@@ -265,5 +267,9 @@ export default Vue.extend({
 
 .card-text {
   text-align: left;
+}
+
+.title-text {
+  text-shadow: 0px 0px 3px #000;
 }
 </style>

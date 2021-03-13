@@ -16,7 +16,7 @@
             >🤓</v-avatar
           ></template
         >
-        <v-list>
+        <v-list v-if="!loading">
           <v-list-item @click.stop="showManageTimelinesForm = true"
             >My timelines</v-list-item
           >
@@ -57,6 +57,7 @@
 
 <script lang="ts">
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
+import store from "./store/store";
 
 export default {
   name: "App",
@@ -67,6 +68,12 @@ export default {
 
   data() {
     return { showManageTimelinesForm: false };
+  },
+
+  computed: {
+    loading(): boolean {
+      return store.state.loading;
+    }
   }
 };
 </script>

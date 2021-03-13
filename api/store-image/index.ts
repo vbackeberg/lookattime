@@ -101,7 +101,7 @@ async function storeImageBlob(blobName: string, imageData: Buffer) {
     blobName
   );
 
-  return await blockBlobClient.upload(imageData, imageData.byteLength);
+  return blockBlobClient.upload(imageData, imageData.byteLength);
 }
 
 export default httpTrigger;

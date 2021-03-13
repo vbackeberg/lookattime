@@ -11,20 +11,20 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.4.0",
-    "mime": "^2.5.0",
+    "@azure/storage-blob": "^12.5.0",
+    "mime": "^2.5.2",
     "mssql": "^6.3.1",
     "parse-multipart": "^1.0.4",
     "uuid": "^8.3.2",
     "validate-image-type": "^1.1.1"
   },
   "devDependencies": {
-    "@azure/functions": "^1.0.2-beta2",
-    "@types/mssql": "^6.0.7",
+    "@azure/functions": "^1.2.3",
     "@types/mime": "^2.0.3",
+    "@types/mssql": "^6.0.7",
     "@types/uuid": "^8.3.0",
     "eslint": "7.10.0",
     "eslint-config-prettier": "^7.2.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.9.9"
   }
 }

@@ -34,7 +34,8 @@ export default new Vuex.Store({
     selectedTimeline: {} as TimelineModel,
     timelines: [] as TimelineModel[],
 
-    user: {} as UserModel
+    user: {} as UserModel,
+    loading: true
   },
 
   getters: {
@@ -169,6 +170,10 @@ export default new Vuex.Store({
 
     setUser(state, user: UserModel) {
       state.user = user;
+    },
+
+    setLoading(state, loading: boolean) {
+      state.loading = loading;
     }
   },
 

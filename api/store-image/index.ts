@@ -48,7 +48,7 @@ const httpTrigger: AzureFunction = async function (
         status: storeImageBlobResponse._response.status,
       };
     } catch (e) {
-      console.warn(e.message);
+      console.warn(e);
 
       if (e instanceof NoImageBlobStoredError) {
         console.warn(
@@ -58,7 +58,7 @@ const httpTrigger: AzureFunction = async function (
       }
 
       context.res = {
-        status: 400,
+        status: 500,
       };
     }
   }

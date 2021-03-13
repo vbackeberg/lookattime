@@ -29,6 +29,7 @@
         :key="timeMarker.id"
       ></timeMarker>
       <v-btn
+        v-if="!viewMode"
         id="fab"
         fab
         large
@@ -139,6 +140,10 @@ export default Vue.extend({
 
     timeMarkerDistance(): number {
       return store.getters.timeMarkerDistance;
+    },
+
+    viewMode(): boolean {
+      return store.getters.viewMode;
     }
   },
 

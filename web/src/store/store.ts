@@ -104,6 +104,10 @@ export default new Vuex.Store({
 
     timeEventsVisible(state): TimeEventModel[] {
       return state.timeEvents.filter(timeEvent => timeEvent.show);
+    },
+
+    viewMode(state): boolean {
+      return !state.timelines.includes(state.selectedTimeline);
     }
   },
 

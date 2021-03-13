@@ -94,7 +94,7 @@ async function storeImageId(
   );
 }
 
-async function storeImageBlob(blobName: string, imageData: Buffer) {
+async function storeImageBlob(blobName: string, imageData: Buffer): Promise<BlockBlobUploadResponse> {
   const blockBlobClient = new BlockBlobClient(
     process.env.AzureWebJobsStorageLookattime,
     process.env.AzureWebJobsStorageLookattime_ContainerName,

@@ -1,11 +1,11 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validateBufferMIMEType } from "validate-image-type";
-import { BlockBlobClient } from "@azure/storage-blob";
+import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob";
 import { validate as validUuid } from "uuid";
 import * as multipart from "parse-multipart";
 import { getExtension } from "mime";
 import ImageRequest from "./image-request";
-import { sqlConnectionConfig }from "../shared/sql-connection-config";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -41,14 +41,25 @@ const httpTrigger: AzureFunction = async function (
         image.data
       );
 
-      const storeImageIdResponse = await storeImageIdTask; // TODO If blob upload fails, revert imageId query.
+      await storeImageIdTask;
       const storeImageBlobResponse = await storeImageBlobTask;
 
       context.res = {
         status: storeImageBlobResponse._response.status,
       };
     } catch (e) {
-      console.warn(e);
+      console.warn(e.message);
+
+      if (e instanceof NoImageBlobStoredError) {
+        console.warn(
+          "Storing image blob failed. Revert storing imageId: " + imageId
+        );
+        await deleteImageId(imageId);
+      }
+
+      context.res = {
+        status: 400,
+      };
     }
   }
 };
@@ -89,19 +100,42 @@ async function storeImageId(
 ) {
   await sql.connect(sqlConnectionConfig);
 
-  return sql.query(
+  const result = await sql.query(
     `if exists ( select * from timeEvents where id = '${timeEventId}' and timelineId in (select id from timelines where id = '${timelineId}' and userId = '${userId}')) insert into images values ('${imageId}', '${timeEventId}', '${imageExtension}');`
   );
+
+  if (result.rowsAffected[0] === 0) {
+    throw new NoImageIdStoredError(
+      "Did not insert into images for imageId: " +
+        imageId +
+        ", timeEventId: " +
+        timeEventId +
+        ", timelineId: " +
+        timelineId +
+        ", userId: " +
+        userId
+    );
+  };
 }
 
-async function storeImageBlob(blobName: string, imageData: Buffer): Promise<BlockBlobUploadResponse> {
+async function storeImageBlob(
+  blobName: string,
+  imageData: Buffer
+): Promise<BlockBlobUploadResponse> {
   const blockBlobClient = new BlockBlobClient(
     process.env.AzureWebJobsStorageLookattime,
     process.env.AzureWebJobsStorageLookattime_ContainerName,
     blobName
   );
+  try {
+    return blockBlobClient.upload(imageData, imageData.byteLength);
+  } catch (e) {
+    throw new NoImageBlobStoredError(e.message);
+  }
+}
 
-  return blockBlobClient.upload(imageData, imageData.byteLength);
+async function deleteImageId(id: string) {
+  return sql.query(`delete from images where id = '${id}');`);
 }
 
 export default httpTrigger;

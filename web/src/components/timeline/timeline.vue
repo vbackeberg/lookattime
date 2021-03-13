@@ -35,7 +35,7 @@
         large
         fixed
         right
-        color="accent"
+        color="primary"
         @click.stop="showCreateTimeEventForm = true"
         ><v-icon>mdi-plus</v-icon></v-btn
       >

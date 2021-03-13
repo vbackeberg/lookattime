@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "core-js": "^3.9.0",
+    "core-js": "^3.9.1",
     "dexie": "^3.0.3",
     "mime": "^2.5.2",
     "uuid": "^8.3.2",
@@ -20,7 +20,7 @@
     "vue-meta": "2.4.0",
     "vue-property-decorator": "^8.5.1",
     "vue-router": "^3.5.1",
-    "vuetify": "^2.4.4",
+    "vuetify": "^2.4.6",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "sass": "^1.32.8",
     "sass-loader": "^8.0.2",
     "typescript": "^3.9.9",
-    "vue-cli-plugin-vuetify": "^2.1.0",
+    "vue-cli-plugin-vuetify": "^2.2.2",
     "vue-template-compiler": "^2.6.12",
     "vuetify-loader": "^1.7.2"
   }

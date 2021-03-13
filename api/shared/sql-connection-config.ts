@@ -8,6 +8,6 @@ export const sqlConnectionConfig = {
     enableArithAbort: true,
     lowerCaseGuids: true,
   },
-  connectionTimeout: 60000,
+  connectionTimeout: 120000,
   requestTimeout: 60000
 };

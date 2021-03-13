@@ -86,12 +86,14 @@ export default Vue.extend({
   },
 
   data() {
-    return { showCreateTimeEventForm: false, loading: true };
+    return { showCreateTimeEventForm: false };
+  },
+
+  created() {
+    store.commit("setLoading", true);
   },
 
   async mounted() {
-    this.loading = true;
-
     store.state.timelineElement = document.getElementById(
       "timeline"
     ) as HTMLElement;
@@ -113,7 +115,7 @@ export default Vue.extend({
       );
     }
 
-    this.loading = false;
+    store.commit("setLoading", false);
   },
 
   computed: {
@@ -151,6 +153,10 @@ export default Vue.extend({
 
     viewMode(): boolean {
       return store.getters.viewMode;
+    },
+
+    loading(): boolean {
+      return store.state.loading;
     }
   },
 

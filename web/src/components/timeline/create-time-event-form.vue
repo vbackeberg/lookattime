@@ -121,6 +121,7 @@ export default Vue.extend({
 
   methods: {
     async create() {
+      //TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
       const timeEvent = await TimeEventCreator.Instance.addTimeEvent(
         uuid(),
         this.text,

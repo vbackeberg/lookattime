@@ -40,9 +40,16 @@
         ><v-icon>mdi-plus</v-icon></v-btn
       >
     </div>
-    <v-overlay :value="loading">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
+    <v-overlay :value="loading" :absolute="true">
+      <div id="loading-overlay-content">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+        <span id="loading-overlay-text">
+          <br />
+          Please bear with us as we spin up our database. <br />
+          This may take up to a few minutes...</span
+        >
+      </div></v-overlay
+    >
   </div>
 </template>
 
@@ -193,5 +200,26 @@ export default Vue.extend({
 #fab {
   margin-top: 64px;
   margin-right: 64px;
+}
+
+#loading-overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#loading-overlay-text {
+  animation: loading-overlay-text-fadein 500ms ease 3s;
+  animation-fill-mode: backwards;
+  text-align: center;
+}
+
+@keyframes loading-overlay-text-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 </style>

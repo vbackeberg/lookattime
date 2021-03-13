@@ -101,9 +101,13 @@ export default Vue.extend({
       }
 
       const imageReference = this.imageReferences[0] as ImageReferenceModel;
-      const baseUrl = "https://lookattime2.blob.core.windows.net/lookattime2/";
 
-      return baseUrl + imageReference.id + "." + imageReference.extension;
+      return (
+        "https://lookattime2.blob.core.windows.net/lookattime2/" +
+        imageReference.id +
+        "." +
+        imageReference.extension
+      );
     },
 
     collapse(): boolean {

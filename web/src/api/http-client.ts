@@ -16,14 +16,8 @@ export default class HttpClient {
    *
    * @param userId
    */
-  static async deleteUser(userId: string) {
-    const response = await axios.delete(
-      process.env.VUE_APP_API_URL + "/delete-user?id=" + userId
-    );
-
-    if (!response.status.toString().startsWith("2")) {
-      throw new Error("Server did not respond with status 2xx.");
-    }
+  public static async deleteUser(userId: string): Promise<void> {
+    axios.delete(process.env.VUE_APP_API_URL + "/delete-user?id=" + userId);
   }
 
   /**
@@ -31,18 +25,11 @@ export default class HttpClient {
    *
    * @param user
    */
-  static async createUser(user: UserModel) {
-    const response = await axios.post(
+  public static async createUser(user: UserModel): Promise<void> {
+    axios.post(
       process.env.VUE_APP_API_URL + "/create-user",
       UserApiMapper.toApi(user)
     );
-
-    if (
-      !response.status.toString().startsWith("2") &&
-      !response.status.toString().startsWith("3")
-    ) {
-      throw new Error("Server responded with an error.");
-    }
   }
 
   /**
@@ -61,7 +48,7 @@ export default class HttpClient {
     timelineId: string,
     userId: string
   ): Promise<void> {
-    await axios.post(
+    axios.post(
       process.env.VUE_APP_API_URL +
         "/store-image?imageId=" +
         imageId +
@@ -94,18 +81,17 @@ export default class HttpClient {
    * @param timeEventId
    * @param userId
    */
-  static async deleteTimeEvent(timeEventId: string, userId: string) {
-    const response = await axios.delete(
+  public static async deleteTimeEvent(
+    timeEventId: string,
+    userId: string
+  ): Promise<void> {
+    axios.delete(
       process.env.VUE_APP_API_URL +
         "/delete-time-event?id=" +
         timeEventId +
         "&userId=" +
         userId
     );
-
-    if (!response.status.toString().startsWith("2")) {
-      throw new Error("Server did not respond with status 2xx.");
-    }
   }
 
   /**
@@ -115,11 +101,11 @@ export default class HttpClient {
    * @param timelineId
    * @param userId
    */
-  public static createTimeEvent(
+  public static async createTimeEvent(
     timeEvent: TimeEventModel,
     timelineId: string,
     userId: string
-  ) {
+  ): Promise<void> {
     axios.post(
       process.env.VUE_APP_API_URL + "/create-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId)
@@ -154,18 +140,17 @@ export default class HttpClient {
    * @param timelineId
    * @param userId
    */
-  static async deleteTimeline(timelineId: string, userId: string) {
-    const response = await axios.delete(
+  public static async deleteTimeline(
+    timelineId: string,
+    userId: string
+  ): Promise<void> {
+    axios.delete(
       process.env.VUE_APP_API_URL +
         "/delete-timeline?id=" +
         timelineId +
         "&userId=" +
         userId
     );
-
-    if (!response.status.toString().startsWith("2")) {
-      throw new Error("Server did not respond with status 2xx.");
-    }
   }
 
   /**
@@ -173,18 +158,8 @@ export default class HttpClient {
    *
    * @param timeline
    */
-  public static async createTimeline(timeline: TimelineRequest) {
-    const response = await axios.post(
-      process.env.VUE_APP_API_URL + "/create-timeline",
-      timeline
-    );
-
-    if (
-      !response.status.toString().startsWith("2") &&
-      !response.status.toString().startsWith("3")
-    ) {
-      throw new Error("Server responded with an error.");
-    }
+  public static async createTimeline(timeline: TimelineRequest): Promise<void> {
+    axios.post(process.env.VUE_APP_API_URL + "/create-timeline", timeline);
   }
 
   /**
@@ -196,8 +171,6 @@ export default class HttpClient {
     const response = await axios.get(
       process.env.VUE_APP_API_URL + "/get-timelines?userId=" + userId
     );
-
-    // TODO: Examine whether to catch 404 or work with empty array.
 
     const timelines = [] as TimelineModel[];
     for (let i = 0; i < response.data.length; i++) {
@@ -227,11 +200,11 @@ export default class HttpClient {
    * @param timelineId
    * @param userId
    */
-  public static updateTimeEvent(
+  public static async updateTimeEvent(
     timeEvent: TimeEventModel,
     timelineId: string,
     userId: string
-  ) {
+  ): Promise<void> {
     axios.post(
       process.env.VUE_APP_API_URL + "/update-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId)

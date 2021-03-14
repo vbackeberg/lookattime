@@ -151,6 +151,19 @@ export default new Vuex.Store({
       state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
     },
 
+    deleteTimeEvent(state, timeEventId) {
+      const index = state.timeEvents.findIndex(
+        timeEvent => timeEvent.id === timeEventId
+      );
+      if (index === -1) {
+        console.warn(
+          "Error deleting time event. Time event to delete was not found."
+        );
+      } else {
+        state.timeEvents.splice(index, 1);
+      }
+    },
+
     updateTimeEvent(state, timeEvent: TimeEventModel) {
       const index = state.timeEvents.findIndex(timeEvent => timeEvent.id);
       state.timeEvents[index] = timeEvent;
@@ -188,6 +201,11 @@ export default new Vuex.Store({
 
     async unshiftTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
       commit("unshiftTimeMarkers", timeMarkers);
+    },
+
+    async deleteTimeEvent({ commit, state }, timeEventId: string) {
+      HttpClient.deleteTimeEvent(timeEventId, state.user.id);
+      commit("deleteTimeEvent", timeEventId);
     },
 
     async updateTimeEvent({ commit, state }, timeEvent: TimeEventModel) {

@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validate as validUuid } from "uuid";
-import { sqlConnectionConfig }from "../shared/sql-connection-config";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequest from "../shared/time-event-request";
 const sql = require("mssql");
 
@@ -18,9 +18,7 @@ const httpTrigger: AzureFunction = async function (
     };
   } else {
     try {
-      await sql.connect(
-        sqlConnectionConfig
-      );
+      await sql.connect(sqlConnectionConfig);
 
       //TODO turn this query into a join and check if exists
       const result = await sql.query(
@@ -32,7 +30,7 @@ const httpTrigger: AzureFunction = async function (
       console.warn(e);
       context.res = {
         status: 500,
-      }; ;
+      };
     }
   }
 };

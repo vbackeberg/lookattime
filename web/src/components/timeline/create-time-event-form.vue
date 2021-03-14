@@ -121,7 +121,8 @@ export default Vue.extend({
 
   methods: {
     async create() {
-      //TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
+      // TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
+      // TODO: Merge adding time event and storing image into one call. No reason to have separate calls.
       const timeEvent = await TimeEventCreator.Instance.addTimeEvent(
         uuid(),
         this.text,

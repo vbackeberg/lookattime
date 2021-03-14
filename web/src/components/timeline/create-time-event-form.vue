@@ -179,6 +179,7 @@ export default Vue.extend({
         store.commit("updateTimeEvent", timeEvent);
       } catch (e) {
         console.warn(e);
+        store.dispatch("deleteTimeEvent", timeEvent);
       }
     }
   }

@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { sqlConnectionConfig }from "../shared/sql-connection-config";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import { validate as validUuid } from "uuid";
 const sql = require("mssql");
 
@@ -19,21 +19,17 @@ const httpTrigger: AzureFunction = async function (
     };
   } else {
     try {
-      await sql.connect(
-        sqlConnectionConfig
-      );
+      await sql.connect(sqlConnectionConfig);
 
       // TODO: Verify time event is part of specified timeline.
-      const result = await sql.query(
-        `delete from timeEvents where id = '${id}' and timelineId in ( select id from timelines where id = '${timelineId}' and userId = '${userId}');`
-      );
-
+      const result = await sql.query`delete from timeEvents where id = '${id}' and timelineId in ( select id from timelines where id = '${timelineId}' and userId = '${userId}');`;
+      
       console.log(result);
     } catch (e) {
       console.warn(e);
       context.res = {
         status: 500,
-      };  
+      };
     }
   }
 };

@@ -100,10 +100,8 @@ async function storeImageId(
 ) {
   await sql.connect(sqlConnectionConfig);
 
-  const result = await sql.query(
-    `if exists ( select * from timeEvents where id = '${timeEventId}' and timelineId in (select id from timelines where id = '${timelineId}' and userId = '${userId}')) insert into images values ('${imageId}', '${timeEventId}', '${imageExtension}');`
-  );
-
+  const result = await sql.query`if exists ( select * from timeEvents where id = '${timeEventId}' and timelineId in (select id from timelines where id = '${timelineId}' and userId = '${userId}')) insert into images values ('${imageId}', '${timeEventId}', '${imageExtension}');`;
+ 
   if (result.rowsAffected[0] === 0) {
     throw new NoImageIdStoredError(
       "Did not insert into images for imageId: " +
@@ -115,7 +113,7 @@ async function storeImageId(
         ", userId: " +
         userId
     );
-  };
+  }
 }
 
 async function storeImageBlob(
@@ -135,7 +133,7 @@ async function storeImageBlob(
 }
 
 async function deleteImageId(id: string) {
-  return sql.query(`delete from images where id = '${id}');`);
+  return sql.query`delete from images where id = '${id}');`;
 }
 
 export default httpTrigger;

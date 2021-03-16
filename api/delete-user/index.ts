@@ -21,7 +21,7 @@ const httpTrigger: AzureFunction = async function (
         sqlConnectionConfig
       );
 
-      const result = await sql.query(`delete from users where id = '${id}';`);
+      const result = await sql.query`delete from users where id = '${id}';`;
 
       console.log(result);
     } catch (e) {

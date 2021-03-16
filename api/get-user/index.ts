@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { sqlConnectionConfig }from "../shared/sql-connection-config";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import { validate as validUuid } from "uuid";
 const sql = require("mssql");
 
@@ -19,7 +19,8 @@ const httpTrigger: AzureFunction = async function (
     try {
       await sql.connect(sqlConnectionConfig);
 
-      const result = await sql.query(`select * from users where id = '${id}';`);
+      const result = await sql.query`select * from users where id = '${id}';`;
+      
       console.log(result);
 
       if (!result.recordset[0]) {
@@ -35,7 +36,7 @@ const httpTrigger: AzureFunction = async function (
       console.warn(e);
       context.res = {
         status: 500,
-      }; ;
+      };
     }
   }
 };

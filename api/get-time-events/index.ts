@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validate as validUuid } from "uuid";
 import ImageDto from "./image-dto";
-import { sqlConnectionConfig }from "../shared/sql-connection-config";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventResponse from "./time-event-response";
 const sql = require("mssql");
 
@@ -19,18 +19,14 @@ const httpTrigger: AzureFunction = async function (
     };
   } else {
     try {
-      await sql.connect(
-        sqlConnectionConfig
-      );
+      await sql.connect(sqlConnectionConfig);
 
       const timeEventsResult = await sql.query(
         `select * from timeEvents where timelineId = '${timelineId}';`
       );
 
-      const imagesResult = await sql.query(
-        `select * from images where timeEventId in (select id from timeEvents where timelineId = '${timelineId}');`
-      );
-
+      const imagesResult = await sql.query`select * from images where timeEventId in (select id from timeEvents where timelineId = '${timelineId}');`;
+      
       const images = imagesResult.recordset as ImageDto[];
 
       const timeEvents = (timeEventsResult.recordset as TimeEventResponse[]).map(
@@ -57,7 +53,7 @@ const httpTrigger: AzureFunction = async function (
       console.warn(e);
       context.res = {
         status: 500,
-      }; ;
+      };
     }
   }
 };

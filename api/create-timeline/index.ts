@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { validate as validUuid } from "uuid";
-import { sqlConnectionConfig }from "../shared/sql-connection-config";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimelineRequest from "./timeline-request";
 const sql = require("mssql");
 
@@ -18,19 +18,16 @@ const httpTrigger: AzureFunction = async function (
     };
   } else {
     try {
-      await sql.connect(
-        sqlConnectionConfig
-      );
+      await sql.connect(sqlConnectionConfig);
 
-      const result = await sql.query(
-        `insert into timelines values ('${timelineRequest.id}', '${timelineRequest.userId}', '${timelineRequest.title}');`
-      );
+      const result = await sql.query`insert into timelines values ('${timelineRequest.id}', '${timelineRequest.userId}', '${timelineRequest.title}');`;
+
       console.log(result);
     } catch (e) {
       console.warn(e);
       context.res = {
         status: 500,
-      }; ;
+      };
     }
   }
 };

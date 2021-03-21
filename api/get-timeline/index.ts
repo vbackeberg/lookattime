@@ -21,7 +21,7 @@ const httpTrigger: AzureFunction = async function (
         sqlConnectionConfig
       );
 
-      const result = await sql.query`select id, title from timelines where id = '${id}';`;
+      const result = await sql.query`select id, title from timelines where id = ${id};`;
       
       console.log(result);
 

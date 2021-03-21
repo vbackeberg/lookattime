@@ -20,7 +20,7 @@ const httpTrigger: AzureFunction = async function (
     try {
       await sql.connect(sqlConnectionConfig);
 
-      const result = await sql.query`insert into timelines values ('${timelineRequest.id}', '${timelineRequest.userId}', '${timelineRequest.title}');`;
+      const result = await sql.query`insert into timelines values (${timelineRequest.id}, ${timelineRequest.userId}, ${timelineRequest.title});`;
 
       console.log(result);
     } catch (e) {

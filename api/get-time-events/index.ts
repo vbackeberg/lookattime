@@ -23,7 +23,11 @@ const httpTrigger: AzureFunction = async function (
 
       // TODO: Combine sql queries into one and do the mapping inside sql.
       const timeEventsResult = await sql.query`select * from timeEvents where timelineId = ${timelineId};`;
-      const imagesResult = await sql.query`select * from images where timeEventId in (select id from timeEvents where timelineId = ${timelineId});`;
+      const imagesResult = await sql.query`
+        select * from images
+        where timeEventId in (
+          select id from timeEvents where timelineId = ${timelineId}
+        );`;
 
       const images = imagesResult.recordset as ImageDto[];
 

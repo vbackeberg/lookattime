@@ -100,8 +100,17 @@ async function storeImageId(
 ) {
   await sql.connect(sqlConnectionConfig);
 
-  const result = await sql.query`if exists ( select * from timeEvents where id = ${timeEventId} and timelineId in (select id from timelines where id = ${timelineId} and userId = ${userId})) insert into images values (${imageId}, ${timeEventId}, ${imageExtension});`;
- 
+  const result = await sql.query`
+  if exists (
+    select * from timeEvents
+    where id = ${timeEventId} and timelineId in (
+      select id from timelines
+        where id = ${timelineId} and userId = ${userId}
+    )
+  ) insert into images values (
+    ${imageId}, ${timeEventId}, ${imageExtension}
+  );`;
+
   if (result.rowsAffected[0] === 0) {
     throw new NoImageIdStoredError(
       "Did not insert into images for imageId: " +

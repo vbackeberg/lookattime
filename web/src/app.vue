@@ -29,7 +29,7 @@
     </v-main>
 
     <v-footer app color="white" padless>
-      <v-row justify="center" no-gutters>
+      <div class="footer-buttons">
         <v-btn text rounded class="my-2" to="/about">
           Impressum
         </v-btn>
@@ -50,7 +50,7 @@
         >
           Feedback
         </v-btn>
-      </v-row>
+      </div>
     </v-footer>
   </v-app>
 </template>
@@ -105,5 +105,9 @@ body {
 
 a {
   text-decoration: none;
+}
+
+.footer-buttons {
+  margin: auto;
 }
 </style>

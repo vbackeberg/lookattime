@@ -128,6 +128,13 @@
       you, or you would like to exercise one of your data protection rights,
       please do not hesitate to contact us.
       <br /><br />
+      Write us at:<br />
+      Valerian Backeberg<br />
+      Allacher Str. 121<br />
+      80997 München<br />
+      <br />
+      Call us: +4917634515541<br />
+      <br />
       Email us at:
       <a href="mailto:contact.lookattime@gmail.com"
         >contact.lookattime@gmail.com</a

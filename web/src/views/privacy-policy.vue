@@ -11,7 +11,7 @@
         allows the site to open the correct timeline if you refresh or close
         your browser window.
 
-        <br /><br /><strong>Retention Period:</strong>
+        <br /><br /><strong>Retention period:</strong>
         The aforementioned data is retained indefinitely until you delete it
         from your local storage.
 

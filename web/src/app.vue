@@ -50,6 +50,9 @@
         <v-btn text rounded class="my-2" to="/legal-notice">
           Legal Notice
         </v-btn>
+        <v-btn text rounded class="my-2" to="/privacy-policy">
+          Privacy Policy
+        </v-btn>
       </div>
     </v-footer>
   </v-app>

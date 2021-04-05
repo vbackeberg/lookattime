@@ -30,9 +30,6 @@
 
     <v-footer app color="white" padless>
       <div class="footer-buttons">
-        <v-btn text rounded class="my-2" to="/about">
-          Impressum
-        </v-btn>
         <v-btn
           text
           rounded
@@ -49,6 +46,9 @@
           href="mailto:contact.lookattime@gmail.com?subject=My%20feedback%20on%20Look%20At%20Time&amp;body=Feel%20free%20to%20include%20a%20screenshot%20of%20your%20issue."
         >
           Feedback
+        </v-btn>
+        <v-btn text rounded class="my-2" to="/legal-notice">
+          Legal Notice
         </v-btn>
       </div>
     </v-footer>

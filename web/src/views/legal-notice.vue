@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <div class="impressum">
+  <div class="wrapper">
+    <div class="legal-notice">
       <h1>Impressum</h1>
       <p>Angaben gemäß § 5 TMG</p>
       <p>
@@ -84,7 +84,7 @@
 </template>
 
 <style scoped>
-.about {
+.wrapper {
   height: 100%;
   position: absolute;
   margin: 16px;

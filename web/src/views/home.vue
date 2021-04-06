@@ -6,7 +6,7 @@
       v-model="showPrivacyPolicyDialog"
       @setPrivacyPolicyAgreed="onSetPrivacyPolicyAgreed"
     ></privacy-policy-dialog>
-    <div v-if="privacyPolicyDisagreed">
+    <div class="privacy-policy-disagreed" v-if="privacyPolicyDisagreed">
       <p>
         Sorry, you can only use this service after agreeing to the privacy
         policy.
@@ -71,5 +71,9 @@ export default Vue.extend({
 .controls {
   height: 50px;
   width: 100%;
+}
+
+.privacy-policy-disagreed {
+  padding: 16px;
 }
 </style>

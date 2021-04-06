@@ -147,8 +147,9 @@
 <style scoped>
 .wrapper {
   height: 100%;
+  width: 100%;
   position: absolute;
-  margin: 16px;
+  padding: 16px;
   overflow-y: scroll;
 }
 </style>

@@ -36,7 +36,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "PreventMobileDialog",
+  name: "PrivacyPolicyDialog",
 
   props: {
     value: Boolean

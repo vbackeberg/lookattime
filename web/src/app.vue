@@ -29,11 +29,6 @@
     </v-main>
 
     <v-footer app color="white" padless>
-      <div class="footer-cookie-text my-2">
-        This website uses local storage to function correctly. Read the
-        <router-link to="/privacy-policy">privacy policy</router-link>.
-        <v-btn x-small>Agree</v-btn> <v-btn x-small>Disagree</v-btn>
-      </div>
       <div class="footer-buttons">
         <v-btn
           text
@@ -119,13 +114,5 @@ a {
 
 .footer-buttons {
   margin: auto;
-}
-
-.footer-cookie-text {
-  padding: 4px;
-  text-align: center;
-  width: 100%;
-  font-size: small;
-  background-color: lightgrey;
 }
 </style>

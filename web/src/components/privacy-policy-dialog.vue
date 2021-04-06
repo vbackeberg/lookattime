@@ -55,6 +55,7 @@ export default Vue.extend({
 
   methods: {
     setPrivacyPolicyAgreed(value: boolean) {
+      window.localStorage.setItem("privacyPolicyAgreed", value.toString());
       this.$emit("setPrivacyPolicyAgreed", value);
       this.show = false;
     }

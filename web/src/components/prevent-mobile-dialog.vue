@@ -55,7 +55,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .card-text {
   font-size: medium;
 }

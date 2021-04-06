@@ -54,8 +54,8 @@
         >
           Feedback
         </v-btn>
-        <v-btn text rounded x-small class="my-2" to="/legal-notice">
-          Legal Notice
+        <v-btn text rounded x-small class="my-2" to="/legal-disclosure">
+          Legal Disclosure
         </v-btn>
         <v-btn text rounded x-small class="my-2" to="/privacy-policy">
           Privacy Policy

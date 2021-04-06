@@ -11,13 +11,13 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: "/legal-notice",
-    name: "Legal Notice",
+    path: "/legal-disclosure",
+    name: "Legal Disclosure",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/legal-notice.vue")
+      import(/* webpackChunkName: "about" */ "../views/legal-disclosure.vue")
   },
   {
     path: "/privacy-policy",

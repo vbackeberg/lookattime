@@ -2,7 +2,10 @@
   <v-app id="app">
     <v-app-bar app flat color="#fff">
       <manage-timelines-form v-model="showManageTimelinesForm" />
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <whats-new-dialog v-model="showWhatsNewDialog" />
+      <v-btn text icon @click.stop="showWhatsNewDialog = true"
+        ><v-icon>mdi-wrench</v-icon></v-btn
+      >
       <v-spacer />
       <router-link to="/"
         ><v-toolbar-title class="app-bar-title"
@@ -63,16 +66,18 @@
 <script lang="ts">
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
 import store from "./store/store";
+import WhatsNewDialog from "@/components/whats-new-dialog.vue";
 
 export default {
   name: "App",
 
   components: {
-    ManageTimelinesForm
+    ManageTimelinesForm,
+    WhatsNewDialog
   },
 
   data() {
-    return { showManageTimelinesForm: false };
+    return { showManageTimelinesForm: false, showWhatsNewDialog: false };
   },
 
   computed: {

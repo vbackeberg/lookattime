@@ -4,7 +4,7 @@
       <manage-timelines-form v-model="showManageTimelinesForm" />
       <whats-new-dialog v-model="showWhatsNewDialog" />
       <v-btn text icon @click.stop="showWhatsNewDialog = true"
-        ><v-icon>mdi-wrench</v-icon></v-btn
+        ><v-icon x-large>mdi-alert-decagram</v-icon></v-btn
       >
       <v-spacer />
       <router-link to="/"

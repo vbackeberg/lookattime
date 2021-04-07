@@ -9,7 +9,7 @@
       <v-spacer />
       <router-link to="/"
         ><v-toolbar-title class="app-bar-title"
-          >Look at time</v-toolbar-title
+          >Look at Time</v-toolbar-title
         ></router-link
       >
       <v-spacer />
@@ -104,6 +104,8 @@ body {
 .app-bar-title {
   user-select: none;
   color: rgba(0, 0, 0, 0.87);
+  font-family: Comfortaa;
+  font-weight: 400;
 }
 
 .app-bar-avatar {

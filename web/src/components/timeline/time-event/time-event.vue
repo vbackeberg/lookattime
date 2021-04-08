@@ -19,23 +19,18 @@
         dot: hide
       }"
     >
-      <!-- TODO check if still needed, as no enter leave animation exists. -->
-      <transition>
-        <v-card v-if="!hide" class="card" @contextmenu="openContextMenu">
-          <v-img
-            v-bind:src="imageSource"
-            class="card-image white--text align-end"
-            alt="time event image"
-          >
-            <v-card-title class="title-text" v-if="!collapse">{{
-              title
-            }}</v-card-title>
-          </v-img>
-          <v-card-text v-if="!collapse" class="card-text">{{
-            text
-          }}</v-card-text>
-        </v-card>
-      </transition>
+      <v-card v-if="!hide" class="card" @contextmenu="openContextMenu">
+        <v-img
+          v-bind:src="imageSource"
+          class="card-image white--text align-end"
+          alt="time event image"
+        >
+          <v-card-title class="title-text" v-if="!collapse">{{
+            title
+          }}</v-card-title>
+        </v-img>
+        <v-card-text v-if="!collapse" class="card-text">{{ text }}</v-card-text>
+      </v-card>
     </div>
     <connector
       class="grow-transition"

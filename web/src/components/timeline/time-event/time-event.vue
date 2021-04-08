@@ -21,7 +21,7 @@
     >
       <!-- TODO check if still needed, as no enter leave animation exists. -->
       <transition>
-        <v-card v-if="!hide" class="card">
+        <v-card v-if="!hide" class="card" @contextmenu="openContextMenu">
           <v-img
             v-bind:src="imageSource"
             class="card-image white--text align-end"
@@ -45,6 +45,23 @@
         'connector-bubble': collapse
       }"
     ></connector>
+    <v-menu
+      v-model="showContextMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+      style="max-width: 600px"
+    >
+      <v-list>
+        <v-list-item v-on:click="editEvent()">
+          <v-list-item-title>Edit</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-on:click="deleteEvent()">
+          <v-list-item-title>Delete</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </div>
 </template>
 
@@ -75,7 +92,11 @@ export default Vue.extend({
     return {
       styleWidth: {
         width: TimeEventModel.expandedWidth + "px"
-      }
+      },
+
+      showContextMenu: false,
+      x: 0,
+      y: 0
     };
   },
 
@@ -178,6 +199,26 @@ export default Vue.extend({
         indexChange,
         width
       );
+    },
+
+    openContextMenu(e: MouseEvent) {
+      console.log("contextmenu " + this.id);
+
+      e.preventDefault();
+      this.showContextMenu = false;
+      this.x = e.clientX;
+      this.y = e.clientY;
+      this.$nextTick(() => {
+        this.showContextMenu = true;
+      });
+    },
+
+    editEvent() {
+      console.log("edit");
+    },
+
+    deleteEvent() {
+      console.log("delete");
     }
   }
 });
@@ -188,6 +229,7 @@ export default Vue.extend({
   position: absolute;
   height: 100%;
   backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX
+  pointer-events: none;
 
   display: flex;
   flex-flow: column nowrap;
@@ -261,6 +303,8 @@ export default Vue.extend({
 
 .card {
   height: 100%;
+  pointer-events: auto;
+
   display: flex !important;
   flex-direction: column;
 }

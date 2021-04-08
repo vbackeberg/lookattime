@@ -270,8 +270,7 @@ export default Vue.extend({
 
   width: 50px;
   height: 50px; // The 50px bubble dimension is redundantly set in a lot of places such as width, image height and the model.
-  margin-left: 125px;
-  margin-right: 125px;
+
   border-radius: 25px;
 }
 
@@ -280,8 +279,7 @@ export default Vue.extend({
 
   width: 16px;
   height: 8px;
-  margin-left: 146px;
-  margin-right: 146px;
+
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   border: 1px solid #000;
   border-bottom: 0;

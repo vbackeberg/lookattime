@@ -76,19 +76,23 @@ export default class HttpClient {
   }
 
   /**
-   * Calls API to delete a time event for given user.
+   * Calls API to delete a time event for given timeline and user.
    *
    * @param timeEventId
+   * @param timelineId
    * @param userId
    */
   public static async deleteTimeEvent(
     timeEventId: string,
+    timelineId: string,
     userId: string
   ): Promise<void> {
     axios.delete(
       process.env.VUE_APP_API_URL +
         "/delete-time-event?id=" +
         timeEventId +
+        "&timelineId=" +
+        timelineId +
         "&userId=" +
         userId
     );

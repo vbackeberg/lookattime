@@ -6,38 +6,44 @@
     <div
       class="grow-transition"
       v-bind:class="{
-        'buffer-top-box': !collapse,
-        'buffer-top-bubble': collapse,
-        'buffer-top-dot': hide
+        'buffer-top-box': !shrinkToBubble,
+        'buffer-top-bubble': shrinkToBubble,
+        'buffer-top-dot': shrinkToDot
       }"
     ></div>
     <div
       class="content grow-transition"
       v-bind:class="{
-        box: !collapse,
-        bubble: collapse,
-        dot: hide
+        box: !shrinkToBubble,
+        bubble: shrinkToBubble,
+        dot: shrinkToDot
       }"
     >
-      <v-card v-if="!hide" class="card" v-on:contextmenu="openContextMenu">
+      <v-card
+        v-if="!shrinkToDot"
+        class="card"
+        v-on:contextmenu="openContextMenu"
+      >
         <v-img
           v-bind:src="imageSource"
           class="card-image white--text align-end"
           alt="time event image"
         >
-          <v-card-title class="title-text" v-if="!collapse">{{
+          <v-card-title class="title-text" v-if="!shrinkToBubble">{{
             title
           }}</v-card-title>
         </v-img>
-        <v-card-text v-if="!collapse" class="card-text">{{ text }}</v-card-text>
+        <v-card-text v-if="!shrinkToBubble" class="card-text">{{
+          text
+        }}</v-card-text>
       </v-card>
     </div>
     <connector
       class="grow-transition"
-      v-if="!hide"
+      v-if="!shrinkToDot"
       v-bind:class="{
-        'connector-box': !collapse,
-        'connector-bubble': collapse
+        'connector-box': !shrinkToBubble,
+        'connector-bubble': shrinkToBubble
       }"
     ></connector>
     <v-menu
@@ -136,7 +142,7 @@ export default Vue.extend({
       );
     },
 
-    collapse(): boolean {
+    shrinkToBubble(): boolean {
       if (
         this.shouldShrink(this.timeEventIndex, -1, TimeEventModel.expandedWidth)
       )
@@ -148,7 +154,7 @@ export default Vue.extend({
       return false;
     },
 
-    hide(): boolean {
+    shrinkToDot(): boolean {
       if (
         this.shouldShrink(
           this.timeEventIndex,

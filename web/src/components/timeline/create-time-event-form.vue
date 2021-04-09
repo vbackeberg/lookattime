@@ -186,6 +186,10 @@ export default Vue.extend({
         console.warn(e);
         store.dispatch("deleteTimeEvent", timeEvent);
       }
+    },
+
+    back() {
+      this.show = false;
     }
   }
 });

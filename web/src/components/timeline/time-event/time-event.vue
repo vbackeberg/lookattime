@@ -219,7 +219,6 @@ export default Vue.extend({
     },
 
     deleteEvent() {
-      console.log("delete");
       store.dispatch("deleteTimeEvent", this.id);
     }
   }

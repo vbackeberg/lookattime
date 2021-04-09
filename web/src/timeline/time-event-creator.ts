@@ -2,9 +2,6 @@ import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 import Vue from "vue";
 import ViewFocuser from "./viewport/view-focuser";
-import PositionTranslator from "./position-translator";
-import { v4 as uuid } from "uuid";
-import ImageReferenceModel from "@/models/image-reference-model";
 
 /**
  * Adds timeEvent to store. Handles possible space extension. Scrolls to new timeEvent.

@@ -74,6 +74,7 @@ import store from "@/store/store";
 import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
 import TimeEventModel from "@/models/time-event-model";
+import PositionTranslator from "@/timeline/position-translator";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -123,7 +124,8 @@ export default Vue.extend({
     async create() {
       // TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
       // TODO: Merge adding time event and storing image into one call. No reason to have separate calls.
-      const timeEvent = await TimeEventCreator.Instance.addTimeEvent(
+      const timeEvent = new TimeEventModel(
+        PositionTranslator.toAbsolutePosition(this.date),
         uuid(),
         this.text,
         this.date,
@@ -131,6 +133,8 @@ export default Vue.extend({
         [],
         this.title
       );
+
+      await TimeEventCreator.Instance.addTimeEvent(timeEvent);
 
       if (this.images.length > 0) {
         await this.uploadImages(timeEvent);

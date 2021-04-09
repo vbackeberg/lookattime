@@ -18,23 +18,8 @@ export default class TimeEventCreator {
   }
 
   public async addTimeEvent(
-    id: string,
-    text: string,
-    date: number,
-    importance: number,
-    imageReferences: ImageReferenceModel[],
-    title: string
+    timeEvent: TimeEventModel
   ): Promise<TimeEventModel> {
-    const timeEvent = new TimeEventModel(
-      PositionTranslator.toAbsolutePosition(date),
-      id,
-      text,
-      date,
-      importance,
-      imageReferences,
-      title
-    );
-
     await store.dispatch("addTimeEvent", timeEvent);
 
     await Vue.nextTick();

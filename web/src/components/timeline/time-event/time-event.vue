@@ -19,7 +19,7 @@
         dot: hide
       }"
     >
-      <v-card v-if="!hide" class="card" @contextmenu="openContextMenu">
+      <v-card v-if="!hide" class="card" v-on:contextmenu="openContextMenu">
         <v-img
           v-bind:src="imageSource"
           class="card-image white--text align-end"

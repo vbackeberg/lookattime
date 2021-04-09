@@ -13,20 +13,20 @@
                   label="Year"
                   required
                   type="number"
-                  v-model.number="date"
+                  v-model.number="timeEvent.date"
                   :rules="dateRules"
                 />
                 <v-text-field
                   label="Title"
                   required
                   type="text"
-                  v-model="title"
+                  v-model="timeEvent.title"
                 />
                 <v-text-field
                   label="Importance"
                   required
                   type="number"
-                  v-model.number="importance"
+                  v-model.number="timeEvent.importance"
                   :rules="importanceRules"
                 />
               </v-col>
@@ -47,7 +47,7 @@
                   auto-grow
                   outlined
                   type="text"
-                  v-model="text"
+                  v-model="timeEvent.text"
                 /> </v-col
             ></v-row> </v-container
         ></v-form>
@@ -81,10 +81,6 @@ export default Vue.extend({
 
   data() {
     return {
-      date: 1516,
-      text: "Test text",
-      title: "test title",
-      importance: 100,
       images: [] as File[],
 
       valid: true,
@@ -106,7 +102,20 @@ export default Vue.extend({
   },
 
   props: {
-    value: Boolean
+    value: Boolean,
+
+    timeEvent: {
+      type: Object,
+      default: () => {
+        return {
+          text: "",
+          date: 0,
+          importance: 0,
+          imageReferences: [],
+          title: ""
+        };
+      }
+    }
   },
 
   computed: {
@@ -125,19 +134,19 @@ export default Vue.extend({
       // TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
       // TODO: Merge adding time event and storing image into one call. No reason to have separate calls.
       const timeEvent = new TimeEventModel(
-        PositionTranslator.toAbsolutePosition(this.date),
+        PositionTranslator.toAbsolutePosition(this.timeEvent.date),
         uuid(),
-        this.text,
-        this.date,
-        this.importance,
-        [],
-        this.title
+        this.timeEvent.text,
+        this.timeEvent.date,
+        this.timeEvent.importance,
+        this.timeEvent.imageReferences,
+        this.timeEvent.title
       );
 
       await TimeEventCreator.Instance.addTimeEvent(timeEvent);
 
       if (this.images.length > 0) {
-        await this.uploadImages(timeEvent);
+        await this.uploadImages(this.timeEvent);
       }
 
       this.cleanInputs();

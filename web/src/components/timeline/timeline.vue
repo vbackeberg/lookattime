@@ -1,6 +1,9 @@
 <template>
   <div id="timeline">
-    <create-time-event-form v-model="showCreateTimeEventForm" />
+    <create-time-event-form
+      v-model="showCreateTimeEventForm"
+      v-bind:editMode="false"
+    />
     <div id="buffer-top-area">
       <spacer v-bind="spacerRight"></spacer>
       <spacer-left ref="spacerLeftElement" v-bind="spacerLeft"></spacer-left>

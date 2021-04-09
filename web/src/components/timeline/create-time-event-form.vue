@@ -57,8 +57,21 @@
         <v-btn color="secondary" text @click.stop="back()">
           Back
         </v-btn>
-        <v-btn :disabled="!valid" color="primary" @click.stop="create()">
+        <v-btn
+          v-if="!editMode"
+          :disabled="!valid"
+          color="primary"
+          @click.stop="create()"
+        >
           Create
+        </v-btn>
+        <v-btn
+          v-if="editMode"
+          :disabled="!valid"
+          color="primary"
+          @click.stop="edit()"
+        >
+          Save
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -87,6 +100,7 @@ export default Vue.extend({
       importanceRules: [
         (v: number) =>
           !store.state.timeEvents
+            .filter(timeEvent => timeEvent.id != this.timeEvent.id)
             .map(timeEvent => timeEvent.importance)
             .includes(v) ||
           "Another time event already holds the same importance level. Please pick a different level!"
@@ -94,6 +108,7 @@ export default Vue.extend({
       dateRules: [
         (v: number) =>
           !store.state.timeEvents
+            .filter(timeEvent => timeEvent.id != this.timeEvent.id)
             .map(timeEvent => timeEvent.date)
             .includes(v) ||
           "You cannot place two events at the same date. Sorry!"
@@ -103,6 +118,7 @@ export default Vue.extend({
 
   props: {
     value: Boolean,
+    editMode: Boolean,
 
     timeEvent: {
       type: Object,
@@ -144,6 +160,28 @@ export default Vue.extend({
       );
 
       await TimeEventCreator.Instance.addTimeEvent(timeEvent);
+
+      if (this.images.length > 0) {
+        await this.uploadImages(this.timeEvent);
+      }
+
+      this.cleanInputs();
+      this.show = false;
+    },
+
+    async edit() {
+      store.dispatch(
+        "updateTimeEvent",
+        new TimeEventModel(
+          PositionTranslator.toAbsolutePosition(this.timeEvent.date),
+          this.timeEvent.id,
+          this.timeEvent.text,
+          this.timeEvent.date,
+          this.timeEvent.importance,
+          this.timeEvent.imageReferences,
+          this.timeEvent.title
+        )
+      );
 
       if (this.images.length > 0) {
         await this.uploadImages(this.timeEvent);

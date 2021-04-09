@@ -49,7 +49,7 @@
       style="max-width: 600px"
     >
       <v-list>
-        <v-list-item v-on:click="editEvent()">
+        <v-list-item v-on:click.stop="showCreateTimeEventForm = true">
           <v-list-item-title>Edit</v-list-item-title>
         </v-list-item>
         <v-list-item v-on:click.stop="deleteEvent()">
@@ -57,6 +57,11 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <create-time-event-form
+      v-model="showCreateTimeEventForm"
+      v-bind:timeEvent="{ id, text, date, importance, imageReferences, title }"
+      v-bind:editMode="true"
+    />
   </div>
 </template>
 
@@ -66,18 +71,21 @@ import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 import Vue from "vue";
 import Connector from "./connector.vue";
+import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 
 export default Vue.extend({
   name: "TimeEvent",
 
   components: {
-    Connector
+    Connector,
+    CreateTimeEventForm
   },
 
   props: {
     positionCenter: Number,
     id: String,
     text: String,
+    date: Number,
     importance: Number,
     imageReferences: Array,
     title: String
@@ -91,7 +99,9 @@ export default Vue.extend({
 
       showContextMenu: false,
       x: 0,
-      y: 0
+      y: 0,
+
+      showCreateTimeEventForm: false
     };
   },
 

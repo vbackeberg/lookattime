@@ -52,7 +52,7 @@
         <v-list-item v-on:click="editEvent()">
           <v-list-item-title>Edit</v-list-item-title>
         </v-list-item>
-        <v-list-item v-on:click="deleteEvent()">
+        <v-list-item v-on:click.stop="deleteEvent()">
           <v-list-item-title>Delete</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -208,12 +208,9 @@ export default Vue.extend({
       });
     },
 
-    editEvent() {
-      console.log("edit");
-    },
-
     deleteEvent() {
       console.log("delete");
+      store.dispatch("deleteTimeEvent", this.id);
     }
   }
 });

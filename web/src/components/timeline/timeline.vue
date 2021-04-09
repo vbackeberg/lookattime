@@ -11,7 +11,7 @@
     </div>
     <div id="time-event-area">
       <time-event
-        v-for="timeEvent in timeEvents"
+        v-for="timeEvent in timeEventsVisible"
         :key="timeEvent.id"
         v-bind="timeEvent"
       ></time-event>
@@ -22,12 +22,12 @@
     ></div>
     <div id="buffer-bottom-area">
       <date
-        v-for="timeEvent in timeEvents"
+        v-for="timeEvent in timeEventsVisible"
         :key="timeEvent.id"
         v-bind:timeEvent="timeEvent"
       ></date>
       <timeMarker
-        v-for="timeMarker in timeMarkers"
+        v-for="timeMarker in timeMarkersVisible"
         v-bind="timeMarker"
         :key="timeMarker.id"
       ></timeMarker>
@@ -52,13 +52,10 @@
 <script lang="ts">
 import TimeEvent from "@/components/timeline/time-event/time-event.vue";
 import Vue from "vue";
-import TimeEventModel from "@/models/time-event-model";
-import SpacerModel from "@/models/spacer-model";
 import Spacer from "@/components/timeline/spacer/spacer.vue";
 import SpacerLeft from "@/components/timeline/spacer/spacer-left.vue";
 import store from "@/store/store";
 import Date from "@/components/timeline/time-event/date.vue";
-import TimeMarkerModel from "@/models/time-marker-model";
 import TimeMarker from "@/components/timeline/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
@@ -66,6 +63,8 @@ import VisibilityObserver from "@/timeline/visibility-management/visibility-obse
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
+import { mapGetters } from "vuex";
+import SpacerModel from "@/models/spacer-model";
 
 let timeMarkerDistanceWatcher: TimeMarkerDistanceWatcher;
 
@@ -115,13 +114,14 @@ export default Vue.extend({
   },
 
   computed: {
-    spacerRight(): SpacerModel {
-      return store.getters.spacerRight;
-    },
-
-    spacerLeft(): SpacerModel {
-      return store.getters.spacerLeft;
-    },
+    ...mapGetters([
+      "spacerRight",
+      "spacerLeft",
+      "timeEventsVisible",
+      "timeMarkersVisible",
+      "timeMarkerDistance",
+      "viewMode"
+    ]),
 
     spacerPageEdge(): SpacerModel {
       return store.state.spacerPageEdge;
@@ -133,22 +133,6 @@ export default Vue.extend({
           store.state.spacerPageEdge.width,
         this.spacerRight.positionLeft + this.spacerRight.width
       );
-    },
-
-    timeEvents(): TimeEventModel[] {
-      return store.getters.timeEventsVisible;
-    },
-
-    timeMarkers(): TimeMarkerModel[] {
-      return store.getters.timeMarkersVisible;
-    },
-
-    timeMarkerDistance(): number {
-      return store.getters.timeMarkerDistance;
-    },
-
-    viewMode(): boolean {
-      return store.getters.viewMode;
     },
 
     loading(): boolean {

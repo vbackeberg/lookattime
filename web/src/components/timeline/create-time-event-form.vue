@@ -102,7 +102,7 @@ export default Vue.extend({
           !store.state.timeEvents
             .filter(timeEvent => timeEvent.id != this.timeEvent.id)
             .map(timeEvent => timeEvent.importance)
-            .includes(v) ||
+            .includes(Number(v)) ||
           "Another time event already holds the same importance level. Please pick a different level!"
       ],
       dateRules: [
@@ -110,7 +110,7 @@ export default Vue.extend({
           !store.state.timeEvents
             .filter(timeEvent => timeEvent.id != this.timeEvent.id)
             .map(timeEvent => timeEvent.date)
-            .includes(v) ||
+            .includes(Number(v)) ||
           "You cannot place two events at the same date. Sorry!"
       ]
     };

@@ -128,7 +128,7 @@ export default Vue.extend({
     },
 
     imageSource(): string {
-      if (this.imageReferences.length < 1) {
+      if (this.imageReferences?.length < 1) {
         return "";
       }
 

@@ -121,16 +121,7 @@ export default Vue.extend({
     editMode: Boolean,
 
     timeEvent: {
-      type: Object,
-      default: () => {
-        return {
-          text: "",
-          date: 0,
-          importance: 0,
-          imageReferences: [],
-          title: ""
-        };
-      }
+      type: Object
     }
   },
 

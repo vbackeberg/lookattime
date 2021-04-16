@@ -3,6 +3,7 @@
     <v-app-bar app flat color="#fff">
       <manage-timelines-form v-model="showManageTimelinesForm" />
       <whats-new-dialog v-model="showWhatsNewDialog" />
+      <share-dialog v-model="showShareDialog" />
       <v-btn text icon @click.stop="showWhatsNewDialog = true"
         ><v-icon x-large>mdi-alert-decagram</v-icon></v-btn
       >
@@ -22,6 +23,10 @@
         <v-list v-if="!loading">
           <v-list-item @click.stop="showManageTimelinesForm = true"
             >My timelines</v-list-item
+          >
+          <v-list-item @click.stop="showShareDialog = true">
+            <v-icon class="app-bar-menu-button">mdi-share-variant</v-icon
+            >Share</v-list-item
           >
         </v-list>
       </v-menu>
@@ -67,17 +72,23 @@
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
 import store from "./store/store";
 import WhatsNewDialog from "@/components/whats-new-dialog.vue";
+import ShareDialog from "@/components/share-dialog.vue";
 
 export default {
   name: "App",
 
   components: {
     ManageTimelinesForm,
-    WhatsNewDialog
+    WhatsNewDialog,
+    ShareDialog
   },
 
   data() {
-    return { showManageTimelinesForm: false, showWhatsNewDialog: false };
+    return {
+      showManageTimelinesForm: false,
+      showWhatsNewDialog: false,
+      showShareDialog: false
+    };
   },
 
   computed: {
@@ -113,6 +124,10 @@ body {
   user-select: none;
   font-size: 24px;
   vertical-align: text-top;
+}
+
+.app-bar-menu-button {
+  margin-right: 8px;
 }
 
 a {

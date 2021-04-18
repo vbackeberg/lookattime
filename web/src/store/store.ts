@@ -81,10 +81,27 @@ export default new Vuex.Store({
       }
     },
 
+    /**
+     * The left edge of the timeline is either a negative position
+     * of the left spacer's left edge or 0.
+     * 
+     * @param _ 
+     * @param getters 
+     * @returns the left edge of the timeline in absolute numbers. 
+     */
     leftEdge(_, getters): number {
       return Math.min(0, getters.spacerLeft.positionLeft);
     },
 
+    /**
+     * The right edge of the timeline is either the position of the
+     * right spacer's right edge or the position of the page edge spacer's
+     * right edge.
+     * 
+     * @param state 
+     * @param getters 
+     * @returns the right edge of the timeline in absolute numbers.
+     */
     rightEdge(state, getters): number {
       return Math.max(
         getters.spacerRight.positionLeft + getters.spacerRight.width,

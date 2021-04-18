@@ -154,7 +154,7 @@ export default Vue.extend({
       await TimeEventCreator.Instance.addTimeEvent(timeEvent);
 
       if (this.images.length > 0) {
-        await this.uploadImages(this.timeEvent);
+        await this.uploadImages(timeEvent);
       }
 
       this.cleanInputs();
@@ -162,21 +162,20 @@ export default Vue.extend({
     },
 
     async edit() {
-      store.dispatch(
-        "updateTimeEvent",
-        new TimeEventModel(
-          PositionTranslator.toAbsolutePosition(this.timeEvent.date),
-          this.timeEvent.id,
-          this.timeEvent.text,
-          this.timeEvent.date,
-          this.timeEvent.importance,
-          this.timeEvent.imageReferences,
-          this.timeEvent.title
-        )
+      const timeEvent = new TimeEventModel(
+        PositionTranslator.toAbsolutePosition(this.timeEvent.date),
+        this.timeEvent.id,
+        this.timeEvent.text,
+        this.timeEvent.date,
+        this.timeEvent.importance,
+        this.timeEvent.imageReferences,
+        this.timeEvent.title
       );
 
+      store.dispatch("updateTimeEvent", timeEvent);
+
       if (this.images.length > 0) {
-        await this.uploadImages(this.timeEvent);
+        await this.uploadImages(timeEvent);
       }
 
       this.cleanInputs();

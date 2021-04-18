@@ -7,7 +7,8 @@ export default class ViewFocuser {
   private timelineElement: HTMLElement;
   private constructor() {
     this.zoomer = Zoomer.Instance;
-    this.timelineElement = document.getElementById("timeline") as HTMLElement;
+    this.timelineElement = document.getElementById("timeline") as HTMLElement; // TODO: Redundant. Use timelineElement from store.
+  }
   }
 
   /**

@@ -5,7 +5,7 @@
         Create your new event
       </v-card-title>
       <v-card-text>
-        <v-form v-model="valid">
+        <v-form v-model="valid" ref="form">
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
@@ -88,6 +88,7 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
 import TimeEventModel from "@/models/time-event-model";
 import PositionTranslator from "@/timeline/position-translator";
+import { VForm } from "@/types";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -184,6 +185,7 @@ export default Vue.extend({
 
     cleanInputs() {
       this.images = [] as File[];
+      (this.$refs.form as VForm).reset();
     },
 
     async uploadImages(timeEvent: TimeEventModel) {

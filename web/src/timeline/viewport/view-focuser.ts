@@ -14,15 +14,15 @@ export default class ViewFocuser {
    * Changes zoom and view such that both the relative time positions for
    * left and right are visible including an additional margin on both sides.
    *
-   * @param left Relative start of time range
-   * @param right Relative end of time range
+   * @param lowerDate Relative start of time range
+   * @param higherDate Relative end of time range
    */
-  public focusOnDateRange(left: number, right: number) {
+  public focusOnDateRange(lowerDate: number, higherDate: number) {
     const absoluteLeft =
-      store.state.timelineZero + left * store.state.zoomLevel;
+      store.state.timelineZero + lowerDate * store.state.zoomLevel;
 
     const absoluteRight =
-      store.state.timelineZero + right * store.state.zoomLevel;
+      store.state.timelineZero + higherDate * store.state.zoomLevel;
 
     this.checkOutOfBounds(absoluteLeft, absoluteRight);
 

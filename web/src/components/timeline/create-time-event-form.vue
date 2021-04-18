@@ -146,7 +146,7 @@ export default Vue.extend({
         this.timeEvent.text,
         this.timeEvent.date,
         this.timeEvent.importance,
-        this.timeEvent.imageReferences,
+        [],
         this.timeEvent.title
       );
 

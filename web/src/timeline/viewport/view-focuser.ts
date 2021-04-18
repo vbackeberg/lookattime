@@ -54,7 +54,7 @@ export default class ViewFocuser {
 
   private checkOutOfBounds(absoluteLeft: number, absoluteRight: number) {
     if (absoluteLeft < 0) {
-      console.error("View Focuser: Start is out of bounds");
+      console.error("View Focuser: Start is out of bounds!");
     }
 
     if (
@@ -65,7 +65,7 @@ export default class ViewFocuser {
         store.state.spacerPageEdge.positionLeft +
           store.state.spacerPageEdge.width
     ) {
-      console.error("View Focuser: End is out of bounds");
+      console.error("View Focuser: End is out of bounds!");
     }
   }
 

@@ -36,11 +36,11 @@ export default class ViewResetter {
     if (store.state.timeEvents.length === 0) {
       store.state.timelineElement.scrollTo({ left: 0 });
     } else if (store.state.timeEvents.length === 1) {
-      this.viewFocuser.focusOnTimeEvent(store.state.timeEvents[0]);
+      this.viewFocuser.focusOnPosition(store.state.timeEvents[0].positionCenter);
     } else {
-      this.viewFocuser.focusOnDateRange(
-        store.state.timeEvents[0].date,
-        store.state.timeEvents[store.state.timeEvents.length - 1].date
+      this.viewFocuser.focusOnRange(
+        store.state.timeEvents[0].positionCenter,
+        store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter
       );
     }
 

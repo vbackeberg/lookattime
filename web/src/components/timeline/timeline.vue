@@ -66,6 +66,7 @@ import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import SpacerModel from "@/models/spacer-model";
+import TimeEventCreator from "@/timeline/time-event-creator";
 
 let timeMarkerDistanceWatcher: TimeMarkerDistanceWatcher;
 
@@ -100,6 +101,7 @@ export default Vue.extend({
     timeMarkerDistanceWatcher = TimeMarkerDistanceWatcher.Instance;
     VisibilityObserver.Instance;
     ZoomObserver.Instance;
+    TimeEventCreator.Instance;
 
     await store.dispatch("loadUser");
 

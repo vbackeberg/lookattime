@@ -1,4 +1,3 @@
-import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 import Vue from "vue";
 import ViewFocuser from "./viewport/view-focuser";
@@ -12,29 +11,28 @@ export default class TimeEventCreator {
 
   private constructor() {
     this.viewFocuser = ViewFocuser.Instance;
-  }
 
-  public async addTimeEvent(
-    timeEvent: TimeEventModel
-  ): Promise<TimeEventModel> {
-    await store.dispatch("addTimeEvent", timeEvent);
+    store.subscribe(async mutation => {
+      if (mutation.type === "addTimeEvent") {
+        console.log("addTimeEvent");
 
-    await Vue.nextTick();
+        await Vue.nextTick();
 
-    this.focusView(timeEvent);
+        if (store.state.timeEvents.length === 1) {
+          this.viewFocuser.focusOnPosition(mutation.payload.positionCenter);
+        } else {
+          this.viewFocuser.extendFocus(mutation.payload.positionCenter);
+        }
+      }
 
-    return timeEvent;
-  }
+      if (mutation.type === "updateTimeEvent") {
+        console.log("updateTimeEvent");
 
-  private focusView(timeEvent: TimeEventModel) {
-    if (store.state.timeEvents.length === 2) {
-      this.viewFocuser.focusOnDateRange(
-        store.state.timeEvents[0].date,
-        store.state.timeEvents[1].date
-      );
-    } else {
-      this.viewFocuser.focusOnTimeEvent(timeEvent);
-    }
+        await Vue.nextTick();
+
+        this.viewFocuser.extendFocus(mutation.payload.positionCenter);
+      }
+    });
   }
 
   private static instance: TimeEventCreator;

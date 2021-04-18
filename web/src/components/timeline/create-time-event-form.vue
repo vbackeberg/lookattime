@@ -80,7 +80,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import TimeEventCreator from "@/timeline/time-event-creator";
 import HttpClient from "@/api/http-client";
 import { v4 as uuid } from "uuid";
 import store from "@/store/store";
@@ -151,7 +150,7 @@ export default Vue.extend({
         this.timeEvent.title
       );
 
-      await TimeEventCreator.Instance.addTimeEvent(timeEvent);
+      await store.dispatch("addTimeEvent", timeEvent);
 
       if (this.images.length > 0) {
         await this.uploadImages(timeEvent);

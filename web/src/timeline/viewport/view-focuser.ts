@@ -9,22 +9,54 @@ export default class ViewFocuser {
     this.zoomer = Zoomer.Instance;
     this.timelineElement = document.getElementById("timeline") as HTMLElement; // TODO: Redundant. Use timelineElement from store.
   }
+
+  /**
+   * Changes zoom and view such that the specified timeEvent is visible including
+   * an additional margin on both sides.
+   *
+   * @param timeEvent The timeEvent to move into the view.
+   */
+  public extendFocus(position: number) {
+    if (position < this.timelineElement.scrollLeft) {
+      this.focusOnAbsoluteRange(
+        position,
+        this.timelineElement.scrollLeft + this.timelineElement.clientWidth
+      );
+    } else if (
+      position >
+      this.timelineElement.scrollLeft + this.timelineElement.clientWidth
+    ) {
+      this.focusOnAbsoluteRange(this.timelineElement.scrollLeft, position);
+    } else {
+      console.debug(
+        "View Focuser: ExtendFocus did not extend view as timeEvent is within view."
+      );
+    }
   }
 
   /**
-   * Changes zoom and view such that both the relative time positions for
-   * left and right are visible including an additional margin on both sides.
+   * Changes zoom and view such that both the positions for left and right
+   * are visible including an additional margin on both sides.
    *
-   * @param lowerDate Relative start of time range
-   * @param higherDate Relative end of time range
+   * @param left Absolute start of time range
+   * @param right Absolute end of time range
    */
-  public focusOnDateRange(lowerDate: number, higherDate: number) {
-    const absoluteLeft =
-      store.state.timelineZero + lowerDate * store.state.zoomLevel;
+  public focusOnRange(left: number, right: number) {
+    this.focusOnAbsoluteRange(left, right);
+  }
 
-    const absoluteRight =
-      store.state.timelineZero + higherDate * store.state.zoomLevel;
+  /**
+   * Centers the specified timeEvent in the view.
+   *
+   * @param timeEvent The timeEvent to put focus on
+   */
+  public focusOnPosition(position: number) {
+    this.timelineElement.scrollTo({
+      left: position - this.timelineElement.clientWidth / 2
+    });
+  }
 
+  private focusOnAbsoluteRange(absoluteLeft: number, absoluteRight: number) {
     this.checkOutOfBounds(absoluteLeft, absoluteRight);
 
     const absoluteDistance = absoluteRight - absoluteLeft;
@@ -37,19 +69,6 @@ export default class ViewFocuser {
 
     this.timelineElement.scrollTo({
       left: absoluteCenter - this.timelineElement.clientWidth / 2
-    });
-  }
-
-  /**
-   * Centers the specified timeEvent in the view.
-   *
-   * @param timeEvent The timeEvent to put focus on
-   */
-  public focusOnTimeEvent(timeEvent: TimeEventModel) {
-    const position =
-      timeEvent.positionCenter - this.timelineElement.clientWidth / 2;
-    this.timelineElement.scrollTo({
-      left: position
     });
   }
 

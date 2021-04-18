@@ -213,8 +213,6 @@ export default Vue.extend({
     },
 
     openContextMenu(e: MouseEvent) {
-      console.log("contextmenu " + this.id);
-
       e.preventDefault();
       this.showContextMenu = false;
       this.x = e.clientX;

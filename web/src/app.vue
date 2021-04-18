@@ -5,7 +5,9 @@
       <whats-new-dialog v-model="showWhatsNewDialog" />
       <share-dialog v-model="showShareDialog" />
       <v-btn text icon @click.stop="showWhatsNewDialog = true"
-        ><v-icon x-large>mdi-alert-decagram</v-icon></v-btn
+        ><v-badge color="red" offset-y="8">
+          <v-icon x-large>mdi-alert-decagram</v-icon></v-badge
+        ></v-btn
       >
       <v-spacer />
       <router-link to="/"

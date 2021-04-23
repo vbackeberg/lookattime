@@ -18,16 +18,16 @@ export default class TimeEventHider {
       store.state.timeEvents[i].show = false;
     }
 
-    for (let i = firstWithinBounds; i <= lastWithinBounds; i++) {
-      store.state.timeEvents[i].show = true;
+    for (let j = firstWithinBounds; j <= lastWithinBounds; j++) {
+      store.state.timeEvents[j].show = true;
     }
 
     for (
-      let i = lastWithinBounds + 1, n = store.state.timeEvents.length;
-      i < n;
-      i++
+      let k = lastWithinBounds + 1, n = store.state.timeEvents.length;
+      k < n;
+      k++
     ) {
-      store.state.timeEvents[i].show = false;
+      store.state.timeEvents[k].show = false;
     }
   }
 

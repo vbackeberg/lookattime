@@ -19,7 +19,7 @@
         </p>
         <p>
           Or take a look behind the curtain at
-          <a href="https://www.blog.lookattime.com">blog.lookattime.com</a>.
+          <a href="https://blog.lookattime.com">blog.lookattime.com</a>.
         </p></v-card-text
       >
       <v-card-actions>

@@ -45,7 +45,7 @@
           rounded
           x-small
           class="my-2"
-          href="https://www.blog.lookattime.com/"
+          href="https://blog.lookattime.com/"
           target="_blank"
         >
           Blog

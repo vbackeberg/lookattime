@@ -128,14 +128,10 @@ export default class HttpClient {
       process.env.VUE_APP_API_URL + "/get-time-events?timelineId=" + timelineId
     );
 
-    response.data as TimeEventResponse[];
-
-    const timeEvents = [] as TimeEventModel[];
-    for (let i = 0; i < response.data.length; i++) {
-      timeEvents.push(TimeEventResponseMapper.map(response.data[i]));
-    }
-
-    return timeEvents;
+    return (response.data as TimeEventResponse[]).map(
+      (timeEventResponse: TimeEventResponse) =>
+        TimeEventResponseMapper.map(timeEventResponse)
+    );
   }
 
   /**
@@ -176,12 +172,9 @@ export default class HttpClient {
       process.env.VUE_APP_API_URL + "/get-timelines?userId=" + userId
     );
 
-    const timelines = [] as TimelineModel[];
-    for (let i = 0; i < response.data.length; i++) {
-      timelines.push(TimelineResponseMapper.map(response.data[i]));
-    }
-
-    return timelines;
+    return (response.data as TimelineModel[]).map((timeline: TimelineModel) =>
+      TimelineResponseMapper.map(timeline)
+    );
   }
 
   /**

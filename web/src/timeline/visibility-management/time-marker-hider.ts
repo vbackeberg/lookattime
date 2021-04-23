@@ -15,16 +15,16 @@ export default class TimeMarkerHider {
       store.state.timeMarkers[i].show = false;
     }
 
-    for (let i = firstWithinBounds; i <= lastWithinBounds; i++) {
-      store.state.timeMarkers[i].show = true;
+    for (let j = firstWithinBounds; j <= lastWithinBounds; j++) {
+      store.state.timeMarkers[j].show = true;
     }
 
     for (
-      let i = lastWithinBounds + 1, n = store.state.timeMarkers.length;
-      i < n;
-      i++
+      let k = lastWithinBounds + 1, n = store.state.timeMarkers.length;
+      k < n;
+      k++
     ) {
-      store.state.timeMarkers[i].show = false;
+      store.state.timeMarkers[k].show = false;
     }
   }
 

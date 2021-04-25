@@ -172,7 +172,7 @@ export default Vue.extend({
 #time-event-area {
   flex: 4 0 200px;
 
-  position: relative; // TODO check if still needed
+  position: relative;
 }
 
 #horizontal-line {
@@ -183,7 +183,7 @@ export default Vue.extend({
 }
 
 #buffer-bottom-area {
-  flex: 4; // TODO check if position relative is needed
+  flex: 4;
 }
 
 #fab {

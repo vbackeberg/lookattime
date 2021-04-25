@@ -21,10 +21,9 @@ const httpTrigger: AzureFunction = async function (
     try {
       await sql.connect(sqlConnectionConfig);
 
-      // TODO: Verify time event is part of specified timeline.
       const result = await sql.query`
       delete from timeEvents
-      where id = ${id} and timelineId in (
+      where id = ${id} and timelineId = ${timelineId} and timelineId in (
         select id from timelines where id = ${timelineId} and userId = ${userId}
       );`;
 

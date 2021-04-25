@@ -1,3 +1,4 @@
+import store from "@/store/store";
 import Zoomer from "./zoomer";
 
 /**
@@ -9,7 +10,7 @@ export default class ZoomObserver {
   private constructor() {
     this.zoomer = Zoomer.Instance;
 
-    this.timelineElement = document.getElementById("timeline") as HTMLElement;
+    this.timelineElement = store.state.timelineElement;
     this.timelineElement.addEventListener("wheel", (e: WheelEvent) => {
       if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
         return;

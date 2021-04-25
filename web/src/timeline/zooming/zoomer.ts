@@ -4,7 +4,7 @@ export default class Zoomer {
   private timelineElement: HTMLElement;
 
   private constructor() {
-    this.timelineElement = document.getElementById("timeline") as HTMLElement;
+    this.timelineElement = store.state.timelineElement;
   }
 
   /**

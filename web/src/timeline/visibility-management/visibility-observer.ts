@@ -8,7 +8,7 @@ import TimeMarkerHider from "./time-marker-hider";
 export default class VisibilityObserver {
   private timelineElement: HTMLElement;
   private constructor() {
-    this.timelineElement = document.getElementById("timeline") as HTMLElement; // TODO access from store
+    this.timelineElement = store.state.timelineElement;
     this.timelineElement.addEventListener("scroll", () => {
       const viewportLeftEdge = this.timelineElement.scrollLeft;
       const viewportRightEdge =

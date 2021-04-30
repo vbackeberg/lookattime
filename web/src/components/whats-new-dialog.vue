@@ -8,8 +8,9 @@
       <v-card-text>
         <h3>New icon</h3>
         <p>
-          Look at Time has a shiny new icon replacing the default vue icon. 👨‍🎨
-          It will show up in your browser tab.
+          Look at Time has a shiny new icon replacing the default vue icon. It
+          will show up in your browser tab. One day, this will be considered
+          art. 👨‍🎨
         </p>
         <p>
           <v-img

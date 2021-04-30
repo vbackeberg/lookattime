@@ -8,6 +8,17 @@ export default class ViewFocuser {
   private constructor() {
     this.zoomer = Zoomer.Instance;
     this.timelineElement = store.state.timelineElement;
+  } 
+
+  /**
+   * Centers the specified timeEvent in the view.
+   *
+   * @param timeEvent The timeEvent to put focus on
+   */
+   public focusOnPosition(position: number) {
+    this.timelineElement.scrollTo({
+      left: position - this.timelineElement.clientWidth / 2
+    });
   }
 
   /**
@@ -43,17 +54,6 @@ export default class ViewFocuser {
    */
   public focusOnRange(left: number, right: number) {
     this.focusOnAbsoluteRange(left, right);
-  }
-
-  /**
-   * Centers the specified timeEvent in the view.
-   *
-   * @param timeEvent The timeEvent to put focus on
-   */
-  public focusOnPosition(position: number) {
-    this.timelineElement.scrollTo({
-      left: position - this.timelineElement.clientWidth / 2
-    });
   }
 
   private focusOnAbsoluteRange(absoluteLeft: number, absoluteRight: number) {

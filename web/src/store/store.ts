@@ -9,7 +9,6 @@ import HttpClient from "@/api/http-client";
 import UserModel from "@/models/user-model";
 import TimelineModel from "@/models/timeline-model";
 import UserLocalStorage from "@/user/user-local-storage";
-import TimeMarkerCreator from "@/timeline/time-marker-management/time-marker-creator";
 import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
 Vue.use(Vuex);
 
@@ -248,14 +247,15 @@ export default new Vuex.Store({
     },
 
     async loadTimeEvents({ commit, state }) {
+      ViewResetter.Instance.resetView();
+
       const timeEvents = await HttpClient.getTimeEvents(
         state.selectedTimeline.id
       );
 
       commit("setTimeEvents", timeEvents);
 
-      await ViewResetter.Instance.initiate();
-      TimeMarkerCreator.Instance.initiateTimeMarkers();
+      await ViewResetter.Instance.initiateView();
     },
 
     async setSelectedTimeline({ commit, dispatch }, timeline: TimelineModel) {

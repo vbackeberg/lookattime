@@ -3,6 +3,8 @@ import SpaceCutter from "../space-management/space-cutter";
 import SpaceExtender from "../space-management/space-extender";
 import ViewFocuser from "./view-focuser";
 import Vue from "vue";
+import TimeMarkerCreator from "../time-marker-management/time-marker-creator";
+import VisibilityObserver from "../visibility-management/visibility-observer";
 
 /**
  * Resets the viewport when loading a new timeline.
@@ -13,7 +15,18 @@ export default class ViewResetter {
     this.viewFocuser = ViewFocuser.Instance;
   }
 
-  public async initiate() {
+  public resetView() {
+    store.commit(
+      "setTimelineZero",
+      store.state.timelineElement.clientWidth / 2
+    );
+    store.commit("setTimeMarkers", []);
+    store.commit("setTimeMarkerDepth", 1);
+    store.state.zoomLevel = 1;
+    store.commit("setSpacerPageEdgePosition", 0);
+  }
+
+  public async initiateView() {
     const expendableLeftSpace = Math.min(
       store.getters.spacerLeft.positionLeft,
       store.state.timelineElement.scrollLeft
@@ -36,7 +49,9 @@ export default class ViewResetter {
     if (store.state.timeEvents.length === 0) {
       store.state.timelineElement.scrollTo({ left: 0 });
     } else if (store.state.timeEvents.length === 1) {
-      this.viewFocuser.focusOnPosition(store.state.timeEvents[0].positionCenter);
+      this.viewFocuser.focusOnPosition(
+        store.state.timeEvents[0].positionCenter
+      );
     } else {
       this.viewFocuser.focusOnRange(
         store.state.timeEvents[0].positionCenter,
@@ -44,11 +59,7 @@ export default class ViewResetter {
       );
     }
 
-    this.notifyVisibilityObserver();
-  }
-
-  private notifyVisibilityObserver() {
-    store.state.timelineElement.dispatchEvent(new CustomEvent("scroll"));
+    TimeMarkerCreator.Instance.initiateTimeMarkers();
   }
 
   private static instance: ViewResetter;

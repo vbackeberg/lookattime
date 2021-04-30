@@ -30,6 +30,10 @@ export default class VisibilityObserver {
     });
   }
 
+  public notify() {
+    store.state.timelineElement.dispatchEvent(new CustomEvent("scroll"));
+  }
+
   private static instance: VisibilityObserver;
   public static get Instance() {
     return this.instance || (this.instance = new this());

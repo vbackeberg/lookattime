@@ -31,7 +31,7 @@ export default class TimeMarkerCreator {
     this.addMarkersLeft();
     this.addMarkersRight();
 
-    store.state.timelineElement.dispatchEvent(new CustomEvent("scroll"));
+    VisibilityObserver.Instance.notify();
   }
 
   public createFirstMarker(

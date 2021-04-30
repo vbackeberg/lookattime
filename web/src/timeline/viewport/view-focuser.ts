@@ -8,14 +8,14 @@ export default class ViewFocuser {
   private constructor() {
     this.zoomer = Zoomer.Instance;
     this.timelineElement = store.state.timelineElement;
-  } 
+  }
 
   /**
    * Centers the specified timeEvent in the view.
    *
    * @param timeEvent The timeEvent to put focus on
    */
-   public focusOnPosition(position: number) {
+  public focusOnPosition(position: number) {
     this.timelineElement.scrollTo({
       left: position - this.timelineElement.clientWidth / 2
     });

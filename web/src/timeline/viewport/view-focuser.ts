@@ -57,7 +57,7 @@ export default class ViewFocuser {
   }
 
   private focusOnAbsoluteRange(absoluteLeft: number, absoluteRight: number) {
-    this.checkOutOfBounds(absoluteLeft, absoluteRight);
+    this.validate(absoluteLeft, absoluteRight);
 
     const absoluteDistance = absoluteRight - absoluteLeft;
     const margin = TimeEventModel.expandedWidth + 100;
@@ -72,7 +72,11 @@ export default class ViewFocuser {
     });
   }
 
-  private checkOutOfBounds(absoluteLeft: number, absoluteRight: number) {
+  private validate(absoluteLeft: number, absoluteRight: number) {
+    if (absoluteLeft - absoluteRight === 0) {
+      console.error("View Focuser: Absolute distance is 0!");
+    }
+
     if (absoluteLeft < 0) {
       console.error("View Focuser: Start is out of bounds!");
     }

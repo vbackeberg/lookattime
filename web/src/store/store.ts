@@ -221,7 +221,11 @@ export default new Vuex.Store({
     },
 
     async deleteTimeEvent({ commit, state }, timeEventId: string) {
-      HttpClient.deleteTimeEvent(timeEventId, state.selectedTimeline.id, state.user.id);
+      HttpClient.deleteTimeEvent(
+        timeEventId,
+        state.selectedTimeline.id,
+        state.user.id
+      );
       commit("deleteTimeEvent", timeEventId);
     },
 

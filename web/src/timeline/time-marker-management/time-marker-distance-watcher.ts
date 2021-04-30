@@ -16,6 +16,10 @@ export default class TimeMarkerDistanceWatcher {
   }
 
   public watch(newDistance: number, oldDistance: number) {
+    if (store.state.timeMarkers.length === 0) {
+      return;
+    }
+
     if (store.state.timeMarkers.length === 1) {
       this.timeMarkerCreator.addSingleMarkerLeft();
       return;

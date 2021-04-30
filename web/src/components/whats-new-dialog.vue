@@ -2,48 +2,32 @@
   <v-dialog v-model="show" max-width="600">
     <v-card>
       <v-card-title>
-        What's new and what's to come?
+        What's new?
       </v-card-title>
 
       <v-card-text>
+        <h3>New icon</h3>
         <p>
-          Welcome to Look at Time! Here, you can find out what we are currently
-          working on and what we plan to work on next.
-        </p>
-
-        <h3>What's new?</h3>
-        <h4>Editing and deleting time events</h4>
-        <p>
-          Right-click and select edit to change any content of your time event.
-          Right-click and select delete to delete a time event. It's that easy.
-          😎
+          Look at Time has a shiny new icon replacing the default vue icon. 👨‍🎨
+          It will show up in your browser tab.
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/how-to-edit.gif"
+            src="https://lookattime2.blob.core.windows.net/lookattime-assets/logo-2.png"
           ></v-img>
+        </p>
+        <h3>Switching successfully between timelines!</h3>
+        <p>
+          Switching between timelines will now work as expected and not crash
+          the visualization. Previously you had to reload the page after
+          switching a timeline to allow for proper zooming.
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/how-to-delete.gif"
+            src="https://lookattime2.blob.core.windows.net/lookattime-assets/switching-timelines.gif"
           ></v-img>
         </p>
-
-        <h4>Sharing</h4>
-        <p>
-          You can use the sharing feature to share your timeline with others!
-          Viewers of your timeline will not be able to modify it. 😉 But beware:
-          Once shared, you cannot revoke view access to your timeline. You can
-          however delete everything from it.
-        </p>
-
-        <p>
-          <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/how-to-share.gif"
-          ></v-img>
-        </p>
-
-        <h3>What are we working on right now?</h3>
+        <h3>What are we working on?</h3>
         <p>
           We are working on improving performance to give you the smooth zooming
           experience even with hundreds of time events. 👷
@@ -58,7 +42,7 @@
 
         <h3>What is this about?</h3>
         <p>
-          This tool is made to visualize events in time. It is made for
+          Look at Time is tool made to visualize events in time. It is made for
           teachers, students and everyone who seeks to sort and present historic
           events. Start creating your first time event by clicking the big blue
           button in the bottom-right corner. After you have created your second

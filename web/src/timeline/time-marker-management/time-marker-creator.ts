@@ -2,6 +2,7 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store/store";
 import { v4 as uuid } from "uuid";
 import PositionTranslator from "../position-translator";
+import VisibilityObserver from "../visibility-management/visibility-observer";
 import { Constants } from "./constants";
 
 /**

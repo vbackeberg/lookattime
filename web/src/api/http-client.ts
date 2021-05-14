@@ -104,15 +104,17 @@ export default class HttpClient {
    * @param timeEvent
    * @param timelineId
    * @param userId
+   * @param image
    */
   public static async createTimeEvent(
     timeEvent: TimeEventModel,
     timelineId: string,
-    userId: string
+    userId: string,
+    images: File[]
   ): Promise<void> {
     axios.post(
       process.env.VUE_APP_API_URL + "/create-time-event",
-      TimeEventRequestMapper.map(timeEvent, timelineId, userId)
+      TimeEventRequestMapper.map(timeEvent, timelineId, userId, images)
     );
   }
 
@@ -200,11 +202,12 @@ export default class HttpClient {
   public static async updateTimeEvent(
     timeEvent: TimeEventModel,
     timelineId: string,
-    userId: string
+    userId: string,
+    images: File[]
   ): Promise<void> {
     axios.post(
       process.env.VUE_APP_API_URL + "/update-time-event",
-      TimeEventRequestMapper.map(timeEvent, timelineId, userId)
+      TimeEventRequestMapper.map(timeEvent, timelineId, userId, images)
     );
   }
 }

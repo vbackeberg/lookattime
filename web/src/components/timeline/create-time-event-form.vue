@@ -80,14 +80,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import HttpClient from "@/api/http-client";
 import { v4 as uuid } from "uuid";
 import store from "@/store/store";
-import ImageReferenceModel from "@/models/image-reference-model";
-import { getExtension } from "mime";
 import TimeEventModel from "@/models/time-event-model";
 import PositionTranslator from "@/timeline/position-translator";
 import { VForm } from "@/types";
+import ImageReferenceModel from "@/models/image-reference-model";
+import { getExtension } from "mime";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -103,7 +102,7 @@ export default Vue.extend({
             .filter(timeEvent => timeEvent.id != this.timeEvent.id)
             .map(timeEvent => timeEvent.importance)
             .includes(Number(v)) ||
-          "Another time event already holds the same importance level. Please pick a different level!"
+          "You have another time event with the same importance level. Please pick a different level!"
       ],
       dateRules: [
         (v: number) =>
@@ -139,21 +138,33 @@ export default Vue.extend({
   methods: {
     async create() {
       // TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
-      // TODO: Merge adding time event and storing image into one call. No reason to have separate calls.
+
+      const imageReferences: ImageReferenceModel[] = [];
+      this.images.forEach(async image => {
+        const imageId = uuid();
+        const extension = getExtension(image.type) as string;
+
+        image = this.renameImage(image, imageId + extension);
+        imageReferences.push(new ImageReferenceModel(imageId, extension));
+      });
+
       const timeEvent = new TimeEventModel(
         PositionTranslator.toAbsolutePosition(this.timeEvent.date),
         uuid(),
         this.timeEvent.text,
         this.timeEvent.date,
         this.timeEvent.importance,
-        [],
+        imageReferences,
         this.timeEvent.title
       );
 
-      await store.dispatch("addTimeEvent", timeEvent);
-
-      if (this.images.length > 0) {
-        await this.uploadImages(timeEvent);
+      try {
+        await store.dispatch("addTimeEvent", {
+          timeEvent,
+          images: this.images
+        });
+      } catch (e) {
+        console.log("dispatch addTimeEvent failed: ", e);
       }
 
       this.cleanInputs();
@@ -161,24 +172,43 @@ export default Vue.extend({
     },
 
     async edit() {
+      const imageReferences: ImageReferenceModel[] = [];
+      this.images.forEach(async image => {
+        const imageId = uuid();
+        const extension = getExtension(image.type) as string;
+
+        image = this.renameImage(image, imageId + extension);
+        imageReferences.push(new ImageReferenceModel(imageId, extension));
+      });
+
       const timeEvent = new TimeEventModel(
         PositionTranslator.toAbsolutePosition(this.timeEvent.date),
         this.timeEvent.id,
         this.timeEvent.text,
         this.timeEvent.date,
         this.timeEvent.importance,
-        this.timeEvent.imageReferences,
+        this.timeEvent.imageReferences, // TODO: Update images, too. Existing images, need to be shown and be deletable.
         this.timeEvent.title
       );
 
-      store.dispatch("updateTimeEvent", timeEvent);
-
-      if (this.images.length > 0) {
-        await this.uploadImages(timeEvent);
+      try {
+        await store.dispatch("updateTimeEvent", {
+          // TODO: Maybe combine create and edit.
+          timeEvent,
+          images: this.images
+        });
+      } catch (e) {
+        console.log("dispatch updateTimeEvent failed: ", e);
       }
 
       this.cleanInputs();
       this.show = false;
+    },
+
+    renameImage(image: File, newName: string): File {
+      return new File([image], newName, {
+        type: image.type
+      });
     },
 
     cleanInputs() {
@@ -186,37 +216,37 @@ export default Vue.extend({
       (this.$refs.form as VForm).reset();
     },
 
-    async uploadImages(timeEvent: TimeEventModel) {
-      const imageReferences: ImageReferenceModel[] = [];
-      const storeImageTasks: Promise<void>[] = [];
+    // async uploadImages(timeEvent: TimeEventModel) {
+    // const imageReferences: ImageReferenceModel[] = [];
+    // const storeImageTasks: Promise<void>[] = [];
 
-      this.images.forEach(async image => {
-        const imageId = uuid();
+    // this.images.forEach(async image => {
+    //   const imageId = uuid();
 
-        storeImageTasks.push(
-          HttpClient.storeImage(
-            image,
-            imageId,
-            timeEvent.id,
-            store.state.selectedTimeline.id,
-            store.state.user.id
-          )
-        );
+    //   storeImageTasks.push(
+    //     HttpClient.storeImage(
+    //       image,
+    //       imageId,
+    //       timeEvent.id,
+    //       store.state.selectedTimeline.id,
+    //       store.state.user.id
+    //     )
+    //   );
 
-        imageReferences.push(
-          new ImageReferenceModel(imageId, getExtension(image.type) as string)
-        );
-      });
+    //   imageReferences.push(
+    //     new ImageReferenceModel(imageId, getExtension(image.type) as string)
+    //   );
+    // });
 
-      try {
-        await Promise.all(storeImageTasks);
-        timeEvent.imageReferences = imageReferences;
-        store.commit("updateTimeEvent", timeEvent);
-      } catch (e) {
-        console.warn(e);
-        store.dispatch("deleteTimeEvent", timeEvent);
-      }
-    },
+    //   try {
+    //     await Promise.all(storeImageTasks);
+    //     timeEvent.imageReferences = imageReferences;
+    //     store.commit("updateTimeEvent", timeEvent);
+    //   } catch (e) {
+    //     console.warn(e);
+    //     store.dispatch("deleteTimeEvent", timeEvent);
+    //   }
+    // },
 
     back() {
       this.show = false;

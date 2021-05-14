@@ -1,10 +1,10 @@
-import ImageReferenceModel from "./image-reference-model";
+import ImageReferenceResponse from "../shared/models/image-reference-request-response";
 
 export default class TimeEventResponse {
   id!: string;
   textValue!: string;
   dateValue!: number;
   importanceValue!: number;
-  imageReferences!: ImageReferenceModel[];
+  imageReferences!: ImageReferenceResponse[];
   title!: string;
 }

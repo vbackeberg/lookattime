@@ -233,38 +233,35 @@ export default new Vuex.Store({
       { commit, state },
       timeEventId: string
     ): Promise<void> {
-      await HttpClient.deleteTimeEvent(
+      return HttpClient.deleteTimeEvent(
         timeEventId,
         state.selectedTimeline.id,
         state.user.id
-      );
-      commit("deleteTimeEvent", timeEventId);
+      ).then(() => commit("deleteTimeEvent", timeEventId));
     },
 
     async updateTimeEvent(
       { commit, state },
       addTimeEventModel: AddTimeEventModel
     ): Promise<void> {
-      await HttpClient.updateTimeEvent(
+      return HttpClient.updateTimeEvent(
         addTimeEventModel.timeEvent,
         state.selectedTimeline.id,
         state.user.id,
         addTimeEventModel.images
-      );
-      commit("updateTimeEvent", addTimeEventModel.timeEvent);
+      ).then(() => commit("updateTimeEvent", addTimeEventModel.timeEvent));
     },
 
     async addTimeEvent(
       { commit, state },
       addTimeEventModel: AddTimeEventModel
     ): Promise<void> {
-      await HttpClient.createTimeEvent(
+      return HttpClient.createTimeEvent(
         addTimeEventModel.timeEvent,
         state.selectedTimeline.id,
         state.user.id,
         addTimeEventModel.images
-      );
-      commit("addTimeEvent", addTimeEventModel.timeEvent);
+      ).then(() => commit("addTimeEvent", addTimeEventModel.timeEvent));
     },
 
     async loadTimeEvents({ commit, state }): Promise<void> {

@@ -1,16 +1,15 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob";
 import { validate as validUuid } from "uuid";
-import { validateBufferMIMEType } from "validate-image-type";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequest from "../shared/models/time-event-request";
 import ImageRequest from "../shared/models/image-request";
 import * as multipart from "parse-multipart";
 import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
-import ValidationError from "../shared/errors/validation-error";
 import NoTimeEventCreatedError from "../shared/errors/no-time-event-stored-error";
 import NoImageIdStoredError from "../shared/errors/no-image-id-stored-error";
 import { TYPES } from "mssql";
+import ImageValidator from "../shared/image-validator";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -93,39 +92,8 @@ const httpTrigger: AzureFunction = async function (
       validUuid(userId) &&
       !isNaN(timeEvent.dateValue) &&
       !isNaN(timeEvent.importanceValue) &&
-      images.every((image) => validImage(image))
+      images.every((image) => ImageValidator.validImage(image))
     );
-  }
-
-  function validImage(image: ImageRequest): boolean {
-    if (!image.type) {
-      throw new ValidationError(
-        "Image " + image.filename + " has no type specified."
-      );
-    }
-
-    if (image.data.length > 10000000) {
-      throw new ValidationError(
-        "Image " + image.filename + " is too large. Bytes: " + image.data.length
-      );
-    }
-
-    const result = validateBufferMIMEType(image.data, {
-      allowMimeTypes: ["image/jpeg", "image/gif", "image/png", "image/svg+xml"],
-    });
-
-    if (result.error) {
-      throw new ValidationError(
-        "Image " +
-          image.filename +
-          " is invalid. Error: " +
-          result.error.name +
-          " Message: " +
-          result.error.message
-      );
-    }
-
-    return result.ok;
   }
 
   async function createTimeEvent(

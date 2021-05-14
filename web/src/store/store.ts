@@ -208,20 +208,32 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async setTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
+    async setTimeMarkers(
+      { commit },
+      timeMarkers: TimeMarkerModel[]
+    ): Promise<void> {
       commit("setTimeMarkers", timeMarkers);
     },
 
-    async pushTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
+    async pushTimeMarkers(
+      { commit },
+      timeMarkers: TimeMarkerModel[]
+    ): Promise<void> {
       commit("pushTimeMarkers", timeMarkers);
     },
 
-    async unshiftTimeMarkers({ commit }, timeMarkers: TimeMarkerModel[]) {
+    async unshiftTimeMarkers(
+      { commit },
+      timeMarkers: TimeMarkerModel[]
+    ): Promise<void> {
       commit("unshiftTimeMarkers", timeMarkers);
     },
 
-    async deleteTimeEvent({ commit, state }, timeEventId: string) {
-      HttpClient.deleteTimeEvent(
+    async deleteTimeEvent(
+      { commit, state },
+      timeEventId: string
+    ): Promise<void> {
+      await HttpClient.deleteTimeEvent(
         timeEventId,
         state.selectedTimeline.id,
         state.user.id
@@ -229,8 +241,11 @@ export default new Vuex.Store({
       commit("deleteTimeEvent", timeEventId);
     },
 
-    async updateTimeEvent({ commit, state }, addTimeEventModel: AddTimeEventModel) {
-      HttpClient.updateTimeEvent(
+    async updateTimeEvent(
+      { commit, state },
+      addTimeEventModel: AddTimeEventModel
+    ): Promise<void> {
+      await HttpClient.updateTimeEvent(
         addTimeEventModel.timeEvent,
         state.selectedTimeline.id,
         state.user.id,
@@ -239,8 +254,11 @@ export default new Vuex.Store({
       commit("updateTimeEvent", addTimeEventModel.timeEvent);
     },
 
-    async addTimeEvent({ commit, state }, addTimeEventModel: AddTimeEventModel) {
-      HttpClient.createTimeEvent(
+    async addTimeEvent(
+      { commit, state },
+      addTimeEventModel: AddTimeEventModel
+    ): Promise<void> {
+      await HttpClient.createTimeEvent(
         addTimeEventModel.timeEvent,
         state.selectedTimeline.id,
         state.user.id,
@@ -249,7 +267,7 @@ export default new Vuex.Store({
       commit("addTimeEvent", addTimeEventModel.timeEvent);
     },
 
-    async loadTimeEvents({ commit, state }) {
+    async loadTimeEvents({ commit, state }): Promise<void> {
       ViewResetter.Instance.resetView();
 
       const timeEvents = await HttpClient.getTimeEvents(
@@ -261,18 +279,21 @@ export default new Vuex.Store({
       await ViewResetter.Instance.initiateView();
     },
 
-    async setSelectedTimeline({ commit, dispatch }, timeline: TimelineModel) {
+    async setSelectedTimeline(
+      { commit, dispatch },
+      timeline: TimelineModel
+    ): Promise<void> {
       commit("setSelectedTimeline", timeline);
       SelectedTimelineLocalStorage.Instance.setSelectedTimelineId(timeline.id);
       await dispatch("loadTimeEvents");
     },
 
-    async addTimeline({ commit }, timeline: TimelineModel) {
-      HttpClient.createTimeline(timeline);
+    async addTimeline({ commit }, timeline: TimelineModel): Promise<void> {
+      await HttpClient.createTimeline(timeline);
       commit("addTimeline", timeline);
     },
 
-    async loadTimelines({ commit, dispatch, state }) {
+    async loadTimelines({ commit, dispatch, state }): Promise<void> {
       const timelines = await HttpClient.getTimelines(state.user.id);
 
       if (timelines.length > 0) {
@@ -300,7 +321,7 @@ export default new Vuex.Store({
       }
     },
 
-    async loadUser({ commit, dispatch }) {
+    async loadUser({ commit, dispatch }): Promise<void> {
       const userId = UserLocalStorage.Instance.getUserId();
 
       let user: UserModel;

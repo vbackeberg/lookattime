@@ -55,7 +55,7 @@ const httpTrigger: AzureFunction = async function (
       await createImages(timeEvent, timelineId, userId); //TODO Only if images present
       await Promise.all(storeImageBlobTasks);
 
-      console.log("Successfully created time event" + timeEvent.id);
+      console.log("Successfully created time event: " + timeEvent.id);
     } catch (e) {
       console.error(e);
 
@@ -127,7 +127,7 @@ const httpTrigger: AzureFunction = async function (
     timelineId: string,
     userId: string
   ) {
-    const table = new sql.Table("images"); // or temporary table, e.g. #temptable
+    const table = new sql.Table("images");
     table.columns.add("id", TYPES.UniqueIdentifier, { nullable: false });
     table.columns.add("timeEventId", TYPES.UniqueIdentifier, {
       nullable: false,
@@ -138,11 +138,9 @@ const httpTrigger: AzureFunction = async function (
       table.rows.add(imageReference.id, timeEvent.id, imageReference.extension)
     );
 
-    const req = new sql.Request();
-    const res = await req.bulk(table);
-    console.log(res);
+    const result = await new sql.Request().bulk(table);
 
-    if (res.rowsAffected[0] === 0) {
+    if (result.rowsAffected[0] === 0) {
       throw new NoImageIdStoredError(
         "Did not insert into images for timeEventId: " +
           timeEvent.id +

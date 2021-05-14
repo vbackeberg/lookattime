@@ -140,13 +140,13 @@ export default Vue.extend({
       // TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
 
       const imageReferences: ImageReferenceModel[] = [];
-      this.images.forEach(async image => {
+      for (let i = 0; i < this.images.length; i++) {
         const imageId = uuid();
-        const extension = getExtension(image.type) as string;
+        const extension = getExtension(this.images[i].type) as string;
 
-        image = this.renameImage(image, imageId + extension);
+        this.images[i] = this.renameImage(this.images[i], imageId, extension);
         imageReferences.push(new ImageReferenceModel(imageId, extension));
-      });
+      }
 
       const timeEvent = new TimeEventModel(
         PositionTranslator.toAbsolutePosition(this.timeEvent.date),
@@ -173,11 +173,11 @@ export default Vue.extend({
 
     async edit() {
       const imageReferences: ImageReferenceModel[] = [];
-      this.images.forEach(async image => {
+      this.images.forEach(image => {
         const imageId = uuid();
         const extension = getExtension(image.type) as string;
 
-        image = this.renameImage(image, imageId + extension);
+        image = this.renameImage(image, imageId, extension);
         imageReferences.push(new ImageReferenceModel(imageId, extension));
       });
 
@@ -205,8 +205,8 @@ export default Vue.extend({
       this.show = false;
     },
 
-    renameImage(image: File, newName: string): File {
-      return new File([image], newName, {
+    renameImage(image: File, imageId: string, extension: string): File {
+      return new File([image], imageId + "." + extension, {
         type: image.type
       });
     },
@@ -215,38 +215,6 @@ export default Vue.extend({
       this.images = [] as File[];
       (this.$refs.form as VForm).reset();
     },
-
-    // async uploadImages(timeEvent: TimeEventModel) {
-    // const imageReferences: ImageReferenceModel[] = [];
-    // const storeImageTasks: Promise<void>[] = [];
-
-    // this.images.forEach(async image => {
-    //   const imageId = uuid();
-
-    //   storeImageTasks.push(
-    //     HttpClient.storeImage(
-    //       image,
-    //       imageId,
-    //       timeEvent.id,
-    //       store.state.selectedTimeline.id,
-    //       store.state.user.id
-    //     )
-    //   );
-
-    //   imageReferences.push(
-    //     new ImageReferenceModel(imageId, getExtension(image.type) as string)
-    //   );
-    // });
-
-    //   try {
-    //     await Promise.all(storeImageTasks);
-    //     timeEvent.imageReferences = imageReferences;
-    //     store.commit("updateTimeEvent", timeEvent);
-    //   } catch (e) {
-    //     console.warn(e);
-    //     store.dispatch("deleteTimeEvent", timeEvent);
-    //   }
-    // },
 
     back() {
       this.show = false;

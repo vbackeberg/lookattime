@@ -17,7 +17,9 @@ export default class HttpClient {
    * @param userId
    */
   public static async deleteUser(userId: string): Promise<void> {
-    axios.delete(process.env.VUE_APP_API_URL + "/delete-user?id=" + userId);
+    return axios.delete(
+      process.env.VUE_APP_API_URL + "/delete-user?id=" + userId
+    );
   }
 
   /**
@@ -26,7 +28,7 @@ export default class HttpClient {
    * @param user
    */
   public static async createUser(user: UserModel): Promise<void> {
-    axios.post(
+    return axios.post(
       process.env.VUE_APP_API_URL + "/create-user",
       UserApiMapper.toApi(user)
     );
@@ -48,7 +50,7 @@ export default class HttpClient {
     timelineId: string,
     userId: string
   ): Promise<void> {
-    axios.post(
+    return axios.post(
       process.env.VUE_APP_API_URL +
         "/store-image?imageId=" +
         imageId +
@@ -87,7 +89,7 @@ export default class HttpClient {
     timelineId: string,
     userId: string
   ): Promise<void> {
-    axios.delete(
+    return axios.delete(
       process.env.VUE_APP_API_URL +
         "/delete-time-event?id=" +
         timeEventId +
@@ -112,7 +114,7 @@ export default class HttpClient {
     userId: string,
     images: File[]
   ): Promise<void> {
-    axios.post(
+    return axios.post(
       process.env.VUE_APP_API_URL + "/create-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId, images)
     );
@@ -146,7 +148,7 @@ export default class HttpClient {
     timelineId: string,
     userId: string
   ): Promise<void> {
-    axios.delete(
+    return axios.delete(
       process.env.VUE_APP_API_URL +
         "/delete-timeline?id=" +
         timelineId +
@@ -161,7 +163,10 @@ export default class HttpClient {
    * @param timeline
    */
   public static async createTimeline(timeline: TimelineRequest): Promise<void> {
-    axios.post(process.env.VUE_APP_API_URL + "/create-timeline", timeline);
+    return axios.post(
+      process.env.VUE_APP_API_URL + "/create-timeline",
+      timeline
+    );
   }
 
   /**
@@ -205,7 +210,7 @@ export default class HttpClient {
     userId: string,
     images: File[]
   ): Promise<void> {
-    axios.post(
+    return axios.post(
       process.env.VUE_APP_API_URL + "/update-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId, images)
     );

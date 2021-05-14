@@ -59,11 +59,16 @@
         </v-btn>
         <v-btn
           v-if="!editMode"
-          :disabled="!valid"
+          :disabled="!valid || loading"
           color="primary"
           @click.stop="create()"
         >
-          Create
+          <v-progress-circular
+            indeterminate
+            size="24"
+            v-if="loading"
+          ></v-progress-circular>
+          <span v-else>Create</span>
         </v-btn>
         <v-btn
           v-if="editMode"
@@ -94,6 +99,8 @@ export default Vue.extend({
   data() {
     return {
       images: [] as File[],
+
+      loading: false,
 
       valid: true,
       importanceRules: [
@@ -138,6 +145,7 @@ export default Vue.extend({
   methods: {
     async create() {
       // TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
+      this.loading = true;
 
       const imageReferences: ImageReferenceModel[] = [];
       for (let i = 0; i < this.images.length; i++) {
@@ -163,15 +171,18 @@ export default Vue.extend({
           timeEvent,
           images: this.images
         });
+
+        this.cleanInputs();
+        this.show = false; //TODO It seems to close before await finishes.
+        this.loading = false;
       } catch (e) {
         console.log("dispatch addTimeEvent failed: ", e);
       }
-
-      this.cleanInputs();
-      this.show = false;
     },
 
     async edit() {
+      this.loading = true;
+
       const imageReferences: ImageReferenceModel[] = [];
       this.images.forEach(image => {
         const imageId = uuid();
@@ -197,12 +208,13 @@ export default Vue.extend({
           timeEvent,
           images: this.images
         });
+
+        this.cleanInputs();
+        this.show = false;
+        this.loading = false;
       } catch (e) {
         console.log("dispatch updateTimeEvent failed: ", e);
       }
-
-      this.cleanInputs();
-      this.show = false;
     },
 
     renameImage(image: File, imageId: string, extension: string): File {

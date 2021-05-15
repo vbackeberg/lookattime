@@ -10,6 +10,7 @@ import NoTimeEventCreatedError from "../shared/errors/no-time-event-stored-error
 import NoImageIdStoredError from "../shared/errors/no-image-id-stored-error";
 import { TYPES } from "mssql";
 import ImageValidator from "../shared/image-validator";
+import ImageBlobService from "../shared/image-blob-service";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -20,7 +21,7 @@ const httpTrigger: AzureFunction = async function (
 
   let formDataParts: any;
   try {
-    formDataParts = getFormDataParts();
+    formDataParts = FormDataParser.getFormDataParts(req);
   } catch (e) {
     console.warn(e);
     context.res = {
@@ -47,7 +48,7 @@ const httpTrigger: AzureFunction = async function (
     try {
       let storeImageBlobTasks: Promise<BlockBlobUploadResponse>[] = [];
       images.forEach((image) =>
-        storeImageBlobTasks.push(storeImageBlob(image))
+        storeImageBlobTasks.push(ImageBlobService.uploadImage(image))
       );
 
       await sql.connect(sqlConnectionConfig);
@@ -140,31 +141,6 @@ const httpTrigger: AzureFunction = async function (
 
     const result = await new sql.Request().bulk(table);
 
-    if (result.rowsAffected[0] === 0) {
-      throw new NoImageIdStoredError(
-        "Did not insert into images for timeEventId: " +
-          timeEvent.id +
-          ", timelineId: " +
-          timelineId +
-          ", userId: " +
-          userId
-      );
-    }
-  }
-
-  async function storeImageBlob(
-    image: ImageRequest
-  ): Promise<BlockBlobUploadResponse> {
-    const blockBlobClient = new BlockBlobClient(
-      process.env.AzureWebJobsStorageLookattime,
-      process.env.AzureWebJobsStorageLookattime_ContainerName,
-      image.filename
-    );
-
-    try {
-      return blockBlobClient.upload(image.data, image.data.byteLength);
-    } catch (e) {
-      throw new NoImageBlobStoredError(e.message);
     }
   }
 

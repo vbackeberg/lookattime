@@ -22,10 +22,10 @@ const httpTrigger: AzureFunction = async function (
       await sql.connect(sqlConnectionConfig);
 
       const result = await sql.query`
-      delete from timeEvents
-      where id = ${id} and timelineId = ${timelineId} and timelineId in (
-        select id from timelines where id = ${timelineId} and userId = ${userId}
-      );`;
+        delete from timeEvents
+        where id = ${id} and timelineId = ${timelineId} and timelineId in (
+          select id from timelines where id = ${timelineId} and userId = ${userId}
+        );`;
 
       console.log(result);
     } catch (e) {

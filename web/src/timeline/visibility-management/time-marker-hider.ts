@@ -29,9 +29,11 @@ export default class TimeMarkerHider {
   }
 
   private static getFirstWithinBounds(viewportLeftEdge: number): number {
-    return store.state.timeMarkers.findIndex(
+    const firstWithinBounds = store.state.timeMarkers.findIndex(
       marker => marker.positionCenter > viewportLeftEdge
     );
+
+    return firstWithinBounds > -1 ? firstWithinBounds : 0; // TODO: It should not be possible to have no marker within bounds, but it seems to happen in some cases when initializing a new timeline.
   }
 
   private static getLastWithinBounds(viewportRightEdge: number): number {

@@ -39,6 +39,16 @@
                   label="Add images"
                   v-model="images"
                 />
+                <v-chip-group>
+                  <v-chip
+                    close
+                    small
+                    v-for="imageReference in timeEvent.imageReferences"
+                    v-bind:key="imageReference.id"
+                    @click.stop="deleteImageReference(imageReference)"
+                    >{{ imageReference.id }}</v-chip
+                  >
+                </v-chip-group>
               </v-col>
               <v-col cols="12">
                 <v-textarea
@@ -127,7 +137,16 @@ export default Vue.extend({
     editMode: Boolean,
 
     timeEvent: {
-      type: Object
+      type: Object,
+      default() {
+        return {
+          date: undefined,
+          title: undefined,
+          importance: undefined,
+          text: undefined,
+          imageReferences: [] as ImageReferenceModel[]
+        };
+      }
     }
   },
 

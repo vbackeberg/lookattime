@@ -3,7 +3,6 @@
     <create-time-event-form
       v-model="showCreateTimeEventForm"
       v-bind:editMode="false"
-      v-bind:timeEvent="{}"
     />
     <div id="buffer-top-area">
       <spacer v-bind="spacerRight"></spacer>

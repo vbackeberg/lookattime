@@ -252,6 +252,7 @@ export default Vue.extend({
     },
 
     back() {
+      this.cleanInputs();
       this.show = false;
     }
   }

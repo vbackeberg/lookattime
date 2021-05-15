@@ -53,7 +53,7 @@ const httpTrigger: AzureFunction = async function (
 
       await sql.connect(sqlConnectionConfig);
       await createTimeEvent(timeEvent, timelineId, userId);
-      await createImages(timeEvent, timelineId, userId); //TODO Only if images present
+      await createImages(timeEvent, timelineId, userId);
       await Promise.all(storeImageBlobTasks);
 
       console.log("Successfully created time event: " + timeEvent.id);
@@ -121,19 +121,35 @@ const httpTrigger: AzureFunction = async function (
     timelineId: string,
     userId: string
   ) {
-    const table = new sql.Table("images");
-    table.columns.add("id", TYPES.UniqueIdentifier, { nullable: false });
-    table.columns.add("timeEventId", TYPES.UniqueIdentifier, {
-      nullable: false,
-    });
-    table.columns.add("extension", TYPES.NVarChar(255), { nullable: false });
+    if (timeEvent.imageReferences.length > 0) {
+      // We assume that timeEvent timelineId and userId combination is valid.
+      const table = new sql.Table("images");
+      table.columns.add("id", TYPES.UniqueIdentifier, { nullable: false });
+      table.columns.add("timeEventId", TYPES.UniqueIdentifier, {
+        nullable: false,
+      });
+      table.columns.add("extension", TYPES.NVarChar(255), { nullable: false });
 
-    timeEvent.imageReferences.forEach((imageReference) =>
-      table.rows.add(imageReference.id, timeEvent.id, imageReference.extension)
-    );
+      timeEvent.imageReferences.forEach((imageReference) =>
+        table.rows.add(
+          imageReference.id,
+          timeEvent.id,
+          imageReference.extension
+        )
+      );
 
-    const result = await new sql.Request().bulk(table);
+      const result = await new sql.Request().bulk(table);
 
+      if (result.rowsAffected[0] === 0) {
+        throw new NoImageIdStoredError(
+          "Did not insert into images for timeEventId: " +
+            timeEvent.id +
+            ", timelineId: " +
+            timelineId +
+            ", userId: " +
+            userId
+        );
+      }
     }
   }
 

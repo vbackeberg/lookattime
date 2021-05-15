@@ -21,6 +21,7 @@
                   required
                   type="text"
                   v-model="timeEvent.title"
+                  :rules="titleRules"
                 />
                 <v-text-field
                   label="Importance"
@@ -59,6 +60,7 @@
                   outlined
                   type="text"
                   v-model="timeEvent.text"
+                  :rules="textRules"
                 /> </v-col
             ></v-row> </v-container
         ></v-form>

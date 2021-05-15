@@ -113,7 +113,18 @@ export default Vue.extend({
       loading: false,
 
       valid: true,
+      dateRules: [
+        (v: number) => !!v || "This field is required",
+        (v: number) =>
+          !store.state.timeEvents
+            .filter(timeEvent => timeEvent.id != this.timeEvent.id)
+            .map(timeEvent => timeEvent.date)
+            .includes(Number(v)) ||
+          "You cannot place two events at the same date. Sorry!"
+      ],
+      titleRules: [(v: string) => !!v || "This field is required"],
       importanceRules: [
+        (v: number) => !!v || "This field is required",
         (v: number) =>
           !store.state.timeEvents
             .filter(timeEvent => timeEvent.id != this.timeEvent.id)
@@ -121,14 +132,7 @@ export default Vue.extend({
             .includes(Number(v)) ||
           "You have another time event with the same importance level. Please pick a different level!"
       ],
-      dateRules: [
-        (v: number) =>
-          !store.state.timeEvents
-            .filter(timeEvent => timeEvent.id != this.timeEvent.id)
-            .map(timeEvent => timeEvent.date)
-            .includes(Number(v)) ||
-          "You cannot place two events at the same date. Sorry!"
-      ]
+      textRules: [(v: string) => !!v || "This field is required"]
     };
   },
 

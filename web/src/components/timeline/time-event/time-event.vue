@@ -135,7 +135,7 @@ export default Vue.extend({
       const imageReference = this.imageReferences[0] as ImageReferenceModel;
 
       return (
-        "https://lookattime2.blob.core.windows.net/lookattime2/" +
+        process.env.VUE_APP_IMAGE_URL +
         imageReference.id +
         "." +
         imageReference.extension

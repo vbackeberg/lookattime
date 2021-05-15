@@ -207,6 +207,7 @@ export default Vue.extend({
         this.loading = false;
       } catch (e) {
         console.log("dispatch addTimeEvent failed: ", e);
+        this.loading = false;
       }
     },
 

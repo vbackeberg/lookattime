@@ -3,3 +3,4 @@ export default class NoImageIdStoredError extends Error {
     super(message);
   }
 }
+// TODO Rename to image Id created

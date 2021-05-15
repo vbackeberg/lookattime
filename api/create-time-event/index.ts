@@ -10,6 +10,7 @@ import NoTimeEventCreatedError from "../shared/errors/no-time-event-stored-error
 import NoImageIdStoredError from "../shared/errors/no-image-id-stored-error";
 import { TYPES } from "mssql";
 import ImageValidator from "../shared/image-validator";
+import FormDataParser from "../shared/form-data-parser";
 import ImageBlobService from "../shared/image-blob-service";
 const sql = require("mssql");
 
@@ -72,13 +73,6 @@ const httpTrigger: AzureFunction = async function (
         status: 500,
       };
     }
-  }
-
-  function getFormDataParts(): any {
-    return multipart.Parse(
-      Buffer.from(req.body),
-      multipart.getBoundary(req.headers["content-type"])
-    );
   }
 
   function validRequest(

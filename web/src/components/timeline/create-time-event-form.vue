@@ -46,7 +46,7 @@
                     small
                     v-for="imageReference in imageReferences"
                     v-bind:key="imageReference.id"
-                    @click:close="deleteImage(imageReference)"
+                    @click:close="markImageForDeletion(imageReference)"
                     >{{ imageReference.id }}</v-chip
                   >
                 </v-chip-group>
@@ -69,25 +69,15 @@
           Back
         </v-btn>
         <v-btn
-          v-if="!editMode"
           :disabled="!valid || loading"
           color="primary"
-          @click.stop="create()"
-        >
-          <v-progress-circular
+          @click.stop="submit()"
+          ><v-progress-circular
             indeterminate
             size="24"
             v-if="loading"
           ></v-progress-circular>
-          <span v-else>Create</span>
-        </v-btn>
-        <v-btn
-          v-if="editMode"
-          :disabled="!valid"
-          color="primary"
-          @click.stop="edit()"
-        >
-          Save
+          {{ this.editMode ? "Save" : "Create" }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -110,7 +100,8 @@ export default Vue.extend({
   data() {
     return {
       images: [] as File[],
-      imagesToDelete: [] as ImageReferenceModel[],
+      imageReferencesToDelete: [] as ImageReferenceModel[],
+      imageReferencesToAdd: [] as ImageReferenceModel[],
 
       loading: false,
 
@@ -167,85 +158,54 @@ export default Vue.extend({
     },
 
     imageReferences(): ImageReferenceModel[] {
-      return (this.timeEvent.imageReferences as ImageReferenceModel[]).filter(
-        imageReference => !this.imagesToDelete.includes(imageReference)
-      );
+      return (this.timeEvent.imageReferences as ImageReferenceModel[])
+        .filter(
+          imageReference =>
+            !this.imageReferencesToDelete.includes(imageReference)
+        )
+        .concat(this.imageReferencesToAdd);
     }
   },
 
   methods: {
-    async create() {
+    async submit() {
       this.loading = true;
 
-      const imageReferences: ImageReferenceModel[] = [];
+      this.prepareImagesForUpload();
+
+      const action = this.editMode ? "updateTimeEvent" : "addTimeEvent";
+      const timeEventId = this.editMode ? this.timeEvent.id : uuid();
+
+      try {
+        await store.dispatch(action, {
+          timeEvent: new TimeEventModel(
+            PositionTranslator.toAbsolutePosition(this.timeEvent.date),
+            timeEventId,
+            this.timeEvent.text,
+            this.timeEvent.date,
+            this.timeEvent.importance,
+            this.imageReferences,
+            this.timeEvent.title
+          ),
+          images: this.images
+        });
+
+        this.close();
+      } catch (e) {
+        console.log("dispatch " + action + " failed: ", e);
+        this.loading = false;
+      }
+    },
+
+    prepareImagesForUpload() {
       for (let i = 0; i < this.images.length; i++) {
         const imageId = uuid();
         const extension = getExtension(this.images[i].type) as string;
 
         this.images[i] = this.renameImage(this.images[i], imageId, extension);
-        imageReferences.push(new ImageReferenceModel(imageId, extension));
-      }
-
-      const timeEvent = new TimeEventModel(
-        PositionTranslator.toAbsolutePosition(this.timeEvent.date),
-        uuid(),
-        this.timeEvent.text,
-        this.timeEvent.date,
-        this.timeEvent.importance,
-        imageReferences,
-        this.timeEvent.title
-      );
-
-      try {
-        await store.dispatch("addTimeEvent", {
-          timeEvent,
-          images: this.images
-        });
-
-        this.clearInput();
-        this.show = false;
-        this.loading = false;
-      } catch (e) {
-        console.log("dispatch addTimeEvent failed: ", e);
-        this.loading = false;
-      }
-    },
-
-    async edit() {
-      this.loading = true;
-
-      this.images.forEach(image => {
-        const imageId = uuid();
-        const extension = getExtension(image.type) as string;
-
-        image = this.renameImage(image, imageId, extension);
-        this.timeEvent.imageReferences.push(
+        this.imageReferencesToAdd.push(
           new ImageReferenceModel(imageId, extension)
         );
-      });
-
-      const timeEvent = new TimeEventModel(
-        PositionTranslator.toAbsolutePosition(this.timeEvent.date),
-        this.timeEvent.id,
-        this.timeEvent.text,
-        this.timeEvent.date,
-        this.timeEvent.importance,
-        this.imageReferences, // API needs to delete images that are not inside of this array.
-        this.timeEvent.title
-      );
-
-      try {
-        await store.dispatch("updateTimeEvent", {
-          // TODO: Maybe combine create and edit.
-          timeEvent,
-          images: this.images
-        });
-
-        this.clearInput();
-        this.show = false;
-        this.loading = false;
-      } catch (e) {
-        console.log("dispatch updateTimeEvent failed: ", e);
       }
     },
 
@@ -255,13 +215,19 @@ export default Vue.extend({
       });
     },
 
-    deleteImage(imageReferenceToDelete: ImageReferenceModel) {
-      this.imagesToDelete.push(imageReferenceToDelete);
+    markImageForDeletion(imageReferenceToDelete: ImageReferenceModel) {
+      this.imageReferencesToDelete.push(imageReferenceToDelete);
+    },
+
+    close() {
+      this.clearInput();
+      this.show = false;
+      this.loading = false;
     },
 
     clearInput() {
       this.images = [] as File[];
-      this.imagesToDelete = [] as ImageReferenceModel[];
+      this.imageReferencesToDelete = [] as ImageReferenceModel[];
       (this.$refs.form as VForm).reset();
     },
 

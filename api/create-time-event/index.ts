@@ -4,7 +4,6 @@ import { validate as validUuid } from "uuid";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequest from "../shared/models/time-event-request";
 import ImageRequest from "../shared/models/image-request";
-import * as multipart from "parse-multipart";
 import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
 import NoTimeEventCreatedError from "../shared/errors/no-time-event-created-error";
 import NoImageIdStoredError from "../shared/errors/no-image-id-stored-error";

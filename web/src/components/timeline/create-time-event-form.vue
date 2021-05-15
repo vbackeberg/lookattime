@@ -46,7 +46,7 @@
                     small
                     v-for="imageReference in imageReferences"
                     v-bind:key="imageReference.id"
-                    @click:close="deleteImageReference(imageReference)"
+                    @click:close="deleteImage(imageReference)"
                     >{{ imageReference.id }}</v-chip
                   >
                 </v-chip-group>
@@ -255,7 +255,7 @@ export default Vue.extend({
       });
     },
 
-    deleteImageReference(imageReferenceToDelete: ImageReferenceModel) {
+    deleteImage(imageReferenceToDelete: ImageReferenceModel) {
       this.imagesToDelete.push(imageReferenceToDelete);
     },
 

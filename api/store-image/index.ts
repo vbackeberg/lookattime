@@ -6,8 +6,8 @@ import * as multipart from "parse-multipart";
 import { getExtension } from "mime";
 import ImageRequest from "../shared/models/image-request";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
-import NoImageIdStoredError from "../shared/errors/no-image-id-stored-error";
 import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
+import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -114,7 +114,7 @@ async function storeImageId(
   );`;
 
   if (result.rowsAffected[0] === 0) {
-    throw new NoImageIdStoredError(
+    throw new NoImageIdCreatedError(
       "Did not insert into images for imageId: " +
         imageId +
         ", timeEventId: " +

@@ -1,16 +1,16 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob";
+import { BlockBlobUploadResponse } from "@azure/storage-blob";
 import { validate as validUuid } from "uuid";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequest from "../shared/models/time-event-request";
 import ImageRequest from "../shared/models/image-request";
 import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
 import NoTimeEventCreatedError from "../shared/errors/no-time-event-created-error";
-import NoImageIdStoredError from "../shared/errors/no-image-id-stored-error";
 import { TYPES } from "mssql";
 import ImageValidator from "../shared/image-validator";
 import FormDataParser from "../shared/form-data-parser";
 import ImageBlobService from "../shared/image-blob-service";
+import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -141,7 +141,7 @@ const httpTrigger: AzureFunction = async function (
       const result = await new sql.Request().bulk(table);
 
       if (result.rowsAffected[0] === 0) {
-        throw new NoImageIdStoredError(
+        throw new NoImageIdCreatedError(
           "Did not insert into images for timeEventId: " +
             timeEvent.id +
             ", timelineId: " +

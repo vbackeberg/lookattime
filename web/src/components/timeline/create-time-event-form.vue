@@ -195,8 +195,7 @@ export default Vue.extend({
           images: this.images
         });
 
-        this.cleanInputs();
-        this.show = false; //TODO It seems to close before await finishes.
+        this.clearInput();
         this.loading = false;
       } catch (e) {
         console.log("dispatch addTimeEvent failed: ", e);
@@ -232,7 +231,7 @@ export default Vue.extend({
           images: this.images
         });
 
-        this.cleanInputs();
+        this.clearInput();
         this.show = false;
         this.loading = false;
       } catch (e) {
@@ -246,13 +245,13 @@ export default Vue.extend({
       });
     },
 
-    cleanInputs() {
+    clearInput() {
       this.images = [] as File[];
       (this.$refs.form as VForm).reset();
     },
 
     back() {
-      this.cleanInputs();
+      this.clearInput();
       this.show = false;
     }
   }

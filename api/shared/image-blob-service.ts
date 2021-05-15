@@ -5,7 +5,6 @@ import {
 } from "@azure/storage-blob";
 import NoImageBlobStoredError from "./errors/no-image-blob-stored-error";
 import ImageDto from "./models/dtos/image-dto";
-import ImageReferenceRequestResponse from "./models/image-reference-request-response";
 import ImageRequest from "./models/image-request";
 
 export default class ImageBlobService {
@@ -31,7 +30,7 @@ export default class ImageBlobService {
     const blockBlobClient = new BlockBlobClient(
       process.env.AzureWebJobsStorageLookattime,
       process.env.AzureWebJobsStorageLookattime_ContainerName,
-      imageDto.id + imageDto.extension
+      imageDto.id + "." + imageDto.extension
     );
 
     return blockBlobClient.deleteIfExists({ deleteSnapshots: "include" });

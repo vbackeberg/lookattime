@@ -196,6 +196,7 @@ export default Vue.extend({
         });
 
         this.clearInput();
+        this.show = false;
         this.loading = false;
       } catch (e) {
         console.log("dispatch addTimeEvent failed: ", e);

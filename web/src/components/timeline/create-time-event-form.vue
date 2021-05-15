@@ -43,9 +43,9 @@
                   <v-chip
                     close
                     small
-                    v-for="imageReference in timeEvent.imageReferences"
+                    v-for="imageReference in imageReferences"
                     v-bind:key="imageReference.id"
-                    @click.stop="deleteImageReference(imageReference)"
+                    @click:close="deleteImageReference(imageReference)"
                     >{{ imageReference.id }}</v-chip
                   >
                 </v-chip-group>
@@ -109,6 +109,7 @@ export default Vue.extend({
   data() {
     return {
       images: [] as File[],
+      imagesToDelete: [] as ImageReferenceModel[],
 
       loading: false,
 
@@ -162,6 +163,12 @@ export default Vue.extend({
       set(value: boolean) {
         this.$emit("input", value);
       }
+    },
+
+    imageReferences(): ImageReferenceModel[] {
+      return (this.timeEvent.imageReferences as ImageReferenceModel[]).filter(
+        imageReference => !this.imagesToDelete.includes(imageReference)
+      );
     }
   },
 
@@ -206,13 +213,14 @@ export default Vue.extend({
     async edit() {
       this.loading = true;
 
-      const imageReferences: ImageReferenceModel[] = [];
       this.images.forEach(image => {
         const imageId = uuid();
         const extension = getExtension(image.type) as string;
 
         image = this.renameImage(image, imageId, extension);
-        imageReferences.push(new ImageReferenceModel(imageId, extension));
+        this.timeEvent.imageReferences.push(
+          new ImageReferenceModel(imageId, extension)
+        );
       });
 
       const timeEvent = new TimeEventModel(
@@ -221,7 +229,7 @@ export default Vue.extend({
         this.timeEvent.text,
         this.timeEvent.date,
         this.timeEvent.importance,
-        this.timeEvent.imageReferences, // TODO: Update images, too. Existing images, need to be shown and be deletable.
+        this.imageReferences,
         this.timeEvent.title
       );
 
@@ -246,8 +254,13 @@ export default Vue.extend({
       });
     },
 
+    deleteImageReference(imageReferenceToDelete: ImageReferenceModel) {
+      this.imagesToDelete.push(imageReferenceToDelete);
+    },
+
     clearInput() {
       this.images = [] as File[];
+      this.imagesToDelete = [] as ImageReferenceModel[];
       (this.$refs.form as VForm).reset();
     },
 

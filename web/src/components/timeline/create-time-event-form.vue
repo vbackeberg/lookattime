@@ -31,6 +31,7 @@
                 />
               </v-col>
               <v-col cols="12" sm="6" align-self="center">
+                <!-- TODO It should not move when chip group changes -->
                 <v-file-input
                   accept="image/jpeg, image/gif, image/png, image/svg+xml"
                   outlined
@@ -174,7 +175,6 @@ export default Vue.extend({
 
   methods: {
     async create() {
-      // TODO: Error handling: If unsuccessful, do not close, show error, preserve entered data.
       this.loading = true;
 
       const imageReferences: ImageReferenceModel[] = [];
@@ -230,7 +230,7 @@ export default Vue.extend({
         this.timeEvent.text,
         this.timeEvent.date,
         this.timeEvent.importance,
-        this.imageReferences,
+        this.imageReferences, // API needs to delete images that are not inside of this array.
         this.timeEvent.title
       );
 

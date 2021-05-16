@@ -6,26 +6,33 @@
       </v-card-title>
 
       <v-card-text>
-        <h3>New icon</h3>
+        <h3>Create dialog will now wait for the upload to finish</h3>
         <p>
-          Look at Time has a shiny new icon replacing the default vue icon. It
-          will show up in your browser tab. One day, this will be considered
-          art. 👨‍🎨
+          When creating or editing a time event, you will now see a loading
+          circle on the submit button and the dialog won't disappear until the
+          event and its images have successfully been uploaded. Currently, you
+          can upload only one image, but we will soon remove this limitation!
+          🖼️🖼️🖼️
+        </p>
+        <p>
+          When editing, existing images will be shown below the upload field and
+          you can delete them by click.
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/logo-2.png"
+            src="https://lookattime2.blob.core.windows.net/lookattime-assets/loading-circle-on-create.gif"
           ></v-img>
         </p>
-        <h3>Switching successfully between timelines!</h3>
+        <h3>Title and text are now mandatory and we validate correctly! 🔍</h3>
         <p>
-          Switching between timelines will now work as expected and not crash
-          the visualization. Previously you had to reload the page after
-          switching a timeline to allow for proper zooming.
+          The next time you create a time event, you will see better validation
+          feedback as we corrected the validation rules for your input. We fixed
+          a lot of other bugs related to all various areas such as hiding and
+          showing time markers.
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/switching-timelines.gif"
+            src="https://lookattime2.blob.core.windows.net/lookattime-assets/validation-works.gif"
           ></v-img>
         </p>
         <h3>What are we working on?</h3>

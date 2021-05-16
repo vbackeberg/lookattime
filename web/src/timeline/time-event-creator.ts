@@ -1,6 +1,7 @@
 import store from "@/store/store";
 import Vue from "vue";
 import ViewFocuser from "./viewport/view-focuser";
+import VisibilityObserver from "./visibility-management/visibility-observer";
 
 /**
  * Adds timeEvent to store. Handles possible space extension. Scrolls to new timeEvent.
@@ -32,6 +33,8 @@ export default class TimeEventCreator {
 
         this.viewFocuser.extendFocus(mutation.payload.positionCenter);
       }
+
+      VisibilityObserver.Instance.notify();
     });
   }
 

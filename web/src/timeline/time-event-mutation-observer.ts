@@ -7,7 +7,7 @@ import VisibilityObserver from "./visibility-management/visibility-observer";
  * Adds timeEvent to store. Handles possible space extension. Scrolls to new timeEvent.
  * Adds time new markers.
  */
-export default class TimeEventCreator {
+export default class TimeEventMutationObserver {
   private viewFocuser: ViewFocuser;
 
   private constructor() {
@@ -38,7 +38,7 @@ export default class TimeEventCreator {
     });
   }
 
-  private static instance: TimeEventCreator;
+  private static instance: TimeEventMutationObserver;
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }

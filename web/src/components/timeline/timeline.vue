@@ -65,7 +65,7 @@ import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import SpacerModel from "@/models/spacer-model";
-import TimeEventCreator from "@/timeline/time-event-creator";
+import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
 
 let timeMarkerDistanceWatcher: TimeMarkerDistanceWatcher;
 
@@ -100,7 +100,7 @@ export default Vue.extend({
     timeMarkerDistanceWatcher = TimeMarkerDistanceWatcher.Instance;
     VisibilityObserver.Instance;
     ZoomObserver.Instance;
-    TimeEventCreator.Instance;
+    TimeEventMutationObserver.Instance;
 
     // TODO: Check whether loading all content should go before loading the services.
     await store.dispatch("loadUser");

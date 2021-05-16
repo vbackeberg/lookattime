@@ -4,7 +4,7 @@ import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob";
 import { validate as validUuid } from "uuid";
 import * as multipart from "parse-multipart";
 import { getExtension } from "mime";
-import ImageRequest from "../shared/models/image-request";
+import ImageRequest from "../shared/models/api/image-request";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
 import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";

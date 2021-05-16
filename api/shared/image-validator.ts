@@ -1,6 +1,6 @@
 import { validateBufferMIMEType } from "validate-image-type";
 import ValidationError from "./errors/validation-error";
-import ImageRequest from "./models/image-request";
+import ImageRequest from "./models/api/image-request";
 export default class ImageValidator {
 
   public static validImage(image: ImageRequest): boolean {

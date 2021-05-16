@@ -5,7 +5,7 @@ import {
 } from "@azure/storage-blob";
 import NoImageBlobStoredError from "./errors/no-image-blob-stored-error";
 import ImageDto from "./models/dtos/image-dto";
-import ImageRequest from "./models/image-request";
+import ImageRequest from "./models/api/image-request";
 
 export default class ImageBlobService {
   public static async uploadImage(

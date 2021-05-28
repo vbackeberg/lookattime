@@ -8,7 +8,7 @@ import ViewResetter from "@/timeline/viewport/view-resetter";
 import HttpClient from "@/api/http-client";
 import UserModel from "@/models/user-model";
 import TimelineModel from "@/models/timeline-model";
-import UserLocalStorage from "@/user/user-local-storage";
+import UserLocalStorage from "@/local-storage/user-local-storage";
 import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
 import AddTimeEventModel from "./add-time-event-model";
 Vue.use(Vuex);

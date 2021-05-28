@@ -95,7 +95,6 @@ const httpTrigger: AzureFunction = async function (
     timelineId: string,
     userId: string
   ) {
-    //TODO turn this query into a join and check if exists
     const result = await sql.query`
       if exists (
         select * from timelines

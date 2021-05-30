@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="spacer"
-    v-bind:style="{
-      left: positionLeft + 'px',
-      width: width + 'px'
-    }"
-  ></div>
+  <div class="spacer" v-bind:style="[styleWidth, styleTranslate]"></div>
 </template>
 
 <script lang="ts">
@@ -17,6 +11,20 @@ export default Vue.extend({
   props: {
     positionLeft: Number,
     width: Number
+  },
+
+  computed: {
+    styleWidth(): object {
+      return {
+        width: this.width + "px"
+      };
+    },
+
+    styleTranslate(): object {
+      return {
+        transform: "translateX(" + this.positionLeft + "px)"
+      };
+    }
   }
 });
 </script>

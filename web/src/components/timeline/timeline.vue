@@ -6,6 +6,7 @@
     />
     <div id="buffer-top-area">
       <spacer v-bind="spacerRight"></spacer>
+      <!-- TODO: Check if ref can be removed -->
       <spacer-left ref="spacerLeftElement" v-bind="spacerLeft"></spacer-left>
       <spacer v-bind="spacerPageEdge"></spacer>
     </div>

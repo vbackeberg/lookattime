@@ -23,6 +23,8 @@ export default class SpaceExtender {
       timeMarker.positionCenter += distance;
     });
 
+    store.state.spacerRight.positionLeft += distance;
+
     store.commit("setTimelineZero", store.state.timelineZero + distance);
 
     store.commit(

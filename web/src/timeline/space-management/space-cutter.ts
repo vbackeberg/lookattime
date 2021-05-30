@@ -24,6 +24,8 @@ export default class SpaceCutter {
       timeMarker.positionCenter -= distance;
     });
 
+    store.state.spacerRight.positionLeft -= distance;
+
     store.commit("setTimelineZero", store.state.timelineZero - distance);
 
     timelineElement.scrollBy(-distance, 0);

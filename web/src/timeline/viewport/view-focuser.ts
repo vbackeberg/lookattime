@@ -83,8 +83,7 @@ export default class ViewFocuser {
 
     if (
       absoluteRight >
-        store.getters.spacerRight.positionLeft +
-          store.getters.spacerRight.width &&
+        store.state.spacerRight.positionLeft + store.state.spacerRight.width &&
       absoluteRight >
         store.state.spacerPageEdge.positionLeft +
           store.state.spacerPageEdge.width

@@ -1,3 +1,4 @@
+import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 
 export default class Zoomer {
@@ -20,6 +21,7 @@ export default class Zoomer {
   private reposition(zoomFactor: number, referencePosition: number) {
     this.repositionTimeEvents(zoomFactor, referencePosition);
     this.repositionSpacerPageEdge();
+    this.repositionSpacerLeft();
     this.repositionTimelineZero(zoomFactor, referencePosition);
     this.repositionTimeMarkers(zoomFactor, referencePosition);
   }
@@ -39,6 +41,22 @@ export default class Zoomer {
       store.state.spacerPageEdge.width;
 
     store.commit("setSpacerPageEdgePosition", newPositionLeft);
+  }
+
+  private repositionSpacerLeft() {
+    const width =
+      store.state.timelineElement.clientWidth / 2 -
+      TimeEventModel.expandedWidth / 2;
+
+    console.log("store.state.timelineElement.clientWidth: ", store.state.timelineElement.clientWidth);
+    console.log("width: ", width);
+
+    store.state.spacerLeft.positionLeft =
+      store.state.timeEvents[0].positionCenter -
+      TimeEventModel.expandedWidth / 2 -
+      width;
+
+    store.state.spacerLeft.width = width;
   }
 
   private repositionTimelineZero(

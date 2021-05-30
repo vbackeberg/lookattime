@@ -28,6 +28,11 @@ export default new Vuex.Store({
       width: 1
     } as SpacerModel,
 
+    spacerLeft: {
+      positionLeft: 0,
+      width: 1
+    } as SpacerModel,
+
     timeMarkers: [] as TimeMarkerModel[],
     timeMarkerDepth: 1,
 
@@ -39,29 +44,6 @@ export default new Vuex.Store({
   },
 
   getters: {
-    spacerLeft(state): SpacerModel {
-      const lowestTimeEvent = state.timeEvents[0];
-
-      if (!lowestTimeEvent) {
-        return {
-          positionLeft: 0,
-          width: state.timelineElement.clientWidth / 2
-        } as SpacerModel;
-      } else {
-        const width =
-          state.timelineElement.clientWidth / 2 -
-          TimeEventModel.expandedWidth / 2;
-
-        return {
-          positionLeft:
-            lowestTimeEvent.positionCenter -
-            TimeEventModel.expandedWidth / 2 -
-            width,
-          width: width
-        } as SpacerModel;
-      }
-    },
-
     spacerRight(state): SpacerModel {
       const highestTimeEvent = state.timeEvents[state.timeEvents.length - 1];
 
@@ -89,8 +71,8 @@ export default new Vuex.Store({
      * @param getters
      * @returns the left edge of the timeline in absolute numbers.
      */
-    leftEdge(_, getters): number {
-      return Math.min(0, getters.spacerLeft.positionLeft);
+    leftEdge(state): number {
+      return Math.min(0, state.spacerLeft.positionLeft);
     },
 
     /**

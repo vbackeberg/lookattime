@@ -15,7 +15,7 @@ export default class SpaceObserver {
 
     this.spacerLeftElement.addEventListener("transitionend", () => {
       const expendableLeftSpace = Math.min(
-        store.getters.spacerLeft.positionLeft,
+        store.state.spacerLeft.positionLeft,
         store.state.timelineElement.scrollLeft
       );
 
@@ -24,10 +24,10 @@ export default class SpaceObserver {
           store.state.timelineElement,
           expendableLeftSpace
         );
-      } else if (store.getters.spacerLeft.positionLeft < 0) {
+      } else if (store.state.spacerLeft.positionLeft < 0) {
         SpaceExtender.extendLeftSpace(
           store.state.timelineElement,
-          -store.getters.spacerLeft.positionLeft
+          -store.state.spacerLeft.positionLeft
         );
       } else {
         this.notifyVisibilityObserver();

@@ -32,11 +32,13 @@ export default class TimeEventHider {
   }
 
   private static getFirstWithinBounds(viewportLeftEdge: number): number {
-    return store.state.timeEvents.findIndex(
+    const firstWithinBounds = store.state.timeEvents.findIndex(
       timeEvent =>
         timeEvent.positionCenter + TimeEventModel.expandedWidthOffset >
         viewportLeftEdge - this.margin
     );
+
+    return firstWithinBounds > -1 ? firstWithinBounds : 0;
   }
 
   private static getLastWithinBounds(viewportRightEdge: number): number {
@@ -46,7 +48,7 @@ export default class TimeEventHider {
         viewportRightEdge + this.margin
     );
 
-    return firstOutsideBounds > -1
+    return firstOutsideBounds > 0
       ? firstOutsideBounds - 1
       : store.state.timeEvents.length - 1;
   }

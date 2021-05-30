@@ -15,6 +15,11 @@ export default class ZoomObserver {
       if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
         return;
       }
+
+      if (store.state.timeEvents.length === 0) {
+        return;
+      }
+
       this.changeZoom(e);
     });
   }

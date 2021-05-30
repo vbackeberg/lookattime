@@ -82,6 +82,7 @@ export default class ViewFocuser {
     }
 
     if (
+      // TODO: Check if store right edge could be used here.
       absoluteRight >
         store.state.spacerRight.positionLeft + store.state.spacerRight.width &&
       absoluteRight >

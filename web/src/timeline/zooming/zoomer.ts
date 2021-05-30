@@ -49,9 +49,6 @@ export default class Zoomer {
       store.state.timelineElement.clientWidth / 2 -
       TimeEventModel.expandedWidth / 2;
 
-    console.log("store.state.timelineElement.clientWidth: ", store.state.timelineElement.clientWidth);
-    console.log("width: ", width);
-
     store.state.spacerLeft.positionLeft =
       store.state.timeEvents[0].positionCenter -
       TimeEventModel.expandedWidth / 2 -

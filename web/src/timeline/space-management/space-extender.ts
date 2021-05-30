@@ -14,6 +14,7 @@ export default class SpaceExtender {
       element.classList.remove("zoom-transition");
     }
 
+    store.state.spacerLeft.positionLeft += distance;
     store.state.timeEvents.forEach(timeEvent => {
       timeEvent.positionCenter += distance;
     });

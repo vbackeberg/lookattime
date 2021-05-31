@@ -16,6 +16,8 @@ export default class ZoomObserver {
         return;
       }
 
+      e.preventDefault();
+
       if (store.state.timeEvents.length === 0) {
         return;
       }

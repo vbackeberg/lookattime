@@ -119,7 +119,6 @@ export default Vue.extend({
 
   computed: {
     ...mapGetters([
-      "spacerRight",
       "timeEventsVisible",
       "timeMarkersVisible",
       "timeMarkerDistance",
@@ -132,6 +131,10 @@ export default Vue.extend({
 
     spacerLeft(): SpacerModel {
       return store.state.spacerLeft;
+    },
+
+    spacerRight(): SpacerModel {
+      return store.state.spacerRight;
     },
 
     horizontalLineWidth(): number {

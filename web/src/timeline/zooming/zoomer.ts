@@ -27,6 +27,11 @@ export default class Zoomer {
     this.repositionTimeMarkers(zoomFactor, referencePosition);
   }
 
+  /**
+   * 
+   * @param zoomFactor The factor by which the distance between time event and reference position should shrink or grow
+   * @param referencePosition The position the time event should approach to or depart from
+   */
   private repositionTimeEvents(zoomFactor: number, referencePosition: number) {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
       const distance =
@@ -78,6 +83,11 @@ export default class Zoomer {
     store.commit("setTimelineZero", newPosition); // TODO: exchange commit with regular assignment for performance reasons.
   }
 
+  /**
+   * 
+   * @param zoomFactor The factor by which the distance between time marker and reference position should shrink or grow
+   * @param referencePosition The position the time marker should approach to or depart from
+   */
   private repositionTimeMarkers(zoomFactor: number, referencePosition: number) {
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
       const distance =

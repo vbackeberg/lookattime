@@ -10,7 +10,6 @@ export default class TimeEventModel {
   date: number;
   importance: number;
   imageReferences: ImageReferenceModel[];
-
   title: string;
   show = false;
 

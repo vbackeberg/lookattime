@@ -122,9 +122,15 @@ export default Vue.extend({
     },
 
     timeEventIndex(): number {
-      return store.state.timeEvents.findIndex(
+      const index = store.state.timeEvents.findIndex(
         timeEvent => timeEvent.id === this.id
       );
+
+      if (index !== -1) {
+        return index;
+      } else {
+        throw Error("Could not get time event index because it was not found");
+      }
     },
 
     imageSource(): string {

@@ -28,11 +28,12 @@ export default class Zoomer {
   }
 
   private repositionTimeEvents(zoomFactor: number, referencePosition: number) {
-    store.state.timeEvents.forEach(timeEvent => {
+    for (let i = 0; i < store.state.timeEvents.length; i++) {
       const distance =
-        (timeEvent.positionCenter - referencePosition) * zoomFactor;
-      timeEvent.positionCenter = referencePosition + distance;
-    });
+        (store.state.timeEvents[i].positionCenter - referencePosition) *
+        zoomFactor;
+      store.state.timeEvents[i].positionCenter = referencePosition + distance;
+    }
   }
 
   private repositionSpacerPageEdge() {
@@ -78,11 +79,12 @@ export default class Zoomer {
   }
 
   private repositionTimeMarkers(zoomFactor: number, referencePosition: number) {
-    store.state.timeMarkers.forEach(timeMarker => {
+    for (let i = 0; i < store.state.timeMarkers.length; i++) {
       const distance =
-        (timeMarker.positionCenter - referencePosition) * zoomFactor;
-      timeMarker.positionCenter = referencePosition + distance;
-    });
+        (store.state.timeMarkers[i].positionCenter - referencePosition) *
+        zoomFactor;
+      store.state.timeMarkers[i].positionCenter = referencePosition + distance;
+    }
   }
 
   private static instance: Zoomer;

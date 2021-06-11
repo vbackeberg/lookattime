@@ -1,5 +1,6 @@
 <template>
   <transition appear>
+    <!-- TODO: consider using svg instead of div for performance reasons -->
     <div
       class="marker zoom-transition zoomable"
       v-bind:style="[styleWidth, styleTranslate]"

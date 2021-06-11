@@ -28,7 +28,7 @@ export default class Zoomer {
   }
 
   /**
-   * 
+   *
    * @param zoomFactor The factor by which the distance between time event and reference position should shrink or grow
    * @param referencePosition The position the time event should approach to or depart from
    */
@@ -84,7 +84,7 @@ export default class Zoomer {
   }
 
   /**
-   * 
+   *
    * @param zoomFactor The factor by which the distance between time marker and reference position should shrink or grow
    * @param referencePosition The position the time marker should approach to or depart from
    */

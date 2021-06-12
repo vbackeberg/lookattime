@@ -1,7 +1,7 @@
 <template>
   <div
     class="zoom-container zoom-transition zoomable"
-    v-bind:style="[styleWidth, styleTranslate]"
+    v-bind:style="[styleWidth]"
   >
     <div
       class="grow-transition"
@@ -97,6 +97,11 @@ export default Vue.extend({
     title: String
   },
 
+  mounted() {
+    this.setHTMLElement();
+    this.setInitialPosition();
+  },
+
   data() {
     return {
       styleWidth: {
@@ -112,15 +117,6 @@ export default Vue.extend({
   },
 
   computed: {
-    styleTranslate(): object {
-      return {
-        transform:
-          "translateX(" +
-          (this.positionCenter - TimeEventModel.expandedWidthOffset) +
-          "px)"
-      };
-    },
-
     timeEventIndex(): number {
       const index = store.state.timeEvents.findIndex(
         timeEvent => timeEvent.id === this.id
@@ -230,6 +226,18 @@ export default Vue.extend({
 
     deleteEvent() {
       store.dispatch("deleteTimeEvent", this.id);
+    },
+
+    setHTMLElement() {
+      store.state.timeEvents[this.timeEventIndex].htmlElement = this
+        .$el as HTMLElement;
+    },
+
+    setInitialPosition() {
+      store.state.timeEvents[this.timeEventIndex].htmlElement.style.transform =
+        "translateX(" +
+        (this.positionCenter - TimeEventModel.expandedWidthOffset) +
+        "px)";
     }
   }
 });

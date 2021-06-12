@@ -3,13 +3,14 @@
     <!-- TODO: consider using svg instead of div for performance reasons -->
     <div
       class="marker zoom-transition zoomable"
-      v-bind:style="[styleWidth, styleTranslate]"
+      v-bind:style="[styleWidth]"
     ></div>
   </transition>
 </template>
 
 <script lang="ts">
 import TimeMarkerModel from "@/models/time-marker-model";
+import store from "@/store/store";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -29,14 +30,39 @@ export default Vue.extend({
     };
   },
 
+  mounted() {
+    this.setHTMLElement();
+    this.setInitialPosition();
+  },
+
   computed: {
-    styleTranslate(): object {
-      return {
-        transform:
-          "translateX(" +
-          (this.positionCenter - TimeMarkerModel.widthOffset) +
-          "px)"
-      };
+    timeMarkerIndex(): number {
+      const index = store.state.timeMarkers.findIndex(
+        timeMarker => timeMarker.id === this.id
+      );
+
+      if (index !== -1) {
+        return index;
+      } else {
+        throw Error("Could not get time event index because it was not found");
+      }
+    }
+  },
+
+  methods: {
+    setHTMLElement() {
+      store.state.timeMarkers[this.timeMarkerIndex].htmlElement = this
+        .$el as HTMLElement;
+    },
+
+    setInitialPosition() {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      store.state.timeMarkers[
+        this.timeMarkerIndex
+      ].htmlElement!.style.transform =
+        "translateX(" +
+        (this.positionCenter - TimeMarkerModel.widthOffset) +
+        "px)";
     }
   }
 });

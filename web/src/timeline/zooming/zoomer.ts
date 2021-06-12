@@ -1,4 +1,5 @@
 import TimeEventModel from "@/models/time-event-model";
+import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store/store";
 
 export default class Zoomer {
@@ -37,7 +38,15 @@ export default class Zoomer {
       const distance =
         (store.state.timeEvents[i].positionCenter - referencePosition) *
         zoomFactor;
-      store.state.timeEvents[i].positionCenter = referencePosition + distance;
+
+      const newPosition = referencePosition + distance;
+
+      store.state.timeEvents[i].positionCenter = newPosition;
+
+      store.state.timeEvents[i].htmlElement.style.transform =
+        "translateX(" +
+        (newPosition - TimeEventModel.expandedWidthOffset) +
+        "px)";
     }
   }
 
@@ -93,7 +102,15 @@ export default class Zoomer {
       const distance =
         (store.state.timeMarkers[i].positionCenter - referencePosition) *
         zoomFactor;
-      store.state.timeMarkers[i].positionCenter = referencePosition + distance;
+
+      const newPosition = referencePosition + distance;
+
+      store.state.timeMarkers[i].positionCenter = newPosition;
+
+      const element = store.state.timeMarkers[i].htmlElement;
+      if (element)
+        element.style.transform =
+          "translateX(" + (newPosition - TimeMarkerModel.widthOffset) + "px)";
     }
   }
 

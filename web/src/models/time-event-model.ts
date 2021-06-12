@@ -12,6 +12,7 @@ export default class TimeEventModel {
   imageReferences: ImageReferenceModel[];
   title: string;
   show = false;
+  htmlElement!: HTMLElement;
 
   constructor(
     positionCenter: number,

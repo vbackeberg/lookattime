@@ -7,9 +7,10 @@ import Zoomer from "./zoomer";
 export default class ZoomObserver {
   private timelineElement: HTMLElement;
   private zoomer: Zoomer;
+  private numberOfWheelEvents = 0;
+  private ticking = false;
   private constructor() {
     this.zoomer = Zoomer.Instance;
-
     this.timelineElement = store.state.timelineElement;
     this.timelineElement.addEventListener("wheel", (e: WheelEvent) => {
       if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
@@ -22,15 +23,37 @@ export default class ZoomObserver {
         return;
       }
 
-      this.changeZoom(e);
+      console.log("wheel event: " + this.numberOfWheelEvents);
+      this.numberOfWheelEvents += 1;
+      this.requestTick(e);
     });
+  }
+
+  private requestTick(e: WheelEvent) {
+    if (!this.ticking) {
+      requestAnimationFrame(() => this.update(e));
+    }
+    this.ticking = true;
+  }
+
+  private update(e: WheelEvent) {
+    console.log("update");
+    this.changeZoom(e);
+    this.numberOfWheelEvents = 0;
+    this.ticking = false;
   }
 
   private changeZoom(e: WheelEvent) {
     if (e.deltaY < 0) {
-      this.zoomer.zoom(1.1, e.pageX + this.timelineElement.scrollLeft);
+      this.zoomer.zoom(
+        1.1 ** this.numberOfWheelEvents,
+        e.pageX + this.timelineElement.scrollLeft
+      );
     } else if (e.deltaY > 0) {
-      this.zoomer.zoom(0.92, e.pageX + this.timelineElement.scrollLeft);
+      this.zoomer.zoom(
+        0.92 ** this.numberOfWheelEvents,
+        e.pageX + this.timelineElement.scrollLeft
+      );
     }
   }
 

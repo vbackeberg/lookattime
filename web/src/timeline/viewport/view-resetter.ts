@@ -19,7 +19,8 @@ export default class ViewResetter {
     store.commit(
       "setTimelineZero",
       store.state.timelineElement.clientWidth / 2
-    );
+    ); // TODO: access directly.
+    
     store.commit("setTimeMarkers", []);
     store.commit("setTimeMarkerDepth", 1);
     store.state.zoomLevel = 1;

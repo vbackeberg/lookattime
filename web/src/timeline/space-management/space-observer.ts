@@ -1,4 +1,5 @@
 import store from "@/store/store";
+import VisibilityObserver from "../visibility-management/visibility-observer";
 import SpaceCutter from "./space-cutter";
 import SpaceExtender from "./space-extender";
 
@@ -30,13 +31,9 @@ export default class SpaceObserver {
           -store.state.spacerLeft.positionLeft
         );
       } else {
-        this.notifyVisibilityObserver();
+        VisibilityObserver.Instance.notify();
       }
     });
-  }
-
-  private notifyVisibilityObserver() {
-    store.state.timelineElement.dispatchEvent(new CustomEvent("scroll"));
   }
 
   private static instance: SpaceObserver;

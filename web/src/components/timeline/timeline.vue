@@ -95,7 +95,7 @@ export default Vue.extend({
       "timeline"
     ) as HTMLElement;
 
-    store.commit("setTimelineZero", this.$el.clientWidth / 2);
+    store.state.timelineZero = this.$el.clientWidth / 2;
 
     SpaceObserver.Instance;
     timeMarkerDistanceWatcher = TimeMarkerDistanceWatcher.Instance;

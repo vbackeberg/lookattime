@@ -19,9 +19,7 @@ export default class SpaceExtender {
       timeEvent.positionCenter += distance;
     });
 
-    store.state.timeMarkers.forEach(timeMarker => {
-      timeMarker.positionCenter += distance;
-    });
+    store.state.timelineZero += distance;
 
     store.state.spacerRight.positionLeft += distance;
 

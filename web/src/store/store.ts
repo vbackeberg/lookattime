@@ -98,10 +98,6 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    setTimelineZero(state, value: number) {
-      state.timelineZero = value;
-    },
-
     changeZoomLevel(state, value: number) {
       state.zoomLevel *= value;
     },

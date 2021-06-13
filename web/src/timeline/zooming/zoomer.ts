@@ -89,7 +89,8 @@ export default class Zoomer {
     const distance =
       (store.state.timelineZero - referencePosition) * zoomFactor;
     const newPosition = referencePosition + distance;
-    store.commit("setTimelineZero", newPosition); // TODO: exchange commit with regular assignment for performance reasons.
+
+    store.state.timelineZero = newPosition;
   }
 
   /**

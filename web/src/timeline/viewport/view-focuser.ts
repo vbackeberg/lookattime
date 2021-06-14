@@ -78,11 +78,11 @@ export default class ViewFocuser {
     }
 
     if (absoluteLeft < 0) {
-      console.error("View Focuser: Start is out of bounds!");
+      console.error("View Focuser: Start is out of bounds by:", absoluteLeft);
     }
 
     if (absoluteRight > this.getRightViewportEdge()) {
-      console.error("View Focuser: End is out of bounds!");
+      console.error("View Focuser: End is out of bounds by:", absoluteRight);
     }
   }
 

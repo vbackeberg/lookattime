@@ -81,16 +81,16 @@ export default class ViewFocuser {
       console.error("View Focuser: Start is out of bounds!");
     }
 
-    if (
-      // TODO: Check if store right edge could be used here.
-      absoluteRight >
-        store.state.spacerRight.positionLeft + store.state.spacerRight.width &&
-      absoluteRight >
-        store.state.spacerPageEdge.positionLeft +
-          store.state.spacerPageEdge.width
-    ) {
+    if (absoluteRight > this.getRightViewportEdge()) {
       console.error("View Focuser: End is out of bounds!");
     }
+  }
+
+  private getRightViewportEdge() {
+    return Math.max(
+      store.state.spacerRight.positionLeft + store.state.spacerRight.width,
+      store.state.spacerPageEdge.positionLeft + store.state.spacerPageEdge.width
+    );
   }
 
   private static instance: ViewFocuser;

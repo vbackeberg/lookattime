@@ -43,6 +43,12 @@ export default class ViewResetter {
 
     await Vue.nextTick();
 
+    this.focusView();
+
+    TimeMarkerCreator.Instance.initiateTimeMarkers();
+  }
+
+  private focusView() {
     if (store.state.timeEvents.length === 0) {
       store.state.timelineElement.scrollTo({ left: 0 });
     } else if (store.state.timeEvents.length === 1) {
@@ -55,6 +61,7 @@ export default class ViewResetter {
         store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter
       );
     }
+  }
 
     TimeMarkerCreator.Instance.initiateTimeMarkers();
   }

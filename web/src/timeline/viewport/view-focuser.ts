@@ -76,21 +76,6 @@ export default class ViewFocuser {
     if (absoluteLeft - absoluteRight === 0) {
       console.error("View Focuser: Absolute distance is 0!");
     }
-
-    if (absoluteLeft < 0) {
-      console.error("View Focuser: Start is out of bounds by:", absoluteLeft);
-    }
-
-    if (absoluteRight > this.getRightViewportEdge()) {
-      console.error("View Focuser: End is out of bounds by:", absoluteRight);
-    }
-  }
-
-  private getRightViewportEdge() {
-    return Math.max(
-      store.state.spacerRight.positionLeft + store.state.spacerRight.width,
-      store.state.spacerPageEdge.positionLeft + store.state.spacerPageEdge.width
-    );
   }
 
   private static instance: ViewFocuser;

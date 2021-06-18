@@ -247,6 +247,7 @@ export default Vue.extend({
 .zoom-container {
   position: absolute;
   height: 100%;
+  width: 300px; // TODO: Create css variable
   backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX
   pointer-events: none;
 

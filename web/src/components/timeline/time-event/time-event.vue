@@ -246,6 +246,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .zoom-container {
   position: absolute;
+  left: -150px; // TranslateX refers to the center of the element, so we position the elements center at 0px by shifting it half its width to the left.
   height: 100%;
   width: 300px; // TODO: Create css variable
   backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX

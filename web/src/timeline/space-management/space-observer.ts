@@ -4,7 +4,9 @@ import SpaceCutter from "./space-cutter";
 import SpaceExtender from "./space-extender";
 
 /**
- * Observes movements of the left spacer and calls space cutter or space extender accordingly.
+ * Observes movements of the left spacer to keep all elements in the positive position space.
+ * It calls the space extender when the left spacer is at a negative position.
+ * It calls the space cutter when the left spacer and scroll left are at a positive position.
  */
 export default class SpaceObserver {
   private spacerLeftElement: HTMLElement;

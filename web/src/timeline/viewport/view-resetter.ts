@@ -41,7 +41,7 @@ export default class ViewResetter {
       );
     }
 
-    await Vue.nextTick();
+    await Vue.nextTick(); // TODO: Probably obsolete as repositioning will not go through Vue Components anymore.
 
     this.focusView();
 

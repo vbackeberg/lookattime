@@ -2,7 +2,7 @@ import ImageReferenceModel from "./image-reference-model";
 
 export default class TimeEventModel {
   static expandedWidth = 300;
-  static expandedWidthOffset = TimeEventModel.expandedWidth / 2;
+  static expandedWidthOffset = 150;
   static collapsedWidth = 50;
   positionCenter: number;
   id: string;

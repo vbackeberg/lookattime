@@ -5,10 +5,9 @@
       v-bind:editMode="false"
     />
     <div id="buffer-top-area">
-      <spacer-right></spacer-right>
-      <!-- TODO: Check if ref can be removed -->
-      <spacer-left ref="spacerLeftElement"></spacer-left>
-      <spacer-page-edge></spacer-page-edge>
+      <svg id="spacer-right" class="spacer"></svg>
+      <svg id="spacer-left" class="spacer zoom-transition"></svg>
+      <svg id="spacer-page-edge" class="spacer"></svg>
     </div>
     <div id="time-event-area">
       <time-event
@@ -53,12 +52,7 @@
 <script lang="ts">
 import TimeEvent from "@/components/timeline/time-event/time-event.vue";
 import Vue from "vue";
-import SpacerLeft from "@/components/timeline/spacer/spacer-left.vue";
-import SpacerRight from "@/components/timeline/spacer/spacer-right.vue";
-import SpacerPageEdge from "@/components/timeline/spacer/spacer-page-edge.vue";
 import store from "@/store/store";
-import Date from "@/components/timeline/time-event/date.vue";
-import TimeMarker from "@/components/timeline/time-marker.vue";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
 import VisibilityObserver from "@/timeline/visibility-management/visibility-observer";
@@ -76,9 +70,6 @@ export default Vue.extend({
 
   components: {
     TimeEvent,
-    SpacerPageEdge,
-    SpacerRight,
-    SpacerLeft,
     Date,
     TimeMarker,
     CreateTimeEventForm
@@ -93,14 +84,11 @@ export default Vue.extend({
   },
 
   async mounted() {
-    store.state.timelineElement = document.getElementById(
-      "timeline"
-    ) as HTMLElement;
+    this.setHTMLElements();
 
     store.state.timelineZero = this.$el.clientWidth / 2;
 
     SpaceObserver.Instance;
-    timeMarkerDistanceWatcher = TimeMarkerDistanceWatcher.Instance;
     VisibilityObserver.Instance;
     ZoomObserver.Instance;
     TimeEventMutationObserver.Instance;
@@ -152,9 +140,20 @@ export default Vue.extend({
     }
   },
 
-  watch: {
-    timeMarkerDistance(newDistance, oldDistance) {
-      timeMarkerDistanceWatcher.watch(newDistance, oldDistance);
+  methods: {
+    setHTMLElements() {
+      store.state.timelineElement = document.getElementById(
+        "timeline"
+      ) as HTMLElement;
+      store.state.spacerRight.htmlElement = document.getElementById(
+        "spacer-left"
+      ) as HTMLElement;
+      store.state.spacerLeft.htmlElement = document.getElementById(
+        "spacer-right"
+      ) as HTMLElement;
+      store.state.spacerPageEdge.htmlElement = document.getElementById(
+        "spacer-page-edge"
+      ) as HTMLElement;
     }
   }
 });
@@ -198,5 +197,13 @@ export default Vue.extend({
 #fab {
   margin-top: 64px;
   margin-right: 64px;
+}
+
+.spacer {
+  box-sizing: border-box;
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  transform-origin: left;
 }
 </style>

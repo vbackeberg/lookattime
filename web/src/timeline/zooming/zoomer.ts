@@ -12,7 +12,7 @@ export default class Zoomer {
    */
   public zoom(zoomFactor: number, referencePosition: number) {
     this.reposition(zoomFactor, referencePosition);
-    store.commit("changeZoomLevel", zoomFactor);
+    store.state.zoomLevel *= zoomFactor;
   }
 
   private reposition(zoomFactor: number, referencePosition: number) {

@@ -234,10 +234,10 @@ export default Vue.extend({
     },
 
     setInitialPosition() {
-      store.state.timeEvents[this.timeEventIndex].htmlElement.style.transform =
-        "translateX(" +
-        (this.positionCenter - TimeEventModel.expandedWidthOffset) +
-        "px)";
+      const timeEvent = store.state.timeEvents[this.timeEventIndex];
+
+      timeEvent.htmlElement.style.transform =
+        "translateX(" + timeEvent.positionCenter + "px)";
     }
   }
 });

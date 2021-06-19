@@ -1,5 +1,5 @@
-  <template>
-  <div id="spacer-left" class="spacer zoom-transition"></div>
+<template>
+  <div class="spacer"></div>
 </template>
 
 <script lang="ts">
@@ -7,8 +7,7 @@ import Vue from "vue";
 import store from "@/store/store";
 
 export default Vue.extend({
-  // TODO: refactor this into a simple div or svg. No logic required.
-  name: "SpacerLeft",
+  name: "SpacerRight",
 
   mounted() {
     this.setHTMLElement();
@@ -16,7 +15,7 @@ export default Vue.extend({
 
   methods: {
     setHTMLElement() {
-      store.state.spacerLeft.htmlElement = this.$el as HTMLElement;
+      store.state.spacerRight.htmlElement = this.$el as HTMLElement;
     }
   }
 });

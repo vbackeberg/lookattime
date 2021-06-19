@@ -5,10 +5,10 @@
       v-bind:editMode="false"
     />
     <div id="buffer-top-area">
-      <spacer v-bind="spacerRight"></spacer>
+      <spacer-right></spacer-right>
       <!-- TODO: Check if ref can be removed -->
-      <spacer-left ref="spacerLeftElement" v-bind="spacerLeft"></spacer-left>
-      <spacer v-bind="spacerPageEdge"></spacer>
+      <spacer-left ref="spacerLeftElement"></spacer-left>
+      <spacer-page-edge></spacer-page-edge>
     </div>
     <div id="time-event-area">
       <time-event
@@ -53,8 +53,9 @@
 <script lang="ts">
 import TimeEvent from "@/components/timeline/time-event/time-event.vue";
 import Vue from "vue";
-import Spacer from "@/components/timeline/spacer/spacer.vue";
 import SpacerLeft from "@/components/timeline/spacer/spacer-left.vue";
+import SpacerRight from "@/components/timeline/spacer/spacer-right.vue";
+import SpacerPageEdge from "@/components/timeline/spacer/spacer-page-edge.vue";
 import store from "@/store/store";
 import Date from "@/components/timeline/time-event/date.vue";
 import TimeMarker from "@/components/timeline/time-marker.vue";
@@ -75,7 +76,8 @@ export default Vue.extend({
 
   components: {
     TimeEvent,
-    Spacer,
+    SpacerPageEdge,
+    SpacerRight,
     SpacerLeft,
     Date,
     TimeMarker,

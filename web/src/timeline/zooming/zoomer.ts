@@ -3,11 +3,7 @@ import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store/store";
 
 export default class Zoomer {
-  private timelineElement: HTMLElement;
-
-  private constructor() {
-    this.timelineElement = store.state.timelineElement;
-  }
+  private constructor() {}
 
   /**
    * Moves all timeEvents towards or away from the reference position by the zoom factor.
@@ -44,42 +40,51 @@ export default class Zoomer {
       store.state.timeEvents[i].positionCenter = newPosition;
 
       store.state.timeEvents[i].htmlElement.style.transform =
-        "translateX(" +
-        (newPosition - TimeEventModel.expandedWidthOffset) +
-        "px)";
+        "translateX(" + newPosition + "px)";
     }
   }
 
   private repositionSpacerPageEdge() {
     const newPositionLeft =
-      this.timelineElement.scrollLeft +
-      this.timelineElement.clientWidth -
+      store.state.timelineElement.scrollLeft +
+      store.state.timelineElement.clientWidth -
       store.state.spacerPageEdge.width;
 
-    store.commit("setSpacerPageEdgePosition", newPositionLeft);
+    store.state.spacerPageEdge.htmlElement.style.transform =
+      "translateX(" + newPositionLeft + "px)";
   }
 
   private repositionSpacerLeft() {
     const width =
       store.state.timelineElement.clientWidth / 2 -
-      TimeEventModel.expandedWidth / 2;
+      TimeEventModel.expandedWidthOffset;
 
-    store.state.spacerLeft.positionLeft =
+    const newPositionLeft =
       store.state.timeEvents[0].positionCenter -
-      TimeEventModel.expandedWidth / 2 -
+      TimeEventModel.expandedWidthOffset -
       width;
 
-    store.state.spacerLeft.width = width;
+    store.state.spacerLeft.positionLeft = newPositionLeft;
+
+    store.state.spacerLeft.htmlElement.style.transform =
+      "translateX(" + newPositionLeft + "px)";
   }
 
   private repositionSpacerRight() {
-    store.state.spacerRight.positionLeft =
-      store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter +
-      TimeEventModel.expandedWidth / 2;
-
-    store.state.spacerRight.width =
+    const width =
       store.state.timelineElement.clientWidth / 2 -
-      TimeEventModel.expandedWidth / 2;
+      TimeEventModel.expandedWidthOffset;
+
+    const newPositionLeft =
+      store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter +
+      TimeEventModel.expandedWidthOffset +
+      width -
+      store.state.spacerRight.width;
+
+    store.state.spacerRight.positionLeft = newPositionLeft;
+
+    store.state.spacerRight.htmlElement.style.transform =
+      "translateX(" + newPositionLeft + "px)";
   }
 
   private repositionTimelineZero(

@@ -25,7 +25,7 @@ export default new Vuex.Store({
 
     spacerPageEdge: {
       positionLeft: 0,
-      width: 1
+      width: 10
     } as SpacerModel,
 
     spacerLeft: {
@@ -36,7 +36,7 @@ export default new Vuex.Store({
     spacerRight: {
       positionLeft: 0,
       width: 1
-    },
+    } as SpacerModel,
 
     timeMarkers: [] as TimeMarkerModel[],
     timeMarkerDepth: 1,

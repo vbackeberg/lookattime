@@ -20,7 +20,7 @@ export default class ViewResetter {
     store.commit("setTimeMarkers", []);
     store.commit("setTimeMarkerDepth", 1);
     store.state.zoomLevel = 1;
-    store.commit("setSpacerPageEdgePosition", 0);
+    this.repositionSpacerPageEdge();
   }
 
   public async initiateView() {
@@ -63,7 +63,9 @@ export default class ViewResetter {
     }
   }
 
-    TimeMarkerCreator.Instance.initiateTimeMarkers();
+  private repositionSpacerPageEdge() {
+    store.state.spacerPageEdge.positionLeft = 0;
+    store.state.spacerPageEdge.htmlElement.style.transform = "translateX(0px)";
   }
 
   private static instance: ViewResetter;

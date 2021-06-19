@@ -85,7 +85,6 @@ export default Vue.extend({
   },
 
   props: {
-    positionCenter: Number,
     id: String,
     text: String,
     date: Number,
@@ -184,7 +183,7 @@ export default Vue.extend({
       }
 
       const collision =
-        (this.positionCenter +
+        (store.state.timeEvents[currentTimeEventIndex].positionCenter +
           (indexChange * width) / 2 -
           (neighbor.positionCenter + (-indexChange * width) / 2)) *
           indexChange >

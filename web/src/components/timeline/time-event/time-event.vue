@@ -240,8 +240,8 @@ export default Vue.extend({
 .zoom-container {
   position: absolute;
   left: -150px; // TranslateX refers to the center of the element, so we position the elements center at 0px by shifting it half its width to the left.
+  width: 300px;
   height: 100%;
-  width: 300px; // TODO: Create css variable
   backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX
   pointer-events: none;
 
@@ -288,8 +288,8 @@ export default Vue.extend({
   flex: 0 0 auto;
 
   width: 50px;
-  height: 50px; // The 50px bubble dimension is redundantly set in a lot of places such as width, image height and the model.
-
+  height: 50px;
+  
   border-radius: 25px;
 }
 

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="zoom-container zoom-transition zoomable"
-    v-bind:style="[styleWidth]"
-  >
+  <div class="zoom-container zoom-transition zoomable">
     <div
       class="grow-transition"
       v-bind:class="{
@@ -104,10 +101,6 @@ export default Vue.extend({
 
   data() {
     return {
-      styleWidth: {
-        width: TimeEventModel.expandedWidth + "px"
-      },
-
       showContextMenu: false,
       x: 0,
       y: 0,

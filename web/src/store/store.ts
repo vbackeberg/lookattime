@@ -98,14 +98,6 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    changeZoomLevel(state, value: number) {
-      state.zoomLevel *= value;
-    },
-
-    setSpacerPageEdgePosition(state, positionLeft: number) {
-      state.spacerPageEdge.positionLeft = positionLeft;
-    },
-
     setTimeMarkers(state, markers: TimeMarkerModel[]) {
       state.timeMarkers = markers;
     },

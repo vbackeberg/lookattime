@@ -115,23 +115,11 @@ export default Vue.extend({
       "viewMode"
     ]),
 
-    spacerPageEdge(): SpacerModel {
-      return store.state.spacerPageEdge;
-    },
-
-    spacerLeft(): SpacerModel {
-      return store.state.spacerLeft;
-    },
-
-    spacerRight(): SpacerModel {
-      return store.state.spacerRight;
-    },
-
     horizontalLineWidth(): number {
       return Math.max(
         store.state.spacerPageEdge.positionLeft +
           store.state.spacerPageEdge.width,
-        this.spacerRight.positionLeft + this.spacerRight.width
+        store.state.spacerRight.positionLeft + store.state.spacerRight.width
       );
     },
 

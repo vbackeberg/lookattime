@@ -104,7 +104,7 @@ export default class Zoomer {
    * @param referencePosition The position the time marker should approach to or depart from
    */
   private repositionTimeMarkers(zoomFactor: number, referencePosition: number) {
-    for (let i = 0; i < store.state.timeMarkers.length; i++) {
+    for (let i = 0; i < store.state.timeMarkers.length; i++) { // TODO: Try limit calculation to visible time markers only to increase performance. 
       const distance =
         (store.state.timeMarkers[i].positionCenter - referencePosition) *
         zoomFactor;

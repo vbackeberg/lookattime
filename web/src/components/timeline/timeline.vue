@@ -93,7 +93,6 @@ export default Vue.extend({
     ZoomObserver.Instance;
     TimeEventMutationObserver.Instance;
 
-    // TODO: Check whether loading all content should go before loading the services.
     await store.dispatch("loadUser");
 
     const timelineIdQueryParam = this.$route.query?.timeline;

@@ -24,7 +24,7 @@ export default class TimeMarkerCreator {
     );
 
     store.commit(
-      "setTimeMarkers",
+      "setTimeMarkers", // TODO: Do not use commit for performance reasons
       [firstMarker, secondMarker].sort((a, b) => a.date - b.date)
     );
     store.commit("setTimeMarkerDepth", secondMarker.depth);

@@ -4,7 +4,6 @@ import store from "@/store/store";
  * Cuts expendable space on the left by given distance. Takes care of removing animations during position shifting.
  */
 export default class SpaceCutter {
-  //TODO: Use store timeline element
   public static async cutLeftSpace(
     timelineElement: HTMLElement,
     distance: number

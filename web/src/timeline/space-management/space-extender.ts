@@ -1,6 +1,4 @@
-import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
-import Vue from "vue";
 
 /**
  * Extends space to the left by given distance. Takes care of removing animations during position shifting.
@@ -16,10 +14,10 @@ export default class SpaceExtender {
     }
 
     this.repositionSpacerLeft(distance);
-    this.repositionTimeEvents(distance);
-    this.repositionTimeMarkers(distance);
     this.repositionSpacerRight(distance);
     this.repositionSpacerPageEdge(distance, timelineElement);
+    this.repositionTimeEvents(distance);
+    this.repositionTimeMarkers(distance);
 
     store.state.timelineZero += distance;
 
@@ -32,8 +30,6 @@ export default class SpaceExtender {
 
   private static repositionSpacerLeft(distance: number) {
     store.state.spacerLeft.positionLeft += distance;
-
-    console.log("ext new pos: ", store.state.spacerLeft.positionLeft);
 
     store.state.spacerLeft.htmlElement.style.transform =
       "translateX(" + store.state.spacerLeft.positionLeft + "px)";

@@ -1,6 +1,4 @@
-import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
-import Vue from "vue";
 
 /**
  * Cuts expendable space on the left by given distance. Takes care of removing animations during position shifting.
@@ -17,13 +15,11 @@ export default class SpaceCutter {
     }
 
     this.repositionSpacerLeft(distance);
+    this.repositionSpacerRight(distance);
     this.repositionTimeEvents(distance);
     this.repositionTimerMarkers(distance);
-    this.repositionSpacerRight(distance);
 
     store.state.timelineZero -= distance;
-
-    console.log("scroll by distance: ", -distance);
 
     timelineElement.scrollBy(-distance, 0);
 
@@ -37,20 +33,15 @@ export default class SpaceCutter {
   private static repositionSpacerLeft(distance: number) {
     store.state.spacerLeft.positionLeft -= distance;
 
-    console.log("cutter new pos: ", store.state.spacerLeft.positionLeft);
-
     store.state.spacerLeft.htmlElement.style.transform =
       "translateX(" + store.state.spacerLeft.positionLeft + "px)";
   }
 
   private static repositionTimeEvents(distance: number) {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
-      
       store.state.timeEvents[i].positionCenter -= distance;
       store.state.timeEvents[i].htmlElement.style.transform =
         "translateX(" + store.state.timeEvents[i].positionCenter + "px)";
-      
-      console.log("cutter: te: " + i + ", new pos center: " + store.state.timeEvents[i].positionCenter);
     }
   }
 

@@ -19,14 +19,7 @@
     <div
       id="horizontal-line"
       v-bind:style="{ width: horizontalLineWidth + 'px' }"
-    ></div>
-    <div id="buffer-bottom-area">
-      <date
-        v-for="timeEvent in timeEventsVisible"
-        :key="timeEvent.id"
-        v-bind:timeEvent="timeEvent"
-      ></date>
-      <timeMarker
+    <div id="time-marker-area">
         v-for="timeMarker in timeMarkersVisible"
         v-bind="timeMarker"
         :key="timeMarker.id"
@@ -177,7 +170,7 @@ export default Vue.extend({
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#buffer-bottom-area {
+#time-marker-area {
   flex: 4;
 }
 

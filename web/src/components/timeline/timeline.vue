@@ -92,12 +92,7 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapGetters([
-      "timeEventsVisible",
-      "timeMarkersVisible",
-      "timeMarkerDistance",
-      "viewMode"
-    ]),
+    ...mapGetters(["timeEventsVisible", "timeMarkerDistance", "viewMode"]),
 
     horizontalLineWidth(): number {
       return Math.max(
@@ -183,12 +178,5 @@ export default Vue.extend({
   height: 1px;
   width: 1px;
   transform-origin: left;
-}
-
-.time-marker {
-  position: absolute;
-  height: 12px;
-  width: 2px;
-  background-color: #000;
 }
 </style>

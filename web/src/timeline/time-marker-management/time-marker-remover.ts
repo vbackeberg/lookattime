@@ -1,3 +1,4 @@
+import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store/store";
 import { Constants } from "./constants";
 
@@ -20,9 +21,9 @@ export default class TimeMarkerRemover {
 
     if (index > 0) {
       for (let i = 0; i < index; i++) {
-        this.removeHTMLElement(store.state.timeMarkers[i].id);
+        store.state.timeMarkers[i].htmlElement.remove();
       }
-      
+
       store.state.timeMarkers = store.state.timeMarkers.slice(index);
     }
   }
@@ -34,8 +35,9 @@ export default class TimeMarkerRemover {
 
     if (index > -1) {
       for (let i = index; i < store.state.timeMarkers.length; i++) {
-        this.removeHTMLElement(store.state.timeMarkers[i].id);
+        store.state.timeMarkers[i].htmlElement.remove();
       }
+
       store.state.timeMarkers = store.state.timeMarkers.slice(0, index);
     }
   }
@@ -46,15 +48,17 @@ export default class TimeMarkerRemover {
       store.state.timeMarkerDepth * Constants.DEPTH_BASE
     );
 
-    const markers = store.state.timeMarkers.filter(
-      marker => marker.depth >= store.state.timeMarkerDepth
-    );
+    let markers: TimeMarkerModel[] = [];
+
+    for (let i = 0; i < store.state.timeMarkers.length; i++) {
+      if (store.state.timeMarkers[i].depth >= store.state.timeMarkerDepth) {
+        markers.push(store.state.timeMarkers[i]);
+      } else {
+        store.state.timeMarkers[i].htmlElement.remove();
+      }
+    }
 
     store.state.timeMarkers = markers;
-  }
-
-  private removeHTMLElement(id: string) {
-    document.getElementById(id)?.remove();
   }
 
   private static instance: TimeMarkerRemover;

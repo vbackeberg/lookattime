@@ -43,7 +43,7 @@ export default class TimeMarkerCreator {
     VisibilityObserver.Instance.notify();
   }
 
-  public createFirstMarker(
+  private createFirstMarker(
     lowestDate: number,
     highestDate: number
   ): TimeMarkerModel {
@@ -93,7 +93,7 @@ export default class TimeMarkerCreator {
     }
   }
 
-  public createSecondMarker(
+  private createSecondMarker(
     firstMarkerDate: number,
     lowestDate: number,
     highestDate: number,

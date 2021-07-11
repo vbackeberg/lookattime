@@ -5,13 +5,25 @@ import { Constants } from "./constants";
  * Removes time markers from the sides and from between.
  */
 export default class TimeMarkerRemover {
+  private timeMarkerAreaElement: HTMLElement;
+
+  constructor() {
+    this.timeMarkerAreaElement = document.getElementById(
+      "time-marker-area"
+    ) as HTMLElement;
+  }
+
   public removeMarkersLeft() {
     const index = store.state.timeMarkers.findIndex(
       marker => marker.positionCenter > store.getters.leftEdge
     );
 
     if (index > 0) {
-      store.dispatch("setTimeMarkers", store.state.timeMarkers.slice(index)); //TODO Performance issue
+      for (let i = 0; i < index; i++) {
+        this.removeHTMLElement(store.state.timeMarkers[i].id);
+      }
+      
+      store.state.timeMarkers = store.state.timeMarkers.slice(index);
     }
   }
 
@@ -21,7 +33,10 @@ export default class TimeMarkerRemover {
     );
 
     if (index > -1) {
-      store.dispatch("setTimeMarkers", store.state.timeMarkers.slice(0, index)); //TODO Performance issue
+      for (let i = index; i < store.state.timeMarkers.length; i++) {
+        this.removeHTMLElement(store.state.timeMarkers[i].id);
+      }
+      store.state.timeMarkers = store.state.timeMarkers.slice(0, index);
     }
   }
 
@@ -35,7 +50,11 @@ export default class TimeMarkerRemover {
       marker => marker.depth >= store.state.timeMarkerDepth
     );
 
-    store.dispatch("setTimeMarkers", markers);
+    store.state.timeMarkers = markers;
+  }
+
+  private removeHTMLElement(id: string) {
+    document.getElementById(id)?.remove();
   }
 
   private static instance: TimeMarkerRemover;

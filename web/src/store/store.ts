@@ -98,18 +98,6 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    setTimeMarkers(state, markers: TimeMarkerModel[]) {
-      state.timeMarkers = markers;
-    },
-
-    pushTimeMarkers(state, markers: TimeMarkerModel[]) {
-      state.timeMarkers.push(...markers);
-    },
-
-    unshiftTimeMarkers(state, markers: TimeMarkerModel[]) {
-      state.timeMarkers.unshift(...markers);
-    },
-
     setTimeMarkerDepth(state, value: number) {
       state.timeMarkerDepth = value;
     },
@@ -164,27 +152,6 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async setTimeMarkers(
-      { commit },
-      timeMarkers: TimeMarkerModel[]
-    ): Promise<void> {
-      commit("setTimeMarkers", timeMarkers);
-    },
-
-    async pushTimeMarkers(
-      { commit },
-      timeMarkers: TimeMarkerModel[]
-    ): Promise<void> {
-      commit("pushTimeMarkers", timeMarkers);
-    },
-
-    async unshiftTimeMarkers(
-      { commit },
-      timeMarkers: TimeMarkerModel[]
-    ): Promise<void> {
-      commit("unshiftTimeMarkers", timeMarkers);
-    },
-
     async deleteTimeEvent(
       { commit, state },
       timeEventId: string

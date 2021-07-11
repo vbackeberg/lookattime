@@ -17,7 +17,7 @@ export default class ViewResetter {
 
   public resetView() {
     store.state.timelineZero = store.state.timelineElement.clientWidth / 2;
-    store.commit("setTimeMarkers", []);
+    store.state.timeMarkers = [];
     store.commit("setTimeMarkerDepth", 1);
     store.state.zoomLevel = 1;
     this.repositionSpacerPageEdge();

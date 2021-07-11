@@ -16,14 +16,11 @@
         v-bind="timeEvent"
       ></time-event>
     </div>
-    <div
+    <!-- <div
       id="horizontal-line"
       v-bind:style="{ width: horizontalLineWidth + 'px' }"
+    ></div> -->
     <div id="time-marker-area">
-        v-for="timeMarker in timeMarkersVisible"
-        v-bind="timeMarker"
-        :key="timeMarker.id"
-      ></timeMarker>
       <v-btn
         v-if="!viewMode"
         id="fab"
@@ -47,24 +44,18 @@ import TimeEvent from "@/components/timeline/time-event/time-event.vue";
 import Vue from "vue";
 import store from "@/store/store";
 import SpaceObserver from "@/timeline/space-management/space-observer";
-import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
 import VisibilityObserver from "@/timeline/visibility-management/visibility-observer";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
-import SpacerModel from "@/models/spacer-model";
 import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
-
-let timeMarkerDistanceWatcher: TimeMarkerDistanceWatcher;
 
 export default Vue.extend({
   name: "Timeline",
 
   components: {
     TimeEvent,
-    Date,
-    TimeMarker,
     CreateTimeEventForm
   },
 
@@ -185,5 +176,12 @@ export default Vue.extend({
   height: 1px;
   width: 1px;
   transform-origin: left;
+}
+
+.time-marker {
+  position: absolute;
+  height: 12px;
+  width: 2px;
+  background-color: #000;
 }
 </style>

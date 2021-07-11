@@ -6,7 +6,7 @@ import VisibilityObserver from "../visibility-management/visibility-observer";
 import { Constants } from "./constants";
 
 /**
- * Initiates the time marker array. Adds a marker at date 0 and expands markers to both sides.
+ * Provides the functionality for adding time markers.
  */
 export default class TimeMarkerCreator {
   private timeMarkerAreaElement: HTMLElement;
@@ -17,6 +17,10 @@ export default class TimeMarkerCreator {
     ) as HTMLElement;
   }
 
+  /**
+   * Initiates the time marker array. Adds a marker at date 0 and expands markers to both sides.
+   *
+   */
   public initiateTimeMarkers() {
     const lowestDate = PositionTranslator.toRelativePosition(0);
     const highestDate = PositionTranslator.toRelativePosition(
@@ -43,6 +47,16 @@ export default class TimeMarkerCreator {
     VisibilityObserver.Instance.notify();
   }
 
+  /**
+   * Creates one time marker at the coarsest date within the timeline, e.g. the year 1000
+   * if the timeline ranges from 912 to 1845.
+   *
+   * 0 is defined as the coarsest date. If the timeline spans across 0, the marker will
+   * consequently be placed at 0.
+   *
+   * @param lowestDate The lowest date within the timeline
+   * @param highestDate The highest date within the timeline
+   */
   private createFirstMarker(
     lowestDate: number,
     highestDate: number
@@ -93,6 +107,15 @@ export default class TimeMarkerCreator {
     }
   }
 
+  /**
+   * Creates one time marker at the second-coarsest date within the timeline, e.g. the year 1100
+   * if the timeline ranges from 912 to 1845 and the first marker was placed at the year 1000.
+   *
+   * @param firstMarkerDate The first marker's date
+   * @param lowestDate The lowest date within the timeline
+   * @param highestDate The highest date within the timeline
+   * @param depth The current "marker depth" (..., 0.1, 1, 10, ...)
+   */
   private createSecondMarker(
     firstMarkerDate: number,
     lowestDate: number,
@@ -124,6 +147,10 @@ export default class TimeMarkerCreator {
     );
   }
 
+  /**
+   * Places new time markers between the lowest existing time marker and the
+   * lowest date of the timeline.
+   */
   public addMarkersLeft() {
     const lowestMarker = store.state.timeMarkers[0];
     const distanceToEdge = lowestMarker.positionCenter - store.getters.leftEdge;
@@ -157,6 +184,10 @@ export default class TimeMarkerCreator {
     }
   }
 
+  /**
+   * Places new time markers between the highest existing time marker and the
+   * highest date of the timeline.
+   */
   public addMarkersRight() {
     const highestMarker =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
@@ -192,6 +223,11 @@ export default class TimeMarkerCreator {
     }
   }
 
+  /**
+   * Places new time markers at a depth level which is one level lower
+   * than the current depth level. That means between every pair of
+   * time markers 9 new equidistant markers will be created.
+   */
   public addMarkersBetween() {
     store.commit(
       "setTimeMarkerDepth",
@@ -225,6 +261,9 @@ export default class TimeMarkerCreator {
     store.state.timeMarkers = markers;
   }
 
+  /**
+   * Places one new time markers left to the lowest marker.
+   */
   public addSingleMarkerLeft() {
     const id = uuid();
     const element = this.createHTMLElement(id);
@@ -243,6 +282,10 @@ export default class TimeMarkerCreator {
     );
   }
 
+  
+  /**
+   * Calculates the depth of a date.
+   */
   private depthOf(date: number) {
     if (date === 0) {
       return Number.MAX_SAFE_INTEGER;

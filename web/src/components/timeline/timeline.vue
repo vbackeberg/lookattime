@@ -50,6 +50,7 @@ import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
+import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
 
 export default Vue.extend({
   name: "Timeline",
@@ -125,6 +126,12 @@ export default Vue.extend({
       store.state.spacerPageEdge.htmlElement = document.getElementById(
         "spacer-page-edge"
       ) as HTMLElement;
+    }
+  },
+
+  watch: {
+    timeMarkerDistance(newDistance, oldDistance) {
+      TimeMarkerDistanceWatcher.Instance.watch(newDistance, oldDistance);
     }
   }
 });

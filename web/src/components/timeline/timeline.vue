@@ -113,10 +113,10 @@ export default Vue.extend({
         "timeline"
       ) as HTMLElement;
       store.state.spacerRight.htmlElement = document.getElementById(
-        "spacer-left"
+        "spacer-right"
       ) as HTMLElement;
       store.state.spacerLeft.htmlElement = document.getElementById(
-        "spacer-right"
+        "spacer-left"
       ) as HTMLElement;
       store.state.spacerPageEdge.htmlElement = document.getElementById(
         "spacer-page-edge"

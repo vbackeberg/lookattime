@@ -6,14 +6,6 @@ import { Constants } from "./constants";
  * Removes time markers from the sides and from between.
  */
 export default class TimeMarkerRemover {
-  private timeMarkerAreaElement: HTMLElement;
-
-  constructor() {
-    this.timeMarkerAreaElement = document.getElementById(
-      "time-marker-area"
-    ) as HTMLElement;
-  }
-
   public removeMarkersLeft() {
     const index = store.state.timeMarkers.findIndex(
       marker => marker.positionCenter > store.getters.leftEdge

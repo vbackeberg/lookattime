@@ -1,6 +1,7 @@
 import TimeEventModel from "@/models/time-event-model";
 import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store/store";
+import PositionTranslator from "../position-translator";
 
 export default class Zoomer {
   private constructor() {}
@@ -11,17 +12,17 @@ export default class Zoomer {
    * Moves timeline zero.
    */
   public zoom(zoomFactor: number, referencePosition: number) {
-    this.reposition(zoomFactor, referencePosition);
     store.state.zoomLevel *= zoomFactor;
+    this.reposition(zoomFactor, referencePosition);
   }
 
   private reposition(zoomFactor: number, referencePosition: number) {
-    this.repositionTimeEvents(zoomFactor, referencePosition);
+    this.repositionTimelineZero(zoomFactor, referencePosition);
+    this.repositionTimeEvents();
     this.repositionSpacerPageEdge();
     this.repositionSpacerLeft();
     this.repositionSpacerRight();
-    this.repositionTimelineZero(zoomFactor, referencePosition);
-    this.repositionTimeMarkers(zoomFactor, referencePosition);
+    this.repositionTimeMarkers();
   }
 
   /**
@@ -29,13 +30,9 @@ export default class Zoomer {
    * @param zoomFactor The factor by which the distance between time event and reference position should shrink or grow
    * @param referencePosition The position the time event should approach to or depart from
    */
-  private repositionTimeEvents(zoomFactor: number, referencePosition: number) {
+  private repositionTimeEvents() {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
-      const distance =
-        (store.state.timeEvents[i].positionCenter - referencePosition) *
-        zoomFactor;
-
-      const newPosition = referencePosition + distance;
+      const newPosition = PositionTranslator.toAbsolutePosition(store.state.timeEvents[i].date);
 
       store.state.timeEvents[i].positionCenter = newPosition;
 
@@ -103,14 +100,11 @@ export default class Zoomer {
    * @param zoomFactor The factor by which the distance between time marker and reference position should shrink or grow
    * @param referencePosition The position the time marker should approach to or depart from
    */
-  private repositionTimeMarkers(zoomFactor: number, referencePosition: number) {
+  private repositionTimeMarkers() {
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
       // TODO: Try limit calculation to visible time markers only to increase performance.
-      const distance =
-        (store.state.timeMarkers[i].positionCenter - referencePosition) *
-        zoomFactor;
 
-      const newPosition = referencePosition + distance;
+      const newPosition = PositionTranslator.toAbsolutePosition(store.state.timeMarkers[i].date);
 
       store.state.timeMarkers[i].positionCenter = newPosition;
 

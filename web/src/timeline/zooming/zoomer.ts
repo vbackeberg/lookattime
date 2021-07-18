@@ -32,12 +32,12 @@ export default class Zoomer {
    */
   private repositionTimeEvents() {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
-      const newPosition = PositionTranslator.toAbsolutePosition(store.state.timeEvents[i].date);
+      const newPositionCenter = PositionTranslator.toAbsolutePosition(store.state.timeEvents[i].date);
 
-      store.state.timeEvents[i].positionCenter = newPosition;
+      store.state.timeEvents[i].positionCenter = newPositionCenter;
 
       store.state.timeEvents[i].htmlElement.style.transform =
-        "translateX(" + newPosition + "px)";
+        "translateX(" + newPositionCenter + "px)";
     }
   }
 

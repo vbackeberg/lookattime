@@ -124,7 +124,6 @@ export default class TimeMarkerCreator {
   ): TimeMarkerModel {
     const id = uuid();
     const element = this.createHTMLElement(id);
-    this.addHTMLElements(element);
 
     let secondMarkerDate = firstMarkerDate - depth;
     if (secondMarkerDate < lowestDate) {
@@ -138,6 +137,9 @@ export default class TimeMarkerCreator {
         );
       }
     }
+
+    this.addHTMLElements(element);
+
     return new TimeMarkerModel(
       PositionTranslator.toAbsolutePosition(secondMarkerDate),
       id,

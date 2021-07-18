@@ -25,7 +25,7 @@ export default new Vuex.Store({
 
     spacerPageEdge: {
       positionLeft: 0,
-      width: 10
+      width: 1
     } as SpacerModel,
 
     spacerLeft: {

@@ -4,7 +4,6 @@ import SpaceExtender from "../space-management/space-extender";
 import ViewFocuser from "./view-focuser";
 import Vue from "vue";
 import TimeMarkerCreator from "../time-marker-management/time-marker-creator";
-import VisibilityObserver from "../visibility-management/visibility-observer";
 
 /**
  * Resets the viewport when loading a new timeline.

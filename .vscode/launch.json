@@ -2,19 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Node Functions",
+      "name": "Attach to Azure Functions",
       "type": "node",
       "request": "attach",
       "port": 9229,
       "preLaunchTask": "func: host start"
     },
     {
-      "name": "Attach to Chrome Localhost",
+      "name": "Launch chrome debugging",
       "type": "chrome",
-      "request": "attach",
-      "port": 9222,
-      "url": "localhost",
-      "webRoot": "${workspaceFolder}/web/"
+      "request": "launch",
+      "url": "http://localhost",
+      "webRoot": "${workspaceFolder}/web"
   }
   ]
 }

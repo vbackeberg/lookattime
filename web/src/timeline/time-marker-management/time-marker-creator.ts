@@ -10,11 +10,13 @@ import { Constants } from "./constants";
  */
 export default class TimeMarkerCreator {
   private timeMarkerAreaElement: HTMLElement;
+  private timelineElement: HTMLElement;
 
   constructor() {
     this.timeMarkerAreaElement = document.getElementById(
       "time-marker-area"
     ) as HTMLElement;
+    this.timelineElement = store.state.timelineElement;
   }
 
   /**
@@ -24,7 +26,7 @@ export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
     const lowestDate = PositionTranslator.toRelativePosition(0);
     const highestDate = PositionTranslator.toRelativePosition(
-      store.getters.rightEdge
+      this.timelineElement.scrollLeft + this.timelineElement.clientWidth
     );
 
     const firstMarker = this.createFirstMarker(lowestDate, highestDate);
@@ -155,7 +157,9 @@ export default class TimeMarkerCreator {
    */
   public addMarkersLeft() {
     const lowestMarker = store.state.timeMarkers[0];
-    const distanceToEdge = lowestMarker.positionCenter - store.getters.leftEdge;
+    const distanceToEdge =
+      lowestMarker.positionCenter -
+      0;
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );
@@ -194,7 +198,9 @@ export default class TimeMarkerCreator {
     const highestMarker =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
     const distanceToEdge =
-      store.getters.rightEdge - highestMarker.positionCenter;
+      this.timelineElement.scrollLeft +
+      this.timelineElement.clientWidth -
+      highestMarker.positionCenter;
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );
@@ -284,7 +290,6 @@ export default class TimeMarkerCreator {
     );
   }
 
-  
   /**
    * Calculates the depth of a date.
    */

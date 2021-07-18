@@ -6,9 +6,15 @@ import { Constants } from "./constants";
  * Removes time markers from the sides and from between.
  */
 export default class TimeMarkerRemover {
+  private timelineElement: HTMLElement;
+
+  constructor() {
+    this.timelineElement = store.state.timelineElement;
+  }
+
   public removeMarkersLeft() {
     const index = store.state.timeMarkers.findIndex(
-      marker => marker.positionCenter > store.getters.leftEdge
+      marker => marker.positionCenter > 0
     );
 
     if (index > 0) {
@@ -22,7 +28,9 @@ export default class TimeMarkerRemover {
 
   public removeMarkersRight() {
     const index = store.state.timeMarkers.findIndex(
-      marker => marker.positionCenter > store.getters.rightEdge
+      marker =>
+        marker.positionCenter >
+        this.timelineElement.scrollLeft + this.timelineElement.clientWidth
     );
 
     if (index > -1) {

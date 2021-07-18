@@ -53,6 +53,14 @@ export default class TimeMarkerRemover {
     store.state.timeMarkers = markers;
   }
 
+  public removeAllMarkers() {
+    store.state.timeMarkers.forEach(marker => {
+      marker.htmlElement.remove();
+    });
+
+    store.state.timeMarkers = [];
+  }
+
   private static instance: TimeMarkerRemover;
   public static get Instance() {
     return this.instance || (this.instance = new this());

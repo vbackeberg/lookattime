@@ -306,10 +306,6 @@ export default class TimeMarkerCreator {
 
   private createHTMLElement(id: string): HTMLElement {
     const element = document.createElement("svg");
-    element.style.width = "2px";
-    element.style.height = "12px";
-    element.style.backgroundColor = "black";
-    element.style.position = "absolute";
     element.id = id;
     element.setAttribute("class", "time-marker zoom-transition zoomable");
 

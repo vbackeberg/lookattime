@@ -5,3 +5,10 @@
 :root {
   --time-event-expanded-width: 300px;
 }
+
+.time-marker {
+  width: 2px;
+  height: 12px;
+  background-color: black;
+  position: absolute;
+}

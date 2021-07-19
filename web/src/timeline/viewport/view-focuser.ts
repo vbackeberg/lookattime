@@ -29,14 +29,8 @@ export default class ViewFocuser {
    */
   public extendFocus(position: number) {
     if (position < this.timelineElement.scrollLeft) {
-      this.focusOnAbsoluteRange(
-        position,
-        this.timelineElement.scrollLeft + this.timelineElement.clientWidth
-      );
-    } else if (
-      position >
-      this.timelineElement.scrollLeft + this.timelineElement.clientWidth
-    ) {
+      this.focusOnAbsoluteRange(position, this.timelineElement.scrollWidth);
+    } else if (position > this.timelineElement.scrollWidth) {
       this.focusOnAbsoluteRange(this.timelineElement.scrollLeft, position);
     } else {
       console.debug(

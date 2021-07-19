@@ -47,10 +47,7 @@ export default class SpaceExtender {
     timelineElement: HTMLElement
   ) {
     const newPositionLeft =
-      timelineElement.scrollLeft +
-      timelineElement.clientWidth +
-      distance -
-      store.state.spacerPageEdge.width;
+      timelineElement.scrollWidth + distance - store.state.spacerPageEdge.width;
 
     store.state.spacerPageEdge.htmlElement.style.transform =
       "translateX(" + newPositionLeft + "px)";

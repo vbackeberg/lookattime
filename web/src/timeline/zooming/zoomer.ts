@@ -43,8 +43,7 @@ export default class Zoomer {
 
   private repositionSpacerPageEdge() {
     const newPositionLeft =
-      store.state.timelineElement.scrollLeft +
-      store.state.timelineElement.clientWidth -
+      store.state.timelineElement.scrollWidth -
       store.state.spacerPageEdge.width;
 
     store.state.spacerPageEdge.htmlElement.style.transform =

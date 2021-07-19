@@ -26,7 +26,7 @@ export default class TimeMarkerCreator {
   public initiateTimeMarkers() {
     const lowestDate = PositionTranslator.toRelativePosition(0);
     const highestDate = PositionTranslator.toRelativePosition(
-      this.timelineElement.scrollLeft + this.timelineElement.clientWidth
+      this.timelineElement.scrollWidth
     );
 
     const firstMarker = this.createFirstMarker(lowestDate, highestDate);
@@ -195,10 +195,10 @@ export default class TimeMarkerCreator {
   public addMarkersRight() {
     const highestMarker =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
+
     const distanceToEdge =
-      this.timelineElement.scrollLeft +
-      this.timelineElement.clientWidth -
-      highestMarker.positionCenter;
+      this.timelineElement.scrollWidth - highestMarker.positionCenter;
+    highestMarker.positionCenter;
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance
     );

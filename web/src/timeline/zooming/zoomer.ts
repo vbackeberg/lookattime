@@ -32,7 +32,9 @@ export default class Zoomer {
    */
   private repositionTimeEvents() {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
-      const newPositionCenter = PositionTranslator.toAbsolutePosition(store.state.timeEvents[i].date);
+      const newPositionCenter = PositionTranslator.toAbsolutePosition(
+        store.state.timeEvents[i].date
+      );
 
       store.state.timeEvents[i].positionCenter = newPositionCenter;
 
@@ -103,7 +105,9 @@ export default class Zoomer {
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
       // TODO: Try limit calculation to visible time markers only to increase performance.
 
-      const newPosition = PositionTranslator.toAbsolutePosition(store.state.timeMarkers[i].date);
+      const newPosition = PositionTranslator.toAbsolutePosition(
+        store.state.timeMarkers[i].date
+      );
 
       store.state.timeMarkers[i].positionCenter = newPosition;
 

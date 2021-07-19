@@ -41,10 +41,8 @@ export default class TimeMarkerRemover {
   }
 
   public removeMarkersLowestDepth() {
-    store.commit(
-      "setTimeMarkerDepth",
-      store.state.timeMarkerDepth * Constants.DEPTH_BASE
-    );
+    store.state.timeMarkerDepth =
+      store.state.timeMarkerDepth * Constants.DEPTH_BASE;
 
     let markers: TimeMarkerModel[] = [];
 

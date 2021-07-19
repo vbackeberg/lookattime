@@ -41,7 +41,7 @@ export default class TimeMarkerCreator {
       (a, b) => a.date - b.date
     );
 
-    store.commit("setTimeMarkerDepth", secondMarker.depth);
+    store.state.timeMarkerDepth = secondMarker.depth;
 
     this.addMarkersLeft();
     this.addMarkersRight();
@@ -235,10 +235,8 @@ export default class TimeMarkerCreator {
    * time markers 9 new equidistant markers will be created.
    */
   public addMarkersBetween() {
-    store.commit(
-      "setTimeMarkerDepth",
-      store.state.timeMarkerDepth / Constants.DEPTH_BASE
-    );
+    store.state.timeMarkerDepth =
+      store.state.timeMarkerDepth / Constants.DEPTH_BASE;
 
     const markers = [] as TimeMarkerModel[];
     const elements: HTMLElement[] = [];

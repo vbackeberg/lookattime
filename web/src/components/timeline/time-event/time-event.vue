@@ -288,7 +288,6 @@ export default Vue.extend({
 
   width: 50px;
   height: 50px;
-  
   border-radius: 25px;
 }
 

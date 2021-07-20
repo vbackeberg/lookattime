@@ -41,8 +41,7 @@ export default class ViewResetter {
       );
     }
 
-    await Vue.nextTick(); // TODO: Probably obsolete as repositioning will not go through Vue Components anymore.
-
+    await Vue.nextTick();
     this.focusView();
 
     TimeMarkerCreator.Instance.initiateTimeMarkers();

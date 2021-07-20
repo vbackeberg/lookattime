@@ -243,6 +243,7 @@ export default Vue.extend({
   height: 100%;
   backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX
   pointer-events: none;
+  content-visibility: auto;
 
   display: flex;
   flex-flow: column nowrap;

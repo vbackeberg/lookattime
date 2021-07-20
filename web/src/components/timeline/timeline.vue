@@ -12,7 +12,7 @@
     <div id="time-event-area">
       <!-- TODO: place time events in the same way as time markers. -->
       <time-event
-        v-for="timeEvent in timeEventsVisible"
+        v-for="timeEvent in timeEvents"
         :key="timeEvent.id"
         v-bind="timeEvent"
       ></time-event>
@@ -45,13 +45,13 @@ import TimeEvent from "@/components/timeline/time-event/time-event.vue";
 import Vue from "vue";
 import store from "@/store/store";
 import SpaceObserver from "@/timeline/space-management/space-observer";
-import VisibilityObserver from "@/timeline/visibility-management/visibility-observer";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
 import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
+import TimeEventModel from "@/models/time-event-model";
 
 export default Vue.extend({
   name: "Timeline",
@@ -62,7 +62,9 @@ export default Vue.extend({
   },
 
   data() {
-    return { showCreateTimeEventForm: false };
+    return {
+      showCreateTimeEventForm: false
+    };
   },
 
   created() {
@@ -75,7 +77,6 @@ export default Vue.extend({
     store.state.timelineZero = this.$el.clientWidth / 2;
 
     SpaceObserver.Instance;
-    VisibilityObserver.Instance;
     ZoomObserver.Instance;
     TimeEventMutationObserver.Instance;
 
@@ -93,7 +94,7 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapGetters(["timeEventsVisible", "timeMarkerDistance", "viewMode"]),
+    ...mapGetters(["timeMarkerDistance", "viewMode"]),
 
     horizontalLineWidth(): number {
       return Math.max(
@@ -105,6 +106,10 @@ export default Vue.extend({
 
     loading(): boolean {
       return store.state.loading;
+    },
+
+    timeEvents(): TimeEventModel[] {
+      return store.state.timeEvents;
     }
   },
 

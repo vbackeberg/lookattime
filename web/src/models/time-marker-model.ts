@@ -5,7 +5,6 @@ export default class TimeMarkerModel {
   id: string;
   date: number;
   depth: number;
-  show = false;
   htmlElement: HTMLElement;
   constructor(positionCenter: number, id: string, date: number, depth: number, htmlElement: HTMLElement) {
     this.positionCenter = positionCenter;

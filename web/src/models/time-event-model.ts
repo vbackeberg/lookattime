@@ -11,7 +11,6 @@ export default class TimeEventModel {
   importance: number;
   imageReferences: ImageReferenceModel[];
   title: string;
-  show = false;
   htmlElement!: HTMLElement;
 
   constructor(

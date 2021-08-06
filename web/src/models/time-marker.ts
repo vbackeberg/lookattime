@@ -1,6 +1,6 @@
-export default class TimeMarkerModel {
+export default class TimeMarker {
   static width = 2;
-  static widthOffset = TimeMarkerModel.width / 2;
+  static widthOffset = TimeMarker.width / 2;
   private _positionCenter!: number;
   id: string;
   date: number;
@@ -17,7 +17,7 @@ export default class TimeMarkerModel {
   public set positionCenter(newPositionCenter: number) {
     this._positionCenter = newPositionCenter;
     this.htmlElement.style.transform =
-      "translateX(" + (newPositionCenter - TimeMarkerModel.widthOffset) + "px)";
+      "translateX(" + (newPositionCenter - TimeMarker.widthOffset) + "px)";
   }
 
   public get positionCenter(): number {

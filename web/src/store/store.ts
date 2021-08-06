@@ -1,5 +1,5 @@
 import TimeEventModel from "@/models/time-event-model";
-import TimeMarkerModel from "@/models/time-marker-model";
+import TimeMarker from "@/models/time-marker";
 import SpacerModel from "@/models/spacer-model";
 import Vue from "vue";
 import Vuex from "vuex";
@@ -38,7 +38,7 @@ export default new Vuex.Store({
       width: 1
     } as SpacerModel,
 
-    timeMarkers: [] as TimeMarkerModel[],
+    timeMarkers: [] as TimeMarker[],
     timeMarkerDepth: 1,
 
     selectedTimeline: {} as TimelineModel,

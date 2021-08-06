@@ -1,5 +1,4 @@
 import TimeEventModel from "@/models/time-event-model";
-import TimeMarkerModel from "@/models/time-marker-model";
 import store from "@/store/store";
 import PositionTranslator from "../position-translator";
 

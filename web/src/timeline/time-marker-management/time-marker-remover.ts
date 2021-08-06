@@ -1,4 +1,4 @@
-import TimeMarkerModel from "@/models/time-marker-model";
+import TimeMarker from "@/models/time-marker";
 import store from "@/store/store";
 import { Constants } from "./constants";
 
@@ -44,7 +44,7 @@ export default class TimeMarkerRemover {
     store.state.timeMarkerDepth =
       store.state.timeMarkerDepth * Constants.DEPTH_BASE;
 
-    let markers: TimeMarkerModel[] = [];
+    let markers: TimeMarker[] = [];
 
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
       if (store.state.timeMarkers[i].depth >= store.state.timeMarkerDepth) {

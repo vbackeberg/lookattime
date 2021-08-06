@@ -110,9 +110,6 @@ export default class Zoomer {
       );
 
       store.state.timeMarkers[i].positionCenter = newPosition;
-
-      store.state.timeMarkers[i].htmlElement.style.transform =
-        "translateX(" + (newPosition - TimeMarkerModel.widthOffset) + "px)";
     }
   }
 

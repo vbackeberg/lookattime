@@ -62,13 +62,8 @@ export default class SpaceExtender {
   }
 
   private static repositionTimeMarkers(distance: number) {
-    store.state.timeMarkers.forEach(timeMarker => {
-      timeMarker.positionCenter += distance;
-
-      if (timeMarker.htmlElement) {
-        timeMarker.htmlElement.style.transform =
-          "translateX(" + timeMarker.positionCenter + "px)";
-      }
-    });
+    for (let i = 0; i < store.state.timeMarkers.length; i++) {
+      store.state.timeMarkers[i].positionCenter += distance;
+    }
   }
 }

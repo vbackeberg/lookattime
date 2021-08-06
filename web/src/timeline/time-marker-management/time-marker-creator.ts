@@ -36,6 +36,8 @@ export default class TimeMarkerCreator {
       firstMarker.depth
     );
 
+    this.addHTMLElements(firstMarker.htmlElement, secondMarker.htmlElement);
+
     store.state.timeMarkers = [firstMarker, secondMarker].sort(
       (a, b) => a.date - b.date
     );
@@ -62,16 +64,13 @@ export default class TimeMarkerCreator {
   ): TimeMarkerModel {
     let depth = 1;
     const id = uuid();
-    const element = this.createHTMLElement(id);
-    this.addHTMLElements(element);
 
     if (lowestDate <= 0 && highestDate >= 0) {
       return new TimeMarkerModel(
         store.state.timelineZero,
         id,
         0,
-        Number.MAX_SAFE_INTEGER,
-        element
+        Number.MAX_SAFE_INTEGER
       );
     } else if (lowestDate > 0) {
       while (Math.trunc(highestDate / depth) * depth > lowestDate) {
@@ -85,8 +84,7 @@ export default class TimeMarkerCreator {
         PositionTranslator.toAbsolutePosition(date),
         id,
         date,
-        depth,
-        element
+        depth
       );
     } else {
       while (Math.trunc(lowestDate / depth) * depth < highestDate) {
@@ -100,8 +98,7 @@ export default class TimeMarkerCreator {
         PositionTranslator.toAbsolutePosition(date),
         id,
         date,
-        depth,
-        element
+        depth
       );
     }
   }
@@ -122,7 +119,6 @@ export default class TimeMarkerCreator {
     depth: number
   ): TimeMarkerModel {
     const id = uuid();
-    const element = this.createHTMLElement(id);
 
     let secondMarkerDate = firstMarkerDate - depth;
     if (secondMarkerDate < lowestDate) {
@@ -137,14 +133,11 @@ export default class TimeMarkerCreator {
       }
     }
 
-    this.addHTMLElements(element);
-
     return new TimeMarkerModel(
       PositionTranslator.toAbsolutePosition(secondMarkerDate),
       id,
       secondMarkerDate,
-      depth,
-      element
+      depth
     );
   }
 
@@ -165,19 +158,15 @@ export default class TimeMarkerCreator {
 
       for (let i = numberOfMarkers; i > 0; i--) {
         const date = lowestMarker.date - store.state.timeMarkerDepth * i;
-        const id = uuid();
-        const element = this.createHTMLElement(id);
-        elements.push(element);
-
-        markers.push(
-          new TimeMarkerModel(
-            lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
-            id,
-            date,
-            this.depthOf(date),
-            element
-          )
+        const marker = new TimeMarkerModel(
+          lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
+          uuid(),
+          date,
+          this.depthOf(date)
         );
+
+        elements.push(marker.htmlElement);
+        markers.push(marker);
       }
 
       this.addHTMLElements(...elements);
@@ -206,19 +195,15 @@ export default class TimeMarkerCreator {
 
       for (let i = 1; i <= numberOfMarkers; i++) {
         const date = highestMarker.date + store.state.timeMarkerDepth * i;
-        const id = uuid();
-        const element = this.createHTMLElement(id);
-        elements.push(element);
-
-        markers.push(
-          new TimeMarkerModel(
-            highestMarker.positionCenter + store.getters.timeMarkerDistance * i,
-            id,
-            date,
-            this.depthOf(date),
-            element
-          )
+        const marker = new TimeMarkerModel(
+          highestMarker.positionCenter + store.getters.timeMarkerDistance * i,
+          uuid(),
+          date,
+          this.depthOf(date)
         );
+
+        elements.push(marker.htmlElement);
+        markers.push(marker);
       }
 
       this.addHTMLElements(...elements);
@@ -241,18 +226,16 @@ export default class TimeMarkerCreator {
     for (let i = 0, n = store.state.timeMarkers.length; i < n - 1; i++) {
       markers[i * 10] = store.state.timeMarkers[i];
       for (let m = 1; m < 10; m++) {
-        const id = uuid();
-        const element = this.createHTMLElement(id);
-        elements.push(element);
-
-        markers[i * 10 + m] = new TimeMarkerModel(
+        const marker = new TimeMarkerModel(
           store.state.timeMarkers[i].positionCenter +
             (store.getters.timeMarkerDistance / 10) * m,
-          id,
+          uuid(),
           store.state.timeMarkers[i].date + store.state.timeMarkerDepth * m,
-          store.state.timeMarkerDepth,
-          element
+          store.state.timeMarkerDepth
         );
+
+        elements.push(marker.htmlElement);
+        markers[i * 10 + m] = marker;
       }
     }
     markers[markers.length] =
@@ -266,21 +249,17 @@ export default class TimeMarkerCreator {
    * Places one new time markers left to the lowest marker.
    */
   public addSingleMarkerLeft() {
-    const id = uuid();
-    const element = this.createHTMLElement(id);
-
-    this.addHTMLElements(element);
-    store.state.timeMarkers.unshift(
-      new TimeMarkerModel(
-        PositionTranslator.toAbsolutePosition(
-          store.state.timeMarkers[0].date - store.state.timeMarkerDepth
-        ),
-        id,
-        store.state.timeMarkers[0].date - store.state.timeMarkerDepth,
-        store.state.timeMarkerDepth,
-        element
-      )
+    const marker = new TimeMarkerModel(
+      PositionTranslator.toAbsolutePosition(
+        store.state.timeMarkers[0].date - store.state.timeMarkerDepth
+      ),
+      uuid(),
+      store.state.timeMarkers[0].date - store.state.timeMarkerDepth,
+      store.state.timeMarkerDepth
     );
+
+    this.addHTMLElements(marker.htmlElement);
+    store.state.timeMarkers.unshift(marker);
   }
 
   /**
@@ -297,14 +276,6 @@ export default class TimeMarkerCreator {
     }
 
     return (depth /= Constants.DEPTH_BASE);
-  }
-
-  private createHTMLElement(id: string): HTMLElement {
-    const element = document.createElement("svg");
-    element.id = id;
-    element.setAttribute("class", "time-marker zoom-transition zoomable");
-
-    return element;
   }
 
   private addHTMLElements(...elements: HTMLElement[]) {

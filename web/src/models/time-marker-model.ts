@@ -6,17 +6,11 @@ export default class TimeMarkerModel {
   date: number;
   depth: number;
   htmlElement: HTMLElement;
-  constructor(
-    positionCenter: number,
-    id: string,
-    date: number,
-    depth: number,
-    htmlElement: HTMLElement
-  ) {
+  constructor(positionCenter: number, id: string, date: number, depth: number) {
     this.id = id;
     this.date = date;
     this.depth = depth;
-    this.htmlElement = htmlElement;
+    this.htmlElement = this.createHTMLElement(id);
     this.positionCenter = positionCenter;
   }
 
@@ -28,5 +22,13 @@ export default class TimeMarkerModel {
 
   public get positionCenter(): number {
     return this._positionCenter;
+  }
+
+  private createHTMLElement(id: string): HTMLElement {
+    const element = document.createElement("svg");
+    element.id = id;
+    element.setAttribute("class", "time-marker zoom-transition zoomable");
+
+    return element;
   }
 }

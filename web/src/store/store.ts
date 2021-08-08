@@ -121,7 +121,7 @@ export default new Vuex.Store({
         state.selectedTimeline.id,
         state.user.id
       ).then(() => commit("deleteTimeEvent", timeEventId));
-    }, // TODO: Remove HTML Element
+    },
 
     async updateTimeEvent(
       { commit, state },

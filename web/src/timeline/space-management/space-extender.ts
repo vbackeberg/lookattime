@@ -56,8 +56,6 @@ export default class SpaceExtender {
   private static repositionTimeEvents(distance: number) {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
       store.state.timeEvents[i].positionCenter += distance;
-      store.state.timeEvents[i].htmlElement.style.transform =
-        "translateX(" + store.state.timeEvents[i].positionCenter + "px)";
     }
   }
 

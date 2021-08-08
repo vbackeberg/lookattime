@@ -225,11 +225,12 @@ export default Vue.extend({
         .$el as HTMLElement;
     },
 
+    /*
+     * Re-assign positionCenter for translateX on htmlElement to be set.
+     */
     setInitialPosition() {
-      const timeEvent = store.state.timeEvents[this.timeEventIndex];
-
-      timeEvent.htmlElement.style.transform =
-        "translateX(" + timeEvent.positionCenter + "px)";
+      store.state.timeEvents[this.timeEventIndex].positionCenter =
+        store.state.timeEvents[this.timeEventIndex].positionCenter;
     }
   }
 });

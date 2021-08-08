@@ -36,9 +36,6 @@ export default class Zoomer {
       );
 
       store.state.timeEvents[i].positionCenter = newPositionCenter;
-
-      store.state.timeEvents[i].htmlElement.style.transform =
-        "translateX(" + newPositionCenter + "px)";
     }
   }
 

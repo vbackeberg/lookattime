@@ -10,7 +10,6 @@
       <svg id="spacer-page-edge" class="spacer"></svg>
     </div>
     <div id="time-event-area">
-      <!-- TODO: place time events in the same way as time markers. -->
       <time-event
         v-for="timeEvent in timeEvents"
         :key="timeEvent.id"

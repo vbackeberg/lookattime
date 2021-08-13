@@ -8,7 +8,7 @@ import TimeMarkerRemover from "./time-marker-remover";
  */
 export default class TimeMarkerDistanceWatcher {
   // TODO: A potential refactoring for better performance could be to have
-  // a fixed distance counter which is modified through zoom. 
+  // a fixed distance counter which is modified through zoom.
   // Every time a change in the counter occurs, an event notifies the watcher.
 
   private timeMarkerCreator: TimeMarkerCreator;

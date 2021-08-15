@@ -22,10 +22,11 @@ export default class TimeMarkerCreator {
    * Initiates the time marker array. Adds a marker at date 0 and expands markers to both sides.
    *
    */
-  public initiateTimeMarkers() { // TODO: Maybe time markers are not yet initiated, when distance watcher is called.
+  public initiateTimeMarkers() {
+    // TODO: Maybe time markers are not yet initiated, when distance watcher is called.
     const lowestDate = PositionTranslator.toRelativePosition(0);
     const highestDate = PositionTranslator.toRelativePosition(
-      this.timelineElement.scrollWidth
+      this.timelineElement.scrollLeft + this.timelineElement.clientWidth
     );
 
     const firstMarker = this.createFirstMarker(lowestDate, highestDate);
@@ -183,7 +184,9 @@ export default class TimeMarkerCreator {
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
 
     const distanceToEdge =
-      this.timelineElement.scrollWidth - highestMarker.positionCenter;
+      this.timelineElement.scrollLeft +
+      this.timelineElement.clientWidth -
+      highestMarker.positionCenter;
     highestMarker.positionCenter;
     const numberOfMarkers = Math.floor(
       distanceToEdge / store.getters.timeMarkerDistance

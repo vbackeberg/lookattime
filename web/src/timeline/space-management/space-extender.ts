@@ -41,7 +41,10 @@ export default class SpaceExtender {
     timelineElement: HTMLElement
   ) {
     store.state.spacerPageEdge.positionLeft =
-      timelineElement.scrollWidth + distance - store.state.spacerPageEdge.width;
+    timelineElement.scrollLeft +
+    timelineElement.clientWidth +
+    distance -
+    store.state.spacerPageEdge.width;
   }
 
   private static repositionTimeEvents(distance: number) {

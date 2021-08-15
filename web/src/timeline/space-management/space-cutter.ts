@@ -51,6 +51,8 @@ export default class SpaceCutter {
 
   private static repositionSpacerPageEdge(timelineElement: HTMLElement) {
     store.state.spacerPageEdge.positionLeft =
-      timelineElement.scrollWidth - store.state.spacerPageEdge.width;
+      timelineElement.scrollLeft +
+      timelineElement.clientWidth -
+      store.state.spacerPageEdge.width;
   }
 }

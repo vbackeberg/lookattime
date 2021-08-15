@@ -28,7 +28,9 @@ export default class TimeMarkerRemover {
 
   public removeMarkersRight() {
     const index = store.state.timeMarkers.findIndex(
-      marker => marker.positionCenter > this.timelineElement.scrollWidth
+      marker =>
+        marker.positionCenter >
+        this.timelineElement.scrollLeft + this.timelineElement.clientWidth
     );
 
     if (index > -1) {

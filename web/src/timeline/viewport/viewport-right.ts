@@ -1,6 +1,6 @@
 import store from "@/store/store";
 
-export default class Viewport { // TODO: rename file name
+export default class Viewport {
   static rightEdge(): number {
     return (
       store.state.timelineElement.scrollLeft +

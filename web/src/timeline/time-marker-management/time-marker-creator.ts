@@ -120,8 +120,6 @@ export default class TimeMarkerCreator {
     highestDate: number,
     depth: number
   ): TimeMarker {
-    const id = uuid();
-
     let secondMarkerDate = firstMarkerDate - depth;
     if (secondMarkerDate < lowestDate) {
       secondMarkerDate = firstMarkerDate + depth;
@@ -137,7 +135,7 @@ export default class TimeMarkerCreator {
 
     return new TimeMarker(
       PositionTranslator.toAbsolutePosition(secondMarkerDate),
-      id,
+      uuid(),
       secondMarkerDate,
       depth
     );

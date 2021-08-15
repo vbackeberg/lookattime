@@ -10,13 +10,11 @@ import { Constants } from "./constants";
  */
 export default class TimeMarkerCreator {
   private timeMarkerAreaElement: HTMLElement;
-  private timelineElement: HTMLElement;
 
   constructor() {
     this.timeMarkerAreaElement = document.getElementById(
       "time-marker-area"
     ) as HTMLElement;
-    this.timelineElement = store.state.timelineElement;
   }
 
   /**

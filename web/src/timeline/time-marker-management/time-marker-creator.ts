@@ -2,7 +2,7 @@ import TimeMarker from "@/models/time-marker";
 import store from "@/store/store";
 import { v4 as uuid } from "uuid";
 import PositionTranslator from "../position-translator";
-import Viewport from "../viewport/viewport-right-edge";
+import Viewport from "../viewport/viewport-right";
 import { Constants } from "./constants";
 
 /**

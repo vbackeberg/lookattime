@@ -1,6 +1,6 @@
 import TimeMarker from "@/models/time-marker";
 import store from "@/store/store";
-import Viewport from "../viewport/viewport-right-edge";
+import Viewport from "../viewport/viewport-right";
 import { Constants } from "./constants";
 
 /**

@@ -1,5 +1,5 @@
 import store from "@/store/store";
-import Viewport from "../viewport/viewport-right-edge";
+import Viewport from "../viewport/viewport-right";
 
 /**
  * Cuts expendable space on the left by given distance. Takes care of removing animations during position shifting.

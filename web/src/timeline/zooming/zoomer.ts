@@ -18,7 +18,6 @@ export default class Zoomer {
   private reposition(zoomFactor: number, referencePosition: number) {
     this.repositionTimelineZero(zoomFactor, referencePosition);
     this.repositionTimeEvents();
-    this.repositionSpacerPageEdge();
     this.repositionSpacerLeft();
     this.repositionSpacerRight();
     this.repositionTimeMarkers();
@@ -37,12 +36,6 @@ export default class Zoomer {
 
       store.state.timeEvents[i].positionCenter = newPositionCenter;
     }
-  }
-
-  private repositionSpacerPageEdge() {
-    store.state.spacerPageEdge.positionLeft =
-      store.state.timelineElement.scrollWidth -
-      store.state.spacerPageEdge.width;
   }
 
   /**

@@ -22,7 +22,7 @@ export default class TimeMarkerCreator {
    * Initiates the time marker array. Adds a marker at date 0 and expands markers to both sides.
    *
    */
-  public initiateTimeMarkers() {
+  public initiateTimeMarkers() { // TODO: Maybe time markers are not yet initiated, when distance watcher is called.
     const lowestDate = PositionTranslator.toRelativePosition(0);
     const highestDate = PositionTranslator.toRelativePosition(
       this.timelineElement.scrollWidth

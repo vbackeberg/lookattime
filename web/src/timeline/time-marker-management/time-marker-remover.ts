@@ -13,6 +13,9 @@ export default class TimeMarkerRemover {
     this.timelineElement = store.state.timelineElement;
   }
 
+  /**
+   * Remove all markers that have a position below zero.
+   */
   public removeMarkersLeft() {
     const index = store.state.timeMarkers.findIndex(
       marker => marker.positionCenter > 0

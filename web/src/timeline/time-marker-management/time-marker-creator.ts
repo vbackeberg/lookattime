@@ -27,7 +27,10 @@ export default class TimeMarkerCreator {
     // TODO: Maybe time markers are not yet initiated, when distance watcher is called.
     const lowestDate = PositionTranslator.toRelativePosition(0);
     const highestDate = PositionTranslator.toRelativePosition(
-      Viewport.rightEdge()
+      Math.max(
+        Viewport.rightEdge(),
+        store.state.spacerRight.positionLeft + store.state.spacerRight.width
+      )
     );
 
     const firstMarker = this.createFirstMarker(lowestDate, highestDate);

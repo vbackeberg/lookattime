@@ -50,7 +50,7 @@ import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
 import TimeEventModel from "@/models/time-event-model";
-import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
+import TimeMarkerDistanceObserver from "@/timeline/time-marker-management/time-marker-distance-observer";
 import SpacerModel from "@/models/spacer-model";
 
 export default Vue.extend({
@@ -79,7 +79,7 @@ export default Vue.extend({
 
     SpaceObserver.Instance;
     ZoomObserver.Instance;
-    TimeMarkerDistanceWatcher.Instance;
+    TimeMarkerDistanceObserver.Instance;
     TimeEventMutationObserver.Instance;
 
     await store.dispatch("loadUser");

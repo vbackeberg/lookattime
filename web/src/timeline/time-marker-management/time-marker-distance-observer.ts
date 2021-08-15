@@ -8,7 +8,7 @@ import TimeMarkerRemover from "./time-marker-remover";
 /**
  * Manages the time marker array from changes in the time marker distance.
  */
-export default class TimeMarkerDistanceWatcher {
+export default class TimeMarkerDistanceObserver {
   private timeMarkerCreator: TimeMarkerCreator;
   private timeMarkerRemover: TimeMarkerRemover;
   private lastTimeMarkerDistance = 0;
@@ -20,12 +20,12 @@ export default class TimeMarkerDistanceWatcher {
     SpaceObserver.Instance.eventTarget.addEventListener(
       "space-management-end",
       () => {
-        this.watch();
+        this.observe();
       }
     );
   }
 
-  public watch() {
+  public observe() {
     if (store.state.timeMarkers.length === 0) {
       TimeMarkerCreator.Instance.initiateTimeMarkers();
     }
@@ -47,7 +47,7 @@ export default class TimeMarkerDistanceWatcher {
     }
 
     this.lastTimeMarkerDistance = newDistance;
-    this.watch();
+    this.observe();
   }
 
   private onZoomIn(newDistance: number) {
@@ -91,7 +91,7 @@ export default class TimeMarkerDistanceWatcher {
     );
   }
 
-  private static instance: TimeMarkerDistanceWatcher;
+  private static instance: TimeMarkerDistanceObserver;
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }

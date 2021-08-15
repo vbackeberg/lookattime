@@ -58,7 +58,7 @@ export default class TimeMarkerDistanceWatcher {
     this.timeMarkerCreator.addMarkersRight();
 
     if (newDistance < Constants.MIN_DISTANCE) {
-      if (store.state.timeMarkerDepth === Number.MAX_SAFE_INTEGER) {
+      if (store.state.timeMarkerDepth === Constants.MAX_DEPTH) {
         return;
 
         // TODO: Change time system to the next higher system.

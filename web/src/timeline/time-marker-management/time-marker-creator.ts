@@ -72,7 +72,7 @@ export default class TimeMarkerCreator {
         store.state.timelineZero,
         id,
         0,
-        Number.MAX_SAFE_INTEGER
+        Constants.MAX_DEPTH
       );
     } else if (lowestDate > 0) {
       while (Math.trunc(highestDate / depth) * depth > lowestDate) {
@@ -269,7 +269,7 @@ export default class TimeMarkerCreator {
    */
   private depthOf(date: number) {
     if (date === 0) {
-      return Number.MAX_SAFE_INTEGER;
+      return Constants.MAX_DEPTH;
     }
 
     let depth = store.state.timeMarkerDepth;

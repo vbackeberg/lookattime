@@ -35,6 +35,7 @@ export default class TimeMarkerDistanceWatcher {
       this.onZoomOut(newDistance);
     }
   }
+  
   private onZoomIn(newDistance: number) {
     if (store.state.timeMarkers.length > 2) {
       this.timeMarkerRemover.removeMarkersLeft();

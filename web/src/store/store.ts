@@ -145,7 +145,9 @@ export default new Vuex.Store({
 
       commit("setTimeEvents", timeEvents);
 
-      await ViewResetter.Instance.initiateView();
+      if (timeEvents.length > 0) {
+        await ViewResetter.Instance.initiateView();
+      }
     },
 
     async setSelectedTimeline(

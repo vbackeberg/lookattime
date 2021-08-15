@@ -30,9 +30,20 @@ export default class TimeMarkerRemover {
     }
   }
 
+  /**
+   * Remove all markers that exceed the right edge of the timeline.
+   * The right edge of the timeline is the maximum of
+   * - the current viewport's right edge,
+   * - the position of spacer right.
+   */
   public removeMarkersRight() {
     const index = store.state.timeMarkers.findIndex(
-      marker => marker.positionCenter > Viewport.rightEdge()
+      marker =>
+        marker.positionCenter >
+        Math.max(
+          Viewport.rightEdge(),
+          store.state.spacerRight.positionLeft + store.state.spacerRight.width
+        )
     );
 
     if (index > -1) {

@@ -157,7 +157,7 @@ export default class TimeMarkerCreator {
     );
 
     if (numberOfMarkers > 0) {
-      const markers = [] as TimeMarker[];
+      const markers: TimeMarker[] = [];
       const elements: HTMLElement[] = [];
 
       for (let i = numberOfMarkers; i > 0; i--) {
@@ -197,7 +197,7 @@ export default class TimeMarkerCreator {
     );
 
     if (numberOfMarkers > 0) {
-      const markers = [] as TimeMarker[];
+      const markers: TimeMarker[] = [];
       const elements: HTMLElement[] = [];
 
       for (let i = 1; i <= numberOfMarkers; i++) {
@@ -227,7 +227,7 @@ export default class TimeMarkerCreator {
     store.state.timeMarkerDepth =
       store.state.timeMarkerDepth / Constants.DEPTH_BASE;
 
-    const markers = [] as TimeMarker[];
+    const markers: TimeMarker[] = [];
     const elements: HTMLElement[] = [];
 
     for (let i = 0, n = store.state.timeMarkers.length; i < n - 1; i++) {

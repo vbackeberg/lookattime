@@ -123,7 +123,11 @@ export default Vue.extend({
     },
 
     setSpacers() {
-      store.state.spacerViewportRight = new SpacerModel(0, 1, "spacer-viewport-right");
+      store.state.spacerViewportRight = new SpacerModel(
+        0,
+        1,
+        "spacer-viewport-right"
+      );
       store.state.spacerLeft = new SpacerModel(0, 1, "spacer-left");
       store.state.spacerRight = new SpacerModel(0, 1, "spacer-right");
     }

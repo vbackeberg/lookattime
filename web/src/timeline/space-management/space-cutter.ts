@@ -17,7 +17,7 @@ export default class SpaceCutter {
     this.repositionSpacerLeft(distance);
     this.repositionSpacerRight(distance);
     this.repositionTimeEvents(distance);
-    this.repositionTimerMarkers(distance);
+    this.repositionTimeMarkers(distance);
 
     store.state.timelineZero -= distance;
 
@@ -40,7 +40,7 @@ export default class SpaceCutter {
     }
   }
 
-  private static repositionTimerMarkers(distance: number) {
+  private static repositionTimeMarkers(distance: number) {
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
       store.state.timeMarkers[i].positionCenter -= distance;
     }

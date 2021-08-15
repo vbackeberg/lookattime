@@ -64,7 +64,6 @@ export default class ViewResetter {
 
   private repositionSpacerPageEdge() {
     store.state.spacerPageEdge.positionLeft = 0;
-    store.state.spacerPageEdge.htmlElement.style.transform = "translateX(0px)";
   }
 
   private static instance: ViewResetter;

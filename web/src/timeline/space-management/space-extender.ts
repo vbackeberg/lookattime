@@ -30,27 +30,18 @@ export default class SpaceExtender {
 
   private static repositionSpacerLeft(distance: number) {
     store.state.spacerLeft.positionLeft += distance;
-
-    store.state.spacerLeft.htmlElement.style.transform =
-      "translateX(" + store.state.spacerLeft.positionLeft + "px)";
   }
 
   private static repositionSpacerRight(distance: number) {
     store.state.spacerRight.positionLeft += distance;
-
-    store.state.spacerRight.htmlElement.style.transform =
-      "translateX(" + store.state.spacerRight.positionLeft + "px)";
   }
 
   private static repositionSpacerPageEdge(
     distance: number,
     timelineElement: HTMLElement
   ) {
-    const newPositionLeft =
+    store.state.spacerPageEdge.positionLeft =
       timelineElement.scrollWidth + distance - store.state.spacerPageEdge.width;
-
-    store.state.spacerPageEdge.htmlElement.style.transform =
-      "translateX(" + newPositionLeft + "px)";
   }
 
   private static repositionTimeEvents(distance: number) {

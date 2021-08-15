@@ -49,8 +49,9 @@ import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
-import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
 import TimeEventModel from "@/models/time-event-model";
+import TimeMarkerDistanceWatcher from "@/timeline/time-marker-management/time-marker-distance-watcher";
+import SpacerModel from "@/models/spacer-model";
 
 export default Vue.extend({
   name: "Timeline",
@@ -72,6 +73,7 @@ export default Vue.extend({
 
   async mounted() {
     this.setHTMLElements();
+    this.setSpacers();
 
     store.state.timelineZero = this.$el.clientWidth / 2;
 
@@ -117,21 +119,12 @@ export default Vue.extend({
       store.state.timelineElement = document.getElementById(
         "timeline"
       ) as HTMLElement;
-      store.state.spacerRight.htmlElement = document.getElementById(
-        "spacer-right"
-      ) as HTMLElement;
-      store.state.spacerLeft.htmlElement = document.getElementById(
-        "spacer-left"
-      ) as HTMLElement;
-      store.state.spacerPageEdge.htmlElement = document.getElementById(
-        "spacer-page-edge"
-      ) as HTMLElement;
-    }
-  },
+    },
 
-  watch: {
-    timeMarkerDistance(newDistance, oldDistance) {
-      TimeMarkerDistanceWatcher.Instance.watch(newDistance, oldDistance);
+    setSpacers() {
+      store.state.spacerPageEdge = new SpacerModel(0, 1, "spacer-page-edge");
+      store.state.spacerLeft = new SpacerModel(0, 1, "spacer-left");
+      store.state.spacerRight = new SpacerModel(0, 1, "spacer-right");
     }
   }
 });

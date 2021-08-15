@@ -23,20 +23,9 @@ export default new Vuex.Store({
 
     timeEvents: [] as TimeEventModel[],
 
-    spacerPageEdge: {
-      positionLeft: 0,
-      width: 1
-    } as SpacerModel,
-
-    spacerLeft: {
-      positionLeft: 0,
-      width: 1
-    } as SpacerModel,
-
-    spacerRight: {
-      positionLeft: 0,
-      width: 1
-    } as SpacerModel,
+    spacerPageEdge: {} as SpacerModel,
+    spacerLeft: {} as SpacerModel,
+    spacerRight: {} as SpacerModel,
 
     timeMarkers: [] as TimeMarker[],
     timeMarkerDepth: 1,

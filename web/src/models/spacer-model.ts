@@ -1,11 +1,21 @@
 export default class SpacerModel {
-  name: string;
-  positionLeft: number;
+  id: string;
+  private _positionLeft!: number;
   width: number;
   htmlElement!: HTMLElement;
-  constructor(positionLeft: number, width: number, name: string) {
-    this.name = name;
-    this.positionLeft = positionLeft;
+  constructor(positionLeft: number, width: number, id: string) {
+    this.id = id;
     this.width = width;
+    this.htmlElement = document.getElementById(id) as HTMLElement;
+    this.positionLeft = positionLeft;
+  }
+
+  public set positionLeft(newPositionLeft: number) {
+    this._positionLeft = newPositionLeft;
+    this.htmlElement.style.transform = "translateX(" + newPositionLeft + "px)";
+  }
+
+  public get positionLeft(): number {
+    return this._positionLeft;
   }
 }

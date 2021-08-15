@@ -40,12 +40,9 @@ export default class Zoomer {
   }
 
   private repositionSpacerPageEdge() {
-    const newPositionLeft =
+    store.state.spacerPageEdge.positionLeft =
       store.state.timelineElement.scrollWidth -
       store.state.spacerPageEdge.width;
-
-    store.state.spacerPageEdge.htmlElement.style.transform =
-      "translateX(" + newPositionLeft + "px)";
   }
 
   /**
@@ -60,15 +57,10 @@ export default class Zoomer {
       store.state.timelineElement.clientWidth / 2 -
       TimeEventModel.expandedWidthOffset;
 
-    const newPositionLeft =
+    store.state.spacerLeft.positionLeft =
       store.state.timeEvents[0].positionCenter -
       TimeEventModel.expandedWidthOffset -
       width;
-
-    store.state.spacerLeft.positionLeft = newPositionLeft;
-
-    store.state.spacerLeft.htmlElement.style.transform =
-      "translateX(" + newPositionLeft + "px)";
   }
 
   /**
@@ -83,16 +75,11 @@ export default class Zoomer {
       store.state.timelineElement.clientWidth / 2 -
       TimeEventModel.expandedWidthOffset;
 
-    const newPositionLeft =
+    store.state.spacerRight.positionLeft =
       store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter +
       TimeEventModel.expandedWidthOffset +
       width -
       store.state.spacerRight.width;
-
-    store.state.spacerRight.positionLeft = newPositionLeft;
-
-    store.state.spacerRight.htmlElement.style.transform =
-      "translateX(" + newPositionLeft + "px)";
   }
 
   private repositionTimelineZero(

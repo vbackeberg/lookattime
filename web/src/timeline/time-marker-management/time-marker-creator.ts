@@ -150,9 +150,10 @@ export default class TimeMarkerCreator {
    */
   public addMarkersLeft() {
     const lowestMarker = store.state.timeMarkers[0];
-    const distanceToEdge = lowestMarker.positionCenter - 0;
+    const lowestDate = PositionTranslator.toRelativePosition(0);
+
     const numberOfMarkers = Math.floor(
-      distanceToEdge / store.getters.timeMarkerDistance
+      (lowestMarker.date - lowestDate) / store.state.timeMarkerDepth
     );
 
     if (numberOfMarkers > 0) {
@@ -162,7 +163,7 @@ export default class TimeMarkerCreator {
       for (let i = numberOfMarkers; i > 0; i--) {
         const date = lowestMarker.date - store.state.timeMarkerDepth * i;
         const marker = new TimeMarker(
-          lowestMarker.positionCenter - store.getters.timeMarkerDistance * i,
+          PositionTranslator.toAbsolutePosition(date),
           uuid(),
           date,
           this.depthOf(date)
@@ -184,14 +185,15 @@ export default class TimeMarkerCreator {
   public addMarkersRight() {
     const highestMarker =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
+    const highestDate = PositionTranslator.toRelativePosition(
+      Math.max(
+        Viewport.rightEdge(),
+        store.state.spacerRight.positionLeft + store.state.spacerRight.width
+      )
+    );
 
-    const distanceToEdge =
-      this.timelineElement.scrollLeft +
-      this.timelineElement.clientWidth -
-      highestMarker.positionCenter;
-    highestMarker.positionCenter;
     const numberOfMarkers = Math.floor(
-      distanceToEdge / store.getters.timeMarkerDistance
+      (highestDate - highestMarker.date) / store.state.timeMarkerDepth
     );
 
     if (numberOfMarkers > 0) {
@@ -201,7 +203,7 @@ export default class TimeMarkerCreator {
       for (let i = 1; i <= numberOfMarkers; i++) {
         const date = highestMarker.date + store.state.timeMarkerDepth * i;
         const marker = new TimeMarker(
-          highestMarker.positionCenter + store.getters.timeMarkerDistance * i,
+          PositionTranslator.toAbsolutePosition(date),
           uuid(),
           date,
           this.depthOf(date)
@@ -231,11 +233,12 @@ export default class TimeMarkerCreator {
     for (let i = 0, n = store.state.timeMarkers.length; i < n - 1; i++) {
       markers[i * 10] = store.state.timeMarkers[i];
       for (let m = 1; m < 10; m++) {
+        const date =
+          store.state.timeMarkers[i].date + store.state.timeMarkerDepth * m;
         const marker = new TimeMarker(
-          store.state.timeMarkers[i].positionCenter +
-            (store.getters.timeMarkerDistance / 10) * m,
+          PositionTranslator.toAbsolutePosition(date),
           uuid(),
-          store.state.timeMarkers[i].date + store.state.timeMarkerDepth * m,
+          date,
           store.state.timeMarkerDepth
         );
 

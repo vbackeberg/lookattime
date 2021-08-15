@@ -166,7 +166,7 @@ export default class TimeMarkerCreator {
           PositionTranslator.toAbsolutePosition(date),
           uuid(),
           date,
-          this.depthOf(date)
+          store.state.timeMarkerDepth
         );
 
         elements.push(marker.htmlElement);
@@ -206,7 +206,7 @@ export default class TimeMarkerCreator {
           PositionTranslator.toAbsolutePosition(date),
           uuid(),
           date,
-          this.depthOf(date)
+          store.state.timeMarkerDepth
         );
 
         elements.push(marker.htmlElement);
@@ -268,22 +268,6 @@ export default class TimeMarkerCreator {
 
     this.addHTMLElements(marker.htmlElement);
     store.state.timeMarkers.unshift(marker);
-  }
-
-  /**
-   * Calculates the depth of a date.
-   */
-  private depthOf(date: number) {
-    if (date === 0) {
-      return Constants.MAX_DEPTH;
-    }
-
-    let depth = store.state.timeMarkerDepth;
-    while (date % depth === 0) {
-      depth *= Constants.DEPTH_BASE;
-    }
-
-    return (depth /= Constants.DEPTH_BASE);
   }
 
   private addHTMLElements(...elements: HTMLElement[]) {

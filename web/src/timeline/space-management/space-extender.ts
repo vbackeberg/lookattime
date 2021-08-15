@@ -16,7 +16,7 @@ export default class SpaceExtender {
 
     this.repositionSpacerLeft(distance);
     this.repositionSpacerRight(distance);
-    this.repositionSpacerPageEdge(distance);
+    this.repositionSpacerViewportRight(distance);
     this.repositionTimeEvents(distance);
     this.repositionTimeMarkers(distance);
 
@@ -37,9 +37,9 @@ export default class SpaceExtender {
     store.state.spacerRight.positionLeft += distance;
   }
 
-  private static repositionSpacerPageEdge(distance: number) {
-    store.state.spacerPageEdge.positionLeft =
-      Viewport.rightEdge() + distance - store.state.spacerPageEdge.width;
+  private static repositionSpacerViewportRight(distance: number) {
+    store.state.spacerViewportRight.positionLeft =
+      Viewport.rightEdge() + distance - store.state.spacerViewportRight.width;
   }
 
   private static repositionTimeEvents(distance: number) {

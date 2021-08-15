@@ -20,7 +20,7 @@ export default class ViewResetter {
     TimeMarkerRemover.Instance.removeAllMarkers();
     store.state.timeMarkerDepth = 1;
     store.state.zoomLevel = 1;
-    this.repositionSpacerPageEdge();
+    this.repositionSpacerViewportRight();
   }
 
   public async initiateView() {
@@ -62,8 +62,8 @@ export default class ViewResetter {
     }
   }
 
-  private repositionSpacerPageEdge() {
-    store.state.spacerPageEdge.positionLeft = 0;
+  private repositionSpacerViewportRight() {
+    store.state.spacerViewportRight.positionLeft = 0;
   }
 
   private static instance: ViewResetter;

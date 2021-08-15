@@ -23,7 +23,7 @@ export default class SpaceCutter {
 
     timelineElement.scrollBy(-distance, 0);
 
-    this.repositionSpacerPageEdge();
+    this.repositionSpacerViewportRight();
 
     for (const element of elements) {
       element.classList.add("zoom-transition");
@@ -50,8 +50,8 @@ export default class SpaceCutter {
     store.state.spacerRight.positionLeft -= distance;
   }
 
-  private static repositionSpacerPageEdge() {
-    store.state.spacerPageEdge.positionLeft =
-      Viewport.rightEdge() - store.state.spacerPageEdge.width;
+  private static repositionSpacerViewportRight() {
+    store.state.spacerViewportRight.positionLeft =
+      Viewport.rightEdge() - store.state.spacerViewportRight.width;
   }
 }

@@ -7,7 +7,7 @@
     <div id="buffer-top-area">
       <svg id="spacer-right" class="spacer"></svg>
       <svg id="spacer-left" class="spacer zoom-transition"></svg>
-      <svg id="spacer-page-edge" class="spacer"></svg>
+      <svg id="spacer-viewport-right" class="spacer"></svg>
     </div>
     <div id="time-event-area">
       <time-event
@@ -99,8 +99,8 @@ export default Vue.extend({
 
     horizontalLineWidth(): number {
       return Math.max(
-        store.state.spacerPageEdge.positionLeft +
-          store.state.spacerPageEdge.width,
+        store.state.spacerViewportRight.positionLeft +
+          store.state.spacerViewportRight.width,
         store.state.spacerRight.positionLeft + store.state.spacerRight.width
       );
     },
@@ -122,7 +122,7 @@ export default Vue.extend({
     },
 
     setSpacers() {
-      store.state.spacerPageEdge = new SpacerModel(0, 1, "spacer-page-edge");
+      store.state.spacerViewportRight = new SpacerModel(0, 1, "spacer-viewport-right");
       store.state.spacerLeft = new SpacerModel(0, 1, "spacer-left");
       store.state.spacerRight = new SpacerModel(0, 1, "spacer-right");
     }

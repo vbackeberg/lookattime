@@ -23,7 +23,7 @@ export default new Vuex.Store({
 
     timeEvents: [] as TimeEventModel[],
 
-    spacerPageEdge: {} as SpacerModel,
+    spacerViewportRight: {} as SpacerModel,
     spacerLeft: {} as SpacerModel,
     spacerRight: {} as SpacerModel,
 

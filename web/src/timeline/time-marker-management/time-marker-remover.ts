@@ -1,5 +1,6 @@
 import TimeMarker from "@/models/time-marker";
 import store from "@/store/store";
+import Viewport from "../viewport/viewport-right-edge";
 import { Constants } from "./constants";
 
 /**
@@ -28,9 +29,7 @@ export default class TimeMarkerRemover {
 
   public removeMarkersRight() {
     const index = store.state.timeMarkers.findIndex(
-      marker =>
-        marker.positionCenter >
-        this.timelineElement.scrollLeft + this.timelineElement.clientWidth
+      marker => marker.positionCenter > Viewport.rightEdge()
     );
 
     if (index > -1) {

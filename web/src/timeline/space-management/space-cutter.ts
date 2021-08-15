@@ -1,4 +1,5 @@
 import store from "@/store/store";
+import Viewport from "../viewport/viewport-right-edge";
 
 /**
  * Cuts expendable space on the left by given distance. Takes care of removing animations during position shifting.
@@ -22,7 +23,7 @@ export default class SpaceCutter {
 
     timelineElement.scrollBy(-distance, 0);
 
-    this.repositionSpacerPageEdge(timelineElement);
+    this.repositionSpacerPageEdge();
 
     for (const element of elements) {
       element.classList.add("zoom-transition");
@@ -49,10 +50,8 @@ export default class SpaceCutter {
     store.state.spacerRight.positionLeft -= distance;
   }
 
-  private static repositionSpacerPageEdge(timelineElement: HTMLElement) {
+  private static repositionSpacerPageEdge() {
     store.state.spacerPageEdge.positionLeft =
-      timelineElement.scrollLeft +
-      timelineElement.clientWidth -
-      store.state.spacerPageEdge.width;
+      Viewport.rightEdge() - store.state.spacerPageEdge.width;
   }
 }

@@ -2,6 +2,7 @@ import TimeMarker from "@/models/time-marker";
 import store from "@/store/store";
 import { v4 as uuid } from "uuid";
 import PositionTranslator from "../position-translator";
+import Viewport from "../viewport/viewport-right-edge";
 import { Constants } from "./constants";
 
 /**
@@ -26,7 +27,7 @@ export default class TimeMarkerCreator {
     // TODO: Maybe time markers are not yet initiated, when distance watcher is called.
     const lowestDate = PositionTranslator.toRelativePosition(0);
     const highestDate = PositionTranslator.toRelativePosition(
-      this.timelineElement.scrollLeft + this.timelineElement.clientWidth
+      Viewport.rightEdge()
     );
 
     const firstMarker = this.createFirstMarker(lowestDate, highestDate);

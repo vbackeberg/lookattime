@@ -1,4 +1,5 @@
 import store from "@/store/store";
+import Viewport from "../viewport/viewport-right-edge";
 
 /**
  * Extends space to the left by given distance. Takes care of removing animations during position shifting.
@@ -15,7 +16,7 @@ export default class SpaceExtender {
 
     this.repositionSpacerLeft(distance);
     this.repositionSpacerRight(distance);
-    this.repositionSpacerPageEdge(distance, timelineElement);
+    this.repositionSpacerPageEdge(distance);
     this.repositionTimeEvents(distance);
     this.repositionTimeMarkers(distance);
 
@@ -36,15 +37,9 @@ export default class SpaceExtender {
     store.state.spacerRight.positionLeft += distance;
   }
 
-  private static repositionSpacerPageEdge(
-    distance: number,
-    timelineElement: HTMLElement
-  ) {
+  private static repositionSpacerPageEdge(distance: number) {
     store.state.spacerPageEdge.positionLeft =
-    timelineElement.scrollLeft +
-    timelineElement.clientWidth +
-    distance -
-    store.state.spacerPageEdge.width;
+      Viewport.rightEdge() + distance - store.state.spacerPageEdge.width;
   }
 
   private static repositionTimeEvents(distance: number) {

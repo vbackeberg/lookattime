@@ -14,8 +14,6 @@ export default class TimeEventMutationObserver {
 
     store.subscribe(async mutation => {
       if (mutation.type === "addTimeEvent") {
-        console.log("addTimeEvent");
-
         await Vue.nextTick();
 
         if (store.state.timeEvents.length === 1) {
@@ -26,8 +24,6 @@ export default class TimeEventMutationObserver {
       }
 
       if (mutation.type === "updateTimeEvent") {
-        console.log("updateTimeEvent");
-
         await Vue.nextTick();
 
         this.viewFocuser.extendFocus(mutation.payload.positionCenter);

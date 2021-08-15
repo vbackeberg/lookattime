@@ -48,6 +48,13 @@ export default class Zoomer {
       "translateX(" + newPositionLeft + "px)";
   }
 
+  /**
+   *
+   * |------------------------- client width / 2 -------------------------|
+   * |-|----------------------------------|--- time event width offset ---|
+   * ↑                                                                    ↑
+   * spacer position                             time event position center
+   */
   private repositionSpacerLeft() {
     const width =
       store.state.timelineElement.clientWidth / 2 -
@@ -64,6 +71,13 @@ export default class Zoomer {
       "translateX(" + newPositionLeft + "px)";
   }
 
+  /**
+   *
+   * |------------------------- client width / 2 -------------------------|
+   * |--- time event width offset ---|----------------------------------|-|
+   * ↑                                                                  ↑
+   * time event position center                           spacer position
+   */
   private repositionSpacerRight() {
     const width =
       store.state.timelineElement.clientWidth / 2 -

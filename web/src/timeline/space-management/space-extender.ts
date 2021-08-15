@@ -5,7 +5,7 @@ import Viewport from "../viewport/viewport-right-edge";
  * Extends space to the left by given distance. Takes care of removing animations during position shifting.
  */
 export default class SpaceExtender {
-  public static async extendLeftSpace(
+  public static extendLeftSpace(
     timelineElement: HTMLElement,
     distance: number
   ) {

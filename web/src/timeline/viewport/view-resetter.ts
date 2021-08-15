@@ -3,7 +3,6 @@ import SpaceCutter from "../space-management/space-cutter";
 import SpaceExtender from "../space-management/space-extender";
 import ViewFocuser from "./view-focuser";
 import Vue from "vue";
-import TimeMarkerCreator from "../time-marker-management/time-marker-creator";
 import TimeMarkerRemover from "../time-marker-management/time-marker-remover";
 
 /**

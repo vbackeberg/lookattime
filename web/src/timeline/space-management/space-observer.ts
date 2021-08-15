@@ -9,6 +9,7 @@ import SpaceExtender from "./space-extender";
  */
 export default class SpaceObserver {
   private spacerLeftElement: HTMLElement;
+  public eventTarget = new EventTarget();
 
   private constructor() {
     this.spacerLeftElement = document.getElementById(
@@ -32,6 +33,8 @@ export default class SpaceObserver {
           -store.state.spacerLeft.positionLeft
         );
       }
+
+      this.eventTarget.dispatchEvent(new Event("space-management-end"));
     });
   }
 

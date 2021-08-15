@@ -1,4 +1,6 @@
 import store from "@/store/store";
+import PositionTranslator from "../position-translator";
+import SpaceObserver from "../space-management/space-observer";
 import { Constants } from "./constants";
 import TimeMarkerCreator from "./time-marker-creator";
 import TimeMarkerRemover from "./time-marker-remover";
@@ -13,29 +15,45 @@ export default class TimeMarkerDistanceWatcher {
 
   private timeMarkerCreator: TimeMarkerCreator;
   private timeMarkerRemover: TimeMarkerRemover;
+  private lastTimeMarkerDistance = 0;
 
   constructor() {
     this.timeMarkerCreator = TimeMarkerCreator.Instance;
     this.timeMarkerRemover = TimeMarkerRemover.Instance;
+
+    SpaceObserver.Instance.eventTarget.addEventListener(
+      "space-management-end",
+      () => {
+        this.watch();
+      }
+    );
   }
 
-  public watch(newDistance: number, oldDistance: number) {
+  public watch() {
     if (store.state.timeMarkers.length === 0) {
-      return;
+      TimeMarkerCreator.Instance.initiateTimeMarkers();
     }
 
     if (store.state.timeMarkers.length === 1) {
       this.timeMarkerCreator.addSingleMarkerLeft();
+    }
+
+    const newDistance = this.timeMarkerDistance();
+
+    if (newDistance === this.lastTimeMarkerDistance) {
       return;
     }
 
-    if (newDistance > oldDistance) {
+    if (newDistance > this.lastTimeMarkerDistance) {
       this.onZoomIn(newDistance);
-    } else if (newDistance < oldDistance) {
+    } else if (newDistance < this.lastTimeMarkerDistance) {
       this.onZoomOut(newDistance);
     }
+
+    this.lastTimeMarkerDistance = newDistance;
+    this.watch();
   }
-  
+
   private onZoomIn(newDistance: number) {
     if (store.state.timeMarkers.length > 2) {
       this.timeMarkerRemover.removeMarkersLeft();
@@ -68,6 +86,13 @@ export default class TimeMarkerDistanceWatcher {
 
       this.timeMarkerRemover.removeMarkersLowestDepth();
     }
+  }
+
+  private timeMarkerDistance() {
+    return (
+      PositionTranslator.toAbsolutePosition(store.state.timeMarkerDepth * 2) -
+      PositionTranslator.toAbsolutePosition(store.state.timeMarkerDepth)
+    );
   }
 
   private static instance: TimeMarkerDistanceWatcher;

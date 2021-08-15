@@ -79,6 +79,7 @@ export default Vue.extend({
 
     SpaceObserver.Instance;
     ZoomObserver.Instance;
+    TimeMarkerDistanceWatcher.Instance;
     TimeEventMutationObserver.Instance;
 
     await store.dispatch("loadUser");
@@ -95,7 +96,7 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapGetters(["timeMarkerDistance", "viewMode"]),
+    ...mapGetters(["viewMode"]),
 
     horizontalLineWidth(): number {
       return Math.max(

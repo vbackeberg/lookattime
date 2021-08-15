@@ -43,8 +43,6 @@ export default class ViewResetter {
 
     await Vue.nextTick();
     this.focusView();
-
-    TimeMarkerCreator.Instance.initiateTimeMarkers();
   }
 
   private focusView() {

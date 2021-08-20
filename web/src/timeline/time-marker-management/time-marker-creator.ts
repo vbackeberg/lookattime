@@ -163,7 +163,7 @@ export default class TimeMarkerCreator {
           PositionTranslator.toAbsolutePosition(date),
           uuid(),
           date,
-          store.state.timeMarkerDepth
+          this.depthOf(date)
         );
 
         elements.push(marker.htmlElement);
@@ -203,7 +203,7 @@ export default class TimeMarkerCreator {
           PositionTranslator.toAbsolutePosition(date),
           uuid(),
           date,
-          store.state.timeMarkerDepth
+          this.depthOf(date)
         );
 
         elements.push(marker.htmlElement);
@@ -254,13 +254,12 @@ export default class TimeMarkerCreator {
    * Places one new time markers left to the lowest marker.
    */
   public addSingleMarkerLeft() {
+    const date = store.state.timeMarkers[0].date - store.state.timeMarkerDepth;
     const marker = new TimeMarker(
-      PositionTranslator.toAbsolutePosition(
-        store.state.timeMarkers[0].date - store.state.timeMarkerDepth
-      ),
+      PositionTranslator.toAbsolutePosition(date),
       uuid(),
-      store.state.timeMarkers[0].date - store.state.timeMarkerDepth,
-      store.state.timeMarkerDepth
+      date,
+      this.depthOf(date)
     );
 
     this.addHTMLElements(marker.htmlElement);
@@ -275,6 +274,22 @@ export default class TimeMarkerCreator {
     }
 
     this.timeMarkerAreaElement.appendChild(documentFragment);
+  }
+
+  /**
+   * Calculates the depth of a date.
+   */
+  private depthOf(date: number) {
+    if (date === 0) {
+      return Constants.MAX_DEPTH;
+    }
+
+    let depth = store.state.timeMarkerDepth;
+    while (date % depth === 0) {
+      depth *= Constants.DEPTH_BASE;
+    }
+
+    return (depth /= Constants.DEPTH_BASE);
   }
 
   private static instance: TimeMarkerCreator;

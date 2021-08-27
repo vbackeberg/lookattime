@@ -1,6 +1,6 @@
 import TimeEventModel from "@/models/time-event-model";
 import TimeMarker from "@/models/time-marker";
-import SpacerModel from "@/models/spacer-model";
+import Spacer from "@/models/spacer";
 import Vue from "vue";
 import Vuex from "vuex";
 import { v4 as uuid } from "uuid";
@@ -23,9 +23,9 @@ export default new Vuex.Store({
 
     timeEvents: [] as TimeEventModel[],
 
-    spacerViewportRight: {} as SpacerModel,
-    spacerLeft: {} as SpacerModel,
-    spacerRight: {} as SpacerModel,
+    spacerViewportRight: {} as Spacer,
+    spacerLeft: {} as Spacer,
+    spacerRight: {} as Spacer,
 
     timeMarkers: [] as TimeMarker[],
     timeMarkerDepth: 1,

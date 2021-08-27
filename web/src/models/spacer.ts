@@ -1,4 +1,4 @@
-export default class SpacerModel {
+export default class Spacer {
   id: string;
   private _positionLeft!: number;
   width: number;

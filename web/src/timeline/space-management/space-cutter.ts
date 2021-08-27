@@ -5,13 +5,10 @@ import Viewport from "../viewport/viewport";
  * Cuts expendable space on the left by given distance. Takes care of removing animations during position shifting.
  */
 export default class SpaceCutter {
-  public static cutLeftSpace(
-    timelineElement: HTMLElement,
-    distance: number
-  ) {
+  public static cutLeftSpace(timelineElement: HTMLElement, distance: number) {
     const elements = document.getElementsByClassName("zoomable");
-    for (const element of elements) {
-      element.classList.remove("zoom-transition");
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].classList.remove("zoom-transition");
     }
 
     this.repositionSpacerLeft(distance);
@@ -25,8 +22,8 @@ export default class SpaceCutter {
 
     this.repositionSpacerViewportRight();
 
-    for (const element of elements) {
-      element.classList.add("zoom-transition");
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].classList.add("zoom-transition");
     }
   }
 

@@ -1,9 +1,9 @@
 import ImageReferenceModel from "./image-reference-model";
 
 export default class TimeEventModel {
-  static expandedWidth = 300;
-  static expandedWidthOffset = 150;
-  static collapsedWidth = 50;
+  static boxWidth = 300;
+  static bubbleWidth = 50;
+  static boxWidthOffset = 150;
   private _positionCenter!: number;
   id: string;
   text: string;

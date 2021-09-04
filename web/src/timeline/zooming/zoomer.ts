@@ -48,11 +48,11 @@ export default class Zoomer {
   private repositionSpacerLeft() {
     const width =
       store.state.timelineElement.clientWidth / 2 -
-      TimeEventModel.expandedWidthOffset;
+      TimeEventModel.boxWidthOffset;
 
     store.state.spacerLeft.positionLeft =
       store.state.timeEvents[0].positionCenter -
-      TimeEventModel.expandedWidthOffset -
+      TimeEventModel.boxWidthOffset -
       width;
   }
 
@@ -66,11 +66,11 @@ export default class Zoomer {
   private repositionSpacerRight() {
     const width =
       store.state.timelineElement.clientWidth / 2 -
-      TimeEventModel.expandedWidthOffset;
+      TimeEventModel.boxWidthOffset;
 
     store.state.spacerRight.positionLeft =
       store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter +
-      TimeEventModel.expandedWidthOffset +
+      TimeEventModel.boxWidthOffset +
       width -
       store.state.spacerRight.width;
   }

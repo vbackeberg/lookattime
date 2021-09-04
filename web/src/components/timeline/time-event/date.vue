@@ -22,7 +22,7 @@ export default Vue.extend({
   data() {
     return {
       styleWidth: {
-        width: TimeEventModel.expandedWidth + "px"
+        width: TimeEventModel.boxWidth + "px"
       }
     };
   },
@@ -52,9 +52,9 @@ export default Vue.extend({
 
       const collision =
         (this.timeEvent.positionCenter +
-          (indexChange * TimeEventModel.collapsedWidth) / 2 -
+          (indexChange * TimeEventModel.bubbleWidth) / 2 -
           (neighborTimeEvent.positionCenter +
-            (-indexChange * TimeEventModel.collapsedWidth) / 2)) *
+            (-indexChange * TimeEventModel.bubbleWidth) / 2)) *
           indexChange >
         0;
 

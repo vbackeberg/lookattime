@@ -1,6 +1,6 @@
 import store from "@/store/store";
 import Vue from "vue";
-import ViewFocuser from "./viewport/view-focuser";
+import ViewFocuser from "./view-focuser";
 
 /**
  * Refocuses the view when a time event is added or updated. 

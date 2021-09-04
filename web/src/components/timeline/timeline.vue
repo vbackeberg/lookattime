@@ -52,7 +52,7 @@ import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vu
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
-import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
+import ViewObserver from "@/timeline/viewport/view-observer";
 import TimeEventModel from "@/models/time-event-model";
 import TimeMarkerDistanceObserver from "@/timeline/time-marker-management/time-marker-distance-observer";
 import Spacer from "@/models/spacer";

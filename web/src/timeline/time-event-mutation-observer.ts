@@ -3,8 +3,7 @@ import Vue from "vue";
 import ViewFocuser from "./viewport/view-focuser";
 
 /**
- * Adds timeEvent to store. Handles possible space extension. Scrolls to new timeEvent.
- * Adds time new markers.
+ * Refocuses the view when a time event is added or updated. 
  */
 export default class TimeEventMutationObserver {
   private viewFocuser: ViewFocuser;

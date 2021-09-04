@@ -84,7 +84,7 @@ export default Vue.extend({
     SpaceObserver.Instance;
     ZoomObserver.Instance;
     TimeMarkerDistanceObserver.Instance;
-    TimeEventMutationObserver.Instance;
+    ViewObserver.Instance;
 
     await store.dispatch("loadUser");
 

@@ -55,7 +55,7 @@ import { mapGetters } from "vuex";
 import TimeEventMutationObserver from "@/timeline/time-event-mutation-observer";
 import TimeEventModel from "@/models/time-event-model";
 import TimeMarkerDistanceObserver from "@/timeline/time-marker-management/time-marker-distance-observer";
-import SpacerModel from "@/models/spacer-model";
+import Spacer from "@/models/spacer";
 
 export default Vue.extend({
   name: "Timeline",
@@ -127,13 +127,13 @@ export default Vue.extend({
     },
 
     setSpacers() {
-      store.state.spacerViewportRight = new SpacerModel(
+      store.state.spacerViewportRight = new Spacer(
         0,
         1,
         "spacer-viewport-right"
       );
-      store.state.spacerLeft = new SpacerModel(0, 1, "spacer-left");
-      store.state.spacerRight = new SpacerModel(0, 1, "spacer-right");
+      store.state.spacerLeft = new Spacer(0, 1, "spacer-left");
+      store.state.spacerRight = new Spacer(0, 1, "spacer-right");
     }
   }
 });

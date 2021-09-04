@@ -5,7 +5,7 @@ import ViewFocuser from "./view-focuser";
 /**
  * Refocuses the view when a time event is added or updated. 
  */
-export default class ViewObserver {
+export default class ViewFocusTrigger {
   private viewFocuser: ViewFocuser;
 
   private constructor() {
@@ -30,7 +30,7 @@ export default class ViewObserver {
     });
   }
 
-  private static instance: ViewObserver;
+  private static instance: ViewFocusTrigger;
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }

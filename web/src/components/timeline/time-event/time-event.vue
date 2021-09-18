@@ -3,21 +3,21 @@
     <div
       class="grow-transition"
       v-bind:class="{
-        'buffer-top-box': !shrinkToBubble,
-        'buffer-top-bubble': shrinkToBubble,
-        'buffer-top-dot': shrinkToDot
+        'buffer-top-box': expansionState === 3,
+        'buffer-top-bubble': expansionState === 2,
+        'buffer-top-dot': expansionState === 1
       }"
     ></div>
     <div
       class="content grow-transition"
       v-bind:class="{
-        box: !shrinkToBubble,
-        bubble: shrinkToBubble,
-        dot: shrinkToDot
+        box: expansionState === 3,
+        bubble: expansionState === 2,
+        dot: expansionState === 1
       }"
     >
       <v-card
-        v-if="!shrinkToDot"
+        v-if="expansionState !== 1"
         class="card"
         v-on:contextmenu="openContextMenu"
       >
@@ -26,21 +26,21 @@
           class="card-image white--text align-end"
           alt="time event image"
         >
-          <v-card-title class="title-text" v-if="!shrinkToBubble">{{
+          <v-card-title class="title-text" v-if="expansionState === 3">{{
             title
           }}</v-card-title>
         </v-img>
-        <v-card-text v-if="!shrinkToBubble" class="card-text">{{
+        <v-card-text v-if="expansionState === 3" class="card-text">{{
           text
         }}</v-card-text>
       </v-card>
     </div>
     <connector
       class="grow-transition"
-      v-if="!shrinkToDot"
+      v-if="expansionState !== 1"
       v-bind:class="{
-        'connector-box': !shrinkToBubble,
-        'connector-bubble': shrinkToBubble
+        'connector-box': expansionState === 3,
+        'connector-bubble': expansionState === 2
       }"
     ></connector>
     <v-menu
@@ -70,7 +70,6 @@
 
 <script lang="ts">
 import ImageReferenceModel from "@/models/image-reference-model";
-import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 import Vue from "vue";
 import Connector from "./connector.vue";
@@ -90,7 +89,8 @@ export default Vue.extend({
     date: Number,
     importance: Number,
     imageReferences: Array,
-    title: String
+    title: String,
+    expansionState: Number
   },
 
   mounted() {
@@ -134,78 +134,10 @@ export default Vue.extend({
         "." +
         imageReference.extension
       );
-    },
-
-    shrinkToBubble(): boolean {
-      if (
-        this.shouldShrink(this.timeEventIndex, -1, TimeEventModel.expandedWidth)
-      )
-        return true;
-      if (
-        this.shouldShrink(this.timeEventIndex, 1, TimeEventModel.expandedWidth)
-      )
-        return true;
-      return false;
-    },
-
-    shrinkToDot(): boolean {
-      if (
-        this.shouldShrink(
-          this.timeEventIndex,
-          -1,
-          TimeEventModel.collapsedWidth
-        )
-      )
-        return true;
-      if (
-        this.shouldShrink(
-          this.timeEventIndex,
-          +1,
-          TimeEventModel.collapsedWidth
-        )
-      )
-        return true;
-      return false;
     }
   },
 
   methods: {
-    shouldShrink(
-      currentTimeEventIndex: number,
-      indexChange: number,
-      width: number
-    ): boolean {
-      const neighbor =
-        store.state.timeEvents[currentTimeEventIndex + indexChange];
-
-      if (!neighbor) {
-        return false;
-      }
-
-      const collision =
-        (store.state.timeEvents[currentTimeEventIndex].positionCenter +
-          (indexChange * width) / 2 -
-          (neighbor.positionCenter + (-indexChange * width) / 2)) *
-          indexChange >
-        0;
-
-      if (!collision) {
-        return false;
-      }
-
-      const hasPrecedence = this.importance > neighbor.importance;
-
-      if (!hasPrecedence) {
-        return true;
-      }
-
-      return this.shouldShrink(
-        currentTimeEventIndex + indexChange,
-        indexChange,
-        width
-      );
-    },
-
     openContextMenu(e: MouseEvent) {
       e.preventDefault();
       this.showContextMenu = false;

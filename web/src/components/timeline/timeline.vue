@@ -18,12 +18,9 @@
         v-bind:date="timeEvent.date"
         v-bind:importance="timeEvent.importance"
         v-bind:imageReferences="timeEvent.imageReferences"
+        v-bind:expansionState="timeEvent.expansionState"
       ></time-event>
     </div>
-    <!-- <div
-      id="horizontal-line"
-      v-bind:style="{ width: horizontalLineWidth + 'px' }"
-    ></div> -->
     <div id="time-marker-area">
       <v-btn
         v-if="!viewMode"
@@ -56,6 +53,7 @@ import ViewFocusTrigger from "@/timeline/viewport/view-focus-trigger";
 import TimeEventModel from "@/models/time-event-model";
 import TimeMarkerDistanceObserver from "@/timeline/time-marker-management/time-marker-distance-observer";
 import Spacer from "@/models/spacer";
+import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
 
 export default Vue.extend({
   name: "Timeline",
@@ -85,6 +83,7 @@ export default Vue.extend({
     ZoomObserver.Instance;
     TimeMarkerDistanceObserver.Instance;
     ViewFocusTrigger.Instance;
+    CollisionCalculationTrigger.Instance;
 
     await store.dispatch("loadUser");
 

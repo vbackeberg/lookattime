@@ -35,6 +35,12 @@ export default class Zoomer {
       );
 
       store.state.timeEvents[i].positionCenter = newPositionCenter;
+      const expansionState = store.state.timeEvents[i].expansionStateMap.find(
+        expansionStateZoomLevelTuple =>
+          store.state.zoomLevel > expansionStateZoomLevelTuple.zoomLevel
+      )!;
+
+      store.state.timeEvents[i].expansionState = expansionState.expansionState;
     }
   }
 

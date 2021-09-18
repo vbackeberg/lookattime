@@ -1,4 +1,5 @@
 import ImageReferenceModel from "./image-reference-model";
+import ExpansionState from "./time-event/expansion-state";
 
 export default class TimeEventModel {
   static boxWidth = 300;
@@ -12,6 +13,17 @@ export default class TimeEventModel {
   imageReferences: ImageReferenceModel[];
   title: string;
   htmlElement?: HTMLElement;
+  expansionState = ExpansionState.Dot;
+
+  /*
+   * Marks the lower bounds of expansion states.
+   */
+  expansionStateMap: { expansionState: ExpansionState; zoomLevel: number }[] = [
+    { expansionState: ExpansionState.Box, zoomLevel: 20 },
+    { expansionState: ExpansionState.Bubble, zoomLevel: 10 },
+    { expansionState: ExpansionState.Dot, zoomLevel: 0 },
+    { expansionState: ExpansionState.Flat, zoomLevel: 0 }
+  ];
 
   constructor(
     positionCenter: number,

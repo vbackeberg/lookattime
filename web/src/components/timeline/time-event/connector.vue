@@ -7,6 +7,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Connector",
 
+  // TODO: Replace by an svg
   data() {
     return {
       width: 2

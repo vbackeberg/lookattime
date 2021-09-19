@@ -1,6 +1,9 @@
 import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 
+/**
+ * Calculates zoom-level-dependent expansion states for every time event.
+ */
 export default class CollisionCalculator {
   public static recalculateCollisions() {
     for (let i = 0; i < store.state.timeEvents.length; i++) {

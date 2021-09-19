@@ -1,7 +1,7 @@
 enum ExpansionState {
-  Flat,
-  Dot,
+  Box,
   Bubble,
-  Box
+  Dot,
+  Flat
 }
 export default ExpansionState;

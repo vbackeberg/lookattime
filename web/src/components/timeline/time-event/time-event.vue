@@ -1,48 +1,19 @@
 <template>
   <div class="zoom-container zoom-transition zoomable">
-    <div
-      class="grow-transition"
-      v-bind:class="{
-        'buffer-top-box': expansionState === 3,
-        'buffer-top-bubble': expansionState === 2,
-        'buffer-top-dot': expansionState === 1
-      }"
-    ></div>
-    <div
-      class="content grow-transition"
-      v-bind:class="{
-        box: expansionState === 3,
-        bubble: expansionState === 2,
-        dot: expansionState === 1
-      }"
-    >
-      <v-card
-        v-if="expansionState !== 1"
-        class="card"
-        v-on:contextmenu="openContextMenu"
-      >
+    <div class="buffer-top grow-transition"></div>
+    <div class="content grow-transition">
+      <v-card class="card" v-on:contextmenu="openContextMenu">
         <v-img
           v-bind:src="imageSource"
           class="card-image white--text align-end"
           alt="time event image"
         >
-          <v-card-title class="title-text" v-if="expansionState === 3">{{
-            title
-          }}</v-card-title>
+          <v-card-title class="card-title">{{ title }}</v-card-title>
         </v-img>
-        <v-card-text v-if="expansionState === 3" class="card-text">{{
-          text
-        }}</v-card-text>
+        <v-card-text class="card-text">{{ text }}</v-card-text>
       </v-card>
     </div>
-    <connector
-      class="grow-transition"
-      v-if="expansionState !== 1"
-      v-bind:class="{
-        'connector-box': expansionState === 3,
-        'connector-bubble': expansionState === 2
-      }"
-    ></connector>
+    <connector class="grow-transition"></connector>
     <v-menu
       v-model="showContextMenu"
       :position-x="x"
@@ -245,11 +216,15 @@ export default Vue.extend({
   flex: 1 0 2px;
 }
 
+.connector-dot {
+  flex: 0 0 0;
+}
+
 .card {
   height: 100%;
   pointer-events: auto;
 
-  display: flex !important;
+  display: flex;
   flex-direction: column;
 }
 
@@ -265,7 +240,7 @@ export default Vue.extend({
   text-align: left;
 }
 
-.title-text {
+.card-title {
   text-shadow: 0px 0px 3px #000;
 }
 </style>

@@ -15,7 +15,7 @@ export default class CollisionCalculationTrigger {
       ) {
         await Vue.nextTick();
 
-        CollisionCalculator.determineCollisions();
+        CollisionCalculator.recalculateCollisions();
       }
     });
   }

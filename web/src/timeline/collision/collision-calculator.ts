@@ -2,7 +2,7 @@ import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 
 export default class CollisionCalculator {
-  public static determineCollisions() {
+  public static recalculateCollisions() {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
       store.state.timeEvents[i].expansionStateMap[1].zoomLevel = Math.max(
         this.findCollisionLeft(i, TimeEventModel.boxWidth),

@@ -7,12 +7,12 @@ import store from "@/store/store";
 export default class CollisionCalculator {
   public static recalculateCollisions() {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
-      store.state.timeEvents[i].expansionZoomLevels[0] = Math.max(
+      store.state.timeEvents[i].collisionZoomLevels[0] = Math.max(
         this.findCollisionLeft(i, TimeEventModel.boxWidth),
         this.findCollisionRight(i, TimeEventModel.boxWidth)
       );
 
-      store.state.timeEvents[i].expansionZoomLevels[1] = Math.max(
+      store.state.timeEvents[i].collisionZoomLevels[1] = Math.max(
         this.findCollisionLeft(i, TimeEventModel.bubbleWidth),
         this.findCollisionRight(i, TimeEventModel.bubbleWidth)
       );

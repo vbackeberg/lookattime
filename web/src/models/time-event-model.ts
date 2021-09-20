@@ -35,7 +35,7 @@ export default class TimeEventModel {
   importance: number;
   imageReferences: ImageReferenceModel[];
   title: string;
-  expansionZoomLevels = [20, 10, 0, 0];
+  collisionZoomLevels = [20, 10, 0, 0];
 
   constructor(
     positionCenter: number,
@@ -67,7 +67,7 @@ export default class TimeEventModel {
   }
 
   public updateExpansionState() {
-    this.expansionState = this.expansionZoomLevels.findIndex(
+    this.expansionState = this.collisionZoomLevels.findIndex(
       zoomLevel => zoomLevel <= store.state.zoomLevel
     );
   }

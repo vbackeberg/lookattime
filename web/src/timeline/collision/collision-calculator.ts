@@ -54,8 +54,8 @@ export default class CollisionCalculator {
       ) {
         return (
           width /
-          (store.state.timeEvents[i].positionCenter -
-            store.state.timeEvents[currentTimeEventIndex].positionCenter)
+          (store.state.timeEvents[currentTimeEventIndex].positionCenter -
+            store.state.timeEvents[i].positionCenter)
         );
       }
     }

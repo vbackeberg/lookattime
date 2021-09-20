@@ -3,8 +3,6 @@ import store from "@/store/store";
 import PositionTranslator from "../position-translator";
 
 export default class Zoomer {
-  private constructor() {}
-
   /**
    * Moves all timeEvents towards or away from the reference position by the zoom factor.
    * Re-aligns spacer for right page edge.

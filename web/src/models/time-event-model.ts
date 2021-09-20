@@ -35,7 +35,7 @@ export default class TimeEventModel {
   importance: number;
   imageReferences: ImageReferenceModel[];
   title: string;
-  collisionZoomLevels = [20, 10, 0, 0];
+  collisionZoomLevels = [0, 0, 0, 0];
 
   constructor(
     positionCenter: number,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import store from "@/store/store";
 import ImageReferenceModel from "./image-reference-model";
 import ExpansionState from "./time-event/expansion-state";

@@ -77,12 +77,12 @@ export default class TimeEventModel {
 
     this._htmlElements = {
       parent: parent,
-      bufferTop: <HTMLElement>parent.getElementsByClassName("buffer-top")[0],
-      content: <HTMLElement>parent.getElementsByClassName("content")[0],
-      card: <HTMLElement>parent.getElementsByClassName("card")[0],
-      cardImage: <HTMLElement>parent.getElementsByClassName("card-image")[0],
-      cardText: <HTMLElement>parent.getElementsByClassName("card-text")[0],
-      connector: <HTMLElement>parent.getElementsByClassName("connector")[0]
+      bufferTop: parent.getElementsByClassName("buffer-top")[0] as HTMLElement,
+      content: parent.getElementsByClassName("content")[0] as HTMLElement,
+      card: parent.getElementsByClassName("card")[0] as HTMLElement,
+      cardImage: parent.getElementsByClassName("card-image")[0] as HTMLElement,
+      cardText: parent.getElementsByClassName("card-text")[0] as HTMLElement,
+      connector: parent.getElementsByClassName("connector")[0] as HTMLElement
     };
   }
 

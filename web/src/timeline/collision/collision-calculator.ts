@@ -32,10 +32,10 @@ export default class CollisionCalculator {
         store.state.timeEvents[i].importance >
         store.state.timeEvents[currentTimeEventIndex].importance
       ) {
-        return (
-          width /
-          (store.state.timeEvents[i].positionCenter -
-            store.state.timeEvents[currentTimeEventIndex].positionCenter)
+        return this.calculateCollisionZoomLevel(
+          store.state.timeEvents[i],
+          store.state.timeEvents[currentTimeEventIndex],
+          width
         );
       }
     }
@@ -52,14 +52,25 @@ export default class CollisionCalculator {
         store.state.timeEvents[i].importance >
         store.state.timeEvents[currentTimeEventIndex].importance
       ) {
-        return (
-          width /
-          (store.state.timeEvents[currentTimeEventIndex].positionCenter -
-            store.state.timeEvents[i].positionCenter)
+        return this.calculateCollisionZoomLevel(
+          store.state.timeEvents[i],
+          store.state.timeEvents[currentTimeEventIndex],
+          width
         );
       }
     }
 
     return 0;
+  }
+
+  private static calculateCollisionZoomLevel(
+    collidingTimeEvent: TimeEventModel,
+    currentTimeEvent: TimeEventModel,
+    width: number
+  ) {
+    return Math.abs(
+      width /
+        (collidingTimeEvent.positionCenter - currentTimeEvent.positionCenter)
+    );
   }
 }

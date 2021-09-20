@@ -19,6 +19,10 @@ export default new Vuex.Store({
   state: {
     timelineElement: {} as HTMLElement,
     timelineZero: 0,
+
+    /**
+     * The larger the zoom level the bigger the distance between time events (zoom out).
+     */
     zoomLevel: 1,
 
     timeEvents: [] as TimeEventModel[],

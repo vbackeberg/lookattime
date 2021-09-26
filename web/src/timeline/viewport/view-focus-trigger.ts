@@ -1,6 +1,7 @@
 import store from "@/store/store";
 import Vue from "vue";
 import ViewFocuser from "./view-focuser";
+import ViewResetter from "./view-resetter";
 
 /**
  * Refocuses the view when a time event is added or updated.
@@ -12,6 +13,14 @@ export default class ViewFocusTrigger {
     this.viewFocuser = ViewFocuser.Instance;
 
     store.subscribe(async mutation => {
+      if (mutation.type === "setTimeEvents") {
+        await Vue.nextTick();
+
+        if (mutation.payload.length > 0) {
+          await ViewResetter.Instance.initiateView();
+        }
+      }
+
       if (mutation.type === "addTimeEvent") {
         await Vue.nextTick();
 

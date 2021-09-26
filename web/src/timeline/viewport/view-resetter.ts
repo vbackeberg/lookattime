@@ -28,7 +28,8 @@ export default class ViewResetter {
       store.state.timelineElement.scrollLeft
     );
 
-    if (expendableLeftSpace > 0) { // TODO: Maybe we don'tneed to cut, just extend.
+    if (expendableLeftSpace > 0) {
+      // TODO: Maybe we don'tneed to cut, just extend.
       SpaceCutter.cutLeftSpace(
         store.state.timelineElement,
         expendableLeftSpace

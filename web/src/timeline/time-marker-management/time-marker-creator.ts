@@ -267,7 +267,7 @@ export default class TimeMarkerCreator {
   }
 
   private addHTMLElements(...elements: HTMLElement[]) {
-    let documentFragment = document.createDocumentFragment();
+    const documentFragment = document.createDocumentFragment();
 
     for (let i = 0; i < elements.length; i++) {
       documentFragment.appendChild(elements[i]);

@@ -62,7 +62,11 @@ export default Vue.extend({
   },
 
   mounted() {
+    // After the HTML element has been created, we tie it to the time event object
+    // so that we can access it for style modifications during the zoom.
     this.setHTMLElement();
+    // We re-assign the position to trigger an initial translateX modification
+    // on the HTML element after it has been created.
     this.setInitialPosition();
   },
 
@@ -125,9 +129,6 @@ export default Vue.extend({
         .$el as HTMLElement;
     },
 
-    /*
-     * Re-assign positionCenter for translateX on htmlElement to be set.
-     */
     setInitialPosition() {
       store.state.timeEvents[this.timeEventIndex].positionCenter =
         store.state.timeEvents[this.timeEventIndex].positionCenter;

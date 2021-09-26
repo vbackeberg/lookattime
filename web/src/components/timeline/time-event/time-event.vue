@@ -60,8 +60,7 @@ export default Vue.extend({
     date: Number,
     importance: Number,
     imageReferences: Array,
-    title: String,
-    expansionState: Number
+    title: String
   },
 
   mounted() {

@@ -3,7 +3,8 @@ import Vue from "vue";
 import CollisionCalculator from "./collision-calculator";
 
 /**
- * Refocuses the view when a time event is added or updated.
+ * Recalculates collision zoom levels for all time events when
+ * time events are set, added or updated.
  */
 export default class CollisionCalculationTrigger {
   private constructor() {

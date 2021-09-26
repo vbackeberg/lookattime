@@ -130,6 +130,7 @@ export default Vue.extend({
       store.state.timeEvents[this.timeEventIndex].positionCenter =
         store.state.timeEvents[this.timeEventIndex].positionCenter;
 
+      // Determine the expansion state once after HTML element has been created.
       store.state.timeEvents[this.timeEventIndex].updateExpansionState();
     }
   }

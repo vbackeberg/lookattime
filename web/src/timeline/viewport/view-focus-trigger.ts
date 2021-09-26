@@ -3,7 +3,7 @@ import Vue from "vue";
 import ViewFocuser from "./view-focuser";
 
 /**
- * Refocuses the view when a time event is added or updated. 
+ * Refocuses the view when a time event is added or updated.
  */
 export default class ViewFocusTrigger {
   private viewFocuser: ViewFocuser;

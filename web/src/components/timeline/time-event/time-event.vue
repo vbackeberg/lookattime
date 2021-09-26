@@ -13,7 +13,7 @@
         <v-card-text class="card-text">{{ text }}</v-card-text>
       </v-card>
     </div>
-    <connector class="grow-transition"></connector>
+    <svg class="connector grow-transition"></svg>
     <v-menu
       v-model="showContextMenu"
       :position-x="x"
@@ -43,14 +43,12 @@
 import ImageReferenceModel from "@/models/image-reference-model";
 import store from "@/store/store";
 import Vue from "vue";
-import Connector from "./connector.vue";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 
 export default Vue.extend({
   name: "TimeEvent",
 
   components: {
-    Connector,
     CreateTimeEventForm
   },
 
@@ -205,6 +203,13 @@ export default Vue.extend({
   border: 1px solid #000;
   border-bottom: 0;
   background-color: #000;
+}
+
+.connector {
+  height: 100%;
+  width: 2px;
+  background-color: #000;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .connector-box {

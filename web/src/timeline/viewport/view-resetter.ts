@@ -6,7 +6,7 @@ import Vue from "vue";
 import TimeMarkerRemover from "../time-marker-management/time-marker-remover";
 
 /**
- * Resets the viewport when loading a new timeline.
+ * Resets the viewport (when loading a new timeline).
  */
 export default class ViewResetter {
   private viewFocuser: ViewFocuser;

@@ -7,12 +7,6 @@ import { Constants } from "./constants";
  * Removes time markers from the sides and from between.
  */
 export default class TimeMarkerRemover {
-  private timelineElement: HTMLElement;
-
-  constructor() {
-    this.timelineElement = store.state.timelineElement;
-  }
-
   /**
    * Remove all markers that have a position below zero.
    */
@@ -59,7 +53,7 @@ export default class TimeMarkerRemover {
     store.state.timeMarkerDepth =
       store.state.timeMarkerDepth * Constants.DEPTH_BASE;
 
-    let markers: TimeMarker[] = [];
+    const markers: TimeMarker[] = [];
 
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
       if (store.state.timeMarkers[i].depth >= store.state.timeMarkerDepth) {

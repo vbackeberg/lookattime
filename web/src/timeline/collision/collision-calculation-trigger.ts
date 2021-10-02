@@ -12,7 +12,8 @@ export default class CollisionCalculationTrigger {
       if (
         mutation.type === "setTimeEvents" ||
         mutation.type === "addTimeEvent" ||
-        mutation.type === "updateTimeEvent"
+        mutation.type === "updateTimeEvent" ||
+        mutation.type === "deleteTimeEvent"
       ) {
         await Vue.nextTick();
 

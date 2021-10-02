@@ -78,11 +78,7 @@ export default Vue.extend({
 
     store.state.timelineZero = this.$el.clientWidth / 2;
 
-    SpaceObserver.Instance;
-    ZoomObserver.Instance;
-    TimeMarkerDistanceObserver.Instance;
-    ViewFocusTrigger.Instance;
-    CollisionCalculationTrigger.Instance;
+    this.initializeTimelineServices();
 
     await store.dispatch("loadUser");
 
@@ -132,6 +128,14 @@ export default Vue.extend({
       );
       store.state.spacerLeft = new Spacer(0, 1, "spacer-left");
       store.state.spacerRight = new Spacer(0, 1, "spacer-right");
+    },
+
+    initializeTimelineServices() {
+      SpaceObserver.Instance;
+      ZoomObserver.Instance;
+      TimeMarkerDistanceObserver.Instance;
+      ViewFocusTrigger.Instance;
+      CollisionCalculationTrigger.Instance;
     }
   }
 });

@@ -49,13 +49,13 @@ export default new Vuex.Store({
 
   mutations: {
     setTimeEvents(state, timeEvents: TimeEventModel[]) {
-      timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
+      timeEvents.sort((a, b) => a.date - b.date);
       state.timeEvents = timeEvents;
     },
 
     addTimeEvent(state, timeEvent: TimeEventModel) {
       state.timeEvents.push(timeEvent);
-      state.timeEvents.sort((a, b) => a.positionCenter - b.positionCenter);
+      state.timeEvents.sort((a, b) => a.date - b.date);
     },
 
     deleteTimeEvent(state, timeEventId) {

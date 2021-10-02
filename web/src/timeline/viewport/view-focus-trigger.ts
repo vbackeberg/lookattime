@@ -13,17 +13,15 @@ export default class ViewFocusTrigger {
     this.viewFocuser = ViewFocuser.Instance;
 
     store.subscribe(async mutation => {
-      if (mutation.type === "setTimeEvents") {
-        await Vue.nextTick();
+      await Vue.nextTick();
 
+      if (mutation.type === "setTimeEvents") {
         if (mutation.payload.length > 0) {
           await ViewResetter.Instance.initiateView();
         }
       }
 
       if (mutation.type === "addTimeEvent") {
-        await Vue.nextTick();
-
         if (store.state.timeEvents.length === 1) {
           this.viewFocuser.focusOnPosition(mutation.payload.positionCenter);
         } else {
@@ -32,8 +30,6 @@ export default class ViewFocusTrigger {
       }
 
       if (mutation.type === "updateTimeEvent") {
-        await Vue.nextTick();
-
         this.viewFocuser.extendFocus(mutation.payload.positionCenter);
       }
     });

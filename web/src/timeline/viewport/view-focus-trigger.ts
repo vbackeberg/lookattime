@@ -4,7 +4,7 @@ import ViewFocuser from "./view-focuser";
 import ViewResetter from "./view-resetter";
 
 /**
- * Refocuses the view when a time event is added or updated.
+ * Refocuses the view when time events are set, added or updated.
  */
 export default class ViewFocusTrigger {
   private viewFocuser: ViewFocuser;

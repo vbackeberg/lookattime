@@ -3,16 +3,6 @@ import store from "@/store/store";
 import ImageReferenceModel from "./image-reference-model";
 import ExpansionState from "./time-event/expansion-state";
 
-interface HtmlElements {
-  parent?: HTMLElement;
-  bufferTop: HTMLElement;
-  content: HTMLElement;
-  card: HTMLElement;
-  cardImage: HTMLElement;
-  cardText: HTMLElement;
-  connector: HTMLElement;
-}
-
 export default class TimeEventModel {
   static boxWidth = 300;
   static bubbleWidth = 50;
@@ -28,7 +18,7 @@ export default class TimeEventModel {
    * Contains the time event element and certain child elements that are
    * modified when chainging the expansion state.
    */
-  private _htmlElements?: HtmlElements;
+  private _htmlElements?: TimeEventHtmlElements;
 
   id: string;
   text: string;
@@ -159,4 +149,17 @@ export default class TimeEventModel {
   public get expansionState(): ExpansionState {
     return this._expansionState;
   }
+}
+
+/**
+ * The HTML elements associated with this time event.
+ */
+interface TimeEventHtmlElements {
+  parent?: HTMLElement;
+  bufferTop: HTMLElement;
+  content: HTMLElement;
+  card: HTMLElement;
+  cardImage: HTMLElement;
+  cardText: HTMLElement;
+  connector: HTMLElement;
 }

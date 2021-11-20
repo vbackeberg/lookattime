@@ -80,11 +80,6 @@ export default class Zoomer {
     store.state.timelineZero = newPosition;
   }
 
-  /**
-   *
-   * @param zoomFactor The factor by which the distance between time marker and reference position should shrink or grow
-   * @param referencePosition The position the time marker should approach to or depart from
-   */
   private repositionTimeMarkers() {
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
       // TODO: Try limit calculation to visible time markers only to increase performance.

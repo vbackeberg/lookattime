@@ -21,11 +21,6 @@ export default class Zoomer {
     this.repositionTimeMarkers();
   }
 
-  /**
-   *
-   * @param zoomFactor The factor by which the distance between time event and reference position should shrink or grow
-   * @param referencePosition The position the time event should approach to or depart from
-   */
   private repositionTimeEvents() {
     for (let i = 0; i < store.state.timeEvents.length; i++) {
       const newPositionCenter = PositionTranslator.toAbsolutePosition(

@@ -16,7 +16,7 @@ export default class TimeEventModel {
 
   /**
    * Contains the time event element and certain child elements that are
-   * modified when chainging the expansion state.
+   * modified when changing the expansion state.
    */
   private _htmlElements?: TimeEventHtmlElements;
 

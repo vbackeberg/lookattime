@@ -12,6 +12,8 @@
   },
   "azureFunctions.postDeployTask": "npm install",
   "cSpell.words": [
+    "vuetify",
+    "vuex",
     "zoomer"
   ]
 }

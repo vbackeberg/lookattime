@@ -140,10 +140,6 @@ export default class TimeEventModel {
     }
   }
 
-  public get expansionState(): ExpansionState {
-    return this._expansionState;
-  }
-
   public set htmlElement(newHtmlElement: HTMLElement) {
     const parent = newHtmlElement;
 

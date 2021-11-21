@@ -55,6 +55,7 @@ export default class TimeEventModel {
     if (this.htmlElement) {
       this.htmlElement.style.transform =
         "translateX(" + newPositionCenter + "px)";
+      this.updateExpansionState();
     }
   }
 

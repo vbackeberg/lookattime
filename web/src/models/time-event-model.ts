@@ -15,6 +15,12 @@ export default class TimeEventModel {
   private _expansionState: ExpansionState = -1;
 
   /**
+   * Contains a zoom level for each possible expansion state that defines at
+   * which level each expansion state bounds to the next smaller/bigger state.
+   */
+  private _expansionZoomLevels = [0, 0, 0, 0];
+
+  /**
    * Contains the time event element and certain child elements that are
    * modified when changing the expansion state.
    */
@@ -26,7 +32,6 @@ export default class TimeEventModel {
   importance: number;
   imageReferences: ImageReferenceModel[];
   title: string;
-  collisionZoomLevels = [0, 0, 0, 0];
 
   constructor(
     positionCenter: number,
@@ -58,7 +63,7 @@ export default class TimeEventModel {
   }
 
   public updateExpansionState() {
-    this.expansionState = this.collisionZoomLevels.findIndex(
+    this.expansionState = this._expansionZoomLevels.findIndex(
       zoomLevel => zoomLevel <= store.state.zoomLevel
     );
   }

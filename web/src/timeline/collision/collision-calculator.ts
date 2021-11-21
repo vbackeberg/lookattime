@@ -68,9 +68,11 @@ export default class CollisionCalculator {
     currentTimeEvent: TimeEventModel,
     width: number
   ) {
-    return Math.abs(
-      width /
-        (collidingTimeEvent.positionCenter - currentTimeEvent.positionCenter)
+    return (
+      (store.state.zoomLevel * width) /
+      Math.abs(
+        collidingTimeEvent.positionCenter - currentTimeEvent.positionCenter
+      )
     );
   }
 }

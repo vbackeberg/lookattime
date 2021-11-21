@@ -63,7 +63,10 @@ export default class TimeEventModel {
     return this._positionCenter;
   }
 
-  public updateExpansionState() {
+  public set expansionZoomLevels(newExpansionZoomLevels: number[]) {
+    this._expansionZoomLevels = newExpansionZoomLevels;
+    this.updateExpansionState();
+  }
     this.expansionState = this._expansionZoomLevels.findIndex(
       zoomLevel => zoomLevel <= store.state.zoomLevel
     );

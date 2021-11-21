@@ -80,17 +80,23 @@ export default class TimeEventModel {
     if (this._expansionState !== newExpansionState) {
       switch (newExpansionState) {
         case ExpansionState.Box:
-          this._htmlElements!.bufferTop.classList.remove("buffer-top-bubble"); // TODO remove all other classes for cases of jumps
+          this._htmlElements!.bufferTop.classList.remove(
+            "buffer-top-bubble",
+            "buffer-top-dot"
+          );
           this._htmlElements!.bufferTop.classList.add("buffer-top-box");
 
-          this._htmlElements!.content.classList.remove("bubble");
+          this._htmlElements!.content.classList.remove("bubble", "dot");
           this._htmlElements!.content.classList.add("box");
 
           this._htmlElements!.card.style.display = "flex";
           this._htmlElements!.cardImage.style.display = "block";
           this._htmlElements!.cardText.style.display = "block";
 
-          this._htmlElements!.connector.classList.remove("connector-bubble");
+          this._htmlElements!.connector.classList.remove(
+            "connector-bubble",
+            "connector-dot"
+          );
           this._htmlElements!.connector.classList.add("connector-box");
 
           break;
@@ -131,7 +137,10 @@ export default class TimeEventModel {
           this._htmlElements!.cardImage.style.display = "none";
           this._htmlElements!.cardText.style.display = "none";
 
-          this._htmlElements!.connector.classList.remove("connector-bubble");
+          this._htmlElements!.connector.classList.remove(
+            "connector-bubble",
+            "connector-box"
+          );
           this._htmlElements!.connector.classList.add("connector-dot");
 
           break;

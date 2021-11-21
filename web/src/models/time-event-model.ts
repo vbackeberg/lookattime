@@ -69,6 +69,7 @@ export default class TimeEventModel {
     this.updateExpansionState();
   }
 
+  //TODO: Consider updating the expansion state in event-based manner if performance is bad
   private updateExpansionState() {
     this.expansionState = this._expansionZoomLevels.findIndex(
       zoomLevel => zoomLevel <= store.state.zoomLevel

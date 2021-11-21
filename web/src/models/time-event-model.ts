@@ -80,7 +80,7 @@ export default class TimeEventModel {
     if (this._expansionState !== newExpansionState) {
       switch (newExpansionState) {
         case ExpansionState.Box:
-          this._htmlElements!.bufferTop.classList.remove("buffer-top-bubble");
+          this._htmlElements!.bufferTop.classList.remove("buffer-top-bubble"); // TODO remove all other classes for cases of jumps
           this._htmlElements!.bufferTop.classList.add("buffer-top-box");
 
           this._htmlElements!.content.classList.remove("bubble");

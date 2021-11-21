@@ -50,10 +50,11 @@ export default class TimeEventModel {
     this.imageReferences = imageReferences;
     this.title = title;
   }
+
   public set positionCenter(newPositionCenter: number) {
     this._positionCenter = newPositionCenter;
-    if (this.htmlElement) {
-      this.htmlElement.style.transform =
+    if (this._htmlElements?.parent) {
+      this._htmlElements.parent.style.transform =
         "translateX(" + newPositionCenter + "px)";
       this.updateExpansionState();
     }
@@ -72,24 +73,6 @@ export default class TimeEventModel {
     this.expansionState = this._expansionZoomLevels.findIndex(
       zoomLevel => zoomLevel <= store.state.zoomLevel
     );
-  }
-
-  public set htmlElement(newHtmlElement: HTMLElement) {
-    const parent = newHtmlElement;
-
-    this._htmlElements = {
-      parent: parent,
-      bufferTop: parent.getElementsByClassName("buffer-top")[0] as HTMLElement,
-      content: parent.getElementsByClassName("content")[0] as HTMLElement,
-      card: parent.getElementsByClassName("card")[0] as HTMLElement,
-      cardImage: parent.getElementsByClassName("card-image")[0] as HTMLElement,
-      cardText: parent.getElementsByClassName("card-text")[0] as HTMLElement,
-      connector: parent.getElementsByClassName("connector")[0] as HTMLElement
-    };
-  }
-
-  public get htmlElement(): HTMLElement {
-    return this._htmlElements?.parent as HTMLElement;
   }
 
   public set expansionState(newExpansionState: ExpansionState) {
@@ -159,6 +142,20 @@ export default class TimeEventModel {
 
   public get expansionState(): ExpansionState {
     return this._expansionState;
+  }
+
+  public set htmlElement(newHtmlElement: HTMLElement) {
+    const parent = newHtmlElement;
+
+    this._htmlElements = {
+      parent: parent,
+      bufferTop: parent.getElementsByClassName("buffer-top")[0] as HTMLElement,
+      content: parent.getElementsByClassName("content")[0] as HTMLElement,
+      card: parent.getElementsByClassName("card")[0] as HTMLElement,
+      cardImage: parent.getElementsByClassName("card-image")[0] as HTMLElement,
+      cardText: parent.getElementsByClassName("card-text")[0] as HTMLElement,
+      connector: parent.getElementsByClassName("connector")[0] as HTMLElement
+    };
   }
 }
 

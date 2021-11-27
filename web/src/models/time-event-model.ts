@@ -49,6 +49,10 @@ export default class TimeEventModel {
     this.importance = importance;
     this.imageReferences = imageReferences;
     this.title = title;
+
+    document.addEventListener("update-expansion-states", () => {
+      this.updateExpansionState();
+    });
   }
 
   public set positionCenter(newPositionCenter: number) {
@@ -56,7 +60,6 @@ export default class TimeEventModel {
     if (this._htmlElements?.parent) {
       this._htmlElements.parent.style.transform =
         "translateX(" + newPositionCenter + "px)";
-      this.updateExpansionState();
     }
   }
 
@@ -66,10 +69,8 @@ export default class TimeEventModel {
 
   public set expansionZoomLevels(newExpansionZoomLevels: number[]) {
     this._expansionZoomLevels = newExpansionZoomLevels;
-    this.updateExpansionState();
   }
 
-  //TODO: Consider updating the expansion state in event-based manner if performance is bad
   private updateExpansionState() {
     this.expansionState = this._expansionZoomLevels.findIndex(
       zoomLevel => zoomLevel <= store.state.zoomLevel

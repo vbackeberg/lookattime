@@ -19,6 +19,8 @@ export default class Zoomer {
     this.repositionSpacerLeft();
     this.repositionSpacerRight();
     this.repositionTimeMarkers();
+
+    document.dispatchEvent(new Event("update-expansion-states"));
   }
 
   private repositionTimeEvents() {

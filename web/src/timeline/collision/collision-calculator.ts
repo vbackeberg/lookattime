@@ -21,6 +21,8 @@ export default class CollisionCalculator {
 
       store.state.timeEvents[i].expansionZoomLevels = newExpansionZoomlevels;
     }
+
+    document.dispatchEvent(new Event("update-expansion-states"));
   }
 
   private static findCollisionRight(

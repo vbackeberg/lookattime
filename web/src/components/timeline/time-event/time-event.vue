@@ -182,7 +182,6 @@ $scale-factor-dot-height: $scale-factor-dot-width / 2;
 }
 
 .content {
-  z-index: 10;
   width: $base-width;
   height: $base-height;
   background-color: #fff;

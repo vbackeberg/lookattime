@@ -135,11 +135,25 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+$base-width: 300px;
+$base-height: 150px;
+$base-border-width: 1px;
+
+// We resize the time event using scale instead of width/height to increase render performance.
+$scale-factor-bubble-width: 0.2;
+$scale-factor-bubble-height: $scale-factor-bubble-width *
+  ($base-width / $base-height);
+$scale-factor-dot-width: 0.05;
+$scale-factor-dot-height: $scale-factor-dot-width / 2;
+
 .zoom-container {
   position: absolute;
-  left: -150px; // TranslateX refers to the center of the element, so we position the elements center at 0px by shifting it half its width to the left.
-  width: 300px;
+
+  // TranslateX refers to the center of the element, so we position the elements center at 0px by shifting it half its width to the left.
+  left: -$base-width / 2;
+  width: $base-width;
   height: 100%;
+
   backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX
   pointer-events: none;
   content-visibility: auto;
@@ -150,7 +164,9 @@ export default Vue.extend({
 }
 
 .grow-transition {
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-property: transform, flex;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .buffer-top-box {
@@ -166,39 +182,44 @@ export default Vue.extend({
 }
 
 .content {
-  box-sizing: border-box;
+  z-index: 10;
+  width: $base-width;
+  height: $base-height;
   background-color: #fff;
-  border: 1px solid #fff;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  border-color: #aaa;
+  border-style: solid;
 
   overflow: hidden;
   font-size: 0.875em;
+  transform-origin: bottom;
 }
 
 .box {
   flex: 5 1 50px;
 
-  width: 100%;
   border-radius: 4px;
+  border-width: $base-border-width;
 }
 
 .bubble {
   flex: 0 0 auto;
 
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  transform: scale($scale-factor-bubble-width, $scale-factor-bubble-height);
+  border-width: $base-border-width / $scale-factor-bubble-height
+    $base-border-width / $scale-factor-bubble-width;
+  border-radius: 50%;
+
+  .card-image {
+    transform: scaleX($scale-factor-bubble-height / $scale-factor-bubble-width);
+  }
 }
 
 .dot {
   flex: 0 0 auto;
 
-  width: 16px;
-  height: 8px;
+  transform: scale($scale-factor-dot-width);
 
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  border: 1px solid #000;
   border-bottom: 0;
   background-color: #000;
 }

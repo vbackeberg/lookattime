@@ -5,7 +5,7 @@ import ExpansionState from "./time-event/expansion-state";
 
 export default class TimeEventModel {
   static boxWidth = 300;
-  static bubbleWidth = 50;
+  static bubbleWidth = 60;
   static boxWidthOffset = 150;
   private _positionCenter!: number;
 

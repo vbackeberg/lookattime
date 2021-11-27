@@ -144,7 +144,6 @@ $scale-factor-bubble-width: 0.2;
 $scale-factor-bubble-height: $scale-factor-bubble-width *
   ($base-width / $base-height);
 $scale-factor-dot-width: 0.05;
-$scale-factor-dot-height: $scale-factor-dot-width / 2;
 
 .zoom-container {
   position: absolute;

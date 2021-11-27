@@ -112,7 +112,7 @@ export default class TimeEventModel {
           this._htmlElements!.content.classList.add("bubble");
 
           this._htmlElements!.card.style.display = "flex";
-          this._htmlElements!.cardImage.style.display = "none";
+          this._htmlElements!.cardImage.style.display = "block";
           this._htmlElements!.cardText.style.display = "none";
 
           this._htmlElements!.connector.classList.remove(

@@ -18,7 +18,8 @@ export default class TimeMarkerCreator {
   }
 
   /**
-   * Initiates the time marker array. Adds a marker at date 0 and expands markers to both sides.
+   * Initiates the time marker array. Creates the first two markers to determine the
+   *
    *
    */
   public initiateTimeMarkers() {

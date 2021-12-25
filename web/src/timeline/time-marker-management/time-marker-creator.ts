@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import PositionTranslator from "../position-translator";
 import Viewport from "../viewport/viewport";
 import { Constants } from "./constants";
+import Big from "big.js";
 
 /**
  * Provides the functionality for adding time markers.
@@ -41,8 +42,8 @@ export default class TimeMarkerCreator {
 
     this.addHTMLElements(firstMarker.htmlElement, secondMarker.htmlElement);
 
-    store.state.timeMarkers = [firstMarker, secondMarker].sort(
-      (a, b) => a.date - b.date
+    store.state.timeMarkers = [firstMarker, secondMarker].sort((a, b) =>
+      a.date.cmp(b.date)
     );
 
     store.state.timeMarkerDepth = secondMarker.depth;
@@ -61,27 +62,33 @@ export default class TimeMarkerCreator {
    * @param lowestDate The lowest date within the timeline
    * @param highestDate The highest date within the timeline
    */
-  private createFirstMarker(
-    lowestDate: number,
-    highestDate: number
-  ): TimeMarker {
+  private createFirstMarker(lowestDate: Big, highestDate: Big): TimeMarker {
     let depth = 1;
     const id = uuid();
 
-    if (lowestDate <= 0 && highestDate >= 0) {
+    if (lowestDate.lte(0) && highestDate.gte(0)) {
       return new TimeMarker(
         store.state.timelineZero,
         id,
-        0,
+        new Big(0),
         Constants.MAX_DEPTH
       );
-    } else if (lowestDate > 0) {
-      while (Math.trunc(highestDate / depth) * depth > lowestDate) {
+    } else if (lowestDate.gt(0)) {
+      while (
+        highestDate
+          .div(depth)
+          .round(0, Big.roundDown)
+          .mul(depth)
+          .gt(lowestDate)
+      ) {
         depth *= Constants.DEPTH_BASE;
       }
       depth /= Constants.DEPTH_BASE;
 
-      const date = Math.trunc(highestDate / depth) * depth;
+      const date = highestDate
+        .div(depth)
+        .round(0, Big.roundDown)
+        .mul(depth);
 
       return new TimeMarker(
         PositionTranslator.toAbsolutePosition(date),
@@ -90,12 +97,21 @@ export default class TimeMarkerCreator {
         depth
       );
     } else {
-      while (Math.trunc(lowestDate / depth) * depth < highestDate) {
+      while (
+        lowestDate
+          .div(depth)
+          .round(0, Big.roundDown)
+          .mul(depth)
+          .lt(highestDate)
+      ) {
         depth *= Constants.DEPTH_BASE;
       }
       depth /= Constants.DEPTH_BASE;
 
-      const date = Math.trunc(lowestDate / depth) * depth;
+      const date = lowestDate
+        .div(depth)
+        .round(0, Big.roundDown)
+        .mul(depth);
 
       return new TimeMarker(
         PositionTranslator.toAbsolutePosition(date),
@@ -116,14 +132,14 @@ export default class TimeMarkerCreator {
    * @param depth The current "marker depth" (..., 0.1, 1, 10, ...)
    */
   private createSecondMarker(
-    firstMarkerDate: number,
-    lowestDate: number,
-    highestDate: number,
+    firstMarkerDate: Big,
+    lowestDate: Big,
+    highestDate: Big,
     depth: number
   ): TimeMarker {
-    let secondMarkerDate = firstMarkerDate - depth;
-    if (secondMarkerDate < lowestDate) {
-      secondMarkerDate = firstMarkerDate + depth;
+    let secondMarkerDate = firstMarkerDate.minus(depth);
+    if (secondMarkerDate.lt(lowestDate)) {
+      secondMarkerDate = firstMarkerDate.plus(depth);
       if (secondMarkerDate > highestDate) {
         return this.createSecondMarker(
           firstMarkerDate,
@@ -150,16 +166,18 @@ export default class TimeMarkerCreator {
     const lowestMarker = store.state.timeMarkers[0];
     const lowestDate = PositionTranslator.toRelativePosition(0);
 
-    const numberOfMarkers = Math.floor(
-      (lowestMarker.date - lowestDate) / store.state.timeMarkerDepth
-    );
+    const numberOfMarkers = lowestMarker.date
+      .minus(lowestDate)
+      .div(store.state.timeMarkerDepth)
+      .round(0, Big.roundDown)
+      .toNumber();
 
     if (numberOfMarkers > 0) {
       const markers: TimeMarker[] = [];
       const elements: HTMLElement[] = [];
 
       for (let i = numberOfMarkers; i > 0; i--) {
-        const date = lowestMarker.date - store.state.timeMarkerDepth * i;
+        const date = lowestMarker.date.minus(store.state.timeMarkerDepth * i);
         const marker = new TimeMarker(
           PositionTranslator.toAbsolutePosition(date),
           uuid(),
@@ -190,16 +208,18 @@ export default class TimeMarkerCreator {
       )
     );
 
-    const numberOfMarkers = Math.floor(
-      (highestDate - highestMarker.date) / store.state.timeMarkerDepth
-    );
+    const numberOfMarkers = highestDate
+      .minus(highestMarker.date)
+      .div(store.state.timeMarkerDepth)
+      .round(0, Big.roundDown)
+      .toNumber();
 
     if (numberOfMarkers > 0) {
       const markers: TimeMarker[] = [];
       const elements: HTMLElement[] = [];
 
       for (let i = 1; i <= numberOfMarkers; i++) {
-        const date = highestMarker.date + store.state.timeMarkerDepth * i;
+        const date = highestMarker.date.plus(store.state.timeMarkerDepth * i);
         const marker = new TimeMarker(
           PositionTranslator.toAbsolutePosition(date),
           uuid(),
@@ -231,8 +251,9 @@ export default class TimeMarkerCreator {
     for (let i = 0, n = store.state.timeMarkers.length; i < n - 1; i++) {
       markers[i * 10] = store.state.timeMarkers[i];
       for (let m = 1; m < 10; m++) {
-        const date =
-          store.state.timeMarkers[i].date + store.state.timeMarkerDepth * m;
+        const date = store.state.timeMarkers[i].date.plus(
+          store.state.timeMarkerDepth * m
+        );
         const marker = new TimeMarker(
           PositionTranslator.toAbsolutePosition(date),
           uuid(),
@@ -255,7 +276,9 @@ export default class TimeMarkerCreator {
    * Places one new time markers left to the lowest marker.
    */
   public addSingleMarkerLeft() {
-    const date = store.state.timeMarkers[0].date - store.state.timeMarkerDepth;
+    const date = store.state.timeMarkers[0].date.minus(
+      store.state.timeMarkerDepth
+    );
     const marker = new TimeMarker(
       PositionTranslator.toAbsolutePosition(date),
       uuid(),
@@ -280,13 +303,13 @@ export default class TimeMarkerCreator {
   /**
    * Calculates the depth of a date.
    */
-  private depthOf(date: number) {
-    if (date === 0) {
+  private depthOf(date: Big) {
+    if (date.eq(0)) {
       return Constants.MAX_DEPTH;
     }
 
     let depth = store.state.timeMarkerDepth;
-    while (date % depth === 0) {
+    while (date.mod(depth).eq(0)) {
       depth *= Constants.DEPTH_BASE;
     }
 

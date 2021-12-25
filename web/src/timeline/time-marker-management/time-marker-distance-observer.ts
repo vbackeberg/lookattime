@@ -1,4 +1,5 @@
 import store from "@/store/store";
+import Big from "big.js";
 import PositionTranslator from "../position-translator";
 import SpaceObserver from "../space-management/space-observer";
 import { Constants } from "./constants";
@@ -86,8 +87,8 @@ export default class TimeMarkerDistanceObserver {
 
   private timeMarkerDistance() {
     return (
-      PositionTranslator.toAbsolutePosition(store.state.timeMarkerDepth * 2) -
-      PositionTranslator.toAbsolutePosition(store.state.timeMarkerDepth)
+      PositionTranslator.toAbsolutePosition(new Big(store.state.timeMarkerDepth * 2)) -
+      PositionTranslator.toAbsolutePosition(new Big(store.state.timeMarkerDepth))
     );
   }
 

@@ -1,12 +1,14 @@
+import Big from "big.js";
+
 export default class TimeMarker {
   static width = 2;
   static widthOffset = TimeMarker.width / 2;
   private _positionCenter!: number;
   id: string;
-  date: number;
+  date: Big;
   depth: number;
   htmlElement: HTMLElement;
-  constructor(positionCenter: number, id: string, date: number, depth: number) {
+  constructor(positionCenter: number, id: string, date: Big, depth: number) {
     this.id = id;
     this.date = date;
     this.depth = depth;

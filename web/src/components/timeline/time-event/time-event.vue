@@ -14,6 +14,7 @@
       </v-card>
     </div>
     <svg class="connector grow-transition"></svg>
+    <div>{{ formattedDate }}</div>
     <v-menu
       v-model="showContextMenu"
       :position-x="x"
@@ -44,6 +45,7 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import store from "@/store/store";
 import Vue from "vue";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
+import { Temporal } from "@js-temporal/polyfill";
 
 export default Vue.extend({
   name: "TimeEvent",
@@ -101,6 +103,10 @@ export default Vue.extend({
         "." +
         imageReference.extension
       );
+    },
+
+    formattedDate(): string {
+      return Temporal.Instant.fromEpochSeconds(this.date).toLocaleString();
     }
   },
 

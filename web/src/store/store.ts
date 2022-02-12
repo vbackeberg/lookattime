@@ -21,9 +21,11 @@ export default new Vuex.Store({
     timelineZero: 0,
 
     /**
-     * The larger the zoom level the bigger the distance between time events (zoom out).
+     * The zoom level determines how many seconds are represented by one pixel.
+     * A zoom level of 335 means that one pixel covers a timespan of 335 seconds.
+     * The smaller the zoom level the bigger the distance between time events (zoom out).
      */
-    zoomLevel: 1,
+    zoomLevel: 1728000000000,
 
     timeEvents: [] as TimeEventModel[],
 

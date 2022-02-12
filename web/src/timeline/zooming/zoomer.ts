@@ -1,6 +1,7 @@
 import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
 import PositionTranslator from "../position-translator";
+import { Constants } from "./constants";
 
 export default class Zoomer {
   /**
@@ -9,8 +10,11 @@ export default class Zoomer {
    * Moves timeline zero.
    */
   public zoom(zoomFactor: number, referencePosition: number) {
-    store.state.zoomLevel *= zoomFactor;
-    this.reposition(zoomFactor, referencePosition);
+    const newZoomLevel = store.state.zoomLevel * zoomFactor;
+    if (this.zoomLevelInBounds(newZoomLevel)) {
+      store.state.zoomLevel = newZoomLevel;
+      this.reposition(zoomFactor, referencePosition);
+    }
   }
 
   private reposition(zoomFactor: number, referencePosition: number) {
@@ -75,7 +79,7 @@ export default class Zoomer {
     referencePosition: number
   ) {
     const distance =
-      (store.state.timelineZero - referencePosition) * zoomFactor;
+      (store.state.timelineZero - referencePosition) / zoomFactor;
     const newPosition = referencePosition + distance;
 
     store.state.timelineZero = newPosition;
@@ -91,6 +95,13 @@ export default class Zoomer {
 
       store.state.timeMarkers[i].positionCenter = newPosition;
     }
+  }
+  private zoomLevelInBounds(newZoomLevel: number) {
+    if (
+      Math.abs(newZoomLevel) < Constants.MAX_ZOOM_LEVEL &&
+      Math.abs(newZoomLevel) >= Constants.MIN_ZOOM_LEVEL
+    )
+      return true;
   }
 
   private static instance: Zoomer;

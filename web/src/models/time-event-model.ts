@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import store from "@/store/store";
-import Big from "big.js";
 import ImageReferenceModel from "./image-reference-model";
 import ExpansionState from "./time-event/expansion-state";
 
@@ -19,12 +18,7 @@ export default class TimeEventModel {
    * Contains a zoom level for each possible expansion state that defines at
    * which level each expansion state bounds to the next smaller/bigger state.
    */
-  private _expansionZoomLevels = [
-    new Big(0),
-    new Big(0),
-    new Big(0),
-    new Big(0)
-  ];
+  private _expansionZoomLevels = [0, 0, 0, 0];
 
   /**
    * Contains the time event element and certain child elements that are
@@ -34,7 +28,7 @@ export default class TimeEventModel {
 
   id: string;
   text: string;
-  date: Big;
+  date: number;
   importance: number;
   imageReferences: ImageReferenceModel[];
   title: string;
@@ -43,7 +37,7 @@ export default class TimeEventModel {
     positionCenter: number,
     id: string,
     text: string,
-    date: Big,
+    date: number,
     importance: number,
     imageReferences: ImageReferenceModel[],
     title: string
@@ -73,13 +67,13 @@ export default class TimeEventModel {
     return this._positionCenter;
   }
 
-  public set expansionZoomLevels(newExpansionZoomLevels: Big[]) {
+  public set expansionZoomLevels(newExpansionZoomLevels: number[]) {
     this._expansionZoomLevels = newExpansionZoomLevels;
   }
 
   private updateExpansionState() {
-    this.expansionState = this._expansionZoomLevels.findIndex(zoomLevel =>
-      zoomLevel.lte(store.state.zoomLevel)
+    this.expansionState = this._expansionZoomLevels.findIndex(
+      zoomLevel => zoomLevel <= store.state.zoomLevel
     );
   }
 

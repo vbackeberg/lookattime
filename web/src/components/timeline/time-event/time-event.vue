@@ -44,7 +44,6 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import store from "@/store/store";
 import Vue from "vue";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
-import Big from 'big.js';
 
 export default Vue.extend({
   name: "TimeEvent",
@@ -56,7 +55,7 @@ export default Vue.extend({
   props: {
     id: String,
     text: String,
-    date: Big,
+    date: Number,
     importance: Number,
     imageReferences: Array,
     title: String

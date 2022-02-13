@@ -11,7 +11,6 @@ import TimelineModel from "@/models/timeline-model";
 import UserLocalStorage from "@/local-storage/user-local-storage";
 import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
 import AddTimeEventModel from "./add-time-event-model";
-import Big from "big.js";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -23,9 +22,8 @@ export default new Vuex.Store({
 
     /**
      * The larger the zoom level the bigger the distance between time events (zoom out).
-     * The lowest value is 1. This corresponds to the lowest temporal value of 1 nanosecond.
      */
-    zoomLevel: 1n,
+    zoomLevel: 1,
 
     timeEvents: [] as TimeEventModel[],
 
@@ -51,13 +49,13 @@ export default new Vuex.Store({
 
   mutations: {
     setTimeEvents(state, timeEvents: TimeEventModel[]) {
-      timeEvents.sort((a, b) => a.date.cmp(b.date));
+      timeEvents.sort((a, b) => a.date - b.date);
       state.timeEvents = timeEvents;
     },
 
     addTimeEvent(state, timeEvent: TimeEventModel) {
       state.timeEvents.push(timeEvent);
-      state.timeEvents.sort((a, b) => a.date.cmp(b.date));
+      state.timeEvents.sort((a, b) => a.date - b.date);
     },
 
     deleteTimeEvent(state, timeEventId) {

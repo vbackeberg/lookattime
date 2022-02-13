@@ -95,7 +95,6 @@ import PositionTranslator from "@/timeline/position-translator";
 import { VForm } from "@/types";
 import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
-import Big from "big.js";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -115,7 +114,7 @@ export default Vue.extend({
           !store.state.timeEvents
             .filter(timeEvent => timeEvent.id != this.timeEvent.id)
             .map(timeEvent => timeEvent.date)
-            .includes(Big(v)) || //TODO: includes does only work with primitive types
+            .includes(Number(v)) ||
           "You cannot place two events at the same date. Sorry!"
       ],
       titleRules: [(v: string) => !!v || "This field is required"],

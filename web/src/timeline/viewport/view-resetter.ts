@@ -4,7 +4,6 @@ import SpaceExtender from "../space-management/space-extender";
 import ViewFocuser from "./view-focuser";
 import Vue from "vue";
 import TimeMarkerRemover from "../time-marker-management/time-marker-remover";
-import Big from "big.js";
 
 /**
  * Resets the viewport (when loading a new timeline).
@@ -19,7 +18,7 @@ export default class ViewResetter {
     store.state.timelineZero = store.state.timelineElement.clientWidth / 2;
     TimeMarkerRemover.Instance.removeAllMarkers();
     store.state.timeMarkerDepth = 1;
-    store.state.zoomLevel = new Big(1);
+    store.state.zoomLevel = 1;
     this.repositionSpacerViewportRight();
   }
 

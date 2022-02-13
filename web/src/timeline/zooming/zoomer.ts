@@ -9,9 +9,7 @@ export default class Zoomer {
    * Moves timeline zero.
    */
   public zoom(zoomFactor: number, referencePosition: number) {
-    store.state.zoomLevel = store.state.zoomLevel * zoomFactor;
-    console.log("zf: ", zoomFactor);
-    console.log("zl: ", store.state.zoomLevel);
+    store.state.zoomLevel *= zoomFactor;
     this.reposition(zoomFactor, referencePosition);
   }
 

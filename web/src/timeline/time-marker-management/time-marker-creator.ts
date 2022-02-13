@@ -17,6 +17,15 @@ export default class TimeMarkerCreator {
     ) as HTMLElement;
   }
 
+  /* TODO: Determine time marker positions in a new way:
+   *
+   * Observe zoom level.
+   * Using zoom level translations table, determine which time marker granularity to choose.
+   * Place a time marker at every granularity level.
+   *
+   * E.g. given granularity level "minutes", place a time marker at every minute.
+   */
+
   /**
    * Initiates the time marker array. Adds a marker at date 0 and expands markers to both sides.
    *

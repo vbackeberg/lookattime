@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import store from "@/store/store";
+import { Constants } from "@/timeline/zooming/constants";
 import ImageReferenceModel from "./image-reference-model";
 import ExpansionState from "./time-event/expansion-state";
 
@@ -12,13 +13,19 @@ export default class TimeEventModel {
   /**
    * Defines whether the time event should look like a box, bubble, dot or flat.
    */
-  private _expansionState: ExpansionState = -1;
+  private _expansionState: ExpansionState = ExpansionState.Flat;
 
   /**
-   * Contains a zoom level for each possible expansion state that defines at
-   * which level each expansion state bounds to the next smaller/bigger state.
+   * Contains a zoom level for each expansion state. The values define at
+   * which zoom level each expansion state bounds to the next smaller or bigger
+   * state.
    */
-  private _expansionZoomLevels = [0, 0, 0, 0];
+  private _expansionZoomLevels = [
+    Constants.MAX_ZOOM_LEVEL,
+    Constants.MAX_ZOOM_LEVEL,
+    Constants.MAX_ZOOM_LEVEL,
+    Constants.MAX_ZOOM_LEVEL
+  ];
 
   /**
    * Contains the time event element and certain child elements that are
@@ -71,9 +78,15 @@ export default class TimeEventModel {
     this._expansionZoomLevels = newExpansionZoomLevels;
   }
 
+  /**
+   * Sets the expansion state according to the current zoom level.
+   *
+   * This will call the expansion state setter which applies CSS
+   * transformations to the time event.
+   */
   private updateExpansionState() {
     this.expansionState = this._expansionZoomLevels.findIndex(
-      zoomLevel => zoomLevel <= store.state.zoomLevel
+      zoomLevel => store.state.zoomLevel <= zoomLevel
     );
   }
 

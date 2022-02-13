@@ -9,13 +9,29 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  label="Year"
-                  required
-                  type="number"
-                  v-model.number="timeEvent.date"
-                  :rules="dateRules"
-                />
+                <v-menu
+                  v-model="datePickerOpen"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="plainDate"
+                      label="Picker without buttons"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="plainDate"
+                    @input="datePickerOpen = false"
+                  ></v-date-picker>
+                </v-menu>
                 <v-text-field
                   label="Title"
                   required
@@ -95,6 +111,7 @@ import PositionTranslator from "@/timeline/position-translator";
 import { VForm } from "@/types";
 import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
+import { Temporal } from "@js-temporal/polyfill";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -107,16 +124,8 @@ export default Vue.extend({
 
       loading: false,
 
+      datePickerOpen: false,
       valid: true,
-      dateRules: [
-        (v: number) => !!v || "This field is required",
-        (v: number) =>
-          !store.state.timeEvents
-            .filter(timeEvent => timeEvent.id != this.timeEvent.id)
-            .map(timeEvent => timeEvent.date)
-            .includes(Number(v)) ||
-          "You cannot place two events at the same date. Sorry!"
-      ],
       titleRules: [(v: string) => !!v || "This field is required"],
       importanceRules: [
         (v: number) => !!v || "This field is required",
@@ -166,6 +175,33 @@ export default Vue.extend({
             !this.imageReferencesToDelete.includes(imageReference)
         )
         .concat(this.imageReferencesToAdd);
+    },
+
+    plainDate: {
+      get(): string | undefined {
+        if (this.timeEvent.date) {
+          return Temporal.Instant.fromEpochSeconds(this.timeEvent.date)
+            .toZonedDateTimeISO("UTC")
+            .toPlainDate()
+            .toString();
+        } else {
+          return undefined;
+        }
+      },
+      set(plainDate: string | null) {
+        if (!plainDate) return;
+
+        this.timeEvent.date
+          ? (this.timeEvent.date = Temporal.Instant.fromEpochSeconds(
+              this.timeEvent.date
+            )
+              .toZonedDateTimeISO("UTC")
+              .withPlainDate(plainDate)
+              .toInstant().epochSeconds)
+          : (this.timeEvent.date = Temporal.PlainDate.from(plainDate)
+              .toZonedDateTime("UTC")
+              .toInstant().epochSeconds);
+      }
     }
   },
 

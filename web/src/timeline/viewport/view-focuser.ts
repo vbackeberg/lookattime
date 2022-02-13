@@ -52,7 +52,7 @@ export default class ViewFocuser {
     const absoluteDistance = right - left;
     const margin = TimeEventModel.boxWidth + 100;
     const zoomFactor =
-      (this.timelineElement.clientWidth - margin) / absoluteDistance;
+      1 / ((this.timelineElement.clientWidth - margin) / absoluteDistance);
     const absoluteCenter = left + absoluteDistance / 2;
 
     this.zoomer.zoom(zoomFactor, absoluteCenter);

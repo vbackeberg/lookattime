@@ -28,9 +28,9 @@ export default class ZoomObserver {
 
   private changeZoom(e: WheelEvent) {
     if (e.deltaY < 0) {
-      this.zoomer.zoom(1.1, e.pageX + this.timelineElement.scrollLeft);
-    } else if (e.deltaY > 0) {
       this.zoomer.zoom(0.92, e.pageX + this.timelineElement.scrollLeft);
+    } else if (e.deltaY > 0) {
+      this.zoomer.zoom(1.1, e.pageX + this.timelineElement.scrollLeft);
     }
   }
 

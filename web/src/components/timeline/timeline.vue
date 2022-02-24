@@ -133,7 +133,8 @@ export default Vue.extend({
     initializeTimelineServices() {
       SpaceObserver.Instance;
       ZoomObserver.Instance;
-      TimeMarkerDistanceObserver.Instance;
+      // TODO: Reactivate time markers as soon as calculation works on year, month, day, etc. level.
+      // TimeMarkerDistanceObserver.Instance;
       ViewFocusTrigger.Instance;
       CollisionCalculationTrigger.Instance;
     }

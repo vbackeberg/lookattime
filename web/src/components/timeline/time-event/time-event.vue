@@ -3,6 +3,7 @@
     <div class="buffer-top grow-transition"></div>
     <div class="content grow-transition">
       <v-card class="card" v-on:contextmenu="openContextMenu">
+        <!-- TODO: On top right corner show an expansion icon to enter full expansion state -->
         <v-img
           v-bind:src="imageSource"
           class="card-image white--text align-end"
@@ -198,6 +199,10 @@ $scale-factor-dot-width: 0.05;
   overflow: hidden;
   font-size: 0.875em;
   transform-origin: bottom;
+}
+
+.full {
+  //TODO: Full should span full-size vertically
 }
 
 .box {

@@ -154,12 +154,14 @@ $scale-factor-dot-width: 0.05;
 .zoom-container {
   position: absolute;
 
-  // TranslateX refers to the center of the element, so we position the elements center at 0px by shifting it half its width to the left.
+  // TranslateX refers to the center of the element, so we position the
+  // elements center at 0px by shifting it to the left by half its width.
   left: -$base-width / 2;
   width: $base-width;
   height: 100%;
 
-  backface-visibility: hidden; // Reduces subtle vertical position shifting when translateX
+  // This property reduces subtle vertical position shifting when translateX
+  backface-visibility: hidden;
   pointer-events: none;
   content-visibility: auto;
 

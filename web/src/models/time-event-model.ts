@@ -103,8 +103,12 @@ export default class TimeEventModel {
           this._htmlElements!.content.classList.remove("bubble", "dot");
           this._htmlElements!.content.classList.add("box");
 
+          /*
+           * These modifications are tightly coupled to the time-event template structure
+           * and pose a regression risk.
+           */
           this._htmlElements!.card.style.display = "flex";
-          this._htmlElements!.cardImage.style.display = "block";
+          this._htmlElements!.cardImage.style.display = "flex";
           this._htmlElements!.cardText.style.display = "block";
 
           this._htmlElements!.connector.classList.remove(
@@ -126,7 +130,7 @@ export default class TimeEventModel {
           this._htmlElements!.content.classList.add("bubble");
 
           this._htmlElements!.card.style.display = "flex";
-          this._htmlElements!.cardImage.style.display = "block";
+          this._htmlElements!.cardImage.style.display = "flex";
           this._htmlElements!.cardText.style.display = "none";
 
           this._htmlElements!.connector.classList.remove(

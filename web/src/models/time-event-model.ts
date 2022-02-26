@@ -90,6 +90,10 @@ export default class TimeEventModel {
     );
   }
 
+  /**
+   * The setter applies appropriate CSS classes and removes elements
+   * to modify visual appearance of time event.
+   */
   public set expansionState(newExpansionState: ExpansionState) {
     if (this._expansionState !== newExpansionState) {
       switch (newExpansionState) {
@@ -103,10 +107,6 @@ export default class TimeEventModel {
           this._htmlElements!.content.classList.remove("bubble", "dot");
           this._htmlElements!.content.classList.add("box");
 
-          /*
-           * These modifications are tightly coupled to the time-event template structure
-           * and pose a regression risk.
-           */
           this._htmlElements!.card.style.removeProperty("display");
           this._htmlElements!.cardImage.style.removeProperty("display");
           this._htmlElements!.cardText.style.removeProperty("display");

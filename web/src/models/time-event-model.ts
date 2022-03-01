@@ -62,6 +62,12 @@ export default class TimeEventModel {
     });
   }
 
+  /**
+   * Set positionCenter and translateX the time event.
+   *
+   * The HTML element will only be present after the Vue
+   * component has been mounted, so we check for its presence.
+   */
   public set positionCenter(newPositionCenter: number) {
     this._positionCenter = newPositionCenter;
     if (this._htmlElements?.parent) {

@@ -60,17 +60,17 @@ export default class TimeEventModel {
     document.addEventListener("update-expansion-states", () => {
       this.updateExpansionState();
     });
-    }
+  }
 
-    /**
-     * Set positionCenter and translateX the time event.
-     *
-     * The HTML element will only be present after the Vue
-     * component has been mounted, so we check for its presence.
-     */
-    public set positionCenter(newPositionCenter: number) {
-      this._positionCenter = newPositionCenter;
-      if (this._htmlElements?.parent) {
+  /**
+   * Set positionCenter and translateX the time event.
+   *
+   * The HTML element will only be present after the Vue
+   * component has been mounted, so we check for its presence.
+   */
+  public set positionCenter(newPositionCenter: number) {
+    this._positionCenter = newPositionCenter;
+    if (this._htmlElements?.parent) {
       this._htmlElements.parent.style.transform =
         "translateX(" + newPositionCenter + "px)";
     }
@@ -108,7 +108,7 @@ export default class TimeEventModel {
           break;
 
         case ExpansionState.Bubble:
-          this.applyBubblyStyles();
+          this.applyBubbleStyles();
           break;
 
         default:
@@ -143,7 +143,7 @@ export default class TimeEventModel {
     this._htmlElements!.connector.classList.add("connector-box");
   }
 
-  private applyBubblyStyles() {
+  private applyBubbleStyles() {
     this._htmlElements!.bufferTop.classList.remove(
       "buffer-top-box",
       "buffer-top-dot"

@@ -205,6 +205,12 @@ $scale-factor-dot-width: 0.05;
   //TODO: Full should span full-size vertically
 }
 
+.btn-full {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
 .box {
   flex: 5 1 50px;
 
@@ -274,7 +280,11 @@ $scale-factor-dot-width: 0.05;
   text-align: left;
 }
 
-.card-title {
+.card-image-text {
   text-shadow: 0px 0px 3px #000;
+}
+
+.display-none {
+  display: none;
 }
 </style>

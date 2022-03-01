@@ -9,7 +9,12 @@
           class="card-image white--text align-end"
           alt="time event image"
         >
-          <v-card-title class="card-title">{{ title }}</v-card-title>
+          <v-card-title class="card-title card-image-shadow">{{
+            title
+          }}</v-card-title>
+          <v-btn class="btn-full card-image-shadow" color="white" icon>
+            <v-icon>mdi-arrow-expand</v-icon>
+          </v-btn>
         </v-img>
         <v-card-text class="card-text">{{ text }}</v-card-text>
       </v-card>
@@ -280,7 +285,7 @@ $scale-factor-dot-width: 0.05;
   text-align: left;
 }
 
-.card-image-text {
+.card-image-shadow {
   text-shadow: 0px 0px 3px #000;
 }
 

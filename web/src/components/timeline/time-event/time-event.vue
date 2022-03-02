@@ -225,16 +225,22 @@ $scale-factor-dot-width: 0.05;
         height: 40%;
         min-height: 50px;
         max-height: 200px;
+
+        .btn-full {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+        }
+
+        .card-image-shadow {
+          text-shadow: 0px 0px 3px #000;
+        }
       }
 
       .card-text {
         flex-grow: 1;
         overflow-y: auto;
         text-align: left;
-      }
-
-      .card-image-shadow {
-        text-shadow: 0px 0px 3px #000;
       }
     }
   }
@@ -309,15 +315,5 @@ $scale-factor-dot-width: 0.05;
 
 .full {
   //TODO: Full should span full-size vertically
-}
-
-.btn-full {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-}
-
-.display-none {
-  display: none;
 }
 </style>

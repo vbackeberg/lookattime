@@ -182,18 +182,6 @@ $scale-factor-dot-width: 0.05;
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.buffer-top-box {
-  flex: 0 1 auto;
-}
-
-.buffer-top-bubble {
-  flex: 16 0 auto;
-}
-
-.buffer-top-dot {
-  flex: 16 0 auto;
-}
-
 .content {
   width: $base-width;
   height: $base-height;
@@ -206,44 +194,12 @@ $scale-factor-dot-width: 0.05;
   transform-origin: bottom;
 }
 
-.full {
-  //TODO: Full should span full-size vertically
-}
+.card {
+  height: 100%;
+  pointer-events: auto;
 
-.btn-full {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-}
-
-.box {
-  flex: 5 1 50px;
-
-  border-radius: 4px;
-  border-width: $base-border-width;
-}
-
-.bubble {
-  flex: 0 0 auto;
-
-  transform: scale($scale-factor-bubble-width, $scale-factor-bubble-height);
-  border-width: $base-border-width / $scale-factor-bubble-height
-    $base-border-width / $scale-factor-bubble-width;
-  border-radius: 50%;
-
-  .card-image {
-    transform: scaleX($scale-factor-bubble-height / $scale-factor-bubble-width);
-  }
-}
-
-.dot {
-  flex: 0 0 auto;
-
-  transform: scale($scale-factor-dot-width);
-
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  border-bottom: 0;
-  background-color: #000;
+  display: flex;
+  flex-direction: column;
 }
 
 .connector {
@@ -253,40 +209,112 @@ $scale-factor-dot-width: 0.05;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.connector-box {
-  flex: 1 0 50px;
+.box {
+  .buffer-top {
+    flex: 0 1 auto;
+  }
+
+  .content {
+    flex: 5 1 50px;
+
+    border-radius: 4px;
+    border-width: $base-border-width;
+
+    .card {
+      .card-image {
+        height: 40%;
+        min-height: 50px;
+        max-height: 200px;
+      }
+
+      .card-text {
+        flex-grow: 1;
+        overflow-y: auto;
+        text-align: left;
+      }
+
+      .card-image-shadow {
+        text-shadow: 0px 0px 3px #000;
+      }
+    }
+  }
+
+  .connector {
+    flex: 1 0 2px;
+  }
 }
 
-.connector-bubble {
-  flex: 1 0 2px;
+.bubble {
+  .buffer-top {
+    flex: 16 0 auto;
+  }
+
+  .content {
+    flex: 0 0 auto;
+
+    transform: scale($scale-factor-bubble-width, $scale-factor-bubble-height);
+    border-width: $base-border-width / $scale-factor-bubble-height
+      $base-border-width / $scale-factor-bubble-width;
+    border-radius: 50%;
+
+    .card {
+      .card-image {
+        transform: scaleX(
+          $scale-factor-bubble-height / $scale-factor-bubble-width
+        );
+
+        .card-title {
+          display: none;
+        }
+
+        .btn-full {
+          display: none;
+        }
+      }
+
+      .card-text {
+        display: none;
+      }
+    }
+  }
+
+  .connector {
+    flex: 1 0 2px;
+  }
 }
 
-.connector-dot {
-  flex: 0 0 0;
+.dot {
+  .buffer-top {
+    flex: 16 0 auto;
+  }
+
+  .content {
+    flex: 0 0 auto;
+
+    transform: scale($scale-factor-dot-width);
+
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    border-bottom: 0;
+    background-color: #000;
+
+    .card {
+      display: none;
+    }
+  }
+
+  .connector {
+    flex: 0 0 0;
+  }
 }
 
-.card {
-  height: 100%;
-  pointer-events: auto;
-
-  display: flex;
-  flex-direction: column;
+.full {
+  //TODO: Full should span full-size vertically
 }
 
-.card-image {
-  height: 40%;
-  min-height: 50px;
-  max-height: 200px;
-}
-
-.card-text {
-  flex-grow: 1;
-  overflow-y: auto;
-  text-align: left;
-}
-
-.card-image-shadow {
-  text-shadow: 0px 0px 3px #000;
+.btn-full {
+  position: absolute;
+  top: 2px;
+  right: 2px;
 }
 
 .display-none {

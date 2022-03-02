@@ -31,7 +31,7 @@ export default class TimeEventModel {
    * Contains the time event element and certain child elements that are
    * modified when changing the expansion state.
    */
-  private _htmlElements?: TimeEventHtmlElements;
+  htmlElement?: HTMLElement;
 
   id: string;
   text: string;
@@ -70,8 +70,8 @@ export default class TimeEventModel {
    */
   public set positionCenter(newPositionCenter: number) {
     this._positionCenter = newPositionCenter;
-    if (this._htmlElements?.parent) {
-      this._htmlElements.parent.style.transform =
+    if (this.htmlElement) {
+      this.htmlElement.style.transform =
         "translateX(" + newPositionCenter + "px)";
     }
   }
@@ -101,7 +101,7 @@ export default class TimeEventModel {
    * to modify visual appearance of time event.
    */
   public set expansionState(newExpansionState: ExpansionState) {
-    if (this._expansionState !== newExpansionState) {
+    if (this._expansionState !== newExpansionState && this.htmlElement) {
       switch (newExpansionState) {
         case ExpansionState.Box:
           this.applyBoxStyles();
@@ -121,88 +121,21 @@ export default class TimeEventModel {
   }
 
   private applyBoxStyles() {
-    this._htmlElements!.bufferTop.classList.remove(
-      "buffer-top-bubble",
-      "buffer-top-dot"
-    );
-    this._htmlElements!.bufferTop.classList.add("buffer-top-box");
-
-    this._htmlElements!.content.classList.remove("bubble", "dot");
-    this._htmlElements!.content.classList.add("box");
-
-    this._htmlElements!.card.classList.remove("display-none");
-    this._htmlElements!.cardImage.classList.remove("display-none");
-    this._htmlElements!.cardText.classList.remove("display-none");
-    this._htmlElements!.cardTitle.classList.remove("display-none");
-    this._htmlElements!.buttonFull.classList.remove("display-none");
-
-    this._htmlElements!.connector.classList.remove(
-      "connector-bubble",
-      "connector-dot"
-    );
-    this._htmlElements!.connector.classList.add("connector-box");
+    this.htmlElement!.classList.remove("bubble");
+    this.htmlElement!.classList.remove("dot");
+    this.htmlElement!.classList.add("box");
   }
 
   private applyBubbleStyles() {
-    this._htmlElements!.bufferTop.classList.remove(
-      "buffer-top-box",
-      "buffer-top-dot"
-    );
-    this._htmlElements!.bufferTop.classList.add("buffer-top-bubble");
-
-    this._htmlElements!.content.classList.remove("box", "dot");
-    this._htmlElements!.content.classList.add("bubble");
-
-    this._htmlElements!.card.classList.remove("display-none");
-    this._htmlElements!.cardImage.classList.remove("display-none");
-    this._htmlElements!.cardTitle.classList.add("display-none");
-    this._htmlElements!.buttonFull.classList.add("display-none");
-    this._htmlElements!.cardText.classList.add("display-none");
-
-    this._htmlElements!.connector.classList.remove(
-      "connector-box",
-      "connector-dot"
-    );
-    this._htmlElements!.connector.classList.add("connector-bubble");
+    this.htmlElement!.classList.remove("box");
+    this.htmlElement!.classList.remove("dot");
+    this.htmlElement!.classList.add("bubble");
   }
 
   private applyDotStyles() {
-    this._htmlElements!.bufferTop.classList.remove(
-      "buffer-top-bubble",
-      "buffer-top-box"
-    );
-    this._htmlElements!.bufferTop.classList.add("buffer-top-dot");
-
-    this._htmlElements!.content.classList.remove("bubble", "box");
-    this._htmlElements!.content.classList.add("dot");
-
-    this._htmlElements!.card.classList.add("display-none");
-    this._htmlElements!.cardImage.classList.add("display-none");
-    this._htmlElements!.cardTitle.classList.add("display-none");
-    this._htmlElements!.buttonFull.classList.add("display-none");
-    this._htmlElements!.cardText.classList.add("display-none");
-
-    this._htmlElements!.connector.classList.remove(
-      "connector-bubble",
-      "connector-box"
-    );
-    this._htmlElements!.connector.classList.add("connector-dot");
-  }
-
-  public set htmlElement(newHtmlElement: HTMLElement) {
-    const parent = newHtmlElement;
-
-    this._htmlElements = {
-      parent: parent,
-      bufferTop: parent.getElementsByClassName("buffer-top")[0] as HTMLElement,
-      content: parent.getElementsByClassName("content")[0] as HTMLElement,
-      card: parent.getElementsByClassName("card")[0] as HTMLElement,
-      cardImage: parent.getElementsByClassName("card-image")[0] as HTMLElement,
-      cardTitle: parent.getElementsByClassName("card-title")[0] as HTMLElement,
-      buttonFull: parent.getElementsByClassName("btn-full")[0] as HTMLElement,
-      cardText: parent.getElementsByClassName("card-text")[0] as HTMLElement,
-      connector: parent.getElementsByClassName("connector")[0] as HTMLElement
-    };
+    this.htmlElement!.classList.remove("box");
+    this.htmlElement!.classList.remove("bubble");
+    this.htmlElement!.classList.add("dot");
   }
 }
 
@@ -211,12 +144,4 @@ export default class TimeEventModel {
  */
 interface TimeEventHtmlElements {
   parent?: HTMLElement;
-  bufferTop: HTMLElement;
-  content: HTMLElement;
-  card: HTMLElement;
-  cardImage: HTMLElement;
-  cardTitle: HTMLElement;
-  buttonFull: HTMLElement;
-  cardText: HTMLElement;
-  connector: HTMLElement;
 }

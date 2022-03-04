@@ -12,7 +12,12 @@
           <v-card-title class="card-title card-image-shadow">{{
             title
           }}</v-card-title>
-          <v-btn class="btn-full card-image-shadow" color="white" icon>
+          <v-btn
+            class="btn-full card-image-shadow"
+            color="white"
+            icon
+            v-on:click.stop="toggleFullscreen()"
+          >
             <v-icon>mdi-arrow-expand</v-icon>
           </v-btn>
         </v-img>
@@ -47,11 +52,12 @@
 </template>
 
 <script lang="ts">
+import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import ImageReferenceModel from "@/models/image-reference-model";
 import store from "@/store/store";
-import Vue from "vue";
-import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import { Temporal } from "@js-temporal/polyfill";
+import Vue from "vue";
+import FullscreenEventTarget from "@/timeline/fullscreen-event-target";
 
 export default Vue.extend({
   name: "TimeEvent",
@@ -79,7 +85,9 @@ export default Vue.extend({
       x: 0,
       y: 0,
 
-      showCreateTimeEventForm: false
+      showCreateTimeEventForm: false,
+
+      isFullscreen: false
     };
   },
 
@@ -145,6 +153,16 @@ export default Vue.extend({
 
       store.state.timeEvents[this.timeEventIndex].positionCenter =
         store.state.timeEvents[this.timeEventIndex].positionCenter;
+    },
+
+    toggleFullscreen() {
+      this.isFullscreen = !this.isFullscreen;
+
+      FullscreenEventTarget.Instance.dispatchEvent(
+        new CustomEvent("fullscreen-toggled", {
+          detail: { isFullscreen: this.isFullscreen }
+        })
+      );
     }
   }
 });

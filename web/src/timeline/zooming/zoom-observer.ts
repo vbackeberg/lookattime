@@ -1,4 +1,5 @@
 import store from "@/store/store";
+import FullscreenEventTarget from "../fullscreen-event-target";
 import Zoomer from "./zoomer";
 
 /**
@@ -11,27 +12,38 @@ export default class ZoomObserver {
     this.zoomer = Zoomer.Instance;
 
     this.timelineElement = store.state.timelineElement;
-    this.timelineElement.addEventListener("wheel", (e: WheelEvent) => {
-      if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
-        return;
-      }
-
-      e.preventDefault();
-
-      if (store.state.timeEvents.length === 0) {
-        return;
-      }
-
-      this.changeZoom(e);
-    });
+    this.observe();
+    this.pauseOnFullscreen();
   }
 
-  private changeZoom(e: WheelEvent) {
+  private observe() {
+    this.timelineElement.addEventListener("wheel", this.changeZoom);
+  }
+
+  private changeZoom = (e: WheelEvent) => {
+    if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (store.state.timeEvents.length === 0) {
+      return;
+    }
+
     if (e.deltaY < 0) {
       this.zoomer.zoom(0.92, e.pageX + this.timelineElement.scrollLeft);
     } else if (e.deltaY > 0) {
       this.zoomer.zoom(1.1, e.pageX + this.timelineElement.scrollLeft);
     }
+  };
+
+  private pauseOnFullscreen() {
+    FullscreenEventTarget.Instance.addEventListener("fullscreen-toggled", e => {
+      (<CustomEvent>e).detail.isFullscreen
+        ? this.timelineElement.removeEventListener("wheel", this.changeZoom)
+        : this.observe();
+    });
   }
 
   private static instance: ZoomObserver;

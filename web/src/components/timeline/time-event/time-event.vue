@@ -157,6 +157,12 @@ export default Vue.extend({
 
     toggleFullscreen() {
       this.isFullscreen = !this.isFullscreen;
+      // TODO: Time Event needs to receive the fullscreen CSS class.
+      //
+      // Consider applying it through the models expansion state
+      // or in another way.
+      //
+      // Box, Bubble, Dot classes need to be removed so that they don't interfere.
 
       FullscreenEventTarget.Instance.dispatchEvent(
         new CustomEvent("fullscreen-toggled", {

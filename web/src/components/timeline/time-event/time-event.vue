@@ -131,14 +131,18 @@ export default Vue.extend({
       store.dispatch("deleteTimeEvent", this.id);
     },
 
+    /**
+     *  After the HTML element has been created, we tie it to the time event
+     *  object so that we can access it for style modifications during the
+     *  zoom.
+     *
+     *  We re-assign the position to trigger an initial translateX modification
+     *  on the HTML element after it has been created.
+     */
     initializeHTMLElement() {
-      // After the HTML element has been created, we tie it to the time event object
-      // so that we can access it for style modifications during the zoom.
       store.state.timeEvents[this.timeEventIndex].htmlElement = this
         .$el as HTMLElement;
 
-      // We re-assign the position to trigger an initial translateX modification
-      // on the HTML element after it has been created.
       store.state.timeEvents[this.timeEventIndex].positionCenter =
         store.state.timeEvents[this.timeEventIndex].positionCenter;
     }

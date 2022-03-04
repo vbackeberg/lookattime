@@ -138,10 +138,3 @@ export default class TimeEventModel {
     this.htmlElement!.classList.add("dot");
   }
 }
-
-/**
- * The HTML elements associated with this time event.
- */
-interface TimeEventHtmlElements {
-  parent?: HTMLElement;
-}

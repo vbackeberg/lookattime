@@ -40,7 +40,7 @@ export default class ZoomObserver {
 
   private pauseOnFullscreen() {
     FullscreenEventTarget.Instance.addEventListener("fullscreen-toggled", e => {
-      (<CustomEvent>e).detail.isFullscreen
+      (e as CustomEvent).detail.isFullscreen
         ? this.timelineElement.removeEventListener("wheel", this.changeZoom)
         : this.observe();
     });

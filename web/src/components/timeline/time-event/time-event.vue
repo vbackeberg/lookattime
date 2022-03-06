@@ -186,7 +186,8 @@ export default Vue.extend({
      * we do not change the class through class binding.
      */
     updateExpansionState() {
-      const newExpansionState = (<number[]>this.expansionZoomLevels).findIndex(
+      const newExpansionState = (this
+        .expansionZoomLevels as number[]).findIndex(
         zoomLevel => store.state.zoomLevel <= zoomLevel
       );
 

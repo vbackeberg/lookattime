@@ -11,16 +11,11 @@ export default class TimeEventModel {
   private _positionCenter!: number;
 
   /**
-   * Defines whether the time event should look like a box, bubble, dot or flat.
-   */
-  private _expansionState: ExpansionState = ExpansionState.Flat;
-
-  /**
    * Contains a zoom level for each expansion state. The values define at
    * which zoom level each expansion state bounds to the next smaller or bigger
    * state.
    */
-  private _expansionZoomLevels = [
+  expansionZoomLevels = [
     Constants.MAX_ZOOM_LEVEL,
     Constants.MAX_ZOOM_LEVEL,
     Constants.MAX_ZOOM_LEVEL,
@@ -56,10 +51,6 @@ export default class TimeEventModel {
     this.importance = importance;
     this.imageReferences = imageReferences;
     this.title = title;
-
-    document.addEventListener("update-expansion-states", () => {
-      this.updateExpansionState();
-    });
   }
 
   /**
@@ -78,63 +69,5 @@ export default class TimeEventModel {
 
   public get positionCenter(): number {
     return this._positionCenter;
-  }
-
-  public set expansionZoomLevels(newExpansionZoomLevels: number[]) {
-    this._expansionZoomLevels = newExpansionZoomLevels;
-  }
-
-  /**
-   * Sets the expansion state according to the current zoom level.
-   *
-   * This will call the expansion state setter which applies CSS
-   * transformations to the time event.
-   */
-  private updateExpansionState() {
-    this.expansionState = this._expansionZoomLevels.findIndex(
-      zoomLevel => store.state.zoomLevel <= zoomLevel
-    );
-  }
-
-  /**
-   * The setter applies appropriate CSS classes and removes elements
-   * to modify visual appearance of time event.
-   */
-  public set expansionState(newExpansionState: ExpansionState) {
-    if (this._expansionState !== newExpansionState && this.htmlElement) {
-      switch (newExpansionState) {
-        case ExpansionState.Box:
-          this.applyBoxStyles();
-          break;
-
-        case ExpansionState.Bubble:
-          this.applyBubbleStyles();
-          break;
-
-        default:
-          this.applyDotStyles();
-          break;
-      }
-
-      this._expansionState = newExpansionState;
-    }
-  }
-
-  private applyBoxStyles() {
-    this.htmlElement!.classList.remove("bubble");
-    this.htmlElement!.classList.remove("dot");
-    this.htmlElement!.classList.add("box");
-  }
-
-  private applyBubbleStyles() {
-    this.htmlElement!.classList.remove("box");
-    this.htmlElement!.classList.remove("dot");
-    this.htmlElement!.classList.add("bubble");
-  }
-
-  private applyDotStyles() {
-    this.htmlElement!.classList.remove("box");
-    this.htmlElement!.classList.remove("bubble");
-    this.htmlElement!.classList.add("dot");
   }
 }

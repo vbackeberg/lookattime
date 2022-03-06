@@ -18,6 +18,7 @@
         v-bind:date="timeEvent.date"
         v-bind:importance="timeEvent.importance"
         v-bind:imageReferences="timeEvent.imageReferences"
+        v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
       ></time-event>
     </div>
     <div id="time-marker-area">

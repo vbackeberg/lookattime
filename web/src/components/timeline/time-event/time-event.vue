@@ -24,7 +24,7 @@
       </v-card>
     </div>
     <svg class="connector grow-transition"></svg>
-    <div>{{ formattedDate }}</div>
+    <div class="date">{{ formattedDate }}</div>
     <v-menu
       v-model="showContextMenu"
       :position-x="x"
@@ -57,6 +57,8 @@ import store from "@/store/store";
 import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
 import FullscreenEventTarget from "@/timeline/fullscreen-event-target";
+import ExpansionState from "@/models/time-event/expansion-state";
+import { Constants } from "@/timeline/zooming/constants";
 
 export default Vue.extend({
   name: "TimeEvent",
@@ -71,11 +73,16 @@ export default Vue.extend({
     date: Number,
     importance: Number,
     imageReferences: Array,
-    title: String
+    title: String,
+    expansionZoomLevels: Array
   },
 
   mounted() {
     this.initializeHTMLElement();
+
+    document.addEventListener("update-expansion-states", () => {
+      this.updateExpansionState();
+    });
   },
 
   data() {
@@ -86,7 +93,12 @@ export default Vue.extend({
 
       showCreateTimeEventForm: false,
 
-      isFullscreen: false
+      /**
+       * Defines whether the time event should look like a box, bubble, dot or flat.
+       */
+      expansionState: ExpansionState.Flat,
+      isFullscreen: false,
+      expansionClass: "dot"
     };
   },
 
@@ -157,18 +169,72 @@ export default Vue.extend({
 
     toggleFullscreen() {
       this.isFullscreen = !this.isFullscreen;
-      // TODO: Time Event needs to receive the fullscreen CSS class.
-      //
-      // Consider applying it through the models expansion state
-      // or in another way.
-      //
-      // Box, Bubble, Dot classes need to be removed so that they don't interfere.
-
       FullscreenEventTarget.Instance.dispatchEvent(
         new CustomEvent("fullscreen-toggled", {
           detail: { isFullscreen: this.isFullscreen }
         })
       );
+      this.applyFullscreenStyles();
+    },
+
+    /**
+     * Sets the expansion state according to the current zoom level.
+     * The index in expansion zoom levels represents a specific
+     * expansion state via the enums integer value.
+     *
+     * Then applies the appropriate CSS class. For performance reasons
+     * we do not change the class through class binding.
+     */
+    updateExpansionState() {
+      const newExpansionState = (<number[]>this.expansionZoomLevels).findIndex(
+        zoomLevel => store.state.zoomLevel <= zoomLevel
+      );
+
+      if (newExpansionState !== this.expansionState) {
+        switch (newExpansionState) {
+          case ExpansionState.Box:
+            this.applyBoxStyles();
+            break;
+
+          case ExpansionState.Bubble:
+            this.applyBubbleStyles();
+            break;
+
+          default:
+            this.applyDotStyles();
+            break;
+        }
+
+        this.expansionState = newExpansionState;
+      }
+    },
+
+    applyFullscreenStyles() {
+      this.$el.classList.remove("box");
+      this.$el.classList.remove("bubble");
+      this.$el.classList.remove("dot");
+      this.$el.classList.add("fullscreen");
+    },
+
+    applyBoxStyles() {
+      this.$el.classList.remove("fullscreen");
+      this.$el.classList.remove("bubble");
+      this.$el.classList.remove("dot");
+      this.$el.classList.add("box");
+    },
+
+    applyBubbleStyles() {
+      this.$el.classList.remove("fullscreen");
+      this.$el.classList.remove("box");
+      this.$el.classList.remove("dot");
+      this.$el.classList.add("bubble");
+    },
+
+    applyDotStyles() {
+      this.$el.classList.remove("fullscreen");
+      this.$el.classList.remove("box");
+      this.$el.classList.remove("bubble");
+      this.$el.classList.add("dot");
     }
   }
 });
@@ -341,7 +407,26 @@ $scale-factor-dot-width: 0.05;
   }
 }
 
-.full {
-  //TODO: Full should span full-size vertically
+.fullscreen {
+  position: fixed;
+
+  .content {
+    flex: 1 0 auto;
+
+    border-radius: 4px;
+    border-width: $base-border-width;
+  }
+
+  .buffer-top {
+    display: none;
+  }
+
+  .connector {
+    display: none;
+  }
+
+  .date {
+    display: none;
+  }
 }
 </style>

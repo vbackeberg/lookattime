@@ -148,8 +148,9 @@ export default Vue.extend({
      *  on the HTML element after it has been created.
      */
     initializeHTMLElement() {
-      store.state.timeEvents[this.timeEventIndex].htmlElement = this
-        .$el as HTMLElement;
+      store.state.timeEvents[this.timeEventIndex].htmlElement = <HTMLElement>(
+        this.$el
+      );
 
       store.state.timeEvents[this.timeEventIndex].positionCenter =
         store.state.timeEvents[this.timeEventIndex].positionCenter;

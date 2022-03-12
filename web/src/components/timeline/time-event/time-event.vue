@@ -211,10 +211,27 @@ export default Vue.extend({
     },
 
     applyFullscreenStyles() {
+      // TODO: To preserve animation, consider using a separate
+      // fullscreen repositioner that listens to `fullscreen-toggled`
+      // and repositions the time event accordingly.
+
+      const el = this.$el as HTMLElement;
+      el.parentElement?.parentElement?.appendChild(el);
+
+      const left = el.getBoundingClientRect().left;
+      const top = el.getBoundingClientRect().top;
+      console.log("left: " + left, "top: " + top);
+      el.classList.remove("zoom-transition");
+      el.style.position = "fixed";
+      el.style.transform = "translateX(" + left + "px)";
+
+      el.classList.add("zoom-transition");
+
       this.$el.classList.remove("box");
       this.$el.classList.remove("bubble");
       this.$el.classList.remove("dot");
-      this.$el.classList.add("fullscreen");
+      // this.$el.classList.add("fullscreen");
+      // el.style.removeProperty("transform");
     },
 
     applyBoxStyles() {
@@ -409,10 +426,14 @@ $scale-factor-dot-width: 0.05;
 }
 
 .fullscreen {
-  position: fixed;
+  left: 10%;
+  width: 80%;
+  height: 90%;
+  z-index: 9;
 
   .content {
     flex: 1 0 auto;
+    width: 100%;
 
     border-radius: 4px;
     border-width: $base-border-width;

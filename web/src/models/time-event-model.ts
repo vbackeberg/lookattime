@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import store from "@/store/store";
 import { Constants } from "@/timeline/zooming/constants";
 import ImageReferenceModel from "./image-reference-model";
-import ExpansionState from "./time-event/expansion-state";
 
 export default class TimeEventModel {
   static boxWidth = 300;

@@ -21,19 +21,18 @@
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
       ></time-event>
     </div>
-    <div id="time-marker-area">
-      <v-btn
-        v-if="!viewMode"
-        id="fab"
-        fab
-        large
-        fixed
-        right
-        color="primary"
-        @click.stop="showCreateTimeEventForm = true"
-        ><v-icon>mdi-plus</v-icon></v-btn
-      >
-    </div>
+    <v-btn
+      v-if="!viewMode"
+      id="fab"
+      fab
+      large
+      fixed
+      right
+      bottom
+      color="primary"
+      @click.stop="showCreateTimeEventForm = true"
+      ><v-icon>mdi-plus</v-icon></v-btn
+    >
     <v-overlay :value="loading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
@@ -157,10 +156,6 @@ export default Vue.extend({
   flex-flow: column nowrap;
 }
 
-#buffer-top-area {
-  flex: 2 0 20px;
-}
-
 #time-event-area {
   flex: 4 0 200px;
 
@@ -174,12 +169,8 @@ export default Vue.extend({
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#time-marker-area {
-  flex: 4;
-}
-
 #fab {
-  margin-top: 64px;
+  margin-bottom: 64px;
   margin-right: 64px;
 }
 

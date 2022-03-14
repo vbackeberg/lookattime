@@ -26,7 +26,7 @@ export default class TimeEventModel {
    * Contains the time event element and certain child elements that are
    * modified when changing the expansion state.
    */
-  htmlElement?: HTMLElement;
+  zoomContainerHtmlElement?: HTMLElement;
 
   id: string;
   text: string;
@@ -61,8 +61,8 @@ export default class TimeEventModel {
    */
   public set positionCenter(newPositionCenter: number) {
     this._positionCenter = newPositionCenter;
-    if (this.htmlElement) {
-      this.htmlElement.style.transform =
+    if (this.zoomContainerHtmlElement) {
+      this.zoomContainerHtmlElement.style.transform =
         "translateX(" + newPositionCenter + "px)";
     }
   }

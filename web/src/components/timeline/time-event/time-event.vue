@@ -1,52 +1,62 @@
 <template>
-  <div class="zoom-container zoom-transition zoomable">
-    <div class="buffer-top grow-transition"></div>
-    <div class="content grow-transition">
-      <v-card class="card" v-on:contextmenu="openContextMenu">
-        <v-img
-          v-bind:src="imageSource"
-          class="card-image white--text align-end"
-          alt="time event image"
-        >
-          <v-card-title class="card-title card-image-shadow">{{
-            title
-          }}</v-card-title>
-          <v-btn
-            class="btn-full card-image-shadow"
-            color="white"
-            icon
-            v-on:click.stop="toggleFullscreen()"
+  <div class="container-outer">
+    <div class="zoom-container zoom-transition zoomable">
+      <div class="buffer-top grow-transition"></div>
+      <div class="content grow-transition">
+        <v-card class="card" v-on:contextmenu="openContextMenu">
+          <v-img
+            v-bind:src="imageSource"
+            class="card-image white--text align-end"
+            alt="time event image"
           >
-            <v-icon>mdi-arrow-expand</v-icon>
-          </v-btn>
-        </v-img>
-        <v-card-text class="card-text">{{ text }}</v-card-text>
-      </v-card>
+            <v-card-title class="card-title card-image-shadow">{{
+              title
+            }}</v-card-title>
+            <v-btn
+              class="btn-full card-image-shadow"
+              color="white"
+              icon
+              v-on:click.stop="toggleFullscreen()"
+            >
+              <v-icon>mdi-arrow-expand</v-icon>
+            </v-btn>
+          </v-img>
+          <v-card-text class="card-text">{{ text }}</v-card-text>
+        </v-card>
+      </div>
+      <svg class="connector grow-transition"></svg>
+      <div class="date">{{ formattedDate }}</div>
+      <v-menu
+        v-model="showContextMenu"
+        :position-x="x"
+        :position-y="y"
+        absolute
+        offset-y
+        style="max-width: 600px"
+      >
+        <v-list>
+          <v-list-item v-on:click.stop="showCreateTimeEventForm = true">
+            <v-list-item-title>Edit</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-on:click.stop="deleteEvent()">
+            <v-list-item-title>Delete</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <create-time-event-form
+        v-model="showCreateTimeEventForm"
+        v-bind:timeEvent="{
+          id,
+          text,
+          date,
+          importance,
+          imageReferences,
+          title
+        }"
+        v-bind:editMode="true"
+      />
     </div>
-    <svg class="connector grow-transition"></svg>
-    <div class="date">{{ formattedDate }}</div>
-    <v-menu
-      v-model="showContextMenu"
-      :position-x="x"
-      :position-y="y"
-      absolute
-      offset-y
-      style="max-width: 600px"
-    >
-      <v-list>
-        <v-list-item v-on:click.stop="showCreateTimeEventForm = true">
-          <v-list-item-title>Edit</v-list-item-title>
-        </v-list-item>
-        <v-list-item v-on:click.stop="deleteEvent()">
-          <v-list-item-title>Delete</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <create-time-event-form
-      v-model="showCreateTimeEventForm"
-      v-bind:timeEvent="{ id, text, date, importance, imageReferences, title }"
-      v-bind:editMode="true"
-    />
+    <div class="buffer-bottom grow-transition"></div>
   </div>
 </template>
 
@@ -152,15 +162,15 @@ export default Vue.extend({
 
     /**
      *  After the HTML element has been created, we tie it to the time event
-     *  object so that we can access it for style modifications during the
+     *  object so that we can access it for translateX modifications during the
      *  zoom.
      *
      *  We re-assign the position to trigger an initial translateX modification
      *  on the HTML element after it has been created.
      */
     initializeHTMLElement() {
-      store.state.timeEvents[this.timeEventIndex].htmlElement = <HTMLElement>(
-        this.$el
+      store.state.timeEvents[this.timeEventIndex].zoomContainerHtmlElement = <HTMLElement>(
+        this.$el.children[0]
       );
 
       store.state.timeEvents[this.timeEventIndex].positionCenter =
@@ -235,24 +245,24 @@ export default Vue.extend({
     },
 
     applyBoxStyles() {
-      this.$el.classList.remove("fullscreen");
-      this.$el.classList.remove("bubble");
-      this.$el.classList.remove("dot");
-      this.$el.classList.add("box");
+      this.$el.children[0].classList.remove("fullscreen");
+      this.$el.children[0].classList.remove("bubble");
+      this.$el.children[0].classList.remove("dot");
+      this.$el.children[0].classList.add("box");
     },
 
     applyBubbleStyles() {
-      this.$el.classList.remove("fullscreen");
-      this.$el.classList.remove("box");
-      this.$el.classList.remove("dot");
-      this.$el.classList.add("bubble");
+      this.$el.children[0].classList.remove("fullscreen");
+      this.$el.children[0].classList.remove("box");
+      this.$el.children[0].classList.remove("dot");
+      this.$el.children[0].classList.add("bubble");
     },
 
     applyDotStyles() {
-      this.$el.classList.remove("fullscreen");
-      this.$el.classList.remove("box");
-      this.$el.classList.remove("bubble");
-      this.$el.classList.add("dot");
+      this.$el.children[0].classList.remove("fullscreen");
+      this.$el.children[0].classList.remove("box");
+      this.$el.children[0].classList.remove("bubble");
+      this.$el.children[0].classList.add("dot");
     }
   }
 });
@@ -269,14 +279,25 @@ $scale-factor-bubble-height: $scale-factor-bubble-width *
   ($base-width / $base-height);
 $scale-factor-dot-width: 0.05;
 
-.zoom-container {
+.container-outer {
+  height: 100%;
   position: absolute;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.buffer-bottom {
+  flex: 1 0 64px;
+}
+
+.zoom-container {
+  position: relative;
 
   // TranslateX refers to the center of the element, so we position the
   // elements center at 0px by shifting it to the left by half its width.
   left: -$base-width / 2;
   width: $base-width;
-  height: 100%;
+  flex: 5 0 auto;
 
   // This property reduces subtle vertical position shifting when translateX
   backface-visibility: hidden;
@@ -322,11 +343,11 @@ $scale-factor-dot-width: 0.05;
 
 .box {
   .buffer-top {
-    flex: 0 1 auto;
+    flex: 2 0 0;
   }
 
   .content {
-    flex: 5 1 50px;
+    flex: 5 0 auto;
 
     border-radius: 4px;
     border-width: $base-border-width;
@@ -363,7 +384,7 @@ $scale-factor-dot-width: 0.05;
 
 .bubble {
   .buffer-top {
-    flex: 16 0 auto;
+    flex: 16 0 0;
   }
 
   .content {

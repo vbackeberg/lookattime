@@ -186,7 +186,7 @@ export default Vue.extend({
           detail: { isFullscreen: this.isFullscreen }
         })
       );
-      this.applyFullscreenStyles();
+      this.isFullscreen ? this.applyFullscreenStyles() : this.applyBoxStyles();
     },
 
     /**

@@ -347,7 +347,7 @@ $scale-factor-dot-width: 0.05;
     }
 
     .content {
-      flex: 5 0 auto;
+      flex: 5 1 0;
 
       border-radius: 4px;
       border-width: $base-border-width;
@@ -421,7 +421,7 @@ $scale-factor-dot-width: 0.05;
 .dot {
   .container-zoomable {
     .buffer-top {
-      flex: 16 0 auto;
+      flex: 16 0 0;
     }
 
     .content {
@@ -446,33 +446,44 @@ $scale-factor-dot-width: 0.05;
 
 .fullscreen {
   .container-zoomable {
-    width: 400px;
     z-index: 9;
 
+    .buffer-top {
+      flex: 0 0 0;
+    }
+
     .content {
-      flex: 1 0 auto;
+      flex: 1 0 0;
       width: 100%;
 
       border-radius: 4px;
       border-width: $base-border-width;
-    }
 
-    .buffer-top {
-      flex: 0 0 0;
+      .card {
+        .card-image {
+          height: 40%;
+          min-height: 50px;
+          max-height: 200px;
 
-      transition: flex 0.3s cubic-bezier(0.05, 0.61, 0.35, 1.12);
+          .card-image-shadow {
+            text-shadow: 0px 0px 3px #000;
+          }
+        }
+
+        .card-text {
+          flex-grow: 1;
+          overflow-y: auto;
+          text-align: left;
+        }
+      }
     }
 
     .connector {
       flex: 0 0 0;
-
-      transition: flex 0.3s cubic-bezier(0.05, 0.61, 0.35, 1.12);
     }
 
     .date {
       visibility: hidden;
-
-      transition: visibility 0.3s cubic-bezier(0.05, 0.61, 0.35, 1.12);
     }
   }
 

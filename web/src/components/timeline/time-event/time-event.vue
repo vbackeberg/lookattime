@@ -1,6 +1,7 @@
 <template>
-  <div class="container-outer">
-    <div class="zoom-container zoom-transition zoomable">
+  <div class="container-outer grow-transition">
+    <div class="container-zoomable zoom-transition zoomable">
+      <!-- TODO: rename zoom container to container zoom -->
       <div class="buffer-top grow-transition"></div>
       <div class="content grow-transition">
         <v-card class="card" v-on:contextmenu="openContextMenu">
@@ -169,9 +170,10 @@ export default Vue.extend({
      *  on the HTML element after it has been created.
      */
     initializeHTMLElement() {
-      store.state.timeEvents[this.timeEventIndex].zoomContainerHtmlElement = <HTMLElement>(
-        this.$el.children[0]
-      );
+      // TODO: This could be transformed into an event. Maybe there is already a vue event.
+      store.state.timeEvents[this.timeEventIndex].zoomContainerHtmlElement = <
+        HTMLElement
+      >this.$el.children[0];
 
       store.state.timeEvents[this.timeEventIndex].positionCenter =
         store.state.timeEvents[this.timeEventIndex].positionCenter;
@@ -221,48 +223,39 @@ export default Vue.extend({
     },
 
     applyFullscreenStyles() {
-      // TODO: To preserve animation, consider using a separate
-      // fullscreen repositioner that listens to `fullscreen-toggled`
-      // and repositions the time event accordingly.
-
-      const el = this.$el as HTMLElement;
-      el.parentElement?.parentElement?.appendChild(el);
-
-      const left = el.getBoundingClientRect().left;
-      const top = el.getBoundingClientRect().top;
-      console.log("left: " + left, "top: " + top);
-      el.classList.remove("zoom-transition");
-      el.style.position = "fixed";
-      el.style.transform = "translateX(" + left + "px)";
-
-      el.classList.add("zoom-transition");
+      // const left = el.getBoundingClientRect().left;
+      // const top = el.getBoundingClientRect().top;
+      // console.log("left: " + left, "top: " + top);
+      // el.style.transform = "translateX(" + left + "px)";
+      // el.classList.add("zoom-transition");
 
       this.$el.classList.remove("box");
       this.$el.classList.remove("bubble");
       this.$el.classList.remove("dot");
-      // this.$el.classList.add("fullscreen");
+      this.$el.classList.add("fullscreen");
+
       // el.style.removeProperty("transform");
     },
 
     applyBoxStyles() {
-      this.$el.children[0].classList.remove("fullscreen");
-      this.$el.children[0].classList.remove("bubble");
-      this.$el.children[0].classList.remove("dot");
-      this.$el.children[0].classList.add("box");
+      this.$el.classList.remove("fullscreen");
+      this.$el.classList.remove("bubble");
+      this.$el.classList.remove("dot");
+      this.$el.classList.add("box");
     },
 
     applyBubbleStyles() {
-      this.$el.children[0].classList.remove("fullscreen");
-      this.$el.children[0].classList.remove("box");
-      this.$el.children[0].classList.remove("dot");
-      this.$el.children[0].classList.add("bubble");
+      this.$el.classList.remove("fullscreen");
+      this.$el.classList.remove("box");
+      this.$el.classList.remove("dot");
+      this.$el.classList.add("bubble");
     },
 
     applyDotStyles() {
-      this.$el.children[0].classList.remove("fullscreen");
-      this.$el.children[0].classList.remove("box");
-      this.$el.children[0].classList.remove("bubble");
-      this.$el.children[0].classList.add("dot");
+      this.$el.classList.remove("fullscreen");
+      this.$el.classList.remove("box");
+      this.$el.classList.remove("bubble");
+      this.$el.classList.add("dot");
     }
   }
 });
@@ -290,7 +283,7 @@ $scale-factor-dot-width: 0.05;
   flex: 1 0 64px;
 }
 
-.zoom-container {
+.container-zoomable {
   position: relative;
 
   // TranslateX refers to the center of the element, so we position the
@@ -310,7 +303,7 @@ $scale-factor-dot-width: 0.05;
 }
 
 .grow-transition {
-  transition-property: transform, flex;
+  transition-property: transform, flex, width, height;
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
@@ -342,133 +335,149 @@ $scale-factor-dot-width: 0.05;
 }
 
 .box {
-  .buffer-top {
-    flex: 2 0 0;
-  }
+  .container-zoomable {
+    .buffer-top {
+      flex: 2 0 0;
+    }
 
-  .content {
-    flex: 5 0 auto;
+    .content {
+      flex: 5 0 auto;
 
-    border-radius: 4px;
-    border-width: $base-border-width;
+      border-radius: 4px;
+      border-width: $base-border-width;
 
-    .card {
-      .card-image {
-        height: 40%;
-        min-height: 50px;
-        max-height: 200px;
+      .card {
+        .card-image {
+          height: 40%;
+          min-height: 50px;
+          max-height: 200px;
 
-        .btn-full {
-          position: absolute;
-          top: 2px;
-          right: 2px;
+          .btn-full {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+          }
+
+          .card-image-shadow {
+            text-shadow: 0px 0px 3px #000;
+          }
         }
 
-        .card-image-shadow {
-          text-shadow: 0px 0px 3px #000;
+        .card-text {
+          flex-grow: 1;
+          overflow-y: auto;
+          text-align: left;
         }
-      }
-
-      .card-text {
-        flex-grow: 1;
-        overflow-y: auto;
-        text-align: left;
       }
     }
-  }
 
-  .connector {
-    flex: 1 0 2px;
+    .connector {
+      flex: 1 0 2px;
+    }
   }
 }
 
 .bubble {
-  .buffer-top {
-    flex: 16 0 0;
-  }
+  .container-zoomable {
+    .buffer-top {
+      flex: 16 0 0;
+    }
 
-  .content {
-    flex: 0 0 auto;
+    .content {
+      flex: 0 0 auto;
 
-    transform: scale($scale-factor-bubble-width, $scale-factor-bubble-height);
-    border-width: $base-border-width / $scale-factor-bubble-height
-      $base-border-width / $scale-factor-bubble-width;
-    border-radius: 50%;
+      transform: scale($scale-factor-bubble-width, $scale-factor-bubble-height);
+      border-width: $base-border-width / $scale-factor-bubble-height
+        $base-border-width / $scale-factor-bubble-width;
+      border-radius: 50%;
 
-    .card {
-      .card-image {
-        transform: scaleX(
-          $scale-factor-bubble-height / $scale-factor-bubble-width
-        );
+      .card {
+        .card-image {
+          transform: scaleX(
+            $scale-factor-bubble-height / $scale-factor-bubble-width
+          );
 
-        .card-title {
-          display: none;
+          .card-title {
+            display: none;
+          }
+
+          .btn-full {
+            display: none;
+          }
         }
 
-        .btn-full {
+        .card-text {
           display: none;
         }
-      }
-
-      .card-text {
-        display: none;
       }
     }
-  }
 
-  .connector {
-    flex: 1 0 2px;
+    .connector {
+      flex: 1 0 2px;
+    }
   }
 }
 
 .dot {
-  .buffer-top {
-    flex: 16 0 auto;
-  }
-
-  .content {
-    flex: 0 0 auto;
-
-    transform: scale($scale-factor-dot-width);
-
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    border-bottom: 0;
-    background-color: #000;
-
-    .card {
-      display: none;
+  .container-zoomable {
+    .buffer-top {
+      flex: 16 0 auto;
     }
-  }
 
-  .connector {
-    flex: 0 0 0;
+    .content {
+      flex: 0 0 auto;
+
+      transform: scale($scale-factor-dot-width);
+
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      border-bottom: 0;
+      background-color: #000;
+
+      .card {
+        display: none;
+      }
+    }
+
+    .connector {
+      flex: 0 0 0;
+    }
   }
 }
 
 .fullscreen {
-  left: 10%;
-  width: 80%;
-  height: 90%;
-  z-index: 9;
+  .container-zoomable {
+    width: 400px;
+    z-index: 9;
 
-  .content {
-    flex: 1 0 auto;
-    width: 100%;
+    .content {
+      flex: 1 0 auto;
+      width: 100%;
 
-    border-radius: 4px;
-    border-width: $base-border-width;
+      border-radius: 4px;
+      border-width: $base-border-width;
+    }
+
+    .buffer-top {
+      flex: 0 0 0;
+
+      transition: flex 0.3s cubic-bezier(0.05, 0.61, 0.35, 1.12);
+    }
+
+    .connector {
+      flex: 0 0 0;
+
+      transition: flex 0.3s cubic-bezier(0.05, 0.61, 0.35, 1.12);
+    }
+
+    .date {
+      visibility: hidden;
+
+      transition: visibility 0.3s cubic-bezier(0.05, 0.61, 0.35, 1.12);
+    }
   }
 
-  .buffer-top {
-    display: none;
-  }
-
-  .connector {
-    display: none;
-  }
-
-  .date {
-    display: none;
+  .buffer-bottom {
+    flex: 0 0 0;
   }
 }
 </style>

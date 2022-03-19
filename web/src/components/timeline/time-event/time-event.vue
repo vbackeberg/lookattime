@@ -303,7 +303,10 @@ $scale-factor-dot-width: 0.05;
 }
 
 .grow-transition {
-  transition-property: transform, flex, width, height;
+  // We only allow transitions on the "transform" property to make sure
+  // browser only runs high-performance "composite" step
+  // (and not "paint" and "layout").
+  transition-property: transform;
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }

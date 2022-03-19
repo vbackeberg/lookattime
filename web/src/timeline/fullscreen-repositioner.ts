@@ -3,14 +3,13 @@ import FullscreenEventTarget from "./fullscreen-event-target";
 
 export default class FullscreenRepositioner {
   private constructor() {
-    FullscreenEventTarget.Instance.addEventListener(
-      "fullscreen-toggled",
-      this.reposition
-    );
+    // FullscreenEventTarget.Instance.addEventListener(
+    //   "fullscreen-toggled",
+    //   this.reposition
+    // );
   }
 
   private reposition = (e: Event) => {
-    
     (e as CustomEvent).detail.timeEvent.positionCenter += "50%";
   };
 

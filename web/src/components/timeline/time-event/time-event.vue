@@ -262,15 +262,18 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-$base-width: 300px;
-$base-height: 150px;
-$base-border-width: 1px;
+$box-width: 300px;
+$box-height: 400px;
+$box-border-width: 1px;
 
 // We resize the time event using scale instead of width/height to increase render performance.
 $scale-factor-bubble-width: 0.2;
 $scale-factor-bubble-height: $scale-factor-bubble-width *
-  ($base-width / $base-height);
+  ($box-width / $box-height);
 $scale-factor-dot-width: 0.05;
+$scale-factor-dot-height: $scale-factor-dot-width / 2.5;
+
+$distance-bubble-below-box: 72px;
 
 .container-outer {
   height: 100%;
@@ -288,8 +291,8 @@ $scale-factor-dot-width: 0.05;
 
   // TranslateX refers to the center of the element, so we position the
   // elements center at 0px by shifting it to the left by half its width.
-  left: -$base-width / 2;
-  width: $base-width;
+  left: $box-width / 2;
+  width: $box-width;
   flex: 5 0 auto;
 
   // This property reduces subtle vertical position shifting when translateX
@@ -302,18 +305,27 @@ $scale-factor-dot-width: 0.05;
   align-items: center;
 }
 
+.buffer-top {
+  flex: 16 0 auto;
+}
+
+/**
+ * Applies transition to the element.
+ * 
+ * We only allow transitions on the "transform" property to make sure
+ * browser only runs high-performance "composite" step
+ * and not "paint" and "layout".
+ */
 .grow-transition {
-  // We only allow transitions on the "transform" property to make sure
-  // browser only runs high-performance "composite" step
-  // (and not "paint" and "layout").
   transition-property: transform;
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .content {
-  width: $base-width;
-  height: $base-height;
+  width: $box-width;
+  flex: 0 0 $box-height;
+
   background-color: #fff;
   border-color: #aaa;
   border-style: solid;
@@ -332,6 +344,7 @@ $scale-factor-dot-width: 0.05;
 }
 
 .connector {
+  flex: 1 0 auto;
   width: 2px;
   background-color: #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -344,16 +357,15 @@ $scale-factor-dot-width: 0.05;
 }
 
 .box {
+  // TODO move buffer top out of container zoomable
   .container-zoomable {
     .buffer-top {
-      flex: 2 0 0;
+      height: 0;
     }
 
     .content {
-      flex: 5 1 0;
-
       border-radius: 4px;
-      border-width: $base-border-width;
+      border-width: $box-border-width;
 
       .card {
         .card-image {
@@ -375,23 +387,24 @@ $scale-factor-dot-width: 0.05;
     }
 
     .connector {
-      flex: 1 0 2px;
+      height: $distance-bubble-below-box;
     }
   }
 }
 
 .bubble {
   .container-zoomable {
+    $connector-height: 8px;
+
     .buffer-top {
-      flex: 16 0 0;
+      height: $distance-bubble-below-box - $connector-height;
     }
 
     .content {
-      flex: 0 0 auto;
-
       transform: scale($scale-factor-bubble-width, $scale-factor-bubble-height);
-      border-width: $base-border-width / $scale-factor-bubble-height
-        $base-border-width / $scale-factor-bubble-width;
+
+      border-width: $box-border-width / $scale-factor-bubble-height
+        $box-border-width / $scale-factor-bubble-width;
       border-radius: 50%;
 
       .card {
@@ -416,7 +429,7 @@ $scale-factor-dot-width: 0.05;
     }
 
     .connector {
-      flex: 1 0 2px;
+      height: $connector-height;
     }
   }
 }
@@ -424,13 +437,11 @@ $scale-factor-dot-width: 0.05;
 .dot {
   .container-zoomable {
     .buffer-top {
-      flex: 16 0 0;
+      height: $distance-bubble-below-box;
     }
 
     .content {
-      flex: 0 0 auto;
-
-      transform: scale($scale-factor-dot-width);
+      transform: scale($scale-factor-dot-width, $scale-factor-dot-height);
 
       border-radius: 50% 50% 0 0 / 100% 100% 0 0;
       border-bottom: 0;
@@ -460,7 +471,7 @@ $scale-factor-dot-width: 0.05;
       width: 100%;
 
       border-radius: 4px;
-      border-width: $base-border-width;
+      border-width: $box-border-width;
 
       .card {
         .card-image {

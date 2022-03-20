@@ -171,9 +171,9 @@ export default Vue.extend({
      */
     initializeHTMLElement() {
       // TODO: This could be transformed into an event. Maybe there is already a vue event.
-      store.state.timeEvents[this.timeEventIndex].zoomContainerHtmlElement = <
-        HTMLElement
-      >this.$el.children[0];
+      store.state.timeEvents[
+        this.timeEventIndex
+      ].zoomContainerHtmlElement = this.$el.children[0] as HTMLElement;
 
       store.state.timeEvents[this.timeEventIndex].positionCenter =
         store.state.timeEvents[this.timeEventIndex].positionCenter;

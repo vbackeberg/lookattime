@@ -291,7 +291,7 @@ $distance-bubble-below-box: 72px;
 
   // TranslateX refers to the center of the element, so we position the
   // elements center at 0px by shifting it to the left by half its width.
-  left: $box-width / 2;
+  left: -$box-width / 2;
   width: $box-width;
   flex: 5 0 auto;
 

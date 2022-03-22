@@ -69,7 +69,6 @@ import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
 import FullscreenEventTarget from "@/timeline/fullscreen-event-target";
 import ExpansionState from "@/models/time-event/expansion-state";
-import { Constants } from "@/timeline/zooming/constants";
 
 export default Vue.extend({
   name: "TimeEvent",

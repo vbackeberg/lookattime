@@ -113,13 +113,13 @@ export default Vue.extend({
   },
 
   computed: {
-    timeEventIndex(): number {
+    timeEvent(): TimeEventModel {
       const index = store.state.timeEvents.findIndex(
-        timeEvent => timeEvent.id === this.id
+        (timeEvent) => timeEvent.id === this.id
       );
 
       if (index !== -1) {
-        return index;
+        return store.state.timeEvents[index];
       } else {
         throw Error("Could not get time event index because it was not found");
       }
@@ -170,12 +170,10 @@ export default Vue.extend({
      */
     initializeHTMLElement() {
       // TODO: This could be transformed into an event. Maybe there is already a vue event.
-      store.state.timeEvents[
-        this.timeEventIndex
-      ].zoomContainerHtmlElement = this.$el.children[0] as HTMLElement;
+      this.timeEvent.zoomContainerHtmlElement = this.$el
+        .children[0] as HTMLElement;
 
-      store.state.timeEvents[this.timeEventIndex].positionCenter =
-        store.state.timeEvents[this.timeEventIndex].positionCenter;
+      this.timeEvent.positionCenter = this.timeEvent.positionCenter;
     },
 
     toggleFullscreen() {

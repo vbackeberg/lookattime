@@ -69,6 +69,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
 import FullscreenEventTarget from "@/timeline/fullscreen-event-target";
 import ExpansionState from "@/models/time-event/expansion-state";
+import TimeEventModel from "@/models/time-event-model";
 
 export default Vue.extend({
   name: "TimeEvent",
@@ -183,7 +184,9 @@ export default Vue.extend({
           detail: { isFullscreen: this.isFullscreen }
         })
       );
-      this.isFullscreen ? this.applyFullscreenStyles() : this.applyBoxStyles();
+      this.isFullscreen
+        ? this.applyFullscreenStyles()
+        : this.removeFullscreenStyles();
     },
 
     /**
@@ -195,10 +198,9 @@ export default Vue.extend({
      * we do not change the class through class binding.
      */
     updateExpansionState() {
-      const newExpansionState = (this
-        .expansionZoomLevels as number[]).findIndex(
-        zoomLevel => store.state.zoomLevel <= zoomLevel
-      );
+      const newExpansionState = (
+        this.expansionZoomLevels as number[]
+      ).findIndex((zoomLevel) => store.state.zoomLevel <= zoomLevel);
 
       if (newExpansionState !== this.expansionState) {
         switch (newExpansionState) {
@@ -219,19 +221,36 @@ export default Vue.extend({
       }
     },
 
+    /**
+     * Sets `fullscreen` class that holds respective styles.
+     * Centers the element by applying `translateX` on the `container-outer`
+     * and removing `transform` on the `container-zoomable`.
+     */
     applyFullscreenStyles() {
-      // const left = el.getBoundingClientRect().left;
-      // const top = el.getBoundingClientRect().top;
-      // console.log("left: " + left, "top: " + top);
-      // el.style.transform = "translateX(" + left + "px)";
-      // el.classList.add("zoom-transition");
-
       this.$el.classList.remove("box");
       this.$el.classList.remove("bubble");
       this.$el.classList.remove("dot");
       this.$el.classList.add("fullscreen");
 
-      // el.style.removeProperty("transform");
+      const el = this.$el.getElementsByClassName(
+        "container-zoomable"
+      )[0] as HTMLElement;
+      el.style.removeProperty("transform");
+
+      (this.$el as HTMLElement).style.transform =
+        "translateX(" + store.state.timelineElement.scrollLeft + "px)";
+    },
+
+    /**
+     * Sets `box` class that holds respective styles.
+     * Moves element back to original position by removing `transform` on `container-outer`
+     * and applying `positionCenter` on the `container-zoomable`.
+     *
+     */
+    removeFullscreenStyles() {
+      (this.$el as HTMLElement).style.removeProperty("transform");
+      this.timeEvent.positionCenter = this.timeEvent.positionCenter;
+      this.applyBoxStyles();
     },
 
     applyBoxStyles() {
@@ -456,8 +475,15 @@ $distance-bubble-below-box: 72px;
 }
 
 .fullscreen {
+  width: 100%;
+  z-index: 9;
+
   .container-zoomable {
-    z-index: 9;
+    left: 0px;
+
+    $width: 75%;
+    width: $width;
+    margin-left: (100% - $width) / 2;
 
     .buffer-top {
       flex: 0 0 0;

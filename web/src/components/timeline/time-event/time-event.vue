@@ -480,10 +480,10 @@ $distance-bubble-below-box: 72px;
 
   .container-zoomable {
     left: 0px;
-
-    $width: 75%;
-    width: $width;
-    margin-left: (100% - $width) / 2;
+    width: 75%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 
     .buffer-top {
       flex: 0 0 0;

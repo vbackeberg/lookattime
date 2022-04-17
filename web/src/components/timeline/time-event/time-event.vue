@@ -2,7 +2,10 @@
   <div class="container-outer grow-transition">
     <div class="container-zoomable zoom-transition zoomable">
       <div class="buffer-top grow-transition"></div>
-      <v-card class="content grow-transition" v-on:contextmenu="openContextMenu">
+      <v-card
+        class="content elevation-0 grow-transition"
+        v-on:contextmenu="openContextMenu"
+      >
         <v-img
           v-bind:src="imageSource"
           class="card-image white--text align-end"

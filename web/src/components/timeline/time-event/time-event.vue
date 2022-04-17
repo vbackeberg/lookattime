@@ -2,28 +2,26 @@
   <div class="container-outer grow-transition">
     <div class="container-zoomable zoom-transition zoomable">
       <div class="buffer-top grow-transition"></div>
-      <div class="content grow-transition">
-        <v-card class="card" v-on:contextmenu="openContextMenu">
-          <v-img
-            v-bind:src="imageSource"
-            class="card-image white--text align-end"
-            alt="time event image"
+      <v-card class="content grow-transition" v-on:contextmenu="openContextMenu">
+        <v-img
+          v-bind:src="imageSource"
+          class="card-image white--text align-end"
+          alt="time event image"
+        >
+          <v-card-title class="card-title card-image-shadow">{{
+            title
+          }}</v-card-title>
+          <v-btn
+            class="btn-full card-image-shadow"
+            color="white"
+            icon
+            v-on:click.stop="toggleFullscreen()"
           >
-            <v-card-title class="card-title card-image-shadow">{{
-              title
-            }}</v-card-title>
-            <v-btn
-              class="btn-full card-image-shadow"
-              color="white"
-              icon
-              v-on:click.stop="toggleFullscreen()"
-            >
-              <v-icon>mdi-arrow-expand</v-icon>
-            </v-btn>
-          </v-img>
-          <v-card-text class="card-text">{{ text }}</v-card-text>
-        </v-card>
-      </div>
+            <v-icon>mdi-arrow-expand</v-icon>
+          </v-btn>
+        </v-img>
+        <v-card-text class="card-text">{{ text }}</v-card-text>
+      </v-card>
       <svg class="connector grow-transition"></svg>
       <div class="date">{{ formattedDate }}</div>
       <v-menu
@@ -340,6 +338,7 @@ $distance-bubble-below-box: 72px;
 .content {
   width: $box-width;
   flex: 0 0 $box-height;
+  pointer-events: auto;
 
   background-color: #fff;
   border-color: #aaa;
@@ -348,11 +347,6 @@ $distance-bubble-below-box: 72px;
   overflow: hidden;
   font-size: 0.875em;
   transform-origin: bottom;
-}
-
-.card {
-  height: 100%;
-  pointer-events: auto;
 
   display: flex;
   flex-direction: column;
@@ -382,22 +376,20 @@ $distance-bubble-below-box: 72px;
       border-radius: 4px;
       border-width: $box-border-width;
 
-      .card {
-        .card-image {
-          height: 40%;
-          min-height: 50px;
-          max-height: 200px;
+      .card-image {
+        height: 40%;
+        min-height: 50px;
+        max-height: 200px;
 
-          .card-image-shadow {
-            text-shadow: 0px 0px 3px #000;
-          }
+        .card-image-shadow {
+          text-shadow: 0px 0px 3px #000;
         }
+      }
 
-        .card-text {
-          flex-grow: 1;
-          overflow-y: auto;
-          text-align: left;
-        }
+      .card-text {
+        flex-grow: 1;
+        overflow-y: auto;
+        text-align: left;
       }
     }
 
@@ -421,25 +413,22 @@ $distance-bubble-below-box: 72px;
       border-width: $box-border-width / $scale-factor-bubble-height
         $box-border-width / $scale-factor-bubble-width;
       border-radius: 50%;
+      .card-image {
+        transform: scaleX(
+          $scale-factor-bubble-height / $scale-factor-bubble-width
+        );
 
-      .card {
-        .card-image {
-          transform: scaleX(
-            $scale-factor-bubble-height / $scale-factor-bubble-width
-          );
-
-          .card-title {
-            display: none;
-          }
-
-          .btn-full {
-            display: none;
-          }
-        }
-
-        .card-text {
+        .card-title {
           display: none;
         }
+
+        .btn-full {
+          display: none;
+        }
+      }
+
+      .card-text {
+        display: none;
       }
     }
 
@@ -462,9 +451,7 @@ $distance-bubble-below-box: 72px;
       border-bottom: 0;
       background-color: #000;
 
-      .card {
-        display: none;
-      }
+      display: none;
     }
 
     .connector {
@@ -495,22 +482,20 @@ $distance-bubble-below-box: 72px;
       border-radius: 4px;
       border-width: $box-border-width;
 
-      .card {
-        .card-image {
-          height: 40%;
-          min-height: 50px;
-          max-height: 200px;
+      .card-image {
+        height: 40%;
+        min-height: 50px;
+        max-height: 200px;
 
-          .card-image-shadow {
-            text-shadow: 0px 0px 3px #000;
-          }
+        .card-image-shadow {
+          text-shadow: 0px 0px 3px #000;
         }
+      }
 
-        .card-text {
-          flex-grow: 1;
-          overflow-y: auto;
-          text-align: left;
-        }
+      .card-text {
+        flex-grow: 1;
+        overflow-y: auto;
+        text-align: left;
       }
     }
 

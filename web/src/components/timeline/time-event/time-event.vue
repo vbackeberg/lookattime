@@ -417,8 +417,8 @@ $distance-bubble-below-box: 72px;
         $box-border-width / $scale-factor-bubble-width;
       border-radius: 50%;
       .card-image {
-        transform: scaleX(
-          $scale-factor-bubble-height / $scale-factor-bubble-width
+        transform: scaleY(
+          $scale-factor-bubble-width / $scale-factor-bubble-height
         );
 
         .card-title {

@@ -453,7 +453,13 @@ $distance-bubble-below-box: 72px;
       border-radius: 50% 50% 0 0 / 100% 100% 0 0;
       border-bottom: 0;
       background-color: #000;
+    }
 
+    .card-image {
+      display: none;
+    }
+
+    .card-text {
       display: none;
     }
 

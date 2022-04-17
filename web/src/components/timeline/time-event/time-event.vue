@@ -1,7 +1,6 @@
 <template>
   <div class="container-outer grow-transition">
     <div class="container-zoomable zoom-transition zoomable">
-      <!-- TODO: rename zoom container to container zoom -->
       <div class="buffer-top grow-transition"></div>
       <div class="content grow-transition">
         <v-card class="card" v-on:contextmenu="openContextMenu">

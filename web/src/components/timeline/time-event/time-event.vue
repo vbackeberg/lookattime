@@ -116,7 +116,7 @@ export default Vue.extend({
   computed: {
     timeEvent(): TimeEventModel {
       const index = store.state.timeEvents.findIndex(
-        (timeEvent) => timeEvent.id === this.id
+        timeEvent => timeEvent.id === this.id
       );
 
       if (index !== -1) {
@@ -198,9 +198,10 @@ export default Vue.extend({
      * we do not change the class through class binding.
      */
     updateExpansionState() {
-      const newExpansionState = (
-        this.expansionZoomLevels as number[]
-      ).findIndex((zoomLevel) => store.state.zoomLevel <= zoomLevel);
+      const newExpansionState = (this
+        .expansionZoomLevels as number[]).findIndex(
+        zoomLevel => store.state.zoomLevel <= zoomLevel
+      );
 
       if (newExpansionState !== this.expansionState) {
         switch (newExpansionState) {

@@ -15,6 +15,7 @@
         v-bind:key="timeEvent.id"
         v-bind:id="timeEvent.id"
         v-bind:text="timeEvent.text"
+        v-bind:title="timeEvent.title"
         v-bind:date="timeEvent.date"
         v-bind:importance="timeEvent.importance"
         v-bind:imageReferences="timeEvent.imageReferences"

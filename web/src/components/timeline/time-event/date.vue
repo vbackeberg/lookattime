@@ -87,11 +87,11 @@ export default Vue.extend({
 }
 
 .v-enter-active {
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: all var(--transition-duration) cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .v-leave-active {
-  transition: all 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: all var(--transition-duration) cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .v-enter,

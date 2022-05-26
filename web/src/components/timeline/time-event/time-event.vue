@@ -335,7 +335,7 @@ $distance-bubble-below-box: 72px;
  */
 .grow-transition {
   transition-property: transform;
-  transition-duration: 300ms;
+  transition-duration: var(--transition-duration);
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 

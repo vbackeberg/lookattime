@@ -392,9 +392,7 @@ $distance-bubble-below-box: 72px;
       border-width: $box-border-width;
 
       .card-image {
-        height: 40%;
-        min-height: 50px;
-        max-height: 200px;
+        max-height: 180px;
 
         .card-image-shadow {
           text-shadow: 0px 0px 3px #000;
@@ -403,7 +401,7 @@ $distance-bubble-below-box: 72px;
 
       .card-text {
         flex-grow: 1;
-        overflow-y: auto;
+        overflow-y: hidden;
         text-align: left;
       }
     }

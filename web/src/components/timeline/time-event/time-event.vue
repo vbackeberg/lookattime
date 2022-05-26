@@ -226,6 +226,9 @@ export default Vue.extend({
      * Sets `fullscreen` class that holds respective styles.
      * Centers the element by applying `translateX` on the `container-outer`
      * and removing `transform` on the `container-zoomable`.
+     *
+     * Removes all transitions from the element because they would lead to
+     * unwanted visual effects.
      */
     applyFullscreenStyles() {
       this.$el.classList.remove("box");
@@ -233,10 +236,9 @@ export default Vue.extend({
       this.$el.classList.remove("dot");
       this.$el.classList.add("fullscreen");
 
-      const el = this.$el.getElementsByClassName(
-        "container-zoomable"
-      )[0] as HTMLElement;
-      el.style.removeProperty("transform");
+      this.$el.classList.remove("grow-transition");
+      this.$el.children[0].classList.remove("zoom-transition");
+      (this.$el.children[0] as HTMLElement).style.removeProperty("transform");
 
       (this.$el as HTMLElement).style.transform =
         "translateX(" + store.state.timelineElement.scrollLeft + "px)";
@@ -247,11 +249,21 @@ export default Vue.extend({
      * Moves element back to original position by removing `transform` on `container-outer`
      * and applying `positionCenter` on the `container-zoomable`.
      *
+     * The transitions can only be set back onto the element after the transition duration
+     * is over, otherwise the transitions would be applied before the element has transitioned
+     * back to its original place leading to unwanted visual effects.
      */
     removeFullscreenStyles() {
       (this.$el as HTMLElement).style.removeProperty("transform");
       this.timeEvent.positionCenter = this.timeEvent.positionCenter;
       this.applyBoxStyles();
+      setTimeout(
+        () => {
+          this.$el.classList.add("grow-transition");
+          this.$el.children[0].classList.add("zoom-transition");
+        },
+        300 // The delay corresponds to css variable transition duration.
+      );
     },
 
     applyBoxStyles() {

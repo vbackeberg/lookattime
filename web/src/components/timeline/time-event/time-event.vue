@@ -382,7 +382,6 @@ $distance-bubble-below-box: 72px;
 }
 
 .box {
-  // TODO move buffer top out of container zoomable
   .container-zoomable {
     .buffer-top {
       height: 0;

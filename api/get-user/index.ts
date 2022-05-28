@@ -17,6 +17,7 @@ const httpTrigger: AzureFunction = async function (
     };
   } else {
     try {
+      // TODO: Increase timeout here
       await sql.connect(sqlConnectionConfig);
 
       const result = await sql.query`select * from users where id = ${id};`;

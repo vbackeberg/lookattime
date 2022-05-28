@@ -55,7 +55,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .content {
-  left: 0px;
   width: 75%;
   max-width: 1000px;
   margin-left: auto;

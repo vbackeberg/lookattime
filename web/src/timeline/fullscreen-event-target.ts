@@ -1,3 +1,4 @@
+// TODO: Remove this class because it is obsolete.
 export default class FullscreenEventTarget implements EventTarget {
   private eventTarget: EventTarget;
   constructor() {

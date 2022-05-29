@@ -1,27 +1,30 @@
 <template>
-  <v-card
-    class="content elevation-0"
-    v-on:contextmenu.prevent="openContextMenu"
-  >
-    <v-img
-      v-bind:src="imageSource"
-      class="card-image white--text align-end"
-      alt="time event image"
+  <div class="container-fullscreen">
+    <v-card
+      class="content elevation-0"
+      v-on:contextmenu.prevent="openContextMenu"
     >
-      <v-card-title class="card-title card-image-shadow">{{
-        title
-      }}</v-card-title>
+      <v-card-title class="card-title">{{ title }}</v-card-title>
+      <div class="columns">
+        <v-card-text class="card-text">{{ text }}</v-card-text>
+        <v-img
+          v-bind:src="imageSource"
+          class="card-image white--text align-end"
+          alt="time event image"
+          contain
+        >
+        </v-img>
+      </div>
       <v-btn
         class="btn-full card-image-shadow"
         color="white"
         icon
         v-on:click.stop="toggleFullscreen()"
       >
-        <v-icon>mdi-arrow-expand</v-icon>
+        <v-icon>mdi-close</v-icon>
       </v-btn>
-    </v-img>
-    <v-card-text class="card-text">{{ text }}</v-card-text>
-  </v-card>
+    </v-card>
+  </div>
 </template>
 <script lang="ts">
 import store from "@/store/store";
@@ -56,37 +59,50 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import "./time-event.scss";
 
-.content {
+.container-fullscreen {
   width: 75%;
-  max-width: 1000px;
   margin: 8px auto;
 
-  flex: 1 0 0;
+  z-index: 6;
+}
+
+.content {
+  height: 100%;
+  max-width: 1000px;
 
   border-color: #aaa !important;
   border-style: solid;
   border-radius: 4px;
   border-width: $box-border-width;
-  z-index: 6;
 
-  .card-text {
-    flex: 1 1 auto;
-  }
-
-  .card-image {
-    flex: 1 1 auto;
-  }
-
-  .card-text {
-    flex-grow: 1;
-    overflow-y: auto;
-    text-align: left;
-  }
+  display: flex;
+  flex-direction: column;
 
   .btn-full {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .card-title {
+    justify-content: center;
+  }
+
+  .columns {
+    display: flex;
+    align-items: flex-start;
+    overflow-y: scroll;
+
+    .card-text {
+      text-align: justify;
+    }
+
+    .card-image {
+      flex: 1 1 auto;
+      margin: 16px;
+      border-radius: 4px;
+    }
   }
 }
 </style>

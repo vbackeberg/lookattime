@@ -152,6 +152,5 @@ export default Vue.extend({
   width: 100%;
   position: absolute;
   display: flex;
-  flex-flow: column nowrap;
 }
 </style>

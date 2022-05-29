@@ -240,7 +240,7 @@ $distance-bubble-below-box: 72px;
 }
 
 .buffer-bottom {
-  flex: 1 0 64px;
+  flex: 0 0 100px;
 }
 
 .box {

@@ -4,16 +4,40 @@
       class="content elevation-0"
       v-on:contextmenu.prevent="openContextMenu"
     >
-      <v-card-title class="card-title">{{ title }}</v-card-title>
+      <v-img
+        v-bind:src="imageSource"
+        class="card-image white--text align-end"
+        aspect-ratio="2"
+        alt="time event image"
+      >
+        <v-card-title class="card-title card-image-shadow">{{
+          title
+        }}</v-card-title>
+      </v-img>
       <div class="columns">
         <v-card-text class="card-text">{{ text }}</v-card-text>
-        <v-img
-          v-bind:src="imageSource"
-          class="card-image white--text align-end"
-          alt="time event image"
-          contain
-        >
-        </v-img>
+        <div class="images">
+          <v-img
+            v-bind:src="imageSource"
+            class="card-image white--text align-end"
+            alt="time event image"
+            contain
+          >
+          </v-img>
+          <v-card-text class="image-caption"
+            >This is a subtitle for above image</v-card-text
+          >
+          <v-img
+            v-bind:src="imageSource"
+            class="card-image white--text align-end"
+            alt="time event image"
+            contain
+          >
+          </v-img>
+          <v-card-text class="image-caption"
+            >This is a subtitle for above image</v-card-text
+          >
+        </div>
       </div>
       <v-btn
         class="btn-full card-image-shadow"
@@ -74,6 +98,7 @@ export default Vue.extend({
   border-style: solid;
   border-radius: 4px;
   border-width: $box-border-width;
+  overflow-y: scroll;
 
   display: flex;
   flex-direction: column;
@@ -87,21 +112,32 @@ export default Vue.extend({
 
   .card-title {
     justify-content: center;
+    font-size: 2rem;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .columns {
     display: flex;
     align-items: flex-start;
-    overflow-y: scroll;
 
     .card-text {
+      width: 50%;
       text-align: justify;
+      white-space: break-spaces;
     }
 
-    .card-image {
-      flex: 1 1 auto;
-      margin: 16px;
-      border-radius: 4px;
+    .images {
+      width: 50%;
+      padding: 16px;
+
+      .card-image {
+        border-radius: 4px;
+      }
+
+      .image-caption {
+        margin-bottom: 16px;
+        text-align: center;
+      }
     }
   }
 }

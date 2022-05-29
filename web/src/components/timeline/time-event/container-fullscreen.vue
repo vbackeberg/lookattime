@@ -57,8 +57,7 @@ export default Vue.extend({
 .content {
   width: 75%;
   max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 8px auto;
 
   flex: 1 0 0;
 

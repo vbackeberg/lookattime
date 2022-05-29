@@ -21,7 +21,6 @@
       v-on:toggleFullscreen="toggleFullscreen()"
       v-on:openContextMenu="openContextMenu"
     />
-    <div class="buffer-bottom grow-transition"></div>
     <v-menu
       v-model="showContextMenu"
       :position-x="x"
@@ -154,9 +153,5 @@ export default Vue.extend({
   position: absolute;
   display: flex;
   flex-flow: column nowrap;
-}
-
-.buffer-bottom {
-  flex: 1 0 64px;
 }
 </style>

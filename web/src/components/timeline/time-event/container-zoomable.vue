@@ -26,6 +26,7 @@
     </v-card>
     <svg class="connector grow-transition"></svg>
     <div class="date">{{ formattedDate }}</div>
+    <div class="buffer-bottom grow-transition"></div>
   </div>
 </template>
 
@@ -234,7 +235,11 @@ $distance-bubble-below-box: 72px;
 }
 
 .buffer-top {
-  flex: 16 0 auto;
+  flex: 10 0 auto;
+}
+
+.buffer-bottom {
+  flex: 1 0 64px;
 }
 
 .box {

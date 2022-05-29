@@ -168,9 +168,10 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@import "./time-event.scss";
+
 $box-width: 300px;
 $box-height: 400px;
-$box-border-width: 1px;
 
 // We resize the time event using scale instead of width/height to increase render performance.
 $scale-factor-bubble-width: 0.2;
@@ -253,10 +254,6 @@ $distance-bubble-below-box: 72px;
 
     .card-image {
       max-height: 180px;
-
-      .card-image-shadow {
-        text-shadow: 0px 0px 3px #000;
-      }
     }
 
     .card-text {

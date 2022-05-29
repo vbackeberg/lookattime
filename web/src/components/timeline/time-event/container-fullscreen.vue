@@ -54,6 +54,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@import "./time-event.scss";
+
 .content {
   width: 75%;
   max-width: 1000px;
@@ -64,7 +66,7 @@ export default Vue.extend({
   border-color: #aaa !important;
   border-style: solid;
   border-radius: 4px;
-  border-width: 1px;
+  border-width: $box-border-width;
   z-index: 6;
 
   .card-text {

@@ -117,18 +117,20 @@ export default Vue.extend({
   }
 
   .columns {
+    padding: 32px;
+    gap: 32px;
     display: flex;
     align-items: flex-start;
 
     .card-text {
       width: 50%;
+      padding: 0;
       text-align: justify;
       white-space: break-spaces;
     }
 
     .images {
       width: 50%;
-      padding: 16px;
 
       .card-image {
         border-radius: 4px;

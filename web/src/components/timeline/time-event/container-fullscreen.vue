@@ -51,7 +51,6 @@
   </div>
 </template>
 <script lang="ts">
-import store from "@/store/store";
 import Vue from "vue";
 
 /**
@@ -71,11 +70,6 @@ export default Vue.extend({
     openContextMenu(e: MouseEvent) {
       this.$emit("openContextMenu", e);
     }
-  },
-
-  mounted() {
-    (this.$el as HTMLElement).style.transform =
-      "translateX(" + store.state.timelineElement.scrollLeft + "px)";
   }
 });
 </script>
@@ -84,15 +78,19 @@ export default Vue.extend({
 @import "./time-event.scss";
 
 .container-fullscreen {
-  width: 75%;
-  margin: 8px auto;
-
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  padding-bottom: 100px; // app bar height + footer height
   z-index: 6;
 }
 
 .content {
   height: 100%;
+  width: 75%;
   max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 
   border-color: #aaa !important;
   border-style: solid;

@@ -6,46 +6,27 @@
       </v-card-title>
 
       <v-card-text>
-        <h3>Create dialog will now wait for the upload to finish</h3>
+        <h3>Provide more information with full-screen view</h3>
         <p>
-          When creating or editing a time event, you will now see a loading
-          circle on the submit button and the dialog won't disappear until the
-          event and its images have successfully been uploaded. Currently, you
-          can upload only one image, but we will soon remove this limitation!
-          🖼️🖼️🖼️
-        </p>
-        <p>
-          When editing, existing images will be shown below the upload field and
-          you can delete them by click.
+          The new full-screen mode allows you to add more text to your time
+          events. Open it by clicking the expand symbol in top right corner.
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/loading-circle-on-create.gif"
-          ></v-img>
-        </p>
-        <h3>Title and text are now mandatory and we validate correctly! 🔍</h3>
-        <p>
-          The next time you create a time event, you will see better validation
-          feedback as we corrected the validation rules for your input. We fixed
-          a lot of other bugs related to all various areas such as hiding and
-          showing time markers.
-        </p>
-        <p>
-          <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/validation-works.gif"
+            src="https://lookattime2.blob.core.windows.net/lookattime-assets/full-screen-events.gif"
           ></v-img>
         </p>
         <h3>What are we working on?</h3>
         <p>
-          We are working on improving performance to give you the smooth zooming
-          experience even with hundreds of time events. 👷
+          We are working on bringing back the actual timeline (the black stroke
+          at the center of the screen).
         </p>
 
         <h3>What are we going to work on next?</h3>
         <p>
-          We are going to implement a sub-year time scale. That will allow you
-          to zoom in into months, weeks, days and beyond. How about a timeline
-          on the nanosecond scale?
+          The date below the time event should only show those parts of the date
+          that matter for the scope. E.g. it should not show hours, minutes,
+          seconds when you are viewing time events across years.
         </p>
 
         <h3>What is this about?</h3>

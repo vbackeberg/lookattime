@@ -21,6 +21,7 @@
         v-bind:imageReferences="timeEvent.imageReferences"
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
       ></time-event>
+      <svg id="horizontal-line"></svg>
     </div>
     <v-btn
       v-if="!viewMode"
@@ -164,7 +165,11 @@ export default Vue.extend({
 }
 
 #horizontal-line {
-  flex: 0 0 8px;
+  width: 100%;
+  height: 8px;
+
+  position: fixed;
+  bottom: 277px; // This corresponds to the height of footer + buffer bottom + date
 
   background-color: #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

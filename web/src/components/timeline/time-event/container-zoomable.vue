@@ -235,12 +235,16 @@ $distance-bubble-below-box: 72px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.date {
+  margin-top: 8px;
+}
+
 .buffer-top {
   flex: 10 0 auto;
 }
 
 .buffer-bottom {
-  flex: 0 0 100px;
+  flex: 0 0 200px;
 }
 
 .box {

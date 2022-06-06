@@ -31,8 +31,8 @@ export default class TimeMarkerCreator {
    *
    */
   public initiateTimeMarkers() {
-    const lowestDate = PositionTranslator.toRelativePosition(0);
-    const highestDate = PositionTranslator.toRelativePosition(
+    const lowestDate = PositionTranslator.toDate(0);
+    const highestDate = PositionTranslator.toDate(
       Math.max(
         Viewport.rightEdge(),
         store.state.spacerRight.positionLeft + store.state.spacerRight.width
@@ -156,7 +156,7 @@ export default class TimeMarkerCreator {
    */
   public addMarkersLeft() {
     const lowestMarker = store.state.timeMarkers[0];
-    const lowestDate = PositionTranslator.toRelativePosition(0);
+    const lowestDate = PositionTranslator.toDate(0);
 
     const numberOfMarkers = Math.floor(
       (lowestMarker.date - lowestDate) / store.state.timeMarkerDepth
@@ -191,7 +191,7 @@ export default class TimeMarkerCreator {
   public addMarkersRight() {
     const highestMarker =
       store.state.timeMarkers[store.state.timeMarkers.length - 1];
-    const highestDate = PositionTranslator.toRelativePosition(
+    const highestDate = PositionTranslator.toDate(
       Math.max(
         Viewport.rightEdge(),
         store.state.spacerRight.positionLeft + store.state.spacerRight.width

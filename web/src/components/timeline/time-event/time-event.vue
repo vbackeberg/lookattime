@@ -58,7 +58,6 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import store from "@/store/store";
 import Vue from "vue";
-import FullscreenEventTarget from "@/timeline/fullscreen-event-target";
 import ContainerFullscreen from "./container-fullscreen.vue";
 import ContainerZoomable from "./container-zoomable.vue";
 import TimeEventModel from "@/models/time-event-model";
@@ -136,7 +135,7 @@ export default Vue.extend({
 
     toggleFullscreen() {
       this.isFullscreen = !this.isFullscreen;
-      FullscreenEventTarget.Instance.dispatchEvent(
+      document.dispatchEvent(
         new CustomEvent("fullscreen-toggled", {
           detail: { isFullscreen: this.isFullscreen }
         })

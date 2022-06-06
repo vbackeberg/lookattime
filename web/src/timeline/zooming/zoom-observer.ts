@@ -1,5 +1,4 @@
 import store from "@/store/store";
-import FullscreenEventTarget from "../fullscreen-event-target";
 import Zoomer from "./zoomer";
 
 /**
@@ -39,7 +38,7 @@ export default class ZoomObserver {
   };
 
   private pauseOnFullscreen() {
-    FullscreenEventTarget.Instance.addEventListener("fullscreen-toggled", e => {
+    document.addEventListener("fullscreen-toggled", e => {
       (e as CustomEvent).detail.isFullscreen
         ? this.timelineElement.removeEventListener("wheel", this.changeZoom)
         : this.observe();

@@ -35,7 +35,7 @@
       @click.stop="showCreateTimeEventForm = true"
       ><v-icon>mdi-plus</v-icon></v-btn
     >
-    <v-overlay :value="true">
+    <v-overlay :value="loading">
       <div class="loading-container">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
         <p class="loading-text">First loading may take a while...</p>

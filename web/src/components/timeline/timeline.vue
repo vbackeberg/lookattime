@@ -35,9 +35,12 @@
       @click.stop="showCreateTimeEventForm = true"
       ><v-icon>mdi-plus</v-icon></v-btn
     >
-    <v-overlay :value="loading">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
+    <v-overlay :value="true">
+      <div class="loading-container">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+        <p class="loading-text">First loading may take a while...</p>
+      </div></v-overlay
+    >
   </div>
 </template>
 
@@ -167,9 +170,11 @@ export default Vue.extend({
 #horizontal-line {
   width: 100%;
   height: 8px;
-
   position: fixed;
-  bottom: 277px; // This corresponds to the height of footer + buffer bottom + date
+
+  // This corresponds to the height of footer + scrollbar height + buffer bottom + date
+  // TODO: Account for different scrollbar heights (e.g. MacOS).
+  bottom: 277px;
 
   background-color: #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -186,5 +191,29 @@ export default Vue.extend({
   height: 1px;
   width: 1px;
   transform-origin: left;
+}
+.loading-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  .loading-text {
+    opacity: 0;
+    font-size: 1.2rem;
+    margin-top: 64px;
+    animation-delay: 3s;
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    animation-name: fadeIn;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }
 </style>

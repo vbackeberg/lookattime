@@ -55,6 +55,9 @@ export default class ViewFocuser {
       1 / ((this.timelineElement.clientWidth - margin) / absoluteDistance);
     const absoluteCenter = left + absoluteDistance / 2;
 
+    // TODO: Set distance to a minimum if events are too close
+    // to each other and desired zoom level would be below
+    // minimum zoom level. (Probably same for maximum case)
     this.zoomer.zoom(zoomFactor, absoluteCenter);
 
     this.timelineElement.scrollTo({

@@ -38,7 +38,16 @@
     <v-overlay :value="loading">
       <div class="loading-container">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
-        <p class="loading-text">First loading may take a while...</p>
+        <p class="loading-text fadeIn delay3s">
+          Please wait while we are spinning up our database...
+        </p>
+        <v-btn
+          rounded
+          color="error"
+          class="fadeIn delay8s"
+          @click.stop="reloadPage()"
+          >refresh now</v-btn
+        >
       </div></v-overlay
     >
   </div>
@@ -142,6 +151,10 @@ export default Vue.extend({
       // TimeMarkerDistanceObserver.Instance;
       ViewFocusTrigger.Instance;
       CollisionCalculationTrigger.Instance;
+    },
+
+    reloadPage() {
+      location.href = location.href;
     }
   }
 });
@@ -198,21 +211,34 @@ export default Vue.extend({
   align-items: center;
 
   .loading-text {
-    opacity: 0;
     font-size: 1.2rem;
     margin-top: 64px;
-    animation-delay: 3s;
+  }
+
+  .fadeIn {
+    opacity: 0;
+    visibility: hidden;
     animation-duration: 300ms;
     animation-fill-mode: forwards;
     animation-name: fadeIn;
   }
 
+  .delay3s {
+    animation-delay: 3s;
+  }
+
+  .delay8s {
+    animation-delay: 8s;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
+      visibility: visible;
     }
     to {
       opacity: 1;
+      visibility: visible;
     }
   }
 }

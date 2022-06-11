@@ -9,7 +9,7 @@ export default class PositionTranslator {
   }
 
   public static toDate(absolutePosition: number): number {
-    return (
+    return Math.round(
       (absolutePosition - store.state.timelineZero) * store.state.zoomLevel
     );
   }

@@ -15,6 +15,7 @@
     "core-js": "^3.9.1",
     "mime": "^2.5.2",
     "uuid": "^8.3.2",
+    "vanilla-recycler-view": "^1.1.8",
     "vue": "^2.6.12",
     "vue-meta": "2.4.0",
     "vue-router": "^3.5.1",

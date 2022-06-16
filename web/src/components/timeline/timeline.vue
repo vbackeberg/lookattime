@@ -64,9 +64,15 @@ import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import ViewFocusTrigger from "@/timeline/viewport/view-focus-trigger";
 import TimeEventModel from "@/models/time-event-model";
-import TimeMarkerDistanceObserver from "@/timeline/time-marker-management/time-marker-distance-observer";
 import Spacer from "@/models/spacer";
 import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
+import { Ti } from "@/timeline/time-marker-management/zoom-level-translation";
+import VanillaRecyclerView, {
+  DIRECTION,
+  InitializeParams,
+  VanillaRecyclerViewOptions
+} from "vanilla-recycler-view";
+import TimeMarker from "@/models/time-marker";
 
 export default Vue.extend({
   name: "Timeline",
@@ -105,6 +111,32 @@ export default Vue.extend({
     }
 
     store.commit("setLoading", false);
+
+    const timeMarkers: TimeMarker[] = Ti.createMarkerArrayHours();
+
+    const options: VanillaRecyclerViewOptions<TimeMarker> = {
+      data: timeMarkers,
+      direction: DIRECTION.HORIZONTAL,
+      renderer: class {
+        layout: HTMLDivElement = document.createElement("div");
+
+        initialize(params: InitializeParams<TimeMarker>) {
+          this.layout = document.createElement("div");
+          this.layout.innerHTML = `
+        ${params.index}
+        ${params.data.date}
+      `;
+        }
+        getLayout() {
+          return this.layout;
+        }
+      }
+    };
+
+    const rv = new VanillaRecyclerView(
+      document.getElementById("time-event-area") as HTMLDivElement,
+      options
+    );
   },
 
   computed: {

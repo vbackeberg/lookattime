@@ -144,6 +144,20 @@ export default Vue.extend({
       store.state.spacerRight = new Spacer(0, 1, "spacer-right");
     },
 
+    async setSelectedTimeline() {
+      const timelineIdQueryParam = this.$route.query?.timeline;
+      if (timelineIdQueryParam) {
+        await store.dispatch(
+          "setSelectedTimeline",
+          new TimelineModel(
+            timelineIdQueryParam as string,
+            "",
+            "Shared timeline"
+          )
+        );
+      }
+    },
+
     initializeTimelineServices() {
       SpaceObserver.Instance;
       ZoomObserver.Instance;

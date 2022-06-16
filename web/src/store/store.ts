@@ -44,7 +44,7 @@ export default new Vuex.Store({
   },
 
   getters: {
-    viewMode(state): boolean {
+    readOnlyMode(state): boolean {
       return !state.timelines.includes(state.selectedTimeline);
     }
   },

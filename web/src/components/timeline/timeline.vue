@@ -24,7 +24,7 @@
       <svg id="horizontal-line"></svg>
     </div>
     <v-btn
-      v-if="!viewMode"
+      v-if="!readOnlyMode"
       id="fab"
       fab
       large
@@ -108,7 +108,7 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapGetters(["viewMode"]),
+    ...mapGetters(["readOnlyMode"]),
 
     horizontalLineWidth(): number {
       return Math.max(

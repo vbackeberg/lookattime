@@ -23,6 +23,7 @@
       ></time-event>
       <svg id="horizontal-line"></svg>
     </div>
+    <div id="time-marker-area"></div>
     <v-btn
       v-if="!readOnlyMode"
       id="fab"
@@ -64,9 +65,9 @@ import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import ViewFocusTrigger from "@/timeline/viewport/view-focus-trigger";
 import TimeEventModel from "@/models/time-event-model";
-import TimeMarkerDistanceObserver from "@/timeline/time-marker-management/time-marker-distance-observer";
 import Spacer from "@/models/spacer";
 import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
+import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";
 
 export default Vue.extend({
   name: "Timeline",
@@ -96,13 +97,7 @@ export default Vue.extend({
 
     await store.dispatch("loadUser");
 
-    const timelineIdQueryParam = this.$route.query?.timeline;
-    if (timelineIdQueryParam) {
-      await store.dispatch(
-        "setSelectedTimeline",
-        new TimelineModel(timelineIdQueryParam as string, "", "Shared timeline")
-      );
-    }
+    await this.setSelectedTimeline();
 
     store.commit("setLoading", false);
   },
@@ -161,10 +156,9 @@ export default Vue.extend({
     initializeTimelineServices() {
       SpaceObserver.Instance;
       ZoomObserver.Instance;
-      // TODO: Reactivate time markers as soon as calculation works on year, month, day, etc. level.
-      // TimeMarkerDistanceObserver.Instance;
       ViewFocusTrigger.Instance;
       CollisionCalculationTrigger.Instance;
+      TimeMarkerDepthObserver.Instance;
     },
 
     reloadPage() {
@@ -207,6 +201,10 @@ export default Vue.extend({
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+#time-marker-area {
+  height: 100px;
+}
+
 #fab {
   margin-bottom: 64px;
   margin-right: 64px;
@@ -219,6 +217,7 @@ export default Vue.extend({
   width: 1px;
   transform-origin: left;
 }
+
 .loading-container {
   display: flex;
   flex-flow: column nowrap;

@@ -4,12 +4,12 @@ import { Constants } from "../zooming/constants";
 import { Ti } from "./zoom-level-translation";
 
 export default class TimeMarkerDepthObserver {
-  private zoomLevelMarkerDepthTranslation = Array<[number, Function]>(
-    [Constants.MAX_ZOOM_LEVEL, Ti.setMarkersHours],
-    [24, Ti.setMarkersDays],
-    [12, Ti.setMarkersHalfDays],
-    [6, Ti.setMarkersHours],
-    [Constants.MIN_ZOOM_LEVEL, Ti.setMarkersHalfHours]
+  private zoomLevelMarkerDepthTranslation = Array<[number, string]>(
+    [Constants.MAX_ZOOM_LEVEL, "year"],
+    [24, "month"],
+    [12, "day"],
+    [6, "hour"],
+    [Constants.MIN_ZOOM_LEVEL, "minute"]
   );
 
   public observe() {
@@ -21,7 +21,7 @@ export default class TimeMarkerDepthObserver {
     );
 
     if (markerDepth) {
-      markerDepth[1]();
+      Ti.placeTimeMarkers(markerDepth[1]);
     }
 
     this.addHTMLElements(

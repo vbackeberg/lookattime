@@ -6,7 +6,9 @@ import { Temporal } from "@js-temporal/polyfill";
 import PositionTranslator from "../position-translator";
 import Viewport from "../viewport/viewport";
 import { Constants } from "../zooming/constants";
-import { DateRoundingUnit } from "./temporal-rounding-extension";
+import TemporalRoundingExtension, {
+  DateRoundingUnit
+} from "./temporal-rounding-extension";
 
 // const zoomLevelToDateGranularity = new Map<number, string>();
 
@@ -50,16 +52,16 @@ import { DateRoundingUnit } from "./temporal-rounding-extension";
 export class Ti {
   private static SECONDS_IN_NANOSECONDS = 1000000000n;
 
-  public static placeTimeMarkers(unit: DateRoundingUnit) {
+  public static placeTimeMarkers(granularity: string) {
     const leftmostDate = new Temporal.ZonedDateTime(
       BigInt(PositionTranslator.toDate(0)) * this.SECONDS_IN_NANOSECONDS,
       Constants.TIME_ZONE
     );
 
-
-    const leftmostDateAtTargetGranularity = leftmostDate.round({ smallestUnit: unit, roundingMode: "trunc" });
-
-
+    const leftmostDateAtTargetGranularity = TemporalRoundingExtension.round(
+      leftmostDate,
+      store.state.zoomLevel
+    );
   }
 
   public static setMarkersHalfHours() {

@@ -13,7 +13,6 @@ export default class TimeMarkerDepthObserver {
   );
 
   public observe() {
-    console.log("Tim ma de obs observed zl: " + store.state.zoomLevel);
     this.removeAllMarkers();
 
     const markerDepth = this.zoomLevelMarkerDepthTranslation.find(

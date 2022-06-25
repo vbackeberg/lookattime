@@ -6,7 +6,7 @@
     />
     <div id="buffer-top-area">
       <svg id="spacer-right" class="spacer"></svg>
-      <svg id="spacer-left" class="spacer zoom-transition"></svg>
+      <svg id="spacer-left" class="spacer zoomable zoom-transition"></svg>
       <svg id="spacer-viewport-right" class="spacer"></svg>
     </div>
     <div id="time-event-area">

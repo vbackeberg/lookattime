@@ -2,6 +2,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import "@vue/cli-plugin-unit-jest";
 import TemporalRoundingExtension from "../../src/timeline/time-marker-management/temporal-rounding-extension";
 
+// @ts-ignore
 describe("TemporalRoundingExtension round", () => {
   type TestCase = {
     depth: string;
@@ -25,7 +26,7 @@ describe("TemporalRoundingExtension round", () => {
   );
 
   const testCases: TestCase[] = [
-    // round to bottom (leftmost date) 
+    // round to bottom (leftmost date)
     {
       depth: "year",
       roundingMode: "trunc",
@@ -97,7 +98,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
 
-    // round to top (rightmost date) 
+    // round to top (rightmost date)
     {
       depth: "year",
       roundingMode: "ceil",
@@ -171,6 +172,7 @@ describe("TemporalRoundingExtension round", () => {
   ];
 
   testCases.forEach(testCase => {
+    // @ts-ignore
     it(`should return ${testCase.expectedDate} for depth ${testCase.depth} and roundingMode ${testCase.roundingMode}`, () => {
       const result = TemporalRoundingExtension.round(
         givenDate,
@@ -178,8 +180,11 @@ describe("TemporalRoundingExtension round", () => {
         testCase.roundingMode
       );
 
-      console.log(`\n result:   ${result} \n expected: ${testCase.expectedDate}`);
+      console.log(
+        `\n result:   ${result} \n expected: ${testCase.expectedDate}`
+      );
 
+      // @ts-ignore
       expect(result.equals(testCase.expectedDate)).toBe(true);
     });
   });

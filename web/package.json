@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 80",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "vue-cli-service test:unit --watchAll",
     "lint": "vue-cli-service lint",
     "mock-server": "json-server --watch ./tests/mock-server/db.json --port 7071 --routes ./tests/mock-server/routes.json"
   },

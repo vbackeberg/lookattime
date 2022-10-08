@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <v-dialog v-model="show" persistent max-width="600">
     <v-card>
@@ -9,42 +10,87 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-menu
-                  v-model="datePickerOpen"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
+                <div class="d-flex">
+                  <v-menu
+                    v-model="datePickerOpen"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="plainDate"
+                        label="Date"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        :rules="[ruleNotEmpty]"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
                       v-model="plainDate"
-                      label="Picker without buttons"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    v-model="plainDate"
-                    @input="datePickerOpen = false"
-                  ></v-date-picker>
-                </v-menu>
+                      @input="datePickerOpen = false"
+                    ></v-date-picker>
+                  </v-menu>
+
+                  <v-btn
+                    text
+                    icon
+                    class="mx-1 my-auto"
+                    @click.stop="timePickerVisible = !timePickerVisible"
+                  >
+                    <v-icon>mdi-clock-time-four-outline</v-icon>
+                  </v-btn>
+
+                  <v-menu
+                    ref="menu"
+                    v-model="timePickerOpen"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="plainTime"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-expand-x-transition>
+                        <v-text-field
+                          v-model="plainTime"
+                          label="Time"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                          v-show="timePickerVisible"
+                        ></v-text-field>
+                      </v-expand-x-transition>
+                    </template>
+                    <v-time-picker
+                      v-if="timePickerOpen"
+                      v-model="plainTime"
+                      use-seconds
+                      full-width
+                      @click:second="$refs.menu.save(plainTime)"
+                    ></v-time-picker>
+                  </v-menu>
+                </div>
+
                 <v-text-field
                   label="Title"
                   required
                   type="text"
                   v-model="timeEvent.title"
-                  :rules="titleRules"
+                  :rules="[ruleNotEmpty]"
                 />
                 <v-text-field
                   label="Importance"
                   required
                   type="number"
                   v-model.number="timeEvent.importance"
-                  :rules="importanceRules"
+                  :rules="[ruleImportance, ruleNotEmpty]"
                 />
               </v-col>
               <v-col cols="12" sm="6" align-self="center">
@@ -76,7 +122,7 @@
                   outlined
                   type="text"
                   v-model="timeEvent.text"
-                  :rules="textRules"
+                  :rules="[ruleNotEmpty]"
                 /> </v-col
             ></v-row> </v-container
         ></v-form>
@@ -103,6 +149,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable vue/no-mutating-props */
 import Vue from "vue";
 import { v4 as uuid } from "uuid";
 import store from "@/store/store";
@@ -122,21 +169,24 @@ export default Vue.extend({
       imageReferencesToDelete: [] as ImageReferenceModel[],
       imageReferencesToAdd: [] as ImageReferenceModel[],
 
-      loading: false,
+      plainDate: null,
+      plainTime: null,
 
       datePickerOpen: false,
+      timePickerOpen: false,
+      timePickerVisible: false,
+
+      loading: false,
       valid: true,
-      titleRules: [(v: string) => !!v || "This field is required"],
-      importanceRules: [
-        (v: number) => !!v || "This field is required",
-        (v: number) =>
-          !store.state.timeEvents
-            .filter(timeEvent => timeEvent.id != this.timeEvent.id)
-            .map(timeEvent => timeEvent.importance)
-            .includes(Number(v)) ||
-          "You have another time event with the same importance level. Please pick a different level!"
-      ],
-      textRules: [(v: string) => !!v || "This field is required"]
+
+      // Form validation rules:
+      ruleImportance: (v: number) =>
+        !store.state.timeEvents
+          .filter(timeEvent => timeEvent.id != this.timeEvent.id)
+          .map(timeEvent => timeEvent.importance)
+          .includes(Number(v)) ||
+        "You have another time event with the same importance level. Please pick a different level!",
+      ruleNotEmpty: (v: string) => !!v || "This field is required"
     };
   },
 
@@ -144,6 +194,7 @@ export default Vue.extend({
     value: Boolean,
     editMode: Boolean,
 
+    // TODO: Just pass id. Get rest from store to allow having types.
     timeEvent: {
       type: Object,
       default() {
@@ -175,33 +226,6 @@ export default Vue.extend({
             !this.imageReferencesToDelete.includes(imageReference)
         )
         .concat(this.imageReferencesToAdd);
-    },
-
-    plainDate: {
-      get(): string | undefined {
-        if (this.timeEvent.date) {
-          return Temporal.Instant.fromEpochSeconds(this.timeEvent.date)
-            .toZonedDateTimeISO("UTC")
-            .toPlainDate()
-            .toString();
-        } else {
-          return undefined;
-        }
-      },
-      set(plainDate: string | null) {
-        if (!plainDate) return;
-
-        this.timeEvent.date
-          ? (this.timeEvent.date = Temporal.Instant.fromEpochSeconds(
-              this.timeEvent.date
-            )
-              .toZonedDateTimeISO("UTC")
-              .withPlainDate(plainDate)
-              .toInstant().epochSeconds)
-          : (this.timeEvent.date = Temporal.PlainDate.from(plainDate)
-              .toZonedDateTime("UTC")
-              .toInstant().epochSeconds);
-      }
     }
   },
 
@@ -213,14 +237,16 @@ export default Vue.extend({
 
       const action = this.editMode ? "updateTimeEvent" : "addTimeEvent";
       const timeEventId = this.editMode ? this.timeEvent.id : uuid();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const date = this.parseDate(this.plainDate!, this.plainTime);
 
       try {
         await store.dispatch(action, {
           timeEvent: new TimeEventModel(
-            PositionTranslator.toAbsolutePosition(this.timeEvent.date),
+            PositionTranslator.toAbsolutePosition(date),
             timeEventId,
             this.timeEvent.text,
-            this.timeEvent.date,
+            date,
             this.timeEvent.importance,
             this.imageReferences,
             this.timeEvent.title
@@ -255,6 +281,20 @@ export default Vue.extend({
 
     markImageForDeletion(imageReferenceToDelete: ImageReferenceModel) {
       this.imageReferencesToDelete.push(imageReferenceToDelete);
+    },
+
+    /**
+     * Converts existing date into a ZonedDateTime and changes date to `plainDate` and time to `plainTime`.
+     */
+    parseDate(plainDate: string, plainTime: string | null) {
+      console.log(`plainDate: ${plainDate}`);
+      console.log(`plainTime: ${plainTime}`);
+
+      const date = Temporal.Instant.from(
+        `${plainDate}T${plainTime ? plainTime : "00:00:00"}+0000`
+      ).epochSeconds;
+      console.log(`instant: ${date}`);
+      return date;
     },
 
     close() {

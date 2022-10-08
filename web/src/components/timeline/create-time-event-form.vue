@@ -37,8 +37,10 @@
                   </v-menu>
 
                   <v-btn
-                    text
-                    icon
+                    small
+                    depressed
+                    fab
+                    color="grey lighten-4"
                     class="mx-1 my-auto"
                     @click.stop="timePickerVisible = !timePickerVisible"
                   >

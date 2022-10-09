@@ -101,19 +101,13 @@ export default Vue.extend({
 
     await this.setSelectedTimeline();
 
+    this.observeAndRepositionHorizontalLine();
+
     store.commit("setLoading", false);
   },
 
   computed: {
     ...mapGetters(["readOnlyMode"]),
-
-    horizontalLineWidth(): number {
-      return Math.max(
-        store.state.spacerViewportRight.positionLeft +
-          store.state.spacerViewportRight.width,
-        store.state.spacerRight.positionLeft + store.state.spacerRight.width
-      );
-    },
 
     loading(): boolean {
       return store.state.loading;
@@ -165,6 +159,53 @@ export default Vue.extend({
 
     reloadPage() {
       location.href = location.href;
+    },
+
+    /**
+     * Initially repositions horizontal line once and then repositions
+     * whenever window resizes or the number of children within
+     * `time-event-area` (the time events) changes.
+     */
+    observeAndRepositionHorizontalLine() {
+      this.repositionHorizontalLine();
+
+      window.onresize = _ => {
+        this.repositionHorizontalLine();
+      };
+
+      new MutationObserver(() => {
+        this.repositionHorizontalLine();
+      }).observe(document.getElementById("time-event-area") as HTMLElement, {
+        childList: true
+      });
+    },
+
+    /**
+     * Anchor horizontal line to top of the `date` element.
+     *
+     * The horizontal line is a special element in the application
+     * because it is bound to two different constraints. On the one hand
+     * it needs to cover the range from the viewports left to right edge,
+     * regardless of the timelines actual width - this is why it has to be
+     * a fixed element. On the other hand it needs to be positioned right
+     * between the time events `connector` and `date` elements to make them
+     * appear as emerging from the timeline. This is why its vertical
+     * position must be set in a programmatical way.
+     */
+    repositionHorizontalLine() {
+      const anchorElement = document.getElementsByClassName(
+        "date"
+      )[0] as HTMLElement;
+
+      if (anchorElement) {
+        // TODO: wait for it to exist
+        const horizontalLineElement = document.getElementById(
+          "horizontal-line"
+        ) as HTMLElement;
+
+        horizontalLineElement.style.top = `${anchorElement.getBoundingClientRect()
+          .top - horizontalLineElement.getBoundingClientRect().height}px`;
+      }
     }
   }
 });
@@ -194,10 +235,6 @@ export default Vue.extend({
   width: 100%;
   height: 8px;
   position: fixed;
-
-  // This corresponds to the height of footer + scrollbar height + buffer bottom + date
-  // TODO: Account for different scrollbar heights (e.g. MacOS).
-  bottom: 277px;
 
   background-color: #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

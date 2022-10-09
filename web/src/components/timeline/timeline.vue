@@ -21,7 +21,9 @@
         v-bind:imageReferences="timeEvent.imageReferences"
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
       ></time-event>
-      <svg id="horizontal-line"></svg>
+      <transition name="fade">
+        <svg v-if="timeEvents.length > 0" id="horizontal-line"></svg>
+      </transition>
     </div>
     <div id="time-marker-area"></div>
     <v-btn
@@ -49,8 +51,8 @@
           @click.stop="reloadPage()"
           >refresh now</v-btn
         >
-      </div></v-overlay
-    >
+      </div>
+    </v-overlay>
   </div>
 </template>
 
@@ -254,5 +256,15 @@ export default Vue.extend({
       visibility: visible;
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 300ms ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

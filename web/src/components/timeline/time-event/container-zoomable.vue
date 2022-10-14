@@ -34,6 +34,7 @@
 import TimeEventModel from "@/models/time-event-model";
 import ExpansionState from "@/models/time-event/expansion-state";
 import store from "@/store/store";
+import { Constants } from "@/timeline/zooming/constants";
 import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
 
@@ -86,7 +87,12 @@ export default Vue.extend({
     },
 
     formattedDate(): string {
-      return Temporal.Instant.fromEpochSeconds(this.date).toLocaleString();
+      return Temporal.Instant.fromEpochSeconds(this.date).toLocaleString(
+        "de-DE",
+        {
+          timeZone: Temporal.TimeZone.from(Constants.TIME_ZONE)
+        }
+      );
     }
   },
   methods: {

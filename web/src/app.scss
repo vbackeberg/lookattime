@@ -3,7 +3,8 @@
 }
 
 .zoom-transition {
-  transition: transform var(--transition-duration) cubic-bezier(0.05, 0.61, 0.35, 1.12);
+  transition: transform var(--transition-duration)
+    cubic-bezier(0.05, 0.61, 0.35, 1.12);
 }
 
 .time-marker {

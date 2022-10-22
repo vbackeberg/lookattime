@@ -1,66 +1,97 @@
 import { Temporal } from "@js-temporal/polyfill";
+import { Constants } from "../zooming/constants";
 
 export default class TemporalRoundingExtension {
-  private static depthForRoundingTimeUnit = [
-    "hour",
-    "minute",
-    "second",
-    "millisecond",
-    "microsecond",
-    "nanosecond"
+  private static timeUnits = [
+    "days",
+    "hours",
+    "minutes",
+    "seconds",
+    "milliseconds",
+    "microseconds",
+    "nanoseconds"
   ];
 
-  private static depthForRoundingHalfTimeUnits = new Map<string, string>([
-    ["half-hour", "minute"],
-    ["half-minute", "second"]
-  ]);
-
-  private static depthForRoundingDateUnit = new Map<string, string>([
-    ["year", "month"],
-    ["month", "day"]
-  ]);
-
+  /**
+   * Rounding works differently depending on the time unit.
+   *
+   *
+   * @param date
+   * @param depth
+   * @param roundingMode
+   * @returns
+   */
   public static round(
     date: Temporal.ZonedDateTime,
-    depth: string,
+    depth: Temporal.DurationLike,
     roundingMode: "trunc" | "ceil"
-  ) {
-    if (roundingMode === "trunc") return this.roundTrunc(date, depth);
-    else return this.roundCeil(date, depth);
-  }
-
-  public static roundTrunc(
-    date: Temporal.ZonedDateTime,
-    depth: string
   ): Temporal.ZonedDateTime {
-    if (this.depthForRoundingTimeUnit.includes(depth)) {
+    if (this.timeUnits.includes(Object.keys(depth)[0])) {
       return date.round({
-        smallestUnit: depth as Temporal.SmallestUnit<Temporal.TimeUnit>,
-        roundingMode: "trunc"
+        smallestUnit: Object.keys(depth)[0] as Temporal.SmallestUnit<
+          Temporal.TimeUnit
+        >,
+        roundingIncrement: Object.values(depth)[0],
+        roundingMode: roundingMode
       });
     }
 
-    const halfTimeUnitValue = this.depthForRoundingHalfTimeUnits.get(depth);
+    // Rounding date units
 
-    if (halfTimeUnitValue) {
-      return date.round({
-        smallestUnit: halfTimeUnitValue as Temporal.SmallestUnit<Temporal.TimeUnit>,
-        roundingMode: "trunc",
-        roundingIncrement: 30
-      });
+    // TODO: For rounding date units there is redundancy. It might be resolved
+    // by referring to the Object key here, too, but it's unclear how
+    // to determine which properties to set in the object created in from({}).
+
+    if ("months" in depth) {
+      if (roundingMode === "trunc") {
+        return Temporal.ZonedDateTime.from({
+          timeZone: Constants.TIME_ZONE,
+          year: date.year,
+          month: date.month,
+          day: 1
+        });
+      } else {
+        return Temporal.ZonedDateTime.from({
+          timeZone: Constants.TIME_ZONE,
+          year: date.year,
+          month: date.month,
+          day: 1
+        }).add({ months: 1 });
+      }
     }
 
-    const dateValue = this.depthForRoundingDateUnit.get(depth);
+    // TODO: Round to decades, centuries and so on.
 
-    if (dateValue) {
-      return Temporal.ZonedDateTime.from({
-        ...date,
-        [dateValue]: 1
-      });
+    if ("years" in depth) {
+      if (roundingMode === "trunc") {
+        return Temporal.ZonedDateTime.from({
+          timeZone: Constants.TIME_ZONE,
+          year: date.year,
+          month: 1,
+          day: 1
+        });
+      } else {
+        return Temporal.ZonedDateTime.from({
+          timeZone: Constants.TIME_ZONE,
+          year: date.year,
+          month: 1,
+          day: 1
+        }).add({ years: 1 });
+      }
     }
+
+    // const halfTimeUnitValue = this.depthForRoundingHalfTimeUnits.get(depth);
+
+    // if (halfTimeUnitValue) {
+    //   return date.round({
+    //     smallestUnit: halfTimeUnitValue as Temporal.SmallestUnit<
+    //       Temporal.TimeUnit
+    //     >,
+    //     roundingMode: roundingMode,
+    //     roundingIncrement: 30
+    //   });
+    // }
 
     throw new Error(`Unsupported depth: ${depth}`);
   }
-
-  static roundCeil(date: Temporal.ZonedDateTime, depth: string) {}
 }

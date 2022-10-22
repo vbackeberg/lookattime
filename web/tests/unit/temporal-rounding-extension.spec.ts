@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { Temporal } from "@js-temporal/polyfill";
 import "@vue/cli-plugin-unit-jest";
 import TemporalRoundingExtension from "../../src/timeline/time-marker-management/temporal-rounding-extension";
@@ -5,7 +6,7 @@ import TemporalRoundingExtension from "../../src/timeline/time-marker-management
 // @ts-ignore
 describe("TemporalRoundingExtension round", () => {
   type TestCase = {
-    depth: string;
+    depth: Temporal.DurationLike;
     roundingMode: "trunc" | "ceil";
     expectedDate: Temporal.ZonedDateTime;
   };
@@ -28,7 +29,7 @@ describe("TemporalRoundingExtension round", () => {
   const testCases: TestCase[] = [
     // round to bottom (leftmost date)
     {
-      depth: "year",
+      depth: { years: 1 },
       roundingMode: "trunc",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -38,7 +39,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "month",
+      depth: { months: 1 },
       roundingMode: "trunc",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -48,7 +49,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "day",
+      depth: { days: 1 },
       roundingMode: "trunc",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -59,7 +60,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "hour",
+      depth: { hours: 1 },
       roundingMode: "trunc",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -71,7 +72,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "minute",
+      depth: { minutes: 1 },
       roundingMode: "trunc",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -84,7 +85,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "second",
+      depth: { seconds: 1 },
       roundingMode: "trunc",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -100,7 +101,7 @@ describe("TemporalRoundingExtension round", () => {
 
     // round to top (rightmost date)
     {
-      depth: "year",
+      depth: { years: 1 },
       roundingMode: "ceil",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2023,
@@ -110,7 +111,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "month",
+      depth: { months: 1 },
       roundingMode: "ceil",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -120,7 +121,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "day",
+      depth: { days: 1 },
       roundingMode: "ceil",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -131,7 +132,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "hour",
+      depth: { hours: 1 },
       roundingMode: "ceil",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -143,7 +144,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "minute",
+      depth: { minutes: 1 },
       roundingMode: "ceil",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -156,7 +157,7 @@ describe("TemporalRoundingExtension round", () => {
       })
     },
     {
-      depth: "second",
+      depth: { seconds: 1 },
       roundingMode: "ceil",
       expectedDate: Temporal.ZonedDateTime.from({
         year: 2022,
@@ -173,7 +174,9 @@ describe("TemporalRoundingExtension round", () => {
 
   testCases.forEach(testCase => {
     // @ts-ignore
-    it(`should return ${testCase.expectedDate} for depth ${testCase.depth} and roundingMode ${testCase.roundingMode}`, () => {
+    it(`should return ${testCase.expectedDate} for depth ${JSON.stringify(
+      testCase.depth
+    )} and roundingMode ${testCase.roundingMode}`, () => {
       const result = TemporalRoundingExtension.round(
         givenDate,
         testCase.depth,

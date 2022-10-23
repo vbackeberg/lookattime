@@ -3,6 +3,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import SpaceObserver from "../space-management/space-observer";
 import { Constants } from "../zooming/constants";
 import { TimeMarkerCreator } from "./time-marker-creator";
+import TimeMarkerRemover from "./time-marker-remover";
 
 export default class TimeMarkerDepthObserver {
   // [zoom level, (representing hours, half hours, minutes, seconds,etc.)]
@@ -28,7 +29,7 @@ export default class TimeMarkerDepthObserver {
    * or removed from the timeline.
    */
   public observe() {
-    this.removeAllMarkers();
+    TimeMarkerRemover.removeAllMarkers();
 
     console.log(`store.state.zoomLevel: ${store.state.zoomLevel}`);
 
@@ -41,18 +42,6 @@ export default class TimeMarkerDepthObserver {
     if (depth) {
       TimeMarkerCreator.placeTimeMarkers(depth[1]);
     }
-  }
-
-  /**
-   * First removes the HTML element of each marker, then removes the
-   * marker itself.
-   */
-  public removeAllMarkers() {
-    store.state.timeMarkers.forEach(marker => {
-      marker.htmlElement.remove();
-    });
-
-    store.state.timeMarkers = [];
   }
 
   constructor() {

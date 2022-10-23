@@ -3,8 +3,8 @@ import SpaceCutter from "../space-management/space-cutter";
 import SpaceExtender from "../space-management/space-extender";
 import ViewFocuser from "./view-focuser";
 import Vue from "vue";
-import TimeMarkerRemover from "../time-marker-management/time-marker-remover";
 import { Constants } from "../zooming/constants";
+import TimeMarkerRemover from "../time-marker-management/time-marker-remover";
 
 /**
  * Resets the viewport (when loading a new timeline).
@@ -17,7 +17,7 @@ export default class ViewResetter {
 
   public resetView() {
     store.state.timelineZero = store.state.timelineElement.clientWidth / 2;
-    TimeMarkerRemover.Instance.removeAllMarkers();
+    TimeMarkerRemover.removeAllMarkers();
     store.state.timeMarkerDepth = 1;
     store.state.zoomLevel = Constants.MAX_ZOOM_LEVEL;
     this.repositionSpacerViewportRight();

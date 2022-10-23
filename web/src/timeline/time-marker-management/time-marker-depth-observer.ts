@@ -13,14 +13,13 @@ export default class TimeMarkerDepthObserver {
     [Constants.MAX_ZOOM_LEVEL, { years: 100 }],
     [100000, { years: 10 }],
     [5000, { years: 1 }],
-    [2000, { months: 1 }],
+    [1000, { months: 1 }],
     // TODO: Add weeks:
     // If using 7 day intervals, we need to place the markers
     // on the right days (mondays).
-    [700, { days: 1 }],
-    [90, { hours: 12 }],
-    [30, { hours: 6 }],
-    [10, { hours: 1 }],
+    [300, { days: 1 }],
+    [70, { hours: 6 }],
+    [1, { hours: 1 }],
     [Constants.MIN_ZOOM_LEVEL, { minutes: 1 }]
   );
 

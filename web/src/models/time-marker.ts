@@ -1,17 +1,17 @@
+import PositionTranslator from "@/timeline/position-translator";
+import { Constants } from "@/timeline/zooming/constants";
+import { Temporal } from "@js-temporal/polyfill";
+
 export default class TimeMarker {
   static width = 2;
   static widthOffset = TimeMarker.width / 2;
   private _positionCenter!: number;
-  id: string;
   date: number;
-  depth: number;
   htmlElement: HTMLElement;
-  constructor(positionCenter: number, id: string, date: number, depth: number) {
-    this.id = id;
+  constructor(date: number) {
     this.date = date;
-    this.depth = depth;
-    this.htmlElement = this.createHTMLElement(id);
-    this.positionCenter = positionCenter;
+    this.htmlElement = this.createHTMLElement();
+    this.positionCenter = PositionTranslator.toAbsolutePosition(date);
   }
 
   public set positionCenter(newPositionCenter: number) {
@@ -24,9 +24,8 @@ export default class TimeMarker {
     return this._positionCenter;
   }
 
-  private createHTMLElement(id: string): HTMLElement {
+  private createHTMLElement(): HTMLElement {
     const element = document.createElement("svg");
-    element.id = id;
     element.setAttribute("class", "time-marker zoom-transition zoomable");
 
     return element;

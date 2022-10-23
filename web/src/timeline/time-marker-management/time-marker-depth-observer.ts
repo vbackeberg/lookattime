@@ -1,51 +1,58 @@
 import store from "@/store/store";
+import { Temporal } from "@js-temporal/polyfill";
 import SpaceObserver from "../space-management/space-observer";
 import { Constants } from "../zooming/constants";
-import { Ti } from "./zoom-level-translation";
+import { TimeMarkerCreator } from "./time-marker-creator";
 
 export default class TimeMarkerDepthObserver {
-  private zoomLevelMarkerDepthTranslation = Array<[number, string]>(
-    [Constants.MAX_ZOOM_LEVEL, "year"],
-    [24, "month"],
-    [12, "day"],
-    [6, "hour"],
-    [Constants.MIN_ZOOM_LEVEL, "minute"]
+  // [zoom level, (representing hours, half hours, minutes, seconds,etc.)]
+  private zoomLevelMarkerDepthTranslation = Array<
+    [number, Temporal.DurationLike]
+  >(
+    [Constants.MAX_ZOOM_LEVEL, { years: 100 }],
+    [100000, { years: 10 }],
+    [5000, { years: 1 }],
+    [2000, { months: 1 }],
+    // TODO: Add weeks:
+    // If using 7 day intervals, we need to place the markers
+    // on the right days (mondays).
+    [700, { days: 1 }],
+    [90, { hours: 12 }],
+    [30, { hours: 6 }],
+    [10, { hours: 1 }],
+    [Constants.MIN_ZOOM_LEVEL, { minutes: 1 }]
   );
 
+  /**
+   * When a new zoom level is emitted, time markers should be added to
+   * or removed from the timeline.
+   */
   public observe() {
     this.removeAllMarkers();
 
-    const markerDepth = this.zoomLevelMarkerDepthTranslation.find(
+    console.log(`store.state.zoomLevel: ${store.state.zoomLevel}`);
+
+    // May be undefined if not found. (The list is not complete, yet.)
+    const depth = this.zoomLevelMarkerDepthTranslation.find(
+      // TODO: do not recalculate if depth has not changed.
       tuple => tuple[0] <= store.state.zoomLevel
     );
 
-    if (markerDepth) {
-      Ti.placeTimeMarkers(markerDepth[1]);
+    if (depth) {
+      TimeMarkerCreator.placeTimeMarkers(depth[1]);
     }
-
-    this.addHTMLElements(
-      ...store.state.timeMarkers.map(marker => marker.htmlElement)
-    );
   }
 
+  /**
+   * First removes the HTML element of each marker, then removes the
+   * marker itself.
+   */
   public removeAllMarkers() {
     store.state.timeMarkers.forEach(marker => {
       marker.htmlElement.remove();
     });
 
     store.state.timeMarkers = [];
-  }
-
-  private addHTMLElements(...elements: HTMLElement[]) {
-    const documentFragment = document.createDocumentFragment();
-
-    for (let i = 0; i < elements.length; i++) {
-      documentFragment.appendChild(elements[i]);
-    }
-
-    store.state.timelineElement
-      .querySelector("#time-marker-area")
-      ?.appendChild(documentFragment);
   }
 
   constructor() {
@@ -63,8 +70,3 @@ export default class TimeMarkerDepthObserver {
     return this.instance || (this.instance = new this());
   }
 }
-
-// [1800, "seconds"],
-// [1, "days"],
-// [2, "days"],
-// [1, "months"]

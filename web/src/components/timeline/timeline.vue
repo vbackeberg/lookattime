@@ -242,6 +242,8 @@ export default Vue.extend({
 
 #time-marker-area {
   height: 100px;
+
+  position: relative;
 }
 
 #fab {

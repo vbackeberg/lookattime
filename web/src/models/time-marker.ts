@@ -27,7 +27,12 @@ export default class TimeMarker {
   private createHTMLElement(): HTMLElement {
     const element = document.createElement("svg");
     element.setAttribute("class", "time-marker zoom-transition zoomable");
-
+    element.setAttribute(
+      "name",
+      Temporal.Instant.fromEpochSeconds(this.date).toString({
+        timeZone: Constants.TIME_ZONE
+      })
+    );
     return element;
   }
 }

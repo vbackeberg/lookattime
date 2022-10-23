@@ -6,27 +6,29 @@
       </v-card-title>
 
       <v-card-text>
-        <h3>Provide more information with full-screen view</h3>
+        <h3>Time Markers are back - now representing real dates!</h3>
         <p>
-          The new full-screen mode allows you to add more text to your time
-          events. Open it by clicking the expand symbol in top right corner.
+          It has been a long way, but we are finally there: Time Markers are now
+          placed at meaningful dates along our timeline such as days, hours or
+          years. The markers will fade in and out at pre-defined zoom levels
+          depending on how deep we zoom in to our timeline. I describe the
+          calculation on my <a href="https://valerianb.medium.com">blog</a>.
+        </p>
+        <h3>Timeline is back, too!</h3>
+        <p>
+          And the horizontal timeline is back from summer break, too. 🌴 Now,
+          it's correctly positioned and fixed.
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/full-screen-events.gif"
+            src="https://lookattime2.blob.core.windows.net/lookattime-assets/time-markers-from-dates.gif"
           ></v-img>
         </p>
-        <h3>What are we working on?</h3>
-        <p>
-          We are working on bringing back the actual timeline (the black stroke
-          at the center of the screen).
-        </p>
 
-        <h3>What are we going to work on next?</h3>
+        <h3>What are we going to work on next? 👷‍♂️</h3>
         <p>
-          The date below the time event should only show those parts of the date
-          that matter for the scope. E.g. it should not show hours, minutes,
-          seconds when you are viewing time events across years.
+          We will fix the positioning of time markers such that they sit just
+          below the horizontal time line in the middle of the screen.
         </p>
 
         <h3>What is this about?</h3>

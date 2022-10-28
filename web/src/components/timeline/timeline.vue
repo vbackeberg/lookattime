@@ -181,7 +181,7 @@ export default Vue.extend({
     },
 
     /**
-     * Anchor horizontal line to top of the `date` element.
+     * Anchor horizontal line to top of `time-marker-area` element.
      *
      * The horizontal line is a special element in the application
      * because it is bound to two different constraints. On the one hand
@@ -193,9 +193,9 @@ export default Vue.extend({
      * position must be set in a programmatical way.
      */
     repositionHorizontalLine() {
-      const anchorElement = document.getElementsByClassName(
-        "date"
-      )[0] as HTMLElement;
+      const anchorElement = document.getElementById(
+        "time-marker-area"
+      )! as HTMLElement;
 
       if (anchorElement) {
         // TODO: wait for it to exist
@@ -226,7 +226,7 @@ export default Vue.extend({
 }
 
 #time-event-area {
-  flex: 4 0 200px;
+  flex: 5 0 200px;
 
   position: relative;
 }
@@ -241,7 +241,7 @@ export default Vue.extend({
 }
 
 #time-marker-area {
-  height: 100px;
+  flex: 1 0 16px;
 
   position: relative;
 }

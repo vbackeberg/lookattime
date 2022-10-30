@@ -233,7 +233,7 @@ export default Vue.extend({
 
 #horizontal-line {
   width: 100%;
-  height: 8px;
+  height: 4px;
   position: fixed;
 
   background-color: #000;

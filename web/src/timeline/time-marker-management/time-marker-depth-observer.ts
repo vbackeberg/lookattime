@@ -10,8 +10,8 @@ export default class TimeMarkerDepthObserver {
   private zoomLevelMarkerDepthTranslation = Array<
     [number, Temporal.DurationLike]
   >(
-    [Constants.MAX_ZOOM_LEVEL, { years: 100 }],
-    [100000, { years: 10 }],
+    [100000, { years: 100 }],
+    [10000, { years: 10 }],
     [5000, { years: 1 }],
     [1000, { months: 1 }],
     // TODO: Add weeks:

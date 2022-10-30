@@ -1,10 +1,8 @@
 import PositionTranslator from "@/timeline/position-translator";
-import { Constants } from "@/timeline/zooming/constants";
+import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";
 import { Temporal } from "@js-temporal/polyfill";
 
 export default class TimeMarker {
-  static width = 2;
-  static widthOffset = TimeMarker.width / 2;
   private _positionCenter!: number;
   date: number;
   htmlElement: HTMLElement;
@@ -30,18 +28,14 @@ export default class TimeMarker {
       "class",
       "time-marker-container zoom-transition zoomable"
     );
-    const element = document.createElement("svg");
-    element.setAttribute("class", "time-marker zoom-transition zoomable");
 
     container.insertAdjacentHTML(
       "afterbegin",
       `
         <svg class="time-marker"></svg>
-        <div class="time-marker-date">${Temporal.Instant.fromEpochSeconds(
-          this.date
-        ).toString({
-          timeZone: Constants.TIME_ZONE
-        })}</div>
+        <div class="time-marker-date">${TimeMarkerDepthObserver.currentDepth[2](
+          Temporal.Instant.fromEpochSeconds(this.date)
+        )}</div>
       `
     );
 

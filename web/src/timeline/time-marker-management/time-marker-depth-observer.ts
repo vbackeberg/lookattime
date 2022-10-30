@@ -5,22 +5,93 @@ import { Constants } from "../zooming/constants";
 import { TimeMarkerCreator } from "./time-marker-creator";
 import TimeMarkerRemover from "./time-marker-remover";
 
+/**
+ * A function converting the date to a string representation
+ * that is adequate for the given depth.
+ *
+ * E.g. 12:00 for "hours" or 06-24 for "days".
+ */
+type DateStringConversion = {
+  (_: Temporal.Instant): string;
+};
+
 export default class TimeMarkerDepthObserver {
   // [zoom level, (representing hours, half hours, minutes, seconds,etc.)]
-  private zoomLevelMarkerDepthTranslation = Array<
-    [number, Temporal.DurationLike]
+  public static zoomLevelToDepth = Array<
+    [number, Temporal.DurationLike, DateStringConversion]
   >(
-    [5000000, { years: 100 }],
-    [300000, { years: 10 }],
-    [20000, { years: 1 }],
-    [1000, { months: 1 }],
+    [
+      5000000,
+      { years: 100 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(Constants.TIME_ZONE).year.toString()
+    ],
+    [
+      300000,
+      { years: 10 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(Constants.TIME_ZONE).year.toString()
+    ],
+    [
+      20000,
+      { years: 1 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(Constants.TIME_ZONE).year.toString()
+    ],
+    [
+      1000,
+      { months: 1 },
+      (date: Temporal.Instant) =>
+        date
+          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toPlainYearMonth()
+          .toString()
+    ],
     // TODO: Add weeks:
     // Use `weekOfYear` maybe
-    [300, { days: 1 }],
-    [70, { hours: 6 }],
-    [1, { hours: 1 }],
-    [Constants.MIN_ZOOM_LEVEL, { minutes: 1 }]
+    [
+      300,
+      { days: 1 },
+      (date: Temporal.Instant) =>
+        date
+          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toPlainMonthDay()
+          .toString()
+    ],
+    [
+      70,
+      { hours: 6 },
+      (date: Temporal.Instant) =>
+        date
+          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toPlainTime()
+          .toString({ smallestUnit: "minutes" })
+    ],
+    [
+      1,
+      { hours: 1 },
+      (date: Temporal.Instant) =>
+        date
+          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toPlainTime()
+          .toString({ smallestUnit: "minutes" })
+    ],
+    [
+      Constants.MIN_ZOOM_LEVEL,
+      { minutes: 1 },
+      (date: Temporal.Instant) =>
+        date
+          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toPlainTime()
+          .toString()
+    ]
   );
+
+  public static currentDepth: [
+    number,
+    Temporal.DurationLike,
+    { (_: Temporal.Instant): string }
+  ] = TimeMarkerDepthObserver.zoomLevelToDepth[0];
 
   /**
    * When a new zoom level is emitted, time markers should be added to
@@ -32,14 +103,13 @@ export default class TimeMarkerDepthObserver {
     console.log(`store.state.zoomLevel: ${store.state.zoomLevel}`);
 
     // May be undefined if not found. (The list is not complete, yet.)
-    const depth = this.zoomLevelMarkerDepthTranslation.find(
-      // TODO: do not recalculate if depth has not changed.
-      tuple => tuple[0] <= store.state.zoomLevel
-    );
+    TimeMarkerDepthObserver.currentDepth =
+      TimeMarkerDepthObserver.zoomLevelToDepth.find(
+        // TODO: do not recalculate if depth has not changed.
+        tuple => tuple[0] <= store.state.zoomLevel
+      ) ?? TimeMarkerDepthObserver.zoomLevelToDepth[0];
 
-    if (depth) {
-      TimeMarkerCreator.placeTimeMarkers(depth[1]);
-    }
+    TimeMarkerCreator.placeTimeMarkers(TimeMarkerDepthObserver.currentDepth[1]);
   }
 
   constructor() {

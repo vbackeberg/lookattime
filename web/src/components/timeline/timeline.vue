@@ -182,7 +182,7 @@ export default Vue.extend({
     },
 
     /**
-     * Anchor horizontal line to top of `time-marker-area` element.
+     * Anchor horizontal line to bottom of `time-marker-area` element.
      *
      * The horizontal line is a special element in the application
      * because it is bound to two different constraints. On the one hand

@@ -25,7 +25,6 @@
       <v-card-text class="card-text">{{ text }}</v-card-text>
     </v-card>
     <svg class="connector grow-transition"></svg>
-    <div class="date">{{ formattedDate }}</div>
   </div>
 </template>
 

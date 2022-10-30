@@ -1,5 +1,5 @@
 import PositionTranslator from "@/timeline/position-translator";
-import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";
+import TimeDepth from "@/timeline/time-depth/time-depth";
 import { Temporal } from "@js-temporal/polyfill";
 
 export default class TimeMarker {
@@ -33,7 +33,7 @@ export default class TimeMarker {
       "afterbegin",
       `
         <svg class="time-marker"></svg>
-        <div class="time-marker-date">${TimeMarkerDepthObserver.currentDepth[2](
+        <div class="time-marker-date">${TimeDepth.currentDepth[2](
           Temporal.Instant.fromEpochSeconds(this.date)
         )}</div>
       `

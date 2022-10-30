@@ -192,21 +192,21 @@ export default Vue.extend({
      * between the time events `connector` and `date` elements to make them
      * appear as emerging from the timeline. This is why its vertical
      * position must be set in a programmatical way.
+     *
+     * Both elements are guaranteed to exist since this method is called
+     * after component has been mounted.
      */
     repositionHorizontalLine() {
       const anchorElement = document.getElementById(
         "time-marker-area"
-      )! as HTMLElement;
+      ) as HTMLElement;
 
-      if (anchorElement) {
-        // TODO: wait for it to exist
-        const horizontalLineElement = document.getElementById(
-          "horizontal-line"
-        ) as HTMLElement;
+      const horizontalLineElement = document.getElementById(
+        "horizontal-line"
+      ) as HTMLElement;
 
-        horizontalLineElement.style.top = `${anchorElement.getBoundingClientRect()
-          .top - horizontalLineElement.getBoundingClientRect().height}px`;
-      }
+      horizontalLineElement.style.top = `${anchorElement.getBoundingClientRect()
+        .top - horizontalLineElement.getBoundingClientRect().height}px`;
     }
   }
 });

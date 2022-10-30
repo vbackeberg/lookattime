@@ -10,13 +10,12 @@ export default class TimeMarkerDepthObserver {
   private zoomLevelMarkerDepthTranslation = Array<
     [number, Temporal.DurationLike]
   >(
-    [100000, { years: 100 }],
-    [10000, { years: 10 }],
-    [5000, { years: 1 }],
+    [5000000, { years: 100 }],
+    [300000, { years: 10 }],
+    [20000, { years: 1 }],
     [1000, { months: 1 }],
     // TODO: Add weeks:
-    // If using 7 day intervals, we need to place the markers
-    // on the right days (mondays).
+    // Use `weekOfYear` maybe
     [300, { days: 1 }],
     [70, { hours: 6 }],
     [1, { hours: 1 }],

@@ -25,6 +25,7 @@
         <svg v-if="timeEvents.length > 0" id="horizontal-line"></svg>
       </transition>
     </div>
+    <!-- TODO: When depth below years, show year as a big number underneath -->
     <div id="time-marker-area"></div>
     <v-btn
       v-if="!readOnlyMode"

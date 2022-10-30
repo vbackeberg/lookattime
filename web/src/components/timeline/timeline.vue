@@ -164,8 +164,7 @@ export default Vue.extend({
 
     /**
      * Initially repositions horizontal line once and then repositions
-     * whenever window resizes or the number of children within
-     * `time-event-area` (the time events) changes.
+     * whenever window resizes.
      */
     observeAndRepositionHorizontalLine() {
       this.repositionHorizontalLine();
@@ -173,12 +172,6 @@ export default Vue.extend({
       window.onresize = _ => {
         this.repositionHorizontalLine();
       };
-
-      new MutationObserver(() => {
-        this.repositionHorizontalLine();
-      }).observe(document.getElementById("time-event-area") as HTMLElement, {
-        childList: true
-      });
     },
 
     /**

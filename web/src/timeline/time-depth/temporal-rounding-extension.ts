@@ -15,7 +15,6 @@ export default class TemporalRoundingExtension {
   /**
    * Rounding works differently depending on the time unit.
    *
-   *
    * @param date
    * @param depth
    * @param roundingMode

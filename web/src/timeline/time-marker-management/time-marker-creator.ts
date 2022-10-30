@@ -64,6 +64,11 @@ export class TimeMarkerCreator {
       ?.appendChild(documentFragment);
   }
 
+  /**
+   * Builds and returns an array of time markers that contains
+   * all time markers between the leftmost and rightmost date at
+   * the given depth.
+   */
   private static createTimeMarkerArray(
     dateLeft: Temporal.ZonedDateTime,
     dateRight: Temporal.ZonedDateTime,
@@ -72,7 +77,6 @@ export class TimeMarkerCreator {
     const timeMarkers = [];
     let i = dateLeft;
 
-    // Keep adding markers while marker date is lower than rightmost date.
     while (Temporal.ZonedDateTime.compare(i, dateRight) === -1) {
       timeMarkers.push(new TimeMarker(i.epochSeconds));
       i = i.add(depth);

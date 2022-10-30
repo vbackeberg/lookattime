@@ -17,7 +17,7 @@ export default class TimeMarker {
   public set positionCenter(newPositionCenter: number) {
     this._positionCenter = newPositionCenter;
     this.htmlElement.style.transform =
-      "translateX(" + (newPositionCenter - TimeMarker.widthOffset) + "px)";
+      "translateX(" + newPositionCenter + "px)";
   }
 
   public get positionCenter(): number {
@@ -25,14 +25,26 @@ export default class TimeMarker {
   }
 
   private createHTMLElement(): HTMLElement {
+    const container = document.createElement("div");
+    container.setAttribute(
+      "class",
+      "time-marker-container zoom-transition zoomable"
+    );
     const element = document.createElement("svg");
     element.setAttribute("class", "time-marker zoom-transition zoomable");
-    element.setAttribute(
-      "name",
-      Temporal.Instant.fromEpochSeconds(this.date).toString({
-        timeZone: Constants.TIME_ZONE
-      })
+
+    container.insertAdjacentHTML(
+      "afterbegin",
+      `
+        <svg class="time-marker"></svg>
+        <div class="time-marker-date">${Temporal.Instant.fromEpochSeconds(
+          this.date
+        ).toString({
+          timeZone: Constants.TIME_ZONE
+        })}</div>
+      `
     );
-    return element;
+
+    return container;
   }
 }

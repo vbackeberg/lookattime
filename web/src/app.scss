@@ -7,10 +7,23 @@
     cubic-bezier(0.05, 0.61, 0.35, 1.12);
 }
 
-.time-marker {
-  width: 2px;
-  height: 12px;
-  background-color: black;
+// Time Marker styles
+
+$time-marker-container-width: 100px;
+
+.time-marker-container {
   position: absolute;
   content-visibility: auto;
+  width: $time-marker-container-width;
+  left: -$time-marker-container-width / 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .time-marker {
+    width: 2px;
+    height: 12px;
+    background-color: black;
+  }
 }

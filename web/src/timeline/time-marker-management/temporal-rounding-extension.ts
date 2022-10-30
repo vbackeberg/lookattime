@@ -61,6 +61,12 @@ export default class TemporalRoundingExtension {
     }
 
     // TODO: Round to decades, centuries and so on.
+    // TODO: creation for decades is not stable:
+    // markers jump to different dates, because leftmost date jumps.
+    // We need to make sure it actually rounds to decades instead of 10 year
+    // steps from the leftmost year.
+    // E.g. 1620, 1630, 1640
+    // instead of 1623, 1633, 1643
 
     if ("years" in depth) {
       if (roundingMode === "trunc") {

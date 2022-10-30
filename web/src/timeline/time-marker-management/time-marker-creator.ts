@@ -2,8 +2,8 @@ import TimeMarker from "@/models/time-marker";
 import store from "@/store/store";
 import { Temporal } from "@js-temporal/polyfill";
 import PositionTranslator from "../position-translator";
+import TemporalRoundingExtension from "../time-depth/temporal-rounding-extension";
 import { Constants } from "../zooming/constants";
-import TemporalRoundingExtension from "./temporal-rounding-extension";
 
 export class TimeMarkerCreator {
   private static SECONDS_IN_NANOSECONDS = 1000000000n;

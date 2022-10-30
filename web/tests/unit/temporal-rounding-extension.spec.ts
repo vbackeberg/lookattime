@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { Temporal } from "@js-temporal/polyfill";
 import "@vue/cli-plugin-unit-jest";
-import TemporalRoundingExtension from "../../src/timeline/time-marker-management/temporal-rounding-extension";
+import TemporalRoundingExtension from "../../src/timeline/time-depth/temporal-rounding-extension";
 
 // @ts-ignore
 describe("TemporalRoundingExtension round", () => {

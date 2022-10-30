@@ -67,6 +67,10 @@ export default class TemporalRoundingExtension {
     // E.g. 1620, 1630, 1640
     // instead of 1623, 1633, 1643
 
+    // TODO: Other side effect: Rounding to rightmost date ends does
+    // not have 10yrs distance between second rightmost date, because
+    // it rounds to years.
+
     if ("years" in depth) {
       if (roundingMode === "trunc") {
         return Temporal.ZonedDateTime.from({

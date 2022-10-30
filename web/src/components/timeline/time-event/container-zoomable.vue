@@ -26,7 +26,6 @@
     </v-card>
     <svg class="connector grow-transition"></svg>
     <div class="date">{{ formattedDate }}</div>
-    <div class="buffer-bottom grow-transition"></div>
   </div>
 </template>
 

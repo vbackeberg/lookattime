@@ -74,6 +74,24 @@ export default class Zoomer {
       store.state.spacerRight.width;
   }
 
+  /**
+   * Calculates the new position of `timelineZero` taking into account
+   * its current distance to the reference point (mouse pointer location)
+   * and the zoom factor.
+   *
+   * `TimelineZero` is the basis for every other repositioning.
+   *
+   * @example
+   * zoomFactor: 1.1
+   * timelineZero: 270 (current position)
+   * referencePosition: 50
+   *
+   * distance = (270 - 50) / 1.1 = 220 / 1.1 = 200
+   * newPosition = 50 + 200 = 250
+   *
+   * @param zoomFactor a number (slightly) below or above 1 that indicates how strong to zoom in / out
+   * @param referencePosition the location of the mouse pointer
+   */
   private repositionTimelineZero(
     zoomFactor: number,
     referencePosition: number

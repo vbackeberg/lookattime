@@ -21,7 +21,6 @@ export default class Zoomer {
     this.repositionTimelineZero(zoomFactor, referencePosition);
     this.repositionTimeEvents();
     this.repositionSpacerLeft();
-    this.repositionSpacerRight();
     this.repositionTimeMarkers();
 
     document.dispatchEvent(new Event("update-expansion-states"));
@@ -53,25 +52,6 @@ export default class Zoomer {
       store.state.timeEvents[0].positionCenter -
       TimeEventModel.boxWidthOffset -
       width;
-  }
-
-  /**
-   *
-   * |------------------------- client width / 2 -------------------------|
-   * |--- time event width offset ---|----------------------------------|-|
-   * ↑                                                                  ↑
-   * time event position center                           spacer position
-   */
-  private repositionSpacerRight() {
-    const width =
-      store.state.timelineElement.clientWidth / 2 -
-      TimeEventModel.boxWidthOffset;
-
-    store.state.spacerRight.positionLeft =
-      store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter +
-      TimeEventModel.boxWidthOffset +
-      width -
-      store.state.spacerRight.width;
   }
 
   /**

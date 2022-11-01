@@ -33,8 +33,23 @@ export default class SpaceExtender {
     store.state.spacerLeft.positionLeft += distance;
   }
 
-  private static repositionSpacerRight(distance: number) {
-    store.state.spacerRight.positionLeft += distance;
+  /**
+   *
+   * |------------------------- client width / 2 -------------------------|
+   * |--- time event width offset ---|----------------------------------|-|
+   * ↑                                                                  ↑
+   * time event position center                           spacer position
+   */
+  private static repositionSpacerRight() {
+    const width =
+      store.state.timelineElement.clientWidth / 2 -
+      TimeEventModel.boxWidthOffset;
+
+    store.state.spacerRight.positionLeft =
+      store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter +
+      TimeEventModel.boxWidthOffset +
+      width -
+      store.state.spacerRight.width;
   }
 
   private static repositionSpacerViewportRight(distance: number) {

@@ -1,6 +1,5 @@
 import store from "@/store/store";
-import SpaceCutter from "./space-cutter";
-import SpaceExtender from "./space-extender";
+import SpaceAllocator from "./space-allocator";
 
 /**
  * Observes movements of the left spacer to keep all elements in the positive position space.
@@ -23,12 +22,12 @@ export default class SpaceObserver {
       );
 
       if (expendableLeftSpace > 0) {
-        SpaceCutter.cutLeftSpace(
+        SpaceAllocator.cutoffLeftSpace(
           store.state.timelineElement,
           expendableLeftSpace
         );
       } else if (store.state.spacerLeft.positionLeft < 0) {
-        SpaceExtender.extendLeftSpace(
+        SpaceAllocator.extendLeftSpace(
           store.state.timelineElement,
           -store.state.spacerLeft.positionLeft
         );

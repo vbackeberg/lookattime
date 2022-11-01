@@ -1,10 +1,9 @@
 import store from "@/store/store";
-import SpaceCutter from "../space-management/space-cutter";
-import SpaceExtender from "../space-management/space-extender";
-import ViewFocuser from "./view-focuser";
 import Vue from "vue";
-import { Constants } from "../zooming/constants";
+import SpaceAllocator from "../space-management/space-allocator";
 import TimeMarkerRemover from "../time-marker-management/time-marker-remover";
+import { Constants } from "../zooming/constants";
+import ViewFocuser from "./view-focuser";
 
 /**
  * Resets the viewport (when loading a new timeline).
@@ -31,12 +30,12 @@ export default class ViewResetter {
 
     if (expendableLeftSpace > 0) {
       // TODO: Maybe we don'tneed to cut, just extend.
-      SpaceCutter.cutLeftSpace(
+      SpaceAllocator.cutoffLeftSpace(
         store.state.timelineElement,
         expendableLeftSpace
       );
     } else if (store.state.spacerLeft.positionLeft < 0) {
-      SpaceExtender.extendLeftSpace(
+      SpaceAllocator.extendLeftSpace(
         store.state.timelineElement,
         -store.state.spacerLeft.positionLeft
       );

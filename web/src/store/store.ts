@@ -29,9 +29,12 @@ export default new Vuex.Store({
 
     timeEvents: [] as TimeEventModel[],
 
-    // TODO: likely not used at all. May have been meant as what viewport class does now.
+    /**
+     * Assures the screen does not get pushed to the left
+     * when spacer right falls below right screen edge on
+     * space cutting.
+     */
     spacerViewportRight: {} as Spacer,
-
     spacerLeft: {} as Spacer,
     spacerRight: {} as Spacer,
 

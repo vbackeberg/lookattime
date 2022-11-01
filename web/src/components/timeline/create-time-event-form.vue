@@ -289,13 +289,9 @@ export default Vue.extend({
      * Converts existing date into a ZonedDateTime and changes date to `plainDate` and time to `plainTime`.
      */
     parseDate(plainDate: string, plainTime: string | null) {
-      console.log(`plainDate: ${plainDate}`);
-      console.log(`plainTime: ${plainTime}`);
-
       const date = Temporal.Instant.from(
         `${plainDate}T${plainTime ? plainTime : "00:00:00"}+0000`
       ).epochSeconds;
-      console.log(`instant: ${date}`);
       return date;
     },
 

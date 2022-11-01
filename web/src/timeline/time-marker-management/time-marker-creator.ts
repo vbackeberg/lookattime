@@ -13,7 +13,6 @@ export class TimeMarkerCreator {
       BigInt(PositionTranslator.toDate(0)) * this.SECONDS_IN_NANOSECONDS,
       Constants.TIME_ZONE
     );
-    console.log(`rounding left date: ${leftmostDate}`);
 
     const r =
       BigInt(
@@ -24,23 +23,17 @@ export class TimeMarkerCreator {
       ) * this.SECONDS_IN_NANOSECONDS;
     const rightmostDate = new Temporal.ZonedDateTime(r, Constants.TIME_ZONE);
 
-    console.log(`rounding right date: ${rightmostDate}`);
-
-    console.log(`rounding to depth: ${JSON.stringify(depth)}`);
-
     const leftmostDateAtTargetDepth = TemporalRoundingExtension.round(
       leftmostDate,
       depth,
       "trunc"
     );
-    console.log(`left rounded date: ${leftmostDateAtTargetDepth}`);
 
     const rightmostDateAtTargetDepth = TemporalRoundingExtension.round(
       rightmostDate,
       depth,
       "ceil"
     );
-    console.log(`right rounded date: ${rightmostDateAtTargetDepth}`);
 
     const timeMarkers = this.createTimeMarkerArray(
       leftmostDateAtTargetDepth,

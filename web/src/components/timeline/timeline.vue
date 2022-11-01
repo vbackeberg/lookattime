@@ -6,6 +6,7 @@
     />
     <div id="buffer-top-area">
       <svg id="spacer-right" class="spacer"></svg>
+      <!-- todo: zoomable should be obsolete here -->
       <svg id="spacer-left" class="spacer zoomable zoom-transition"></svg>
       <svg id="spacer-viewport-right" class="spacer"></svg>
     </div>

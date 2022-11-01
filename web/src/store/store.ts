@@ -29,7 +29,9 @@ export default new Vuex.Store({
 
     timeEvents: [] as TimeEventModel[],
 
+    // TODO: likely not used at all. May have been meant as what viewport class does now.
     spacerViewportRight: {} as Spacer,
+
     spacerLeft: {} as Spacer,
     spacerRight: {} as Spacer,
 

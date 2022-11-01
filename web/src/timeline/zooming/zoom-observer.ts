@@ -31,8 +31,10 @@ export default class ZoomObserver {
     }
 
     if (e.deltaY < 0) {
+      // zoom out
       this.zoomer.zoom(0.92, e.pageX + this.timelineElement.scrollLeft);
     } else if (e.deltaY > 0) {
+      // zoom in
       this.zoomer.zoom(1.1, e.pageX + this.timelineElement.scrollLeft);
     }
   };

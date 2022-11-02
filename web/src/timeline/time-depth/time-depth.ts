@@ -1,4 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
+import DateTimeFormatOptions from "../date-time-format-options";
 import { Constants } from "../zooming/constants";
 
 /**
@@ -19,26 +20,26 @@ export default class TimeDepth {
       5000000,
       { years: 100 },
       (date: Temporal.Instant) =>
-        date.toZonedDateTimeISO(Constants.TIME_ZONE).year.toString()
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
     ],
     [
       300000,
       { years: 10 },
       (date: Temporal.Instant) =>
-        date.toZonedDateTimeISO(Constants.TIME_ZONE).year.toString()
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
     ],
     [
       20000,
       { years: 1 },
       (date: Temporal.Instant) =>
-        date.toZonedDateTimeISO(Constants.TIME_ZONE).year.toString()
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
     ],
     [
       1000,
       { months: 1 },
       (date: Temporal.Instant) =>
         date
-          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE)
           .toPlainYearMonth()
           .toString()
     ],
@@ -49,7 +50,7 @@ export default class TimeDepth {
       { days: 1 },
       (date: Temporal.Instant) =>
         date
-          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE)
           .toPlainMonthDay()
           .toString()
     ],
@@ -58,7 +59,7 @@ export default class TimeDepth {
       { hours: 6 },
       (date: Temporal.Instant) =>
         date
-          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE)
           .toPlainTime()
           .toString({ smallestUnit: "minutes" })
     ],
@@ -67,7 +68,7 @@ export default class TimeDepth {
       { hours: 1 },
       (date: Temporal.Instant) =>
         date
-          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE)
           .toPlainTime()
           .toString({ smallestUnit: "minutes" })
     ],
@@ -76,7 +77,7 @@ export default class TimeDepth {
       { minutes: 1 },
       (date: Temporal.Instant) =>
         date
-          .toZonedDateTimeISO(Constants.TIME_ZONE)
+          .toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE)
           .toPlainTime()
           .toString()
     ]

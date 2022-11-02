@@ -14,9 +14,4 @@ export class Constants {
    * will correspond to one relative unit (one second).
    */
   public static MIN_ZOOM_LEVEL = 1;
-
-  /**
-   * The application-wide time zone we use for all dates.
-   */
-  public static TIME_ZONE = "UTC"; // TODO Write extension function for Temporal to avoid wrong tz?
 }

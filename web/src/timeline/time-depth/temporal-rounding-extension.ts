@@ -1,5 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { Constants } from "../zooming/constants";
+import DateTimeFormatOptions from "../date-time-format-options";
 
 export default class TemporalRoundingExtension {
   private static timeUnits = [
@@ -44,14 +44,14 @@ export default class TemporalRoundingExtension {
     if ("months" in depth) {
       if (roundingMode === "trunc") {
         return Temporal.ZonedDateTime.from({
-          timeZone: Constants.TIME_ZONE,
+          timeZone: DateTimeFormatOptions.TIME_ZONE,
           year: date.year,
           month: date.month,
           day: 1
         });
       } else {
         return Temporal.ZonedDateTime.from({
-          timeZone: Constants.TIME_ZONE,
+          timeZone: DateTimeFormatOptions.TIME_ZONE,
           year: date.year,
           month: date.month,
           day: 1
@@ -74,14 +74,14 @@ export default class TemporalRoundingExtension {
     if ("years" in depth) {
       if (roundingMode === "trunc") {
         return Temporal.ZonedDateTime.from({
-          timeZone: Constants.TIME_ZONE,
+          timeZone: DateTimeFormatOptions.TIME_ZONE,
           year: date.year,
           month: 1,
           day: 1
         });
       } else {
         return Temporal.ZonedDateTime.from({
-          timeZone: Constants.TIME_ZONE,
+          timeZone: DateTimeFormatOptions.TIME_ZONE,
           year: date.year,
           month: 1,
           day: 1

@@ -2,7 +2,7 @@
   <div class="container-outer">
     <container-fullscreen
       v-if="isFullscreen"
-      v-bind:imageSource="imageSource"
+      v-bind:imageReferences="timeEvent.imageReferences"
       v-bind:text="text"
       v-bind:title="title"
       v-on:toggleFullscreen="toggleFullscreen()"
@@ -15,7 +15,6 @@
       v-bind:title="title"
       v-bind:date="date"
       v-bind:importance="importance"
-      v-bind:imageSource="imageSource"
       v-bind:imageReferences="timeEvent.imageReferences"
       v-bind:expansionZoomLevels="expansionZoomLevels"
       v-on:toggleFullscreen="toggleFullscreen()"
@@ -54,7 +53,6 @@
 </template>
 
 <script lang="ts">
-import ImageReferenceModel from "@/models/image-reference-model";
 import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import store from "@/store/store";
 import Vue from "vue";
@@ -102,20 +100,6 @@ export default Vue.extend({
       } else {
         throw Error("Could not get time event index because it was not found");
       }
-    },
-    imageSource(): string {
-      if (this.imageReferences.length < 1) {
-        return "";
-      }
-
-      const imageReference = this.imageReferences[0] as ImageReferenceModel;
-
-      return (
-        process.env.VUE_APP_IMAGE_URL +
-        imageReference.id +
-        "." +
-        imageReference.extension
-      );
     }
   },
 

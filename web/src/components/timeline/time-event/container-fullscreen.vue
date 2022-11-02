@@ -51,6 +51,7 @@
   </div>
 </template>
 <script lang="ts">
+import ImageReferenceModel from "@/models/image-reference-model";
 import Vue from "vue";
 
 /**
@@ -61,7 +62,7 @@ export default Vue.extend({
     text: String,
     title: String,
     importance: Number,
-    imageSource: String
+    imageReferences: Array
   },
   methods: {
     toggleFullscreen() {
@@ -69,6 +70,23 @@ export default Vue.extend({
     },
     openContextMenu(e: MouseEvent) {
       this.$emit("openContextMenu", e);
+    }
+  },
+
+  computed: {
+    imageSource(): string {
+      if (this.imageReferences.length < 1) {
+        return "";
+      }
+
+      const imageReference = this.imageReferences[0] as ImageReferenceModel;
+
+      return (
+        process.env.VUE_APP_IMAGE_URL +
+        imageReference.id +
+        "." +
+        imageReference.extension
+      );
     }
   }
 });

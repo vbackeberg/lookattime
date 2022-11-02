@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import { LOCALE } from "@/localization/locale";
+import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event-model";
 import ExpansionState from "@/models/time-event/expansion-state";
 import store from "@/store/store";
@@ -51,7 +52,6 @@ export default Vue.extend({
     title: String,
     date: Number,
     importance: Number,
-    imageSource: String,
     imageReferences: Array,
     expansionZoomLevels: Array
   },
@@ -94,6 +94,21 @@ export default Vue.extend({
         {
           timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
         }
+      );
+    },
+
+    imageSource(): string {
+      if (this.imageReferences.length < 1) {
+        return "";
+      }
+
+      const imageReference = this.imageReferences[0] as ImageReferenceModel;
+
+      return (
+        process.env.VUE_APP_IMAGE_URL +
+        imageReference.id +
+        "." +
+        imageReference.extension
       );
     }
   },

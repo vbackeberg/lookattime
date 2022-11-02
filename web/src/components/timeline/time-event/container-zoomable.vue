@@ -13,6 +13,9 @@
         <v-card-title class="card-title card-image-shadow">{{
           title
         }}</v-card-title>
+        <v-card-subtitle class="card-title card-image-shadow">{{
+          formattedDate
+        }}</v-card-subtitle>
         <v-btn
           class="btn-full card-image-shadow"
           color="white"

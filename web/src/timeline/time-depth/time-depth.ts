@@ -1,3 +1,4 @@
+import { LOCALE } from "@/localization/locale";
 import { Temporal } from "@js-temporal/polyfill";
 import DateTimeFormatOptions from "../date-time-format-options";
 import { Constants } from "../zooming/constants";
@@ -48,11 +49,14 @@ export default class TimeDepth {
     [
       300,
       { days: 1 },
-      (date: Temporal.Instant) =>
-        date
+      (date: Temporal.Instant) => {
+        return date
           .toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE)
           .toPlainMonthDay()
-          .toString()
+          .toLocaleString(LOCALE, {
+            calendar: DateTimeFormatOptions.CALENDAR
+          });
+      }
     ],
     [
       70,

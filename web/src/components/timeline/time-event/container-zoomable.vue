@@ -29,6 +29,7 @@
 </template>
 
 <script lang="ts">
+import { LOCALE } from "@/localization/locale";
 import TimeEventModel from "@/models/time-event-model";
 import ExpansionState from "@/models/time-event/expansion-state";
 import store from "@/store/store";
@@ -86,7 +87,7 @@ export default Vue.extend({
 
     formattedDate(): string {
       return Temporal.Instant.fromEpochSeconds(this.date).toLocaleString(
-        "de-DE",
+        LOCALE,
         {
           timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
         }

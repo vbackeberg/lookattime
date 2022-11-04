@@ -157,7 +157,14 @@ export default Vue.extend({
       console.log(timeEvent);
 
       this.editMode = true;
-      this.selectedTimeEvent = timeEvent;
+      this.selectedTimeEvent = {
+        id: timeEvent.id,
+        title: timeEvent.title,
+        text: timeEvent.text,
+        date: timeEvent.date,
+        importance: timeEvent.importance,
+        imageReferences: timeEvent.imageReferences
+      } as TimeEventModel;
 
       this.showContextMenu = false;
       this.x = e.clientX;

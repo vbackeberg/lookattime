@@ -196,18 +196,8 @@ export default Vue.extend({
     value: Boolean,
     editMode: Boolean,
 
-    // TODO: Just pass id. Get rest from store to allow having types.
     timeEvent: {
-      type: Object,
-      default() {
-        return {
-          date: undefined,
-          title: undefined,
-          importance: undefined,
-          text: undefined,
-          imageReferences: [] as ImageReferenceModel[]
-        };
-      }
+      type: Object
     }
   },
 

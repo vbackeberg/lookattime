@@ -45,7 +45,7 @@
           rounded
           x-small
           class="my-2"
-          href="https://blog.lookattime.com/"
+          href="https://valerianb.medium.com"
           target="_blank"
         >
           Blog

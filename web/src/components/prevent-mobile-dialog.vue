@@ -18,8 +18,8 @@
           desktop or laptop.
         </p>
         <p>
-          Or take a look behind the curtain at
-          <a href="https://blog.lookattime.com">blog.lookattime.com</a>.
+          Or take a look behind the curtain
+          <a href="https://valerianb.medium.com">on my blog</a>.
         </p></v-card-text
       >
       <v-card-actions>

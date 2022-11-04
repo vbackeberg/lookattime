@@ -1,5 +1,4 @@
 import TimeEventModel from "@/models/time-event-model";
-import TimeEventRequest from "./time-event-request";
 
 export default class TimeEventRequestMapper {
   public static map(

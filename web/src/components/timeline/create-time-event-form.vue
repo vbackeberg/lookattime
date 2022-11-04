@@ -131,7 +131,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" text @click.stop="back()">
+        <v-btn color="secondary" text @click.stop="close()">
           Back
         </v-btn>
         <v-btn
@@ -296,11 +296,6 @@ export default Vue.extend({
       this.imageReferencesToAdd = [] as ImageReferenceModel[];
       this.imageReferencesToDelete = [] as ImageReferenceModel[];
       (this.$refs.form as VForm).reset();
-    },
-
-    back() { // TODO: probably obsolete
-      this.clearInput();
-      this.show = false;
     }
   }
 });

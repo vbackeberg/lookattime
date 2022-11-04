@@ -34,7 +34,7 @@ export default class TimeEventModel {
   title: string;
 
   constructor(
-    positionCenter: number,
+    positionCenter: number, // TODO derive from date
     id: string,
     text: string,
     date: number,

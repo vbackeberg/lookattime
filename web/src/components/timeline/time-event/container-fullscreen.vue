@@ -1,7 +1,7 @@
 <template>
   <div class="container-fullscreen">
     <v-card
-      class="content elevation-0"
+      class="content elevation-20"
       v-on:contextmenu.prevent="openContextMenu"
     >
       <v-img

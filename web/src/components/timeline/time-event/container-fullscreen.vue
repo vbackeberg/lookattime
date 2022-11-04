@@ -5,7 +5,7 @@
       v-on:contextmenu.prevent="openContextMenu"
     >
       <v-img
-        v-bind:src="imageSource"
+        v-bind:src="imageSources[0]"
         class="card-image white--text align-end"
         aspect-ratio="2"
         alt="time event image"
@@ -20,26 +20,18 @@
         <div class="columns">
           <v-card-text class="card-text">{{ text }}</v-card-text>
           <div class="images">
-            <v-img
-              v-bind:src="imageSource"
-              class="card-image white--text align-end"
-              alt="time event image"
-              contain
-            >
-            </v-img>
-            <v-card-text class="image-caption"
-              >This is a subtitle for above image</v-card-text
-            >
-            <v-img
-              v-bind:src="imageSource"
-              class="card-image white--text align-end"
-              alt="time event image"
-              contain
-            >
-            </v-img>
-            <v-card-text class="image-caption"
-              >This is a subtitle for above image</v-card-text
-            >
+            <div v-for="source in imageSources" v-bind:key="source.id">
+              <v-img
+                v-bind:src="source"
+                class="card-image white--text align-end"
+                alt="time event image"
+                contain
+              >
+              </v-img>
+              <v-card-text class="image-caption"
+                >This is a subtitle for above image</v-card-text
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -82,18 +74,17 @@ export default Vue.extend({
   },
 
   computed: {
-    imageSource(): string {
+    imageSources(): string[] {
       if (this.imageReferences.length < 1) {
-        return "";
+        return [];
       }
 
-      const imageReference = this.imageReferences[0] as ImageReferenceModel;
-
-      return (
-        process.env.VUE_APP_IMAGE_URL +
-        imageReference.id +
-        "." +
-        imageReference.extension
+      return (this.imageReferences as ImageReferenceModel[]).map(
+        imageReference =>
+          process.env.VUE_APP_IMAGE_URL +
+          imageReference.id +
+          "." +
+          imageReference.extension
       );
     },
 

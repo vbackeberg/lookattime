@@ -5,6 +5,7 @@
       v-bind:imageReferences="timeEvent.imageReferences"
       v-bind:text="text"
       v-bind:title="title"
+      v-bind:date="date"
       v-on:toggleFullscreen="toggleFullscreen()"
       v-on:openContextMenu="openContextMenu"
     />

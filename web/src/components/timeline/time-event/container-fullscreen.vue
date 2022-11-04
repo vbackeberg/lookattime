@@ -10,33 +10,37 @@
         aspect-ratio="2"
         alt="time event image"
       >
-        <v-card-title class="card-title card-image-shadow">{{
-          title
-        }}</v-card-title>
       </v-img>
-      <div class="columns">
-        <v-card-text class="card-text">{{ text }}</v-card-text>
-        <div class="images">
-          <v-img
-            v-bind:src="imageSource"
-            class="card-image white--text align-end"
-            alt="time event image"
-            contain
-          >
-          </v-img>
-          <v-card-text class="image-caption"
-            >This is a subtitle for above image</v-card-text
-          >
-          <v-img
-            v-bind:src="imageSource"
-            class="card-image white--text align-end"
-            alt="time event image"
-            contain
-          >
-          </v-img>
-          <v-card-text class="image-caption"
-            >This is a subtitle for above image</v-card-text
-          >
+      <div class="text-area">
+        <div class="title-area">
+          <div class="event-title">{{ title }}</div>
+          <div class="event-subtitle">{{ formattedDate }}</div>
+          <!-- TODO: Maybe, add relationships to other dates here -->
+        </div>
+        <div class="columns">
+          <v-card-text class="card-text">{{ text }}</v-card-text>
+          <div class="images">
+            <v-img
+              v-bind:src="imageSource"
+              class="card-image white--text align-end"
+              alt="time event image"
+              contain
+            >
+            </v-img>
+            <v-card-text class="image-caption"
+              >This is a subtitle for above image</v-card-text
+            >
+            <v-img
+              v-bind:src="imageSource"
+              class="card-image white--text align-end"
+              alt="time event image"
+              contain
+            >
+            </v-img>
+            <v-card-text class="image-caption"
+              >This is a subtitle for above image</v-card-text
+            >
+          </div>
         </div>
       </div>
       <v-btn
@@ -51,7 +55,10 @@
   </div>
 </template>
 <script lang="ts">
+import { LOCALE } from "@/localization/locale";
 import ImageReferenceModel from "@/models/image-reference-model";
+import DateTimeFormatOptions from "@/timeline/date-time-format-options";
+import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
 
 /**
@@ -61,6 +68,7 @@ export default Vue.extend({
   props: {
     text: String,
     title: String,
+    date: Number,
     importance: Number,
     imageReferences: Array
   },
@@ -86,6 +94,15 @@ export default Vue.extend({
         imageReference.id +
         "." +
         imageReference.extension
+      );
+    },
+
+    formattedDate(): string {
+      return Temporal.Instant.fromEpochSeconds(this.date).toLocaleString(
+        LOCALE,
+        {
+          timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
+        }
       );
     }
   }
@@ -126,35 +143,47 @@ export default Vue.extend({
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  .card-title {
-    justify-content: center;
-    font-size: 2rem;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
-  .columns {
+  .text-area {
     padding: 32px;
-    gap: 32px;
-    display: flex;
-    align-items: flex-start;
 
-    .card-text {
-      width: 50%;
-      padding: 0;
-      text-align: justify;
-      white-space: break-spaces;
-    }
+    .title-area {
+      margin-bottom: 32px;
 
-    .images {
-      width: 50%;
+      .event-title {
+        font-size: 2.5rem;
+        font-weight: 600;
 
-      .card-image {
-        border-radius: 4px;
+        margin-bottom: 8px;
       }
 
-      .image-caption {
-        margin-bottom: 16px;
-        text-align: center;
+      .event-subtitle {
+        color: grey;
+      }
+    }
+
+    .columns {
+      gap: 32px;
+      display: flex;
+      align-items: flex-start;
+
+      .card-text {
+        width: 50%;
+        padding: 0;
+        text-align: justify;
+        white-space: break-spaces;
+      }
+
+      .images {
+        width: 50%;
+
+        .card-image {
+          border-radius: 8px;
+        }
+
+        .image-caption {
+          margin-bottom: 16px;
+          text-align: center;
+        }
       }
     }
   }

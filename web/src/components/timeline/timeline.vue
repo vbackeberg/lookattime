@@ -164,15 +164,24 @@ export default Vue.extend({
     },
 
     /**
-     * Initially repositions horizontal line once and then repositions
-     * whenever window resizes.
+     * Repositions and unhides horizontal line once after timeline was mounted
+     * and then repositions whenever window resizes.
      */
     observeAndRepositionHorizontalLine() {
-      this.repositionHorizontalLine();
+      const anchorElement = document.getElementById(
+        "time-marker-area"
+      ) as HTMLElement;
 
-      window.onresize = _ => {
-        this.repositionHorizontalLine();
-      };
+      const horizontalLineElement = document.getElementById(
+        "horizontal-line"
+      ) as HTMLElement;
+
+      this.repositionHorizontalLine(anchorElement, horizontalLineElement);
+
+      horizontalLineElement.style.visibility = "visible";
+
+      window.onresize = _ =>
+        this.repositionHorizontalLine(anchorElement, horizontalLineElement);
     },
 
     /**
@@ -190,15 +199,10 @@ export default Vue.extend({
      * Both elements are guaranteed to exist since this method is called
      * after component has been mounted.
      */
-    repositionHorizontalLine() {
-      const anchorElement = document.getElementById(
-        "time-marker-area"
-      ) as HTMLElement;
-
-      const horizontalLineElement = document.getElementById(
-        "horizontal-line"
-      ) as HTMLElement;
-
+    repositionHorizontalLine(
+      anchorElement: HTMLElement,
+      horizontalLineElement: HTMLElement
+    ) {
       horizontalLineElement.style.top = `${anchorElement.getBoundingClientRect()
         .top - horizontalLineElement.getBoundingClientRect().height}px`;
     }
@@ -226,7 +230,10 @@ export default Vue.extend({
   position: relative;
 }
 
+/** Hidden until correctly positioned */
 #horizontal-line {
+  visibility: hidden;
+
   width: 100%;
   height: 4px;
   position: fixed;

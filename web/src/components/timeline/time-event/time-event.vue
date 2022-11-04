@@ -7,7 +7,6 @@
       v-bind:title="title"
       v-bind:date="date"
       v-on:toggleFullscreen="toggleFullscreen()"
-      v-on:openContextMenu="openContextMenu"
     />
     <container-zoomable
       v-else
@@ -19,42 +18,11 @@
       v-bind:imageReferences="timeEvent.imageReferences"
       v-bind:expansionZoomLevels="expansionZoomLevels"
       v-on:toggleFullscreen="toggleFullscreen()"
-      v-on:openContextMenu="openContextMenu"
-    />
-    <v-menu
-      v-model="showContextMenu"
-      :position-x="x"
-      :position-y="y"
-      absolute
-      offset-y
-      style="max-width: 600px"
-    >
-      <v-list>
-        <v-list-item v-on:click.stop="showCreateTimeEventForm = true">
-          <v-list-item-title>Edit</v-list-item-title>
-        </v-list-item>
-        <v-list-item v-on:click.stop="deleteEvent()">
-          <v-list-item-title>Delete</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <create-time-event-form
-      v-model="showCreateTimeEventForm"
-      v-bind:timeEvent="{
-        id,
-        text,
-        date,
-        importance,
-        imageReferences,
-        title
-      }"
-      v-bind:editMode="true"
     />
   </div>
 </template>
 
 <script lang="ts">
-import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
 import store from "@/store/store";
 import Vue from "vue";
 import ContainerFullscreen from "./container-fullscreen.vue";
@@ -66,8 +34,7 @@ export default Vue.extend({
 
   components: {
     ContainerFullscreen,
-    ContainerZoomable,
-    CreateTimeEventForm
+    ContainerZoomable
   },
 
   props: {
@@ -82,11 +49,7 @@ export default Vue.extend({
 
   data() {
     return {
-      isFullscreen: false,
-      showCreateTimeEventForm: false,
-      showContextMenu: false,
-      x: 0,
-      y: 0
+      isFullscreen: false
     };
   },
 
@@ -105,19 +68,6 @@ export default Vue.extend({
   },
 
   methods: {
-    openContextMenu(e: MouseEvent) {
-      this.showContextMenu = false;
-      this.x = e.clientX;
-      this.y = e.clientY;
-      this.$nextTick(() => {
-        this.showContextMenu = true;
-      });
-    },
-
-    deleteEvent() {
-      store.dispatch("deleteTimeEvent", this.id);
-    },
-
     toggleFullscreen() {
       this.isFullscreen = !this.isFullscreen;
       document.dispatchEvent(

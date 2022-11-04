@@ -1,9 +1,5 @@
 <template>
   <div id="timeline">
-    <create-time-event-form
-      v-model="showCreateTimeEventForm"
-      v-bind:editMode="false"
-    />
     <div id="buffer-top-area">
       <!-- space management listens to this zoom-transition -->
       <svg id="spacer-left" class="spacer zoomable zoom-transition"></svg>
@@ -21,6 +17,7 @@
         v-bind:importance="timeEvent.importance"
         v-bind:imageReferences="timeEvent.imageReferences"
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
+        v-on:openContextMenu="openContextMenu($event, timeEvent)"
       ></time-event>
       <transition name="fade">
         <svg id="horizontal-line"></svg>
@@ -37,7 +34,7 @@
       right
       bottom
       color="primary"
-      @click.stop="showCreateTimeEventForm = true"
+      @click.stop="createNewTimeEvent"
       ><v-icon>mdi-plus</v-icon></v-btn
     >
     <v-overlay :value="loading">
@@ -55,6 +52,29 @@
         >
       </div>
     </v-overlay>
+
+    <v-menu
+      v-model="showContextMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+      style="max-width: 600px"
+    >
+      <v-list>
+        <v-list-item v-on:click.stop="showCreateTimeEventForm = true">
+          <v-list-item-title>Edit</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-on:click.stop="deleteEvent()">
+          <v-list-item-title>Delete</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <create-time-event-form
+      v-model="showCreateTimeEventForm"
+      v-bind:timeEvent="selectedTimeEvent"
+      v-bind:editMode="editMode"
+    />
   </div>
 </template>
 
@@ -72,6 +92,7 @@ import TimeEventModel from "@/models/time-event-model";
 import Spacer from "@/models/spacer";
 import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
 import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";
+import ImageReferenceModel from "@/models/image-reference-model";
 
 export default Vue.extend({
   name: "Timeline",
@@ -83,7 +104,18 @@ export default Vue.extend({
 
   data() {
     return {
-      showCreateTimeEventForm: false
+      isFullscreen: false,
+
+      showCreateTimeEventForm: false,
+      showContextMenu: false,
+      x: 0,
+      y: 0,
+
+      editMode: false,
+
+      selectedTimeEvent: {
+        imageReferences: [] as ImageReferenceModel[]
+      } as TimeEventModel
     };
   },
 
@@ -121,6 +153,33 @@ export default Vue.extend({
   },
 
   methods: {
+    openContextMenu(e: MouseEvent, timeEvent: TimeEventModel) {
+      console.log(timeEvent);
+
+      this.editMode = true;
+      this.selectedTimeEvent = timeEvent;
+
+      this.showContextMenu = false;
+      this.x = e.clientX;
+      this.y = e.clientY;
+      this.$nextTick(() => {
+        this.showContextMenu = true;
+      });
+    },
+
+    createNewTimeEvent() {
+      this.editMode = false;
+      this.selectedTimeEvent = {
+        imageReferences: [] as ImageReferenceModel[]
+      } as TimeEventModel;
+      this.showCreateTimeEventForm = true;
+    },
+
+    deleteEvent() {
+      store.dispatch("deleteTimeEvent", this.selectedTimeEvent.id);
+      this.showContextMenu = false;
+    },
+
     setHTMLElements() {
       store.state.timelineElement = document.getElementById(
         "timeline"

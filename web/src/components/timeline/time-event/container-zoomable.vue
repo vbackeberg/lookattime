@@ -114,7 +114,7 @@ export default Vue.extend({
   },
   methods: {
     openContextMenu(e: MouseEvent) {
-      this.$emit("openContextMenu", e);
+      this.$parent.$emit("openContextMenu", e);
     },
 
     /**

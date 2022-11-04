@@ -23,7 +23,7 @@
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
       ></time-event>
       <transition name="fade">
-        <svg v-if="timeEvents.length > 0" id="horizontal-line"></svg>
+        <svg id="horizontal-line"></svg>
       </transition>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->

@@ -303,6 +303,7 @@ export default Vue.extend({
 
     clearInput() {
       this.images = [] as File[];
+      this.imageReferencesToAdd = [] as ImageReferenceModel[];
       this.imageReferencesToDelete = [] as ImageReferenceModel[];
       (this.$refs.form as VForm).reset();
     },

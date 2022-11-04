@@ -307,7 +307,7 @@ export default Vue.extend({
       (this.$refs.form as VForm).reset();
     },
 
-    back() {
+    back() { // TODO: probably obsolete
       this.clearInput();
       this.show = false;
     }

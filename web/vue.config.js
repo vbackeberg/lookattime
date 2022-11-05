@@ -1,6 +1,6 @@
 module.exports = {
   devServer: {
-    disableHostCheck: true,
+    allowedHosts: "all",
     proxy: "http://localhost:7071"
   },
   configureWebpack: {

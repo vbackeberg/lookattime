@@ -1,7 +1,7 @@
 <template>
   <div class="container-fullscreen">
     <div class="container-content elevation-20">
-      <v-card class="content" v-on:contextmenu.prevent="openContextMenu">
+      <v-card class="content">
         <v-img
           v-bind:src="imageSources[0]"
           class="card-image white--text align-end"
@@ -66,9 +66,6 @@ export default Vue.extend({
   methods: {
     toggleFullscreen() {
       this.$emit("toggleFullscreen");
-    },
-    openContextMenu(e: MouseEvent) {
-      this.$emit("openContextMenu", e);
     }
   },
 

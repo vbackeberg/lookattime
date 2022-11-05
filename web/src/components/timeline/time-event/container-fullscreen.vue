@@ -13,7 +13,7 @@
           <div class="title-area">
             <div class="event-title">{{ title }}</div>
             <div class="event-subtitle">{{ formattedDate }}</div>
-            <!-- TODO: Maybe, add relationships to other dates here -->
+            <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
           </div>
           <div class="columns">
             <v-card-text class="card-text">{{ text }}</v-card-text>

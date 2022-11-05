@@ -19,9 +19,7 @@
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
         v-on:openContextMenu="openContextMenu($event, timeEvent)"
       ></time-event>
-      <transition name="fade">
-        <svg id="horizontal-line"></svg>
-      </transition>
+      <svg id="horizontal-line"></svg>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
     <div id="time-marker-area"></div>
@@ -363,15 +361,5 @@ export default Vue.extend({
       visibility: visible;
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 300ms ease;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

@@ -16,7 +16,7 @@
             <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
           </div>
           <div class="columns">
-            <v-card-text class="card-text">{{ text }}</v-card-text>
+            {{ text }}
             <div class="images">
               <div v-for="source in imageSources" v-bind:key="source.id">
                 <v-img
@@ -156,28 +156,18 @@ export default Vue.extend({
       }
 
       .columns {
-        gap: 32px;
-        display: flex;
-        align-items: flex-start;
+        padding: 0;
+        text-align: justify;
+        white-space: break-spaces;
+        column-count: 2;
 
-        .card-text {
-          width: 50%;
-          padding: 0;
-          text-align: justify;
-          white-space: break-spaces;
+        .card-image {
+          border-radius: 8px;
         }
 
-        .images {
-          width: 50%;
-
-          .card-image {
-            border-radius: 8px;
-          }
-
-          .image-caption {
-            margin-bottom: 16px;
-            text-align: center;
-          }
+        .image-caption {
+          margin-bottom: 16px;
+          text-align: center;
         }
       }
     }

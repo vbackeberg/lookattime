@@ -1,49 +1,48 @@
 <template>
   <div class="container-fullscreen">
-    <v-card
-      class="content elevation-20"
-      v-on:contextmenu.prevent="openContextMenu"
-    >
-      <v-img
-        v-bind:src="imageSources[0]"
-        class="card-image white--text align-end"
-        aspect-ratio="2"
-        alt="time event image"
-      >
-      </v-img>
-      <div class="text-area">
-        <div class="title-area">
-          <div class="event-title">{{ title }}</div>
-          <div class="event-subtitle">{{ formattedDate }}</div>
-          <!-- TODO: Maybe, add relationships to other dates here -->
-        </div>
-        <div class="columns">
-          <v-card-text class="card-text">{{ text }}</v-card-text>
-          <div class="images">
-            <div v-for="source in imageSources" v-bind:key="source.id">
-              <v-img
-                v-bind:src="source"
-                class="card-image white--text align-end"
-                alt="time event image"
-                contain
-              >
-              </v-img>
-              <v-card-text class="image-caption"
-                >This is a subtitle for above image</v-card-text
-              >
+    <div class="container-content elevation-20">
+      <v-card class="content" v-on:contextmenu.prevent="openContextMenu">
+        <v-img
+          v-bind:src="imageSources[0]"
+          class="card-image white--text align-end"
+          height="400px"
+          alt="time event image"
+        >
+        </v-img>
+        <div class="text-area">
+          <div class="title-area">
+            <div class="event-title">{{ title }}</div>
+            <div class="event-subtitle">{{ formattedDate }}</div>
+            <!-- TODO: Maybe, add relationships to other dates here -->
+          </div>
+          <div class="columns">
+            <v-card-text class="card-text">{{ text }}</v-card-text>
+            <div class="images">
+              <div v-for="source in imageSources" v-bind:key="source.id">
+                <v-img
+                  v-bind:src="source"
+                  class="card-image white--text align-end"
+                  alt="time event image"
+                  contain
+                >
+                </v-img>
+                <v-card-text class="image-caption"
+                  >This is a subtitle for above image</v-card-text
+                >
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <v-btn
-        class="btn-full card-image-shadow"
-        color="white"
-        icon
-        v-on:click.stop="toggleFullscreen()"
-      >
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </v-card>
+        <v-btn
+          class="btn-full card-image-shadow"
+          color="white"
+          icon
+          v-on:click.stop="toggleFullscreen()"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -111,7 +110,7 @@ export default Vue.extend({
   z-index: 6;
 }
 
-.content {
+.container-content {
   height: 100%;
   width: 75%;
   max-width: 1000px;
@@ -120,60 +119,68 @@ export default Vue.extend({
 
   border-color: #aaa !important;
   border-style: solid;
-  border-radius: 4px;
+  border-radius: 16px;
   border-width: $box-border-width;
-  overflow-y: scroll;
 
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 
-  .btn-full {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
+  .content {
+    height: 100%;
+    width: 100%;
 
-  .text-area {
-    padding: 32px;
+    overflow-y: scroll;
 
-    .title-area {
-      margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
 
-      .event-title {
-        font-size: 2.5rem;
-        font-weight: 600;
-
-        margin-bottom: 8px;
-      }
-
-      .event-subtitle {
-        color: grey;
-      }
+    .btn-full {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: rgba(0, 0, 0, 0.5);
     }
 
-    .columns {
-      gap: 32px;
-      display: flex;
-      align-items: flex-start;
+    .text-area {
+      padding: 32px;
 
-      .card-text {
-        width: 50%;
-        padding: 0;
-        text-align: justify;
-        white-space: break-spaces;
-      }
+      .title-area {
+        margin-bottom: 32px;
 
-      .images {
-        width: 50%;
+        .event-title {
+          font-size: 2.5rem;
+          font-weight: 600;
 
-        .card-image {
-          border-radius: 8px;
+          margin-bottom: 8px;
         }
 
-        .image-caption {
-          margin-bottom: 16px;
-          text-align: center;
+        .event-subtitle {
+          color: grey;
+        }
+      }
+
+      .columns {
+        gap: 32px;
+        display: flex;
+        align-items: flex-start;
+
+        .card-text {
+          width: 50%;
+          padding: 0;
+          text-align: justify;
+          white-space: break-spaces;
+        }
+
+        .images {
+          width: 50%;
+
+          .card-image {
+            border-radius: 8px;
+          }
+
+          .image-caption {
+            margin-bottom: 16px;
+            text-align: center;
+          }
         }
       }
     }

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <v-dialog v-model="show" persistent max-width="600">
     <v-card>
@@ -144,7 +143,7 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable vue/no-mutating-props */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import TextAreaWithEditor from "@/components/timeline/create-time-event-form/text-area-with-editor.vue";
 import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event-model";
@@ -155,6 +154,7 @@ import { getExtension } from "mime";
 import { v4 as uuid } from "uuid";
 import Vue from "vue";
 import TemporalConversion from "@/temporal-extensions/temporal-conversion";
+import { TimeEventFormModel } from "@/components/timeline/create-time-event-form/time-event-form-model";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -175,7 +175,7 @@ export default Vue.extend({
       // Form validation rules:
       ruleImportance: (v: number) =>
         !store.state.timeEvents
-          .filter(timeEvent => timeEvent.id != this.timeEvent.id)
+          .filter(timeEvent => timeEvent.id != this.timeEvent?.id)
           .map(timeEvent => timeEvent.importance)
           .includes(Number(v)) ||
         "You have another time event with the same importance level. Please pick a different level!",
@@ -215,7 +215,10 @@ export default Vue.extend({
     },
 
     imageReferences(): ImageReferenceModel[] {
-      return (this.timeEvent.imageReferences as ImageReferenceModel[])
+      const imageReferences = (this.timeEvent?.imageReferences ??
+        []) as ImageReferenceModel[];
+
+      return imageReferences
         .filter(
           imageReference =>
             !this.imageReferencesToDelete.includes(imageReference)
@@ -223,25 +226,37 @@ export default Vue.extend({
         .concat(this.imageReferencesToAdd);
     }
   },
+
   watch: {
     show(value) {
-      if (value) {
-        this.prefillForm(this.timeEvent);
-      } else {
-        this.reset();
-      }
+      if (value) this.prefillForm(this.timeEvent);
     }
   },
 
   methods: {
-    prefillForm(timeEvent: TimeEventModel) {
-      this.title = timeEvent.title;
-      this.text = timeEvent.text;
-      this.importance = timeEvent.importance;
-      this.plainDate = TemporalConversion.plainDate(timeEvent.date);
-      this.plainTime = TemporalConversion.plainTime(timeEvent.date);
+    prefillForm(timeEvent: TimeEventFormModel) {
+      this.loading = false;
+      this.images = [] as File[];
+      this.imageReferencesToAdd = [] as ImageReferenceModel[];
+      this.imageReferencesToDelete = [] as ImageReferenceModel[];
+      (this.$refs.form as VForm)?.reset();
+
+      if (timeEvent === null) {
+        this.title = this.text = this.importance = this.plainDate = this.plainTime = null;
+      } else {
+        this.title = timeEvent.title;
+        this.text = timeEvent.text;
+        this.importance = timeEvent.importance;
+        this.plainDate = TemporalConversion.plainDate(timeEvent.date);
+        this.plainTime = TemporalConversion.plainTime(timeEvent.date);
+      }
     },
 
+    /**
+     * Submits an update or creation of a time event.
+     *
+     * All non-null asserted calls are secured by form validation rules.
+     */
     async submit() {
       this.loading = true;
 
@@ -249,8 +264,8 @@ export default Vue.extend({
 
       const action = this.editMode ? "updateTimeEvent" : "addTimeEvent";
       const timeEventId = this.editMode ? this.timeEvent.id : uuid();
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.plainDate!, // secured by form validation rule
+      const date = TemporalConversion.epochSeconds(
+        this.plainDate!,
         this.plainTime
       );
 
@@ -259,11 +274,11 @@ export default Vue.extend({
           timeEvent: new TimeEventModel(
             PositionTranslator.toAbsolutePosition(date),
             timeEventId,
-            this.timeEvent.text,
+            this.text!,
             date,
-            this.timeEvent.importance,
+            this.importance!,
             this.imageReferences,
-            this.timeEvent.title
+            this.title!
           ),
           images: this.images
         });
@@ -295,14 +310,6 @@ export default Vue.extend({
 
     markImageForDeletion(imageReferenceToDelete: ImageReferenceModel) {
       this.imageReferencesToDelete.push(imageReferenceToDelete);
-    },
-
-    reset() {
-      this.loading = false;
-      this.images = [] as File[];
-      this.imageReferencesToAdd = [] as ImageReferenceModel[];
-      this.imageReferencesToDelete = [] as ImageReferenceModel[];
-      (this.$refs.form as VForm).reset();
     }
   }
 });

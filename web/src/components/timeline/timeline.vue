@@ -90,8 +90,8 @@ import TimeEventModel from "@/models/time-event-model";
 import Spacer from "@/models/spacer";
 import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
 import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";
-import ImageReferenceModel from "@/models/image-reference-model";
 import HorizontalLine from "@/components/timeline/horizontal-line.vue";
+import { TimeEventFormModel } from "@/components/timeline/create-time-event-form/time-event-form-model";
 
 export default Vue.extend({
   name: "Timeline",
@@ -113,9 +113,7 @@ export default Vue.extend({
 
       editMode: false,
 
-      selectedTimeEvent: {
-        imageReferences: [] as ImageReferenceModel[]
-      } as TimeEventModel
+      selectedTimeEvent: null as null | TimeEventFormModel
     };
   },
 
@@ -160,7 +158,7 @@ export default Vue.extend({
         date: timeEvent.date,
         importance: timeEvent.importance,
         imageReferences: timeEvent.imageReferences
-      } as TimeEventModel;
+      } as TimeEventFormModel;
 
       this.showContextMenu = false;
       this.x = e.clientX;
@@ -172,20 +170,14 @@ export default Vue.extend({
 
     createNewTimeEvent() {
       this.editMode = false;
-
-      // Not setting these fields null would mark them as invalid in the form.
-      this.selectedTimeEvent = {
-        title: (null as unknown) as string,
-        text: (null as unknown) as string,
-        importance: (null as unknown) as number,
-        date: (null as unknown) as number,
-        imageReferences: [] as ImageReferenceModel[]
-      } as TimeEventModel;
+      this.selectedTimeEvent = null;
       this.showCreateTimeEventForm = true;
     },
 
     deleteEvent() {
-      store.dispatch("deleteTimeEvent", this.selectedTimeEvent.id);
+      if (this.selectedTimeEvent?.id) {
+        store.dispatch("deleteTimeEvent", this.selectedTimeEvent.id);
+      }
       this.showContextMenu = false;
     },
 

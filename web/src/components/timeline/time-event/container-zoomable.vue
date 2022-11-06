@@ -25,7 +25,7 @@
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
       </v-img>
-      <v-card-text class="card-text">{{ text }}</v-card-text>
+      <v-card-text class="card-text">{{ parsedText }}</v-card-text>
     </v-card>
     <svg class="connector grow-transition"></svg>
   </div>
@@ -110,8 +110,14 @@ export default Vue.extend({
         "." +
         imageReference.extension
       );
+    },
+
+    parsedText() {
+      return document.createRange().createContextualFragment(this.text)
+        .textContent;
     }
   },
+
   methods: {
     openContextMenu(e: MouseEvent) {
       this.$parent?.$emit("openContextMenu", e);

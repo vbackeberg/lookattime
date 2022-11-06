@@ -117,7 +117,7 @@
                 </v-chip-group>
               </v-col>
               <v-col cols="12">
-                <text-area-with-editor :value="timeEvent.text" ref="textArea" />
+                <text-area-with-editor v-model="timeEvent.text" />
               </v-col>
             </v-row> </v-container
         ></v-form>
@@ -150,7 +150,7 @@ import { v4 as uuid } from "uuid";
 import store from "@/store/store";
 import TimeEventModel from "@/models/time-event-model";
 import PositionTranslator from "@/timeline/position-translator";
-import { TextAreaWithEditorType, VForm } from "@/types";
+import { VForm } from "@/types";
 import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
 import { Temporal } from "@js-temporal/polyfill";
@@ -294,7 +294,6 @@ export default Vue.extend({
       this.imageReferencesToAdd = [] as ImageReferenceModel[];
       this.imageReferencesToDelete = [] as ImageReferenceModel[];
       (this.$refs.form as VForm).reset();
-      (this.$refs.textArea as TextAreaWithEditorType)?.resetInput();
     }
   }
 });

@@ -117,51 +117,7 @@
                 </v-chip-group>
               </v-col>
               <v-col cols="12">
-                <div v-if="editor">
-                  <v-btn-toggle class="editor-toolbar" dense multiple>
-                    <v-btn
-                      @click="
-                        editor
-                          .chain()
-                          .focus()
-                          .toggleBold()
-                          .run()
-                      "
-                      :disabled="
-                        !editor
-                          .can()
-                          .chain()
-                          .focus()
-                          .toggleBold()
-                          .run()
-                      "
-                      :class="{ 'is-active': editor.isActive('bold') }"
-                    >
-                      bold
-                    </v-btn>
-                    <v-btn
-                      @click="
-                        editor
-                          .chain()
-                          .focus()
-                          .toggleBold()
-                          .run()
-                      "
-                      :disabled="
-                        !editor
-                          .can()
-                          .chain()
-                          .focus()
-                          .toggleBold()
-                          .run()
-                      "
-                      :class="{ 'is-active': editor.isActive('bold') }"
-                    >
-                      bold
-                    </v-btn>
-                  </v-btn-toggle>
-                  <editor-content :editor="editor" />
-                </div>
+                <text-area :value="timeEvent.text" />
               </v-col>
             </v-row> </v-container
         ></v-form>
@@ -198,36 +154,17 @@ import { VForm } from "@/types";
 import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
 import { Temporal } from "@js-temporal/polyfill";
-import { Editor, EditorContent } from "@tiptap/vue-2";
-import StarterKit from "@tiptap/starter-kit";
+import TextArea from "@/components/timeline/create-time-event-form/text-area.vue";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
 
   components: {
-    EditorContent
-  },
-
-  mounted() {
-    this.editor = new Editor({
-      content: this.timeEvent.text,
-      extensions: [StarterKit],
-      editorProps: {
-        attributes: {
-          class: "editor-text-area"
-        }
-      }
-    });
-  },
-
-  beforeDestroy() {
-    this.editor.destroy();
+    TextArea
   },
 
   data() {
     return {
-      editor: (null as unknown) as Editor,
-
       images: [] as File[],
       imageReferencesToDelete: [] as ImageReferenceModel[],
       imageReferencesToAdd: [] as ImageReferenceModel[],
@@ -362,33 +299,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
-@import "src/colors.scss";
-
-.editor-toolbar {
-  margin-bottom: 8px;
-}
-
-/** This class represents the editor container. */
-.editor-text-area {
-  padding: 8px;
-
-  border-style: solid;
-  border-color: $lat-border-color;
-  border-radius: 4px;
-  border-width: 1px;
-
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.87);
-
-  &:hover {
-    border-color: $lat-border-color-hover;
-    border-width: 1px;
-  }
-
-  &:focus {
-    outline-color: $lat-primary-color;
-    outline-width: 2px;
-  }
-}
-</style>
+<style lang="scss"></style>

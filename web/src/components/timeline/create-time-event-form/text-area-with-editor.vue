@@ -51,7 +51,7 @@ import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
 export default Vue.extend({
-  name: "TextArea",
+  name: "TextAreaWithEditor",
 
   props: {
     value: String
@@ -77,10 +77,6 @@ export default Vue.extend({
     initializeEditor() {
       this.editor = new Editor({
         content: this.value,
-        onUpdate: ({ editor }) => {
-          console.log("update " + editor);
-          this.$emit("update:value", editor.getHTML());
-        },
         extensions: [StarterKit],
         editorProps: {
           attributes: {
@@ -91,9 +87,20 @@ export default Vue.extend({
     },
 
     updateEditorContent(value: string) {
+      //   console.log("new v " + value);
+      //   console.log("editor value " + this.editor.getHTML());
       if (this.editor.getHTML() !== value) {
         this.editor.commands.setContent(value, false);
       }
+    },
+
+    /**
+     * Reset the input to the `value` prop. This allows
+     * opening the same time event again and having the
+     * text reset.
+     */
+    resetInput() {
+      this.editor.commands.setContent(this.value, false);
     }
   },
 

@@ -117,7 +117,7 @@
                 </v-chip-group>
               </v-col>
               <v-col cols="12">
-                <text-area :value="timeEvent.text" />
+                <text-area-with-editor :value="timeEvent.text" ref="textArea" />
               </v-col>
             </v-row> </v-container
         ></v-form>
@@ -154,13 +154,13 @@ import { VForm } from "@/types";
 import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
 import { Temporal } from "@js-temporal/polyfill";
-import TextArea from "@/components/timeline/create-time-event-form/text-area.vue";
+import TextAreaWithEditor from "@/components/timeline/create-time-event-form/text-area-with-editor.vue";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
 
   components: {
-    TextArea
+    TextAreaWithEditor
   },
 
   data() {

@@ -225,7 +225,7 @@ export default Vue.extend({
 
     reloadPage() {
       location.href = location.href;
-    },
+    }
   }
 });
 </script>

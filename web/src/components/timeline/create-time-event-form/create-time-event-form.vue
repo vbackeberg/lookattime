@@ -249,9 +249,8 @@ export default Vue.extend({
 
       const action = this.editMode ? "updateTimeEvent" : "addTimeEvent";
       const timeEventId = this.editMode ? this.timeEvent.id : uuid();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const date = TemporalConversion.epochSeconds(
-        this.plainDate!,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.plainDate!, // secured by form validation rule
         this.plainTime
       );
 

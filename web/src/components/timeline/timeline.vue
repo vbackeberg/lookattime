@@ -152,8 +152,6 @@ export default Vue.extend({
 
   methods: {
     openContextMenu(e: MouseEvent, timeEvent: TimeEventModel) {
-      console.log(timeEvent);
-
       this.editMode = true;
       this.selectedTimeEvent = {
         id: timeEvent.id,

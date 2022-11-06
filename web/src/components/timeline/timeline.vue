@@ -176,7 +176,9 @@ export default Vue.extend({
       // Not setting these fields null would mark them as invalid in the form.
       this.selectedTimeEvent = {
         title: (null as unknown) as string,
+        text: (null as unknown) as string,
         importance: (null as unknown) as number,
+        date: (null as unknown) as number,
         imageReferences: [] as ImageReferenceModel[]
       } as TimeEventModel;
       this.showCreateTimeEventForm = true;

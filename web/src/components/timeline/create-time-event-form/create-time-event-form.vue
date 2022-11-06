@@ -84,14 +84,14 @@
                   label="Title"
                   required
                   type="text"
-                  v-model="timeEvent.title"
+                  v-model="title"
                   :rules="[ruleNotEmpty]"
                 />
                 <v-text-field
                   label="Importance"
                   required
                   type="number"
-                  v-model.number="timeEvent.importance"
+                  v-model.number="importance"
                   :rules="[ruleImportance, ruleNotEmpty]"
                 />
               </v-col>
@@ -117,14 +117,14 @@
                 </v-chip-group>
               </v-col>
               <v-col cols="12">
-                <text-area-with-editor v-model="timeEvent.text" />
+                <text-area-with-editor v-model="text" />
               </v-col>
             </v-row> </v-container
         ></v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" text @click.stop="close()">
+        <v-btn color="secondary" text @click.stop="show = false">
           Back
         </v-btn>
         <v-btn
@@ -145,16 +145,16 @@
 
 <script lang="ts">
 /* eslint-disable vue/no-mutating-props */
-import Vue from "vue";
-import { v4 as uuid } from "uuid";
-import store from "@/store/store";
+import TextAreaWithEditor from "@/components/timeline/create-time-event-form/text-area-with-editor.vue";
+import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event-model";
+import store from "@/store/store";
 import PositionTranslator from "@/timeline/position-translator";
 import { VForm } from "@/types";
-import ImageReferenceModel from "@/models/image-reference-model";
 import { getExtension } from "mime";
-import { Temporal } from "@js-temporal/polyfill";
-import TextAreaWithEditor from "@/components/timeline/create-time-event-form/text-area-with-editor.vue";
+import { v4 as uuid } from "uuid";
+import Vue from "vue";
+import TemporalConversion from "@/temporal-extensions/temporal-conversion";
 
 export default Vue.extend({
   name: "CreateTimeEventForm",
@@ -165,19 +165,12 @@ export default Vue.extend({
 
   data() {
     return {
-      images: [] as File[],
-      imageReferencesToDelete: [] as ImageReferenceModel[],
-      imageReferencesToAdd: [] as ImageReferenceModel[],
-
-      plainDate: null,
-      plainTime: null,
-
-      datePickerOpen: false,
-      timePickerOpen: false,
-      timePickerVisible: false,
-
-      loading: false,
-      valid: true,
+      // Form fields
+      plainDate: null as null | string,
+      plainTime: null as null | string,
+      title: null as null | string,
+      text: null as null | string,
+      importance: null as null | number,
 
       // Form validation rules:
       ruleImportance: (v: number) =>
@@ -186,7 +179,19 @@ export default Vue.extend({
           .map(timeEvent => timeEvent.importance)
           .includes(Number(v)) ||
         "You have another time event with the same importance level. Please pick a different level!",
-      ruleNotEmpty: (v: string) => !!v || "This field is required"
+      ruleNotEmpty: (v: string) => !!v || "This field is required",
+
+      // Form state
+      valid: true,
+      loading: false,
+      datePickerOpen: false,
+      timePickerOpen: false,
+      timePickerVisible: false,
+
+      // Images
+      images: [] as File[],
+      imageReferencesToDelete: [] as ImageReferenceModel[],
+      imageReferencesToAdd: [] as ImageReferenceModel[]
     };
   },
 
@@ -218,8 +223,25 @@ export default Vue.extend({
         .concat(this.imageReferencesToAdd);
     }
   },
+  watch: {
+    show(value) {
+      if (value) {
+        this.prefillForm(this.timeEvent);
+      } else {
+        this.reset();
+      }
+    }
+  },
 
   methods: {
+    prefillForm(timeEvent: TimeEventModel) {
+      this.title = timeEvent.title;
+      this.text = timeEvent.text;
+      this.importance = timeEvent.importance;
+      this.plainDate = TemporalConversion.plainDate(timeEvent.date);
+      this.plainTime = TemporalConversion.plainTime(timeEvent.date);
+    },
+
     async submit() {
       this.loading = true;
 
@@ -228,7 +250,10 @@ export default Vue.extend({
       const action = this.editMode ? "updateTimeEvent" : "addTimeEvent";
       const timeEventId = this.editMode ? this.timeEvent.id : uuid();
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const date = this.parseDate(this.plainDate!, this.plainTime);
+      const date = TemporalConversion.epochSeconds(
+        this.plainDate!,
+        this.plainTime
+      );
 
       try {
         await store.dispatch(action, {
@@ -244,7 +269,7 @@ export default Vue.extend({
           images: this.images
         });
 
-        this.close();
+        this.show = false;
       } catch (e) {
         console.log("dispatch " + action + " failed: ", e);
         this.loading = false;
@@ -273,23 +298,8 @@ export default Vue.extend({
       this.imageReferencesToDelete.push(imageReferenceToDelete);
     },
 
-    /**
-     * Converts existing date into a ZonedDateTime and changes date to `plainDate` and time to `plainTime`.
-     */
-    parseDate(plainDate: string, plainTime: string | null) {
-      const date = Temporal.Instant.from(
-        `${plainDate}T${plainTime ? plainTime : "00:00:00"}+0000`
-      ).epochSeconds;
-      return date;
-    },
-
-    close() {
-      this.clearInput();
-      this.show = false;
+    reset() {
       this.loading = false;
-    },
-
-    clearInput() {
       this.images = [] as File[];
       this.imageReferencesToAdd = [] as ImageReferenceModel[];
       this.imageReferencesToDelete = [] as ImageReferenceModel[];

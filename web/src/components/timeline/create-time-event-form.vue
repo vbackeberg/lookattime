@@ -210,7 +210,7 @@ export default Vue.extend({
 
   mounted() {
     this.editor = new Editor({
-      content: "<p>I’m running Tiptap with Vue.js. 🎉</p>",
+      content: this.timeEvent.text,
       extensions: [StarterKit],
       editorProps: {
         attributes: {

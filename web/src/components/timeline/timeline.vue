@@ -81,7 +81,7 @@ import TimeEvent from "@/components/timeline/time-event/time-event.vue";
 import Vue from "vue";
 import store from "@/store/store";
 import SpaceObserver from "@/timeline/space-management/space-observer";
-import CreateTimeEventForm from "@/components/timeline/create-time-event-form.vue";
+import CreateTimeEventForm from "@/components/timeline/create-time-event-form/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";

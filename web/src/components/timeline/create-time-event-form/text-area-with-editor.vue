@@ -49,6 +49,8 @@
 import Vue from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
+import { ColumnExtension } from "@gocapsule/column-extension";
+import "@gocapsule/column-extension/src/index.css";
 
 export default Vue.extend({
   name: "TextAreaWithEditor",
@@ -80,13 +82,14 @@ export default Vue.extend({
         onUpdate: ({ editor }) => {
           this.$emit("input", editor.getHTML());
         },
-        extensions: [StarterKit],
+        extensions: [StarterKit, ColumnExtension],
         editorProps: {
           attributes: {
             class: "editor-text-area"
           }
         }
       });
+      this.editor.commands.setColumns(2);
     },
 
     updateEditorContent(value: string) {

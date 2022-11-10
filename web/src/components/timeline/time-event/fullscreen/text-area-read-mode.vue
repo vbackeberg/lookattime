@@ -8,7 +8,6 @@
 import Vue from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
-import { ColumnExtension } from "@gocapsule/column-extension";
 
 export default Vue.extend({
   name: "text-area-read-mode",
@@ -25,7 +24,7 @@ export default Vue.extend({
     initializeEditor() {
       this.editor = new Editor({
         content: this.value,
-        extensions: [StarterKit, ColumnExtension],
+        extensions: [StarterKit],
         editable: false,
         editorProps: {
           attributes: {
@@ -33,7 +32,6 @@ export default Vue.extend({
           }
         }
       });
-      this.editor.commands.setColumns(2);
     }
   },
 

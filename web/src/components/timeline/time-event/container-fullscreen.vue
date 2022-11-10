@@ -158,13 +158,13 @@ export default Vue.extend({
 
     .text-area {
       height: 100%;
-      padding: 32px;
+      padding: 16px 32px 32px 32px;
 
       display: flex;
       flex-direction: column;
 
       .title-area {
-        margin-bottom: 32px;
+        margin-bottom: 16px;
 
         .event-title {
           font-size: 2.5rem;

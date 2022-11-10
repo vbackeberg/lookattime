@@ -89,7 +89,6 @@ export default Vue.extend({
           }
         }
       });
-      this.editor.commands.setColumns(2);
     },
 
     updateEditorContent(value: string) {

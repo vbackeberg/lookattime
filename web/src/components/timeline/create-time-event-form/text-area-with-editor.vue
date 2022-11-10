@@ -1,5 +1,5 @@
 <template>
-  <div v-if="editor">
+  <div class="container" v-if="editor">
     <v-btn-toggle class="editor-toolbar" dense multiple>
       <v-btn
         @click="
@@ -42,15 +42,13 @@
         bold
       </v-btn>
     </v-btn-toggle>
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor" class="editor-container" />
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
-import { ColumnExtension } from "@gocapsule/column-extension";
-import "@gocapsule/column-extension/src/index.css";
 
 export default Vue.extend({
   name: "TextAreaWithEditor",
@@ -82,10 +80,10 @@ export default Vue.extend({
         onUpdate: ({ editor }) => {
           this.$emit("input", editor.getHTML());
         },
-        extensions: [StarterKit, ColumnExtension],
+        extensions: [StarterKit],
         editorProps: {
           attributes: {
-            class: "editor-text-area"
+            class: "editor-area"
           }
         }
       });
@@ -119,15 +117,28 @@ export default Vue.extend({
   }
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "src/colors.scss";
+
+.container {
+  flex: 1 0 auto;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container {
+  flex: 1 0 auto;
+}
 
 .editor-toolbar {
   margin-bottom: 8px;
 }
 
-/** This class represents the editor container. */
-.editor-text-area {
+/** This class is added on the editor container. */
+::v-deep .editor-area {
+  height: 100%;
   padding: 8px;
 
   border-style: solid;
@@ -137,6 +148,10 @@ export default Vue.extend({
 
   font-size: 16px;
   color: rgba(0, 0, 0, 0.87);
+
+  column-count: 2;
+  column-fill: auto;
+  column-rule: 1px dashed $lat-border-color;
 
   &:hover {
     border-color: $lat-border-color-hover;

@@ -5,34 +5,31 @@
         <v-img
           v-bind:src="imageSources[0]"
           class="card-image white--text align-end"
-          height="400px"
+          max-height="400px"
           alt="time event image"
         >
         </v-img>
+
         <div class="text-area">
           <div class="title-area">
             <div class="event-title">{{ title }}</div>
             <div class="event-subtitle">{{ formattedDate }}</div>
             <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
           </div>
-          <div class="columns">
-            {{ text }}
-            <div class="images">
-              <div v-for="source in imageSources" v-bind:key="source.id">
-                <v-img
-                  v-bind:src="source"
-                  class="card-image white--text align-end"
-                  alt="time event image"
-                  contain
-                >
-                </v-img>
-                <v-card-text class="image-caption"
-                  >This is a subtitle for above image</v-card-text
-                >
-              </div>
-            </div>
-          </div>
+          <transition name="fade">
+            <text-area-with-editor v-if="editMode" v-model="t" />
+          </transition>
+          <transition name="fade">
+            <text-area-read-mode v-if="!editMode" v-model="t" />
+          </transition>
         </div>
+        <v-btn
+          class="btn-full-2 card-image-shadow"
+          color="white"
+          icon
+          v-on:click.stop="editMode = !editMode"
+          ><v-icon>mdi-pencil</v-icon></v-btn
+        >
         <v-btn
           class="btn-full card-image-shadow"
           color="white"
@@ -51,6 +48,8 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
+import TextAreaWithEditor from "@/components/timeline/create-time-event-form/text-area-with-editor.vue";
+import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/text-area-read-mode.vue";
 
 /**
  * This fullscreen card is used for the fullscreen view of a time event.
@@ -63,6 +62,19 @@ export default Vue.extend({
     importance: Number,
     imageReferences: Array
   },
+
+  components: {
+    TextAreaWithEditor,
+    TextAreaReadMode
+  },
+
+  data() {
+    return {
+      t: "asdasd adad",
+      editMode: false
+    };
+  },
+
   methods: {
     toggleFullscreen() {
       this.$emit("toggleFullscreen");
@@ -137,8 +149,19 @@ export default Vue.extend({
       background-color: rgba(0, 0, 0, 0.5);
     }
 
+    .btn-full-2 {
+      position: absolute;
+      top: 8px;
+      right: 56px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
     .text-area {
+      height: 100%;
       padding: 32px;
+
+      display: flex;
+      flex-direction: column;
 
       .title-area {
         margin-bottom: 32px;
@@ -154,23 +177,16 @@ export default Vue.extend({
           color: grey;
         }
       }
-
-      .columns {
-        padding: 0;
-        text-align: justify;
-        white-space: break-spaces;
-        column-count: 2;
-
-        .card-image {
-          border-radius: 8px;
-        }
-
-        .image-caption {
-          margin-bottom: 16px;
-          text-align: center;
-        }
-      }
     }
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
   }
 }
 </style>

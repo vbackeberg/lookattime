@@ -8,7 +8,7 @@ import TemporalRoundingExtension from "../time-depth/temporal-rounding-extension
 export class TimeMarkerCreator {
   private static SECONDS_IN_NANOSECONDS = 1000000000n;
 
-  public static placeTimeMarkers(depth: Temporal.DurationLike) {
+  public static placeTimeMarkers(depth: Temporal.DurationLike): void {
     const leftmostDate = new Temporal.ZonedDateTime(
       BigInt(PositionTranslator.toDate(0)) * this.SECONDS_IN_NANOSECONDS,
       DateTimeFormatOptions.TIME_ZONE

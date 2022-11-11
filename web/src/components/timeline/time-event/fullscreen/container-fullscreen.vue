@@ -10,15 +10,15 @@
         >
         </v-img>
 
-        <text-area-write-mode v-if="editMode" v-bind:id="id" />
+        <text-area-write-mode v-if="writeMode" v-bind:id="id" />
 
-        <text-area-read-mode v-if="!editMode" v-bind:id="id" />
+        <text-area-read-mode v-if="!writeMode" v-bind:id="id" />
 
         <v-btn
           class="btn-full-2 card-image-shadow"
           color="white"
           icon
-          v-on:click.stop="editMode = !editMode"
+          v-on:click.stop="writeMode = !writeMode"
           ><v-icon>mdi-pencil</v-icon></v-btn
         >
         <v-btn
@@ -55,7 +55,7 @@ export default Vue.extend({
 
   data() {
     return {
-      editMode: false
+      writeMode: false
     };
   },
 

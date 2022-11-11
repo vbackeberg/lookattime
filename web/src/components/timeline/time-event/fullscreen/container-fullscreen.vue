@@ -14,14 +14,14 @@
         <text-area-read-mode v-if="!writeMode" v-bind:id="id" />
 
         <v-btn
-          class="btn-full-2 card-image-shadow"
+          class="btn-full-2"
           color="white"
           icon
           v-on:click.stop="writeMode = !writeMode"
           ><v-icon>mdi-pencil</v-icon></v-btn
         >
         <v-btn
-          class="btn-full card-image-shadow"
+          class="btn-full"
           color="white"
           icon
           v-on:click.stop="toggleFullscreen()"

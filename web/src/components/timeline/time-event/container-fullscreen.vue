@@ -178,6 +178,16 @@ export default Vue.extend({
           color: grey;
         }
       }
+
+      ::v-deep .editor-area-shared {
+        padding: 8px;
+
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.87);
+
+        column-count: 2;
+        column-fill: auto;
+      }
     }
   }
 

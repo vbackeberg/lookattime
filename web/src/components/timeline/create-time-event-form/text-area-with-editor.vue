@@ -83,7 +83,7 @@ export default Vue.extend({
         extensions: [StarterKit],
         editorProps: {
           attributes: {
-            class: "editor-area"
+            class: "editor-area editor-area-shared"
           }
         }
       });
@@ -138,19 +138,11 @@ export default Vue.extend({
 
 /** This class is added on the editor container. */
 ::v-deep .editor-area {
-  height: 100%;
-  padding: 8px;
-
   border-style: solid;
   border-color: $lat-border-color;
   border-radius: 4px;
   border-width: 1px;
 
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.87);
-
-  column-count: 2;
-  column-fill: auto;
   column-rule: 1px dashed $lat-border-color;
 
   &:hover {

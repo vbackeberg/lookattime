@@ -28,7 +28,7 @@ export default Vue.extend({
         editable: false,
         editorProps: {
           attributes: {
-            class: "text-area"
+            class: "editor-area-shared"
           }
         }
       });

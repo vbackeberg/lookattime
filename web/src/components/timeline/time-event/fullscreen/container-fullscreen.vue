@@ -165,42 +165,9 @@ At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergr
       right: 56px;
       background-color: rgba(0, 0, 0, 0.5);
     }
-
-    .text-area {
-      height: 100%;
-      padding: 16px 32px 32px 32px;
-
-      display: flex;
-      flex-direction: column;
-
-      .title-area {
-        margin-bottom: 16px;
-        padding-left: 8px;
-
-        .event-title {
-          font-size: 2.5rem;
-          font-weight: 600;
-
-          margin-bottom: 8px;
-        }
-
-        .event-subtitle {
-          color: grey;
-        }
-      }
-
-      ::v-deep .editor-area-shared {
-        padding: 8px;
-
-        font-size: 16px;
-        color: rgba(0, 0, 0, 0.87);
-
-        column-count: 2;
-        column-fill: auto;
-      }
-    }
   }
 
+  /** Editor switch animation */
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.5s;

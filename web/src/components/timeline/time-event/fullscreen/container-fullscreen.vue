@@ -47,6 +47,7 @@ import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-m
  */
 export default Vue.extend({
   props: {
+    id: String,
     text: String,
     title: String,
     date: Number,

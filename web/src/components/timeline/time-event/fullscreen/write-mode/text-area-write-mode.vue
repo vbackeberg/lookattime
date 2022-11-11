@@ -12,17 +12,31 @@
 </template>
 
 <script lang="ts">
+import store from "@/store/store";
 import Vue from "vue";
 import EditorWriteMode from "./editor-write-mode.vue";
 export default Vue.extend({
   name: "TextAreaWriteMode",
   components: { EditorWriteMode },
   props: {
+    id: String,
     text: String,
     title: String,
     date: Number,
     importance: Number,
     imageReferences: Array
+  },
+  data() {
+    return {
+      // Form validation rules:
+      ruleImportance: (v: number) =>
+        !store.state.timeEvents
+          .filter(timeEvent => timeEvent.id != this.id)
+          .map(timeEvent => timeEvent.importance)
+          .includes(Number(v)) ||
+        "You have another time event with the same importance level. Please pick a different level!",
+      ruleNotEmpty: (v: string) => !!v || "This field is required"
+    };
   }
 });
 </script>

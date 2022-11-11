@@ -2,6 +2,7 @@
   <div class="container-outer">
     <container-fullscreen
       v-if="isFullscreen"
+      v-bind:id="id"
       v-bind:imageReferences="timeEvent.imageReferences"
       v-bind:text="text"
       v-bind:title="title"

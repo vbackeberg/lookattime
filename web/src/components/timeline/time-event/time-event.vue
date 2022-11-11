@@ -25,7 +25,7 @@
 <script lang="ts">
 import store from "@/store/store";
 import Vue from "vue";
-import ContainerFullscreen from "./container-fullscreen.vue";
+import ContainerFullscreen from "./fullscreen/container-fullscreen.vue";
 import ContainerZoomable from "./container-zoomable.vue";
 import TimeEventModel from "@/models/time-event-model";
 

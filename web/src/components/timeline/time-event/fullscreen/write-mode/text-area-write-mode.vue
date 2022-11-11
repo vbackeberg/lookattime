@@ -102,9 +102,9 @@
     </div>
     <editor-write-mode v-model="text" />
 
-    <div>
-      <v-btn color="secondary" text @click.stop="show = false">
-        Back
+    <div class="mt-2 d-flex justify-end">
+      <v-btn color="secondary" class="me-2" text @click.stop="show = false">
+        Cancel
       </v-btn>
       <v-btn
         :disabled="!valid || loading"

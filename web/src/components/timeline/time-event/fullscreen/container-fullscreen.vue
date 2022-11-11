@@ -10,13 +10,9 @@
         >
         </v-img>
 
-        <transition name="fade">
-          <text-area-write-mode v-if="editMode" v-bind="$props" />
-        </transition>
+        <text-area-write-mode v-if="editMode" v-bind="$props" />
 
-        <transition name="fade">
-          <text-area-read-mode v-if="!editMode" v-bind="$props" />
-        </transition>
+        <text-area-read-mode v-if="!editMode" v-bind="$props" />
 
         <v-btn
           class="btn-full-2 card-image-shadow"
@@ -149,16 +145,6 @@ export default Vue.extend({
       right: 56px;
       background-color: rgba(0, 0, 0, 0.5);
     }
-  }
-
-  /** Editor switch animation */
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s;
-  }
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
   }
 }
 </style>

@@ -14,14 +14,15 @@
         <text-area-read-mode v-if="!writeMode" v-bind:id="id" />
 
         <v-btn
-          class="btn-edit"
+          class="buttons-top-right btn-edit"
+          :class="{ 'btn-dark': writeMode }"
           color="white"
           icon
           v-on:click.stop="writeMode = !writeMode"
           ><v-icon>mdi-pencil</v-icon></v-btn
         >
         <v-btn
-          class="btn-close"
+          class="buttons-top-right btn-close"
           color="white"
           icon
           v-on:click.stop="toggleFullscreen()"
@@ -84,6 +85,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "src/components/timeline/time-event/time-event.scss";
+@import "src/colors.scss";
 
 .container-fullscreen {
   position: fixed;
@@ -116,18 +118,22 @@ export default Vue.extend({
     display: flex;
     flex-direction: column;
 
-    .btn-close {
+    .buttons-top-right {
       position: absolute;
       top: 8px;
-      right: 8px;
       background-color: rgba(0, 0, 0, 0.5);
     }
 
+    .btn-close {
+      right: 8px;
+    }
+
     .btn-edit {
-      position: absolute;
-      top: 8px;
       right: 56px;
-      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-dark {
+      background-color: $lat-primary-color + dd;
     }
   }
 }

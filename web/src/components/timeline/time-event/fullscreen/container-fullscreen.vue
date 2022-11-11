@@ -11,7 +11,6 @@
         </v-img>
 
         <text-area-write-mode v-if="writeMode" v-bind:id="id" />
-
         <text-area-read-mode v-if="!writeMode" v-bind:id="id" />
 
         <v-btn

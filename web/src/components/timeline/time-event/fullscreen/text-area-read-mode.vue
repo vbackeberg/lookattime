@@ -51,27 +51,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-/** This class is added on the editor container. */
-::v-deep .text-area {
-  padding: 8px;
-
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.87);
-
-  .column-block {
-    width: 100%;
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-    gap: 24px;
-    padding: 8px 0;
-  }
-
-  .column {
-    overflow: auto;
-    padding: 8px;
-    margin: -8px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -22,7 +22,9 @@ $event-title-font-size: 2.5rem;
     }
   }
 
-  .editor-area-shared {
+  ::v-deep .editor-area-shared {
+    flex: 1 0 auto;
+    height: 100%;
     padding: 8px;
 
     font-size: 16px; // TODO: re-define vuetify vars accordingly

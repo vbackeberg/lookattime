@@ -137,7 +137,8 @@ export default Vue.extend({
   name: "TextAreaWriteMode",
   components: { EditorWriteMode },
   props: {
-    id: String
+    id: String,
+    value: Boolean
   },
   data() {
     return {
@@ -195,6 +196,15 @@ export default Vue.extend({
 
     updateMode(): boolean {
       return this.id !== null;
+    },
+
+    show: {
+      get(): boolean {
+        return this.show;
+      },
+      set(value: boolean) {
+        this.$emit("input", value);
+      }
     }
   },
 
@@ -247,6 +257,8 @@ export default Vue.extend({
           ),
           images: this.imageFiles
         });
+
+        this.show = false;
       } catch (e) {
         console.log("dispatch " + action + " failed: ", e);
         this.loading = false;

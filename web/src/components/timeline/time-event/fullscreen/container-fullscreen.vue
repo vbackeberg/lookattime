@@ -10,8 +10,16 @@
         >
         </v-img>
 
-        <text-area-write-mode v-if="writeMode" v-bind:id="id" />
-        <text-area-read-mode v-if="!writeMode" v-bind:id="id" />
+        <text-area-write-mode
+          v-if="writeMode"
+          v-model="writeMode"
+          v-bind:id="id"
+        />
+        <text-area-read-mode
+          v-if="!writeMode"
+          v-model="writeMode"
+          v-bind:id="id"
+        />
 
         <v-btn
           class="buttons-top-right btn-edit"

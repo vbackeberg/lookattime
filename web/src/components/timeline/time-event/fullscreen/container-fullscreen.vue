@@ -14,14 +14,14 @@
         <text-area-read-mode v-if="!writeMode" v-bind:id="id" />
 
         <v-btn
-          class="btn-full-2"
+          class="btn-edit"
           color="white"
           icon
           v-on:click.stop="writeMode = !writeMode"
           ><v-icon>mdi-pencil</v-icon></v-btn
         >
         <v-btn
-          class="btn-full"
+          class="btn-close"
           color="white"
           icon
           v-on:click.stop="toggleFullscreen()"
@@ -116,14 +116,14 @@ export default Vue.extend({
     display: flex;
     flex-direction: column;
 
-    .btn-full {
+    .btn-close {
       position: absolute;
       top: 8px;
       right: 8px;
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    .btn-full-2 {
+    .btn-edit {
       position: absolute;
       top: 8px;
       right: 56px;

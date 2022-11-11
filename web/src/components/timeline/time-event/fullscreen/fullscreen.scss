@@ -1,5 +1,7 @@
 /* Styles that are shared between write and read mode */
 
+$event-title-font-size: 2.5rem;
+
 .text-area {
   height: 100%;
   padding: 16px 32px 32px 32px;
@@ -9,13 +11,10 @@
 
   .title-area {
     margin-bottom: 16px;
-    padding-left: 8px;
 
     .event-title {
       font-size: 2.5rem; // TODO: Make this h1 and re-define vuetify variables accordingly.
       font-weight: 600;
-
-      margin-bottom: 8px;
     }
 
     .event-subtitle {

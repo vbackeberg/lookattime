@@ -44,4 +44,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "src/components/timeline/time-event/fullscreen/fullscreen.scss";
+.event-title {
+  margin-bottom: 26px; // Corresponds to v-text-field margins + details
+}
 </style>

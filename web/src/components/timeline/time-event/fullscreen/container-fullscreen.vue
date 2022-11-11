@@ -10,9 +10,9 @@
         >
         </v-img>
 
-        <text-area-write-mode v-if="editMode" v-bind="$props" />
+        <text-area-write-mode v-if="editMode" v-bind:id="id" />
 
-        <text-area-read-mode v-if="!editMode" v-bind="$props" />
+        <text-area-read-mode v-if="!editMode" v-bind:id="id" />
 
         <v-btn
           class="btn-full-2 card-image-shadow"
@@ -34,10 +34,7 @@
   </div>
 </template>
 <script lang="ts">
-import { LOCALE } from "@/localization/locale";
 import ImageReferenceModel from "@/models/image-reference-model";
-import DateTimeFormatOptions from "@/timeline/date-time-format-options";
-import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
 import TextAreaWriteMode from "@/components/timeline/time-event/fullscreen/write-mode/text-area-write-mode.vue";
 import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-mode/text-area-read-mode.vue";
@@ -48,10 +45,6 @@ import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-m
 export default Vue.extend({
   props: {
     id: String,
-    text: String,
-    title: String,
-    date: Number,
-    importance: Number,
     imageReferences: Array
   },
 
@@ -84,15 +77,6 @@ export default Vue.extend({
           imageReference.id +
           "." +
           imageReference.extension
-      );
-    },
-
-    formattedDate(): string {
-      return Temporal.Instant.fromEpochSeconds(this.date).toLocaleString(
-        LOCALE,
-        {
-          timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
-        }
       );
     }
   }

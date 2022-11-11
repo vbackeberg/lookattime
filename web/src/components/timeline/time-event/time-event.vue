@@ -68,6 +68,12 @@ export default Vue.extend({
     }
   },
 
+  mounted() {
+    if (this.timeEvent.id == store.state.timeEvents[0].id) {
+      this.toggleFullscreen();
+    }
+  },
+
   methods: {
     toggleFullscreen() {
       this.isFullscreen = !this.isFullscreen;

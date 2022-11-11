@@ -119,6 +119,7 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 @import "src/colors.scss";
+@import "src/components/timeline/time-event/fullscreen/fullscreen.scss";
 
 .container {
   flex: 1 0 auto;

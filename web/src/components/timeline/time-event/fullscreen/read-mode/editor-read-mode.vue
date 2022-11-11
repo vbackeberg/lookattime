@@ -49,4 +49,6 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "src/components/timeline/time-event/fullscreen/fullscreen.scss";
+</style>

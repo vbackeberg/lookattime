@@ -165,6 +165,7 @@ export default Vue.extend({
 
       .title-area {
         margin-bottom: 16px;
+        padding-left: 8px;
 
         .event-title {
           font-size: 2.5rem;

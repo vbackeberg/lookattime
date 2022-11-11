@@ -12,7 +12,7 @@
     padding-left: 8px;
 
     .event-title {
-      font-size: 2.5rem;
+      font-size: 2.5rem; // TODO: Make this h1 and re-define vuetify variables accordingly.
       font-weight: 600;
 
       margin-bottom: 8px;
@@ -26,7 +26,7 @@
   .editor-area-shared {
     padding: 8px;
 
-    font-size: 16px;
+    font-size: 16px; // TODO: re-define vuetify vars accordingly
     color: rgba(0, 0, 0, 0.87);
 
     column-count: 2;

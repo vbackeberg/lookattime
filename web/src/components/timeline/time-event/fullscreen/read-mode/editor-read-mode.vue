@@ -1,7 +1,5 @@
 <template>
-  <div v-if="editor">
-    <editor-content :editor="editor" />
-  </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script lang="ts">
@@ -10,7 +8,7 @@ import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
 export default Vue.extend({
-  name: "text-area-read-mode",
+  name: "EditorReadMode",
 
   props: {
     value: String

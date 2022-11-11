@@ -10,19 +10,14 @@
         >
         </v-img>
 
-        <div class="text-area">
-          <div class="title-area">
-            <div class="event-title">{{ title }}</div>
-            <div class="event-subtitle">{{ formattedDate }}</div>
-            <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
-          </div>
-          <transition name="fade">
-            <text-area-with-editor v-if="editMode" v-model="t" />
-          </transition>
-          <transition name="fade">
-            <text-area-read-mode v-if="!editMode" v-model="t" />
-          </transition>
-        </div>
+        <transition name="fade">
+          <text-area-write-mode v-if="editMode" v-bind="$props" />
+        </transition>
+
+        <transition name="fade">
+          <text-area-read-mode v-if="!editMode" v-bind="$props" />
+        </transition>
+
         <v-btn
           class="btn-full-2 card-image-shadow"
           color="white"
@@ -48,8 +43,8 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
-import TextAreaWithEditor from "@/components/timeline/time-event/fullscreen/text-area-with-editor.vue";
-import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/text-area-read-mode.vue";
+import TextAreaWriteMode from "@/components/timeline/time-event/fullscreen/write-mode/text-area-write-mode.vue";
+import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-mode/text-area-read-mode.vue";
 
 /**
  * This fullscreen card is used for the fullscreen view of a time event.
@@ -64,23 +59,12 @@ export default Vue.extend({
   },
 
   components: {
-    TextAreaWithEditor,
+    TextAreaWriteMode,
     TextAreaReadMode
   },
 
   data() {
     return {
-      t: `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
-
-Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.   
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.   
-
-At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur`,
       editMode: false
     };
   },
@@ -119,7 +103,7 @@ At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergr
 </script>
 
 <style lang="scss" scoped>
-@import "./time-event.scss";
+@import "src/components/timeline/time-event/time-event.scss";
 
 .container-fullscreen {
   position: fixed;

@@ -116,7 +116,7 @@
                 </v-chip-group>
               </v-col>
               <v-col cols="12">
-                <text-area-with-editor v-model="text" />
+                <editor-write-mode v-model="text" />
               </v-col>
             </v-row> </v-container
         ></v-form>
@@ -144,7 +144,7 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import TextAreaWithEditor from "@/components/timeline/time-event/fullscreen/text-area-with-editor.vue";
+import EditorWriteMode from "@/components/timeline/time-event/fullscreen/write-mode/editor-write-mode.vue";
 import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";
@@ -160,7 +160,7 @@ export default Vue.extend({
   name: "CreateTimeEventForm",
 
   components: {
-    TextAreaWithEditor
+    EditorWriteMode
   },
 
   data() {

@@ -48,7 +48,7 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
-import TextAreaWithEditor from "@/components/timeline/create-time-event-form/text-area-with-editor.vue";
+import TextAreaWithEditor from "@/components/timeline/time-event/fullscreen/text-area-with-editor.vue";
 import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/text-area-read-mode.vue";
 
 /**

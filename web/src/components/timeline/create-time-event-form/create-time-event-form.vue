@@ -144,7 +144,7 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import TextAreaWithEditor from "@/components/timeline/create-time-event-form/text-area-with-editor.vue";
+import TextAreaWithEditor from "@/components/timeline/time-event/fullscreen/text-area-with-editor.vue";
 import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event-model";
 import store from "@/store/store";

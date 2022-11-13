@@ -6,6 +6,7 @@
 import Vue from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
 
 export default Vue.extend({
   name: "EditorReadMode",
@@ -22,7 +23,7 @@ export default Vue.extend({
     initializeEditor() {
       this.editor = new Editor({
         content: this.value,
-        extensions: [StarterKit],
+        extensions: [StarterKit, Image],
         editable: false,
         editorProps: {
           attributes: {

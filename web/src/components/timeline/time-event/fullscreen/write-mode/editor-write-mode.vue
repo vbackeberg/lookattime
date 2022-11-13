@@ -49,6 +49,7 @@
 import Vue from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
 
 export default Vue.extend({
   name: "EditorWriteMode",
@@ -80,7 +81,7 @@ export default Vue.extend({
         onUpdate: ({ editor }) => {
           this.$emit("input", editor.getHTML());
         },
-        extensions: [StarterKit],
+        extensions: [StarterKit, Image],
         editorProps: {
           attributes: {
             class: "editor-area editor-area-shared"

@@ -70,7 +70,7 @@ export class TimeMarkerCreator {
     dateRight: Temporal.ZonedDateTime,
     depth: Temporal.DurationLike
   ): TimeMarker[] {
-    const timeMarkers = [];
+    const timeMarkers = [] as TimeMarker[];
     let i = dateLeft;
 
     while (Temporal.ZonedDateTime.compare(i, dateRight) === -1) {

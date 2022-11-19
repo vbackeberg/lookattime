@@ -1,8 +1,14 @@
 <template>
-  <div class="container"></div>
+  <ckeditor
+    :editor="editor"
+    v-model="editorData"
+    :config="editorConfig"
+  ></ckeditor>
 </template>
 <script lang="ts">
 import Vue from "vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import CKEditor from "@ckeditor/ckeditor5-vue2";
 
 export default Vue.extend({
   name: "EditorWriteMode",
@@ -11,13 +17,21 @@ export default Vue.extend({
     value: String
   },
 
-  mounted() {},
-
   methods: {},
 
-  data() {},
+  data() {
+    return {
+      editor: ClassicEditor,
+      editorData: "<p>Content of the editor.</p>",
+      editorConfig: {
+        // The configuration of the editor.
+      }
+    };
+  },
 
-  components: {}
+  components: {
+    ckeditor: CKEditor.component
+  }
 });
 </script>
 <style lang="scss" scoped>

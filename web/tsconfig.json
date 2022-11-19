@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false, // CKEditor is untyped
     "target": "esnext",
     "module": "esnext",
     "strict": true,

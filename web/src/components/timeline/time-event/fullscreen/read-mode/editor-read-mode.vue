@@ -1,12 +1,9 @@
 <template>
-  <editor-content v-if="editor" :editor="editor" />
+  <div class="container"></div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { Editor, EditorContent } from "@tiptap/vue-2";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
 
 export default Vue.extend({
   name: "EditorReadMode",
@@ -15,38 +12,15 @@ export default Vue.extend({
     value: String
   },
 
-  mounted() {
-    this.initializeEditor();
-  },
+  mounted() {},
 
-  methods: {
-    initializeEditor() {
-      this.editor = new Editor({
-        content: this.value,
-        extensions: [StarterKit, Image],
-        editable: false,
-        editorProps: {
-          attributes: {
-            class: "editor-area-shared"
-          }
-        }
-      });
-    }
-  },
+  methods: {},
 
-  beforeDestroy() {
-    this.editor.destroy();
-  },
+  beforeDestroy() {},
 
-  data() {
-    return {
-      editor: (null as unknown) as Editor
-    };
-  },
+  data() {},
 
-  components: {
-    EditorContent
-  }
+  components: {}
 });
 </script>
 

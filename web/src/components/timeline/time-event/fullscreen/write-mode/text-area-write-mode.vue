@@ -100,7 +100,9 @@
       </v-row>
       <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
     </div>
+
     <editor-write-mode v-model="text" />
+
     <v-spacer class="mt-auto"></v-spacer>
     <div class="mt-2 d-flex justify-end">
       <v-btn color="secondary" class="me-2" text @click.stop="show = false">

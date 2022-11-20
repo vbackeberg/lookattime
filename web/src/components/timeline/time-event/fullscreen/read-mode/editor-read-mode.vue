@@ -1,15 +1,24 @@
 <template>
-  <div class="container"></div>
+  <div class="ck-content" v-html="sanitizedHtmlString"></div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import DomPurify from "dompurify";
 
 export default Vue.extend({
   name: "EditorReadMode",
 
   props: {
     value: String
+  },
+
+  computed: {
+    sanitizedHtmlString: {
+      get(): string {
+        return DomPurify.sanitize(this.value);
+      }
+    }
   },
 
   methods: {},

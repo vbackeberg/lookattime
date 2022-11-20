@@ -12,18 +12,10 @@ export default Vue.extend({
     value: String
   },
 
-  mounted() {},
-
   methods: {},
-
-  beforeDestroy() {},
-
-  data() {},
 
   components: {}
 });
 </script>
 
-<style lang="scss" scoped>
-@import "src/components/timeline/time-event/fullscreen/fullscreen.scss";
-</style>
+<style lang="scss" scoped></style>

@@ -1,9 +1,6 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <ckeditor
-    :editor="editor"
-    v-model="editorData"
-    :config="editorConfig"
-  ></ckeditor>
+  <ckeditor :editor="editor" v-model="value" :config="editorConfig"></ckeditor>
 </template>
 
 <script lang="ts">
@@ -24,9 +21,7 @@ export default Vue.extend({
     return {
       editor: ClassicEditor,
       editorData: "<p>Content of the editor.</p>",
-      editorConfig: {
-        // The configuration of the editor.
-      }
+      editorConfig: {}
     };
   },
 

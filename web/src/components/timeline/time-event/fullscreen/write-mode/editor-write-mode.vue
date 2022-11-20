@@ -1,6 +1,5 @@
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <ckeditor :editor="editor" v-model="value" :config="editorConfig"></ckeditor>
+  <ckeditor :editor="editor" v-model="text" :config="editorConfig"></ckeditor>
 </template>
 
 <script lang="ts">
@@ -16,6 +15,17 @@ export default Vue.extend({
   },
 
   methods: {},
+
+  computed: {
+    text: {
+      get(): string {
+        return this.value;
+      },
+      set(value: string) {
+        this.$emit("input", value);
+      }
+    }
+  },
 
   data() {
     return {

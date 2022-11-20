@@ -20,7 +20,7 @@ export default Vue.extend({
   data() {
     return {
       editor: ClassicEditor,
-      editorData: "<p>Content of the editor.</p>",
+      editorData: "<p>Your text here.</p>",
       editorConfig: {}
     };
   },

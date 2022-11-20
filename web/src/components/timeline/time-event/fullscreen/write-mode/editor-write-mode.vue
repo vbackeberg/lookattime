@@ -5,9 +5,10 @@
     :config="editorConfig"
   ></ckeditor>
 </template>
+
 <script lang="ts">
 import Vue from "vue";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ClassicEditor from "@/../ckeditor-build/ckeditor";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
 
 export default Vue.extend({
@@ -34,15 +35,4 @@ export default Vue.extend({
   }
 });
 </script>
-<style lang="scss" scoped>
-@import "src/colors.scss";
-@import "src/components/timeline/time-event/fullscreen/fullscreen.scss";
-
-.container {
-  flex: 1 0 auto;
-  padding: 0;
-
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style lang="scss" scoped></style>

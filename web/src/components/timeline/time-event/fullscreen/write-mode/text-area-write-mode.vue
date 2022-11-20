@@ -133,7 +133,6 @@ import PositionTranslator from "@/timeline/position-translator";
 import Vue from "vue";
 import EditorWriteMode from "./editor-write-mode.vue";
 import { v4 as uuid } from "uuid";
-import { getExtension } from "mime";
 
 export default Vue.extend({
   name: "TextAreaWriteMode",
@@ -237,8 +236,6 @@ export default Vue.extend({
     async submit() {
       this.loading = true;
 
-      this.prepareImagesForUpload();
-
       const action = this.updateMode ? "updateTimeEvent" : "addTimeEvent";
       const timeEventId = this.updateMode ? this.id : uuid();
       const date = TemporalConversion.epochSeconds(
@@ -254,7 +251,7 @@ export default Vue.extend({
             this.text!,
             date,
             this.importance!,
-            this.imageReferences,
+            [], // TODO: Obsolete, image urls are stored in text.
             this.title!
           ),
           images: this.imageFiles
@@ -264,22 +261,6 @@ export default Vue.extend({
       } catch (e) {
         console.log("dispatch " + action + " failed: ", e);
         this.loading = false;
-      }
-    },
-
-    prepareImagesForUpload() {
-      for (let i = 0; i < this.imageFiles.length; i++) {
-        const imageId = uuid();
-        const extension = getExtension(this.imageFiles[i].type) as string;
-
-        this.imageFiles[i] = this.renameImage(
-          this.imageFiles[i],
-          imageId,
-          extension
-        );
-        this.imageReferencesToAdd.push(
-          new ImageReferenceModel(imageId, extension)
-        );
       }
     },
 

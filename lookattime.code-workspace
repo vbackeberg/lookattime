@@ -17,6 +17,9 @@
 				"wrapAttributes": false,
 				"sortAttributes": false
 			}
-		}
+		},
+		"cSpell.words": [
+			"ckeditor"
+		]
 	}
 }

@@ -1,0 +1,1 @@
+This is a custom build of ckeditor that includes a column layout.

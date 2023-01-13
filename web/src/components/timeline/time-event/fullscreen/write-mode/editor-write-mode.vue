@@ -6,6 +6,8 @@
 import Vue from "vue";
 import ClassicEditor from "@/../ckeditor-build/ckeditor";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
+import { v4 as uuid } from "uuid";
+import store from "@/store/store";
 
 /**
  * A component that wraps the CKEditor5
@@ -14,10 +16,22 @@ export default Vue.extend({
   name: "EditorWriteMode",
 
   props: {
-    value: String
+    value: String,
+    id: String
   },
 
   methods: {},
+
+  mounted() {
+    console.log("mounted");
+  },
+
+  /*
+  TODO:
+  Image Upload via simple upload adapter
+  Add plugin and build the editor
+  Upload URL is different than retrieve URL. Maybe alter in HTML or align URLs.
+  */
 
   computed: {
     text: {
@@ -34,7 +48,28 @@ export default Vue.extend({
     return {
       editor: ClassicEditor,
       editorData: "<p>Your text here.</p>",
-      editorConfig: {}
+      editorConfig: {
+        image: {
+          upload: {
+            types: ["jpeg", "gif", "png", "svg+xml"]
+          }
+        },
+        simpleUpload: {
+          // TODO: Check create te, update te and store image APIs 
+          // and unify them, or delete obsolete ones.
+          uploadUrl:
+            process.env.VUE_APP_API_URL +
+            "/store-image-v2?imageId=" +
+            uuid() +
+            "&timeEventId=" +
+            this.id +
+            "&timelineId=" +
+            store.state.selectedTimeline.id +
+            "&userId=" +
+            store.state.user.id
+        },
+        headers: {}
+      }
     };
   },
 

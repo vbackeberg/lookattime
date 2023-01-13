@@ -101,7 +101,7 @@
       <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
     </div>
 
-    <editor-write-mode v-model="text" />
+    <editor-write-mode v-model="text" v-bind:id="id" />
 
     <v-spacer class="mt-auto"></v-spacer>
     <div class="mt-2 d-flex justify-end">

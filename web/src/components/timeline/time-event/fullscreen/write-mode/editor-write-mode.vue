@@ -7,6 +7,9 @@ import Vue from "vue";
 import ClassicEditor from "@/../ckeditor-build/ckeditor";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
 
+/**
+ * A component that wraps the CKEditor5
+ */
 export default Vue.extend({
   name: "EditorWriteMode",
 

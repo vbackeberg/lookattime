@@ -156,6 +156,8 @@ import Vue from "vue";
 import TemporalConversion from "@/temporal-extensions/temporal-conversion";
 import { TimeEventFormModel } from "@/components/timeline/create-time-event-form/time-event-form-model";
 
+/* TODO: DELETE this component because it was replaced by editor write mode. */ 
+
 export default Vue.extend({
   name: "CreateTimeEventForm",
 

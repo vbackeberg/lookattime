@@ -13,6 +13,15 @@ import ImageBlobService from "../shared/image-blob-service";
 import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";
 const sql = require("mssql");
 
+/**
+ *
+ * @param context
+ * @param req
+ *
+ * Stores images on Azure Blob storage
+ * Creates a record in the SQL database for every image created
+ * to allow deleting images when users, timelines, time events are deleted.
+ */
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest

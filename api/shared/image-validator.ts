@@ -31,6 +31,6 @@ export default class ImageValidator {
       );
     }
 
-    return result.ok;
+    return result.ok; // TODO boolean return type does not match throws pattern
   }
 }

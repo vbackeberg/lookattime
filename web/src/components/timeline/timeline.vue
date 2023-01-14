@@ -168,6 +168,7 @@ export default Vue.extend({
       });
     },
 
+    // TODO: Make this send a call with a default Time Event (date at current position)
     createNewTimeEvent() {
       this.editMode = false;
       this.selectedTimeEvent = null;

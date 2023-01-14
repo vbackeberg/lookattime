@@ -59,6 +59,8 @@ const httpTrigger: AzureFunction = async function (
         await deleteImageId(imageId);
       }
 
+      // TODO: if sql failed delete blobs.
+
       context.res = {
         status: 500,
       };

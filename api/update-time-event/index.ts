@@ -136,6 +136,8 @@ const httpTrigger: AzureFunction = async function (
     timelineId: string,
     userId: string
   ) {
+    // TODO: Consider removing the "in" operations if they turn out to be obsolete
+    // as validation checks.
     const resultDeleteAllImages = await sql.query`
       delete from images
       where timeEventId = ${timeEvent.id}

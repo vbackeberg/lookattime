@@ -124,6 +124,13 @@ const httpTrigger: AzureFunction = async function (
     }
   }
 
+  /**
+   * Delete all images and add all remaining images back.
+   * 
+   * @param timeEvent 
+   * @param timelineId 
+   * @param userId 
+   */
   async function updateImages(
     timeEvent: TimeEventRequest,
     timelineId: string,

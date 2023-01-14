@@ -180,6 +180,11 @@ const httpTrigger: AzureFunction = async function (
     }
   }
 
+  /**
+   * Deletes all image blobs that have been removed from the time event. 
+   * 
+   * @param timeEvent 
+   */
   async function deleteImageBlobs(timeEvent: TimeEventRequest) {
     const result = await sql.query`
       select * from images where timeEventId = ${timeEvent.id}

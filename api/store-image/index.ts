@@ -10,6 +10,7 @@ import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error"
 import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";
 const sql = require("mssql");
 
+/** Store image */
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest

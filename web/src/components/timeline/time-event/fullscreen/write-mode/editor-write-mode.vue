@@ -59,7 +59,7 @@ export default Vue.extend({
           // and unify them, or delete obsolete ones.
           uploadUrl:
             process.env.VUE_APP_API_URL +
-            "/store-image-v2?imageId=" +
+            "/store-image?imageId=" +
             uuid() +
             "&timeEventId=" +
             this.id +

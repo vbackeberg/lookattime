@@ -9,16 +9,18 @@ import ImageRequest from "./models/api/image-request";
 
 export default class ImageBlobService {
   public static async uploadImage(
-    image: ImageRequest
+    imageData: ImageRequest,
+    id: string,
+    extension: string,
   ): Promise<BlockBlobUploadResponse> {
     const blockBlobClient = new BlockBlobClient(
       process.env.AzureWebJobsStorageLookattime,
       process.env.AzureWebJobsStorageLookattime_ContainerName,
-      image.filename
+      `${id}.${extension}`
     );
 
     try {
-      return blockBlobClient.upload(image.data, image.data.byteLength);
+      return blockBlobClient.upload(imageData.data, imageData.data.byteLength);
     } catch (e) {
       throw new NoImageBlobStoredError(e.message); // TODO Consider removing this error and just let error bubble up.
     }

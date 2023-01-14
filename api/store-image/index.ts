@@ -1,13 +1,13 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { validateBufferMIMEType } from "validate-image-type";
-import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob";
-import { validate as validUuid } from "uuid";
-import * as multipart from "parse-multipart";
 import { getExtension } from "mime";
-import ImageRequest from "../shared/models/api/image-request";
-import { sqlConnectionConfig } from "../shared/sql-connection-config";
+import { validate as validUuid } from "uuid";
 import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
 import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";
+import FormDataParser from "../shared/form-data-parser";
+import ImageBlobService from "../shared/image-blob-service";
+import ImageValidator from "../shared/image-validator";
+import ImageRequest from "../shared/models/api/image-request";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 const sql = require("mssql");
 
 /** Store image */
@@ -17,9 +17,20 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
 
-  const image = getImageData(req) as ImageRequest;
+  let imageData: ImageRequest;
+  try {
+    imageData = FormDataParser.getFormDataParts(req)[0];
+  } catch (e) {
+    console.warn(e);
+    context.res = {
+      status: 400,
+    };
+  }
 
-  if (!validQueryParameters(req.query) || !(await validImage(image.data))) {
+  if (
+    !validQueryParameters(req.query) ||
+    !ImageValidator.validImage(imageData)
+  ) {
     context.res = {
       status: 400,
     };
@@ -28,10 +39,16 @@ const httpTrigger: AzureFunction = async function (
     const timeEventId = req.query.timeEventId;
     const timelineId = req.query.timelineId;
     const userId = req.query.userId;
-    const imageExtension = getExtension(image.type);
+    const imageExtension = getExtension(imageData.type);
 
     try {
-      const storeImageIdTask = storeImageId(
+      const storeImageBlobTask = ImageBlobService.uploadImage(
+        imageData,
+        imageId,
+        imageExtension
+      );
+
+      await createImage(
         imageId,
         imageExtension,
         timeEventId,
@@ -39,16 +56,13 @@ const httpTrigger: AzureFunction = async function (
         userId
       );
 
-      const storeImageBlobTask = storeImageBlob(
-        imageId + "." + imageExtension,
-        image.data
-      );
-
-      await storeImageIdTask;
       const storeImageBlobResponse = await storeImageBlobTask;
 
       context.res = {
         status: storeImageBlobResponse._response.status,
+        body: JSON.stringify({
+          url: `${process.env.IMAGE_STORAGE_URL}/${imageId}.${imageExtension}`, // TODO add on web
+        }),
       };
     } catch (e) {
       console.warn(e);
@@ -57,7 +71,7 @@ const httpTrigger: AzureFunction = async function (
         console.warn(
           "Storing image blob failed. Revert storing imageId: " + imageId
         );
-        await deleteImageId(imageId);
+        await deleteImage(imageId);
       }
 
       // TODO: if sql failed delete blobs.
@@ -69,24 +83,6 @@ const httpTrigger: AzureFunction = async function (
   }
 };
 
-function getImageData(req: HttpRequest) {
-  return multipart.Parse(
-    Buffer.from(req.body),
-    multipart.getBoundary(req.headers["content-type"])
-  )[0];
-}
-async function validImage(imageData: Buffer): Promise<boolean> {
-  const result = validateBufferMIMEType(imageData, {
-    allowMimeTypes: ["image/jpeg", "image/gif", "image/png", "image/svg+xml"],
-  });
-
-  if (result.error) {
-    console.warn(result.error);
-  }
-
-  return result.ok && imageData.length < 10000000;
-}
-
 function validQueryParameters(query: any): boolean {
   return (
     validUuid(query.imageId) &&
@@ -96,7 +92,7 @@ function validQueryParameters(query: any): boolean {
   );
 }
 
-async function storeImageId(
+async function createImage(
   imageId: string,
   imageExtension: string,
   timeEventId: string,
@@ -130,23 +126,7 @@ async function storeImageId(
   }
 }
 
-async function storeImageBlob(
-  blobName: string,
-  imageData: Buffer
-): Promise<BlockBlobUploadResponse> {
-  const blockBlobClient = new BlockBlobClient(
-    process.env.AzureWebJobsStorageLookattime,
-    process.env.AzureWebJobsStorageLookattime_ContainerName,
-    blobName
-  );
-  try {
-    return blockBlobClient.upload(imageData, imageData.byteLength);
-  } catch (e) {
-    throw new NoImageBlobStoredError(e.message);
-  }
-}
-
-async function deleteImageId(id: string) {
+async function deleteImage(id: string) {
   return sql.query`delete from images where id = ${id});`;
 }
 

@@ -244,8 +244,9 @@ export default Vue.extend({
       );
 
       try {
-        await store.dispatch(action, {
-          timeEvent: new TimeEventModel(
+        await store.dispatch(
+          action,
+          new TimeEventModel(
             PositionTranslator.toAbsolutePosition(date),
             timeEventId,
             this.text!,
@@ -253,9 +254,8 @@ export default Vue.extend({
             this.importance!,
             [], // TODO: Obsolete, image urls are stored in text.
             this.title!
-          ),
-          images: this.imageFiles
-        });
+          )
+        );
 
         this.show = false;
       } catch (e) {

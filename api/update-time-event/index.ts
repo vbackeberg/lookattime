@@ -1,17 +1,8 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import {
-  BlobDeleteIfExistsResponse,
-  BlockBlobUploadResponse,
-} from "@azure/storage-blob";
-import { TYPES } from "mssql";
+import { BlobDeleteIfExistsResponse } from "@azure/storage-blob";
 import { validate as validUuid } from "uuid";
 import ImageDto from "../shared/models/dtos/image-dto";
-import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
-import NoImageIdUpdatedError from "../shared/errors/no-image-id-updated-error";
-import FormDataParser from "../shared/form-data-parser";
 import ImageBlobService from "../shared/image-blob-service";
-import ImageValidator from "../shared/image-validator";
-import ImageRequest from "../shared/models/api/image-request";
 import TimeEventRequest from "../shared/models/api/time-event-request";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import NoTimeEventUpdatedError from "../shared/errors/no-time-event-updated-error";
@@ -23,181 +14,111 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
 
-  let formDataParts;
-  try {
-    formDataParts = FormDataParser.getFormDataParts(req);
-  } catch (e) {
-    console.warn(e);
+  const timeEventRequest = req.body as TimeEventRequest;
+
+  if (!validRequest(timeEventRequest)) {
     context.res = {
       status: 400,
-    };
-  }
-
-  const timeEvent = JSON.parse(
-    formDataParts[0].data.toString()
-  ) as TimeEventRequest;
-  const timelineId = formDataParts[1].data.toString();
-  const userId = formDataParts[2].data.toString();
-
-  let images: ImageRequest[] = [];
-  for (let i = 3; i < formDataParts.length; i++) {
-    images.push(formDataParts[i]);
-  }
-
-  if (!validRequest(timeEvent, timelineId, userId, images)) {
-    context.res = {
-      status: 400,
+      body: "invalid request",
     };
   } else {
+    const imageIds = retrieveImageIds(timeEventRequest.textValue);
+
     try {
-      let storeImageBlobTasks: Promise<BlockBlobUploadResponse>[] = [];
-      images.forEach((image) =>
-        storeImageBlobTasks.push(ImageBlobService.uploadImage(image))
+      await sql.connect(sqlConnectionConfig);
+      await updateTimeEvent(timeEventRequest);
+
+      const imagesToDelete = await getImagesToDelete(
+        timeEventRequest.id,
+        imageIds
+      );
+      console.log(
+        `Deleting images: ${imagesToDelete.flatMap((image) => image.id)}...`
       );
 
-      await sql.connect(sqlConnectionConfig);
-      deleteImageBlobs(timeEvent);
-      await updateTimeEvent(timeEvent, timelineId, userId);
-      await updateImages(timeEvent, timelineId, userId);
-      await Promise.all(storeImageBlobTasks);
+      await deleteImageBlobs(imagesToDelete);
+      await deleteImageReferences(imagesToDelete);
 
-      console.log("Successfully updated time event: " + timeEvent.id);
+      console.log("Successfully updated time event: " + timeEventRequest.id);
     } catch (e) {
       console.error(e);
-
-      if (e instanceof NoImageBlobStoredError) {
-        console.warn(
-          "Storing image blob failed. Revert storing images for timeEvent: ",
-          timeEvent.id
-        );
-        await deleteImages(timeEvent.id);
-      }
-
       context.res = {
         status: 500,
       };
     }
   }
 
-  function validRequest(
-    timeEvent: TimeEventRequest,
-    timelineId: string,
-    userId: string,
-    images: ImageRequest[]
-  ): boolean {
+  function validRequest(timeEventRequest: TimeEventRequest): boolean {
     return (
-      validUuid(timeEvent.id) &&
-      validUuid(timelineId) &&
-      validUuid(userId) &&
-      !isNaN(timeEvent.dateValue) &&
-      !isNaN(timeEvent.importanceValue) &&
-      images.every((image) => ImageValidator.validImage(image))
+      validUuid(timeEventRequest.id) &&
+      validUuid(timeEventRequest.timelineId) &&
+      validUuid(timeEventRequest.userId) &&
+      !isNaN(timeEventRequest.dateValue) &&
+      !isNaN(timeEventRequest.importanceValue)
     );
   }
 
-  async function updateTimeEvent(
-    timeEvent: TimeEventRequest,
-    timelineId: string,
-    userId: string
-  ) {
+  async function updateTimeEvent(timeEventRequest: TimeEventRequest) {
     const result = await sql.query`
       if exists (
-        select * from timelines where id = ${timelineId} and userId = ${userId}
+        select * from timelines
+        where id = ${timeEventRequest.timelineId}
+        and userId = ${timeEventRequest.userId}
       ) update timeEvents set
-        title = ${timeEvent.title},
-        textValue = ${timeEvent.textValue},
-        dateValue = ${timeEvent.dateValue},
-        importanceValue = ${timeEvent.importanceValue}
+        title = ${timeEventRequest.title},
+        textValue = ${timeEventRequest.textValue},
+        dateValue = ${timeEventRequest.dateValue},
+        importanceValue = ${timeEventRequest.importanceValue}
       where
-        id = ${timeEvent.id}
-        and timelineId = ${timelineId};`;
+        id = ${timeEventRequest.id}
+        and timelineId = ${timeEventRequest.timelineId};`;
 
     if (result.rowsAffected[0] === 0) {
       throw new NoTimeEventUpdatedError(
         "Did not insert into timeEvents for timeEvent id: " +
-          timeEvent.id +
+          timeEventRequest.id +
           ", timelineId: " +
-          timelineId +
+          timeEventRequest.timelineId +
           ", userId: " +
-          userId
+          timeEventRequest.userId
       );
     }
   }
 
-  /**
-   * Delete all images and add all remaining images back.
-   * 
-   * @param timeEvent 
-   * @param timelineId 
-   * @param userId 
-   */
-  async function updateImages(
-    timeEvent: TimeEventRequest,
-    timelineId: string,
-    userId: string
-  ) {
-    // TODO: Consider removing the "in" operations if they turn out to be obsolete
-    // as validation checks.
-    const resultDeleteAllImages = await sql.query`
-      delete from images
-      where timeEventId = ${timeEvent.id}
-      and timeEventId in (
-        select id from timeEvents where timelineId = ${timelineId}
-        and timelineId in (
+  async function getImagesToDelete(
+    timeEventId: string,
+    imageIds: string[]
+  ): Promise<ImageDto[]> {
+    const result =
+      await sql.query`select * from images where timeEventId = ${timeEventId} ;`;
 
-
-          select id from timelines where id = ${timelineId} and userId = ${userId}
-        )
-      );`;
-    console.log(resultDeleteAllImages);
-
-    if (timeEvent.imageReferences.length > 0) {
-      const table = new sql.Table("images");
-      table.columns.add("id", TYPES.UniqueIdentifier, { nullable: false });
-      table.columns.add("timeEventId", TYPES.UniqueIdentifier, {
-        nullable: false,
-      });
-      table.columns.add("extension", TYPES.NVarChar(255), { nullable: false });
-
-      timeEvent.imageReferences.forEach((imageReference) =>
-        table.rows.add(
-          imageReference.id,
-          timeEvent.id,
-          imageReference.extension
-        )
-      );
-
-      const resultInsertImages = await new sql.Request().bulk(table);
-
-      if (resultInsertImages.rowsAffected[0] === 0) {
-        throw new NoImageIdUpdatedError(
-          "Did not insert into images for timeEventId: " +
-            timeEvent.id +
-            ", timelineId: " +
-            timelineId +
-            ", userId: " +
-            userId
-        );
-      }
-    }
-  }
-
-  /**
-   * Deletes all image blobs that have been removed from the time event. 
-   * 
-   * @param timeEvent 
-   */
-  async function deleteImageBlobs(timeEvent: TimeEventRequest) {
-    const result = await sql.query`
-      select * from images where timeEventId = ${timeEvent.id}
-      ;`;
-
-    const imagesToDelete = (result.recordset as ImageDto[]).filter((image) =>
-      timeEvent.imageReferences.every(
-        (imageReference) => imageReference.id !== image.id
-      )
+    return (result.recordset as ImageDto[]).filter(
+      (image) => !imageIds.includes(image.id)
     );
+  }
 
+  /**
+   * Deletes all specified image references.
+   *
+   * @param imagesToDelete
+   */
+  async function deleteImageReferences(imagesToDelete: ImageDto[]) {
+    const resultDeletedImages = await sql.query`
+      delete from images
+      where id in (${imagesToDelete.flatMap((image) => image.id)});
+    `;
+
+    console.log(
+      `Deleted ${resultDeletedImages.rowsAffected[0]} image references`
+    );
+  }
+
+  /**
+   * Deletes all specified image blobs.
+   *
+   * @param imagesToDelete
+   */
+  async function deleteImageBlobs(imagesToDelete: ImageDto[]) {
     const deleteImageBlobTasks: Promise<BlobDeleteIfExistsResponse>[] = [];
     imagesToDelete.forEach((image) =>
       deleteImageBlobTasks.push(ImageBlobService.deleteImage(image))
@@ -205,17 +126,49 @@ const httpTrigger: AzureFunction = async function (
 
     try {
       await Promise.all(deleteImageBlobTasks);
+      console.log(
+        `Deleted image blobs ${imagesToDelete.flatMap((image) => image.id)}`
+      );
     } catch (e) {
       console.error("Deleting image blobs failed: ", e);
     }
   }
 
-  async function deleteImages(timeEventId: string): Promise<void> {
-    await sql.connect(sqlConnectionConfig);
-
-    const result =
-      await sql.query`delete from images where timeEventId = ${timeEventId});`;
-    console.warn("Number of images deleted: ", result.rowsAffected[0]);
+  /**
+   * Extracts all image ids (for deleting unused image blobs) from the time event text.
+   *
+   * For one image in the text, `matchAll(regex)` will return an array like the following.
+   * The match at index 1 represents the id.
+   *
+   * 0: `"<img src=\"https://lookattime2.blob.core.windows.net/lookattime2/01853899-20f4-41a0-bb4c-a02763982b3c.jpeg\">"`
+   *
+   * 1: `"01853899-20f4-41a0-bb4c-a02763982b3c"`
+   *
+   * 2: `"jpeg"`
+   *
+   * @param textValue
+   *
+   * @returns image ids
+   */
+  function retrieveImageIds(textValue: string) {
+    return Array.from(
+      textValue.matchAll(
+        /<img src="https:\/\/lookattime2\.blob\.core\.windows\.net\/lookattime2\/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})\.(jpeg|gif|png|svg)">/gm
+      )
+    ).map((match) => match[1]);
   }
 };
 export default httpTrigger;
+
+// if exists (
+//   select * from images
+//   where timeEventId = ${timeEventRequest.id}
+//   and timeEventId in (
+//     select id from timeEvents where timelineId = ${timeEventRequest.timelineId}
+//     and timelineId in (
+//       select id from timelines
+//       where id = ${timeEventRequest.timelineId}
+//       and userId = ${timeEventRequest.userId}
+//     )
+//   )
+// )

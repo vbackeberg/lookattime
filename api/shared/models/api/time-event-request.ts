@@ -6,5 +6,7 @@ export default class TimeEventRequest {
   textValue!: string;
   dateValue!: number;
   importanceValue!: number;
-  imageReferences!: ImageReferenceRequestResponse[];
+  imageIds!: string[];
+  timelineId!: string;
+  userId!: string;
 }

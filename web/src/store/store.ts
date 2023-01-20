@@ -118,14 +118,13 @@ export default new Vuex.Store({
 
     async updateTimeEvent(
       { commit, state },
-      addTimeEventModel: AddTimeEventModel
+      timeEvent: TimeEventModel
     ): Promise<void> {
       return HttpClient.updateTimeEvent(
-        addTimeEventModel.timeEvent,
+        timeEvent,
         state.selectedTimeline.id,
-        state.user.id,
-        addTimeEventModel.images
-      ).then(() => commit("updateTimeEvent", addTimeEventModel.timeEvent));
+        state.user.id
+      ).then(() => commit("updateTimeEvent", timeEvent));
     },
 
     async addTimeEvent(

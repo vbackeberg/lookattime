@@ -2,6 +2,7 @@
 import { Constants } from "@/timeline/zooming/constants";
 import ImageReferenceModel from "./image-reference-model";
 
+//TODO Move into time event directory
 export default class TimeEventModel {
   static boxWidth = 300;
   static bubbleWidth = 60;

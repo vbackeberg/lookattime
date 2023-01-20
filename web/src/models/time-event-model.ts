@@ -30,7 +30,7 @@ export default class TimeEventModel {
   text: string;
   date: number;
   importance: number;
-  imageReferences: ImageReferenceModel[];
+  imageReferences: ImageReferenceModel[]; //TODO Obsolete, bc img stored in text
   title: string;
 
   constructor(

@@ -24,6 +24,7 @@ const httpTrigger: AzureFunction = async function (
     console.warn(e);
     context.res = {
       status: 400,
+      body: "invalid image",
     };
   }
 
@@ -33,6 +34,7 @@ const httpTrigger: AzureFunction = async function (
   ) {
     context.res = {
       status: 400,
+      body: "invalid image",
     };
   } else {
     const imageId = req.query.imageId;

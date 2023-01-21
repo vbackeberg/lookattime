@@ -159,16 +159,3 @@ const httpTrigger: AzureFunction = async function (
   }
 };
 export default httpTrigger;
-
-// if exists (
-//   select * from images
-//   where timeEventId = ${timeEventRequest.id}
-//   and timeEventId in (
-//     select id from timeEvents where timelineId = ${timeEventRequest.timelineId}
-//     and timelineId in (
-//       select id from timelines
-//       where id = ${timeEventRequest.timelineId}
-//       and userId = ${timeEventRequest.userId}
-//     )
-//   )
-// )

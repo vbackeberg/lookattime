@@ -48,7 +48,7 @@ export default class ZoomObserver {
   }
 
   private static instance: ZoomObserver;
-  public static get Instance() {
+  public static get Instance(): ZoomObserver {
     return this.instance || (this.instance = new this());
   }
 }

@@ -60,19 +60,11 @@
       style="max-width: 600px"
     >
       <v-list>
-        <v-list-item v-on:click.stop="showCreateTimeEventForm = true">
-          <v-list-item-title>Edit</v-list-item-title>
-        </v-list-item>
         <v-list-item v-on:click.stop="deleteEvent()">
           <v-list-item-title>Delete</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
-    <create-time-event-form
-      v-model="showCreateTimeEventForm"
-      v-bind:timeEvent="selectedTimeEvent"
-      v-bind:editMode="editMode"
-    />
   </div>
 </template>
 
@@ -81,7 +73,6 @@ import TimeEvent from "@/components/timeline/time-event/time-event.vue";
 import Vue from "vue";
 import store from "@/store/store";
 import SpaceObserver from "@/timeline/space-management/space-observer";
-import CreateTimeEventForm from "@/components/timeline/create-time-event-form/create-time-event-form.vue";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
@@ -98,7 +89,6 @@ export default Vue.extend({
 
   components: {
     TimeEvent,
-    CreateTimeEventForm,
     HorizontalLine
   },
 
@@ -106,7 +96,6 @@ export default Vue.extend({
     return {
       isFullscreen: false,
 
-      showCreateTimeEventForm: false,
       showContextMenu: false,
       x: 0,
       y: 0,
@@ -172,7 +161,6 @@ export default Vue.extend({
     createNewTimeEvent() {
       this.editMode = false;
       this.selectedTimeEvent = null;
-      this.showCreateTimeEventForm = true;
     },
 
     deleteEvent() {

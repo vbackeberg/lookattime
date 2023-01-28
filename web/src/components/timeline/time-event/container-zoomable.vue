@@ -77,6 +77,7 @@ export default Vue.extend({
 
   computed: {
     timeEvent(): TimeEventModel {
+      // TODO: Consider replacing by find()
       const index = store.state.timeEvents.findIndex(
         timeEvent => timeEvent.id === this.id
       );

@@ -10,7 +10,6 @@ import UserModel from "@/models/user-model";
 import TimelineModel from "@/models/timeline-model";
 import UserLocalStorage from "@/local-storage/user-local-storage";
 import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
-import AddTimeEventModel from "./add-time-event-model";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -129,14 +128,13 @@ export default new Vuex.Store({
 
     async addTimeEvent(
       { commit, state },
-      addTimeEventModel: AddTimeEventModel
+      timeEvent: TimeEventModel
     ): Promise<void> {
       return HttpClient.createTimeEvent(
-        addTimeEventModel.timeEvent,
+        timeEvent,
         state.selectedTimeline.id,
-        state.user.id,
-        addTimeEventModel.images
-      ).then(() => commit("addTimeEvent", addTimeEventModel.timeEvent));
+        state.user.id
+      ).then(() => commit("addTimeEvent", timeEvent));
     },
 
     async loadTimeEvents({ commit, state }): Promise<void> {

@@ -28,10 +28,7 @@ const httpTrigger: AzureFunction = async function (
     };
   }
 
-  if (
-    !validQueryParameters(req.query) ||
-    !ImageValidator.validImage(imageData)
-  ) {
+  if (!validQueryParameters(req.query) || !ImageValidator.isValid(imageData)) {
     context.res = {
       status: 400,
       body: "invalid image",

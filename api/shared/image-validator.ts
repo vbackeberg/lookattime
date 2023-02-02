@@ -3,7 +3,7 @@ import ValidationError from "./errors/validation-error";
 import ImageRequest from "./models/api/image-request";
 export default class ImageValidator {
 
-  public static validImage(image: ImageRequest): boolean {
+  public static isValid(image: ImageRequest): boolean {
     if (!image.type) {
       throw new ValidationError(
         "Image " + image.filename + " has no type specified."

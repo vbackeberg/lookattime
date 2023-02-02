@@ -26,13 +26,6 @@ export default Vue.extend({
     console.log("mounted");
   },
 
-  /*
-  TODO:
-  Image Upload via simple upload adapter
-  Add plugin and build the editor
-  Upload URL is different than retrieve URL. Maybe alter in HTML or align URLs.
-  */
-
   computed: {
     text: {
       get(): string {

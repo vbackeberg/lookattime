@@ -1,26 +1,17 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { BlockBlobUploadResponse } from "@azure/storage-blob";
-import { validate as validUuid } from "uuid";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequest from "../shared/models/api/time-event-request";
-import ImageRequest from "../shared/models/api/image-request";
-import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
 import NoTimeEventCreatedError from "../shared/errors/no-time-event-created-error";
-import { TYPES } from "mssql";
-import ImageValidator from "../shared/image-validator";
-import FormDataParser from "../shared/form-data-parser";
-import ImageBlobService from "../shared/image-blob-service";
-import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";
+import TimeEventRequestValidator from "../shared/time-event-request-validator";
 const sql = require("mssql");
 
+// TODO: Consider unifying with update TE and delete this.
+
 /**
+ * Creates a time event.
  *
  * @param context
  * @param req
- *
- * Stores images on Azure Blob storage
- * Creates a record in the SQL database for every image created
- * to allow deleting images when users, timelines, time events are deleted.
  */
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -28,54 +19,20 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
 
-  let formDataParts: any;
-  try {
-    formDataParts = FormDataParser.getFormDataParts(req);
-  } catch (e) {
-    console.warn(e);
-    context.res = {
-      status: 400,
-    };
-  }
+  const timeEventRequest = req.body as TimeEventRequest;
 
-  const timeEvent = JSON.parse(
-    formDataParts[0].data.toString()
-  ) as TimeEventRequest;
-  const timelineId = formDataParts[1].data.toString();
-  const userId = formDataParts[2].data.toString();
-
-  let images: ImageRequest[] = [];
-  for (let i = 3; i < formDataParts.length; i++) {
-    images.push(formDataParts[i]);
-  }
-
-  if (!validRequest(timeEvent, timelineId, userId, images)) {
+  if (!TimeEventRequestValidator.isValid(timeEventRequest)) {
     context.res = {
       status: 400,
     };
   } else {
     try {
-      let storeImageBlobTasks: Promise<BlockBlobUploadResponse>[] = [];
-      images.forEach((image) =>
-        storeImageBlobTasks.push(ImageBlobService.uploadImage(image))
-      );
-
       await sql.connect(sqlConnectionConfig);
-      await createTimeEvent(timeEvent, timelineId, userId);
-      await createImages(timeEvent, timelineId, userId);
-      await Promise.all(storeImageBlobTasks);
+      await createTimeEvent(timeEventRequest);
 
-      console.log("Successfully created time event: " + timeEvent.id);
+      console.log("Successfully created time event: " + timeEventRequest.id);
     } catch (e) {
       console.error(e);
-
-      if (e instanceof NoImageBlobStoredError) {
-        console.warn(
-          "Storing image blob failed. Revert storing images for timeEvent: ",
-          timeEvent.id
-        );
-        await deleteImages(timeEvent.id);
-      }
 
       context.res = {
         status: 500,
@@ -83,90 +40,26 @@ const httpTrigger: AzureFunction = async function (
     }
   }
 
-  function validRequest(
-    timeEvent: TimeEventRequest,
-    timelineId: string,
-    userId: string,
-    images: ImageRequest[]
-  ): boolean {
-    return (
-      validUuid(timeEvent.id) &&
-      validUuid(timelineId) &&
-      validUuid(userId) &&
-      !isNaN(timeEvent.dateValue) &&
-      !isNaN(timeEvent.importanceValue) &&
-      images.every((image) => ImageValidator.validImage(image))
-    );
-  }
-
-  async function createTimeEvent(
-    timeEvent: TimeEventRequest,
-    timelineId: string,
-    userId: string
-  ) {
+  async function createTimeEvent(timeEventRequest: TimeEventRequest) {
     const result = await sql.query`
       if exists (
         select * from timelines
-        where id = ${timelineId} and userId = ${userId}
+        where id = ${timeEventRequest.timelineId}
+        and userId = ${timeEventRequest.userId}
       ) insert into timeEvents values (
-        ${timeEvent.id}, ${timelineId}, ${timeEvent.title}, ${timeEvent.textValue}, ${timeEvent.dateValue}, ${timeEvent.importanceValue}
+        ${timeEventRequest.id}, ${timeEventRequest.timelineId}, ${timeEventRequest.title}, ${timeEventRequest.textValue}, ${timeEventRequest.dateValue}, ${timeEventRequest.importanceValue}
       );`;
 
     if (result.rowsAffected[0] === 0) {
       throw new NoTimeEventCreatedError(
         "Did not insert into timeEvents for timeEvent id: " +
-          timeEvent.id +
+          timeEventRequest.id +
           ", timelineId: " +
-          timelineId +
+          timeEventRequest.timelineId +
           ", userId: " +
-          userId
+          timeEventRequest.userId
       );
     }
-  }
-
-  async function createImages(
-    timeEvent: TimeEventRequest,
-    timelineId: string,
-    userId: string
-  ) {
-    if (timeEvent.imageReferences.length > 0) {
-      // We assume that timeEvent timelineId and userId combination is valid.
-      const table = new sql.Table("images");
-      table.columns.add("id", TYPES.UniqueIdentifier, { nullable: false });
-      table.columns.add("timeEventId", TYPES.UniqueIdentifier, {
-        nullable: false,
-      });
-      table.columns.add("extension", TYPES.NVarChar(255), { nullable: false });
-
-      timeEvent.imageReferences.forEach((imageReference) =>
-        table.rows.add(
-          imageReference.id,
-          timeEvent.id,
-          imageReference.extension
-        )
-      );
-
-      const result = await new sql.Request().bulk(table);
-
-      if (result.rowsAffected[0] === 0) {
-        throw new NoImageIdCreatedError(
-          "Did not insert into images for timeEventId: " +
-            timeEvent.id +
-            ", timelineId: " +
-            timelineId +
-            ", userId: " +
-            userId
-        );
-      }
-    }
-  }
-
-  async function deleteImages(timeEventId: string): Promise<void> {
-    await sql.connect(sqlConnectionConfig);
-
-    const result =
-      await sql.query`delete from images where timeEventId = ${timeEventId});`;
-    console.warn("Number of images deleted: ", result.rowsAffected[0]);
   }
 };
 export default httpTrigger;

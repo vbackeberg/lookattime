@@ -55,8 +55,6 @@ export default Vue.extend({
           }
         },
         simpleUpload: {
-          // TODO: Check create te, update te and store image APIs 
-          // and unify them, or delete obsolete ones.
           uploadUrl:
             process.env.VUE_APP_API_URL +
             "/store-image?imageId=" +

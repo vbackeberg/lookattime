@@ -1,11 +1,11 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { BlobDeleteIfExistsResponse } from "@azure/storage-blob";
-import { validate as validUuid } from "uuid";
-import ImageDto from "../shared/models/dtos/image-dto";
+import NoTimeEventUpdatedError from "../shared/errors/no-time-event-updated-error";
 import ImageBlobService from "../shared/image-blob-service";
 import TimeEventRequest from "../shared/models/api/time-event-request";
+import ImageDto from "../shared/models/dtos/image-dto";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
-import NoTimeEventUpdatedError from "../shared/errors/no-time-event-updated-error";
+import TimeEventRequestValidator from "../shared/time-event-request-validator";
 const sql = require("mssql");
 
 const httpTrigger: AzureFunction = async function (
@@ -16,28 +16,16 @@ const httpTrigger: AzureFunction = async function (
 
   const timeEventRequest = req.body as TimeEventRequest;
 
-  if (!validRequest(timeEventRequest)) {
+  if (!TimeEventRequestValidator.isValid(timeEventRequest)) {
     context.res = {
       status: 400,
       body: "invalid request",
     };
   } else {
-    const imageIds = retrieveImageIds(timeEventRequest.textValue);
-
     try {
       await sql.connect(sqlConnectionConfig);
       await updateTimeEvent(timeEventRequest);
-
-      const imagesToDelete = await getImagesToDelete(
-        timeEventRequest.id,
-        imageIds
-      );
-      console.log(
-        `Deleting images: ${imagesToDelete.flatMap((image) => image.id)}...`
-      );
-
-      await deleteImageBlobs(imagesToDelete);
-      await deleteImageReferences(imagesToDelete);
+      await deleteImages(timeEventRequest);
 
       console.log("Successfully updated time event: " + timeEventRequest.id);
     } catch (e) {
@@ -46,16 +34,6 @@ const httpTrigger: AzureFunction = async function (
         status: 500,
       };
     }
-  }
-
-  function validRequest(timeEventRequest: TimeEventRequest): boolean {
-    return (
-      validUuid(timeEventRequest.id) &&
-      validUuid(timeEventRequest.timelineId) &&
-      validUuid(timeEventRequest.userId) &&
-      !isNaN(timeEventRequest.dateValue) &&
-      !isNaN(timeEventRequest.importanceValue)
-    );
   }
 
   async function updateTimeEvent(timeEventRequest: TimeEventRequest) {
@@ -98,6 +76,33 @@ const httpTrigger: AzureFunction = async function (
   }
 
   /**
+   * Retrieves images from text.
+   * Determines images that have been removed from the text.
+   * Deletes image references.
+   * Deletes image blobs.
+   *
+   * @param timeEventRequest
+   */
+  async function deleteImages(timeEventRequest: TimeEventRequest) {
+    const imagesToDelete = await getImagesToDelete(
+      timeEventRequest.id,
+      retrieveImageIds(timeEventRequest.textValue)
+    );
+
+    if (imagesToDelete.length == 0) {
+      console.log(`No images to delete`);
+    } else {
+      console.log(
+        `Deleting the following images: ${imagesToDelete.flatMap(
+          (image) => image.id
+        )}...`
+      );
+      await deleteImageBlobs(imagesToDelete);
+      await deleteImageReferences(imagesToDelete);
+    }
+  }
+
+  /**
    * Deletes all specified image references.
    *
    * @param imagesToDelete
@@ -127,7 +132,9 @@ const httpTrigger: AzureFunction = async function (
     try {
       await Promise.all(deleteImageBlobTasks);
       console.log(
-        `Deleted image blobs ${imagesToDelete.flatMap((image) => image.id)}`
+        `Deleted the following image blobs: ${imagesToDelete.flatMap(
+          (image) => image.id
+        )}`
       );
     } catch (e) {
       console.error("Deleting image blobs failed: ", e);

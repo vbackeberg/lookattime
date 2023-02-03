@@ -22,7 +22,11 @@
             required
             type="number"
             v-model.number="importance"
-            :rules="[ruleImportance, ruleNotEmpty]"
+            :rules="[
+              ruleImportanceNoSame,
+              ruleImportanceNoNegative,
+              ruleNotEmpty
+            ]"
           />
         </v-col>
       </v-row>
@@ -144,13 +148,15 @@ export default Vue.extend({
   data() {
     return {
       // Form validation rules:
-      ruleImportance: (v: number) =>
+      ruleImportanceNoSame: (v: number) =>
         !store.state.timeEvents
           .filter(timeEvent => timeEvent.id != this.id)
           .map(timeEvent => timeEvent.importance)
           .includes(Number(v)) ||
         "You have another time event with the same importance level. Please pick a different level!",
-      ruleNotEmpty: (v: string) => !!v || "This field is required",
+      ruleImportanceNoNegative: (v: number) =>
+        v > 0 || "Importance must be a number above 0.",
+      ruleNotEmpty: (v: string) => !!v || "This field is required.",
 
       // Date picker state:
       datePickerOpen: false,

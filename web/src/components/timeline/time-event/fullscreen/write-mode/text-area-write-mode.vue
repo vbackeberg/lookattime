@@ -263,15 +263,6 @@ export default Vue.extend({
         this.loading = false;
       }
     },
-
-    renameImage(image: File, imageId: string, extension: string): File {
-      return new File([image], imageId + "." + extension, {
-        type: image.type
-      });
-    },
-
-    markImageForDeletion(imageReferenceToDelete: ImageReferenceModel) {
-      this.imageReferencesToDelete.push(imageReferenceToDelete);
     }
   }
 });

@@ -22,10 +22,6 @@ export default Vue.extend({
 
   methods: {},
 
-  mounted() {
-    console.log("mounted");
-  },
-
   computed: {
     text: {
       get(): string {

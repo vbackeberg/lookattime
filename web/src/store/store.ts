@@ -119,7 +119,7 @@ export default new Vuex.Store({
       { commit, state },
       timeEvent: TimeEventModel
     ): Promise<void> {
-      return HttpClient.updateTimeEvent(
+      return HttpClient.createOrUpdateTimeEvent(
         timeEvent,
         state.selectedTimeline.id,
         state.user.id
@@ -130,7 +130,7 @@ export default new Vuex.Store({
       { commit, state },
       timeEvent: TimeEventModel
     ): Promise<void> {
-      return HttpClient.createTimeEvent(
+      return HttpClient.createOrUpdateTimeEvent(
         timeEvent,
         state.selectedTimeline.id,
         state.user.id

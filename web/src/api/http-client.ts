@@ -101,25 +101,6 @@ export default class HttpClient {
   }
 
   /**
-   * Calls API to create a new time event for given timeline and user.
-   *
-   * @param timeEvent
-   * @param timelineId
-   * @param userId
-   * @param image
-   */
-  public static async createTimeEvent(
-    timeEvent: TimeEventModel,
-    timelineId: string,
-    userId: string
-  ): Promise<void> {
-    return axios.post(
-      process.env.VUE_APP_API_URL + "/create-time-event",
-      TimeEventRequestMapper.map(timeEvent, timelineId, userId)
-    );
-  }
-
-  /**
    * Retrieves time events for given timeline from API.
    *
    * @param timelineId
@@ -203,7 +184,7 @@ export default class HttpClient {
    * @param timelineId
    * @param userId
    */
-  public static async updateTimeEvent(
+  public static async createOrUpdateTimeEvent(
     timeEvent: TimeEventModel,
     timelineId: string,
     userId: string

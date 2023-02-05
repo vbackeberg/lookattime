@@ -203,10 +203,6 @@ export default Vue.extend({
         .concat(this.imageReferencesToAdd);
     },
 
-    updateMode(): boolean {
-      return this.id !== null;
-    },
-
     show: {
       get(): boolean {
         return this.show;
@@ -244,8 +240,6 @@ export default Vue.extend({
     async submit() {
       this.loading = true;
 
-      const action = this.updateMode ? "updateTimeEvent" : "addTimeEvent";
-      const timeEventId = this.updateMode ? this.id : uuid();
       const date = TemporalConversion.epochSeconds(
         this.plainDate!,
         this.plainTime
@@ -253,10 +247,10 @@ export default Vue.extend({
 
       try {
         await store.dispatch(
-          action,
+          "updateTimeEvent",
           new TimeEventModel(
             PositionTranslator.toAbsolutePosition(date),
-            timeEventId,
+            this.id,
             this.text!,
             date,
             this.importance!,
@@ -267,7 +261,7 @@ export default Vue.extend({
 
         this.show = false;
       } catch (e) {
-        console.log("dispatch " + action + " failed: ", e);
+        console.warn("Updating time event failed:", e);
         this.loading = false;
       }
     },

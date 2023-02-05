@@ -26,6 +26,7 @@
           :class="{ 'btn-dark': writeMode }"
           color="white"
           icon
+          :disabled="isTimeEventToBeCreated"
           v-on:click.stop="writeMode = !writeMode"
           ><v-icon>mdi-pencil</v-icon></v-btn
         >
@@ -33,7 +34,7 @@
           class="buttons-top-right btn-close"
           color="white"
           icon
-          v-on:click.stop="toggleFullscreen()"
+          v-on:click.stop="closeFullscreen()"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -46,6 +47,8 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import Vue from "vue";
 import TextAreaWriteMode from "@/components/timeline/time-event/fullscreen/write-mode/text-area-write-mode.vue";
 import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-mode/text-area-read-mode.vue";
+import { FullscreenToggled } from "./fullscreen-toggled";
+import store from "@/store/store";
 
 /**
  * This fullscreen card is used for the fullscreen view of a time event.
@@ -53,7 +56,8 @@ import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-m
 export default Vue.extend({
   props: {
     id: String,
-    imageReferences: Array
+    imageReferences: Array,
+    writeModeE: Boolean
   },
 
   components: {
@@ -68,9 +72,29 @@ export default Vue.extend({
   },
 
   methods: {
-    toggleFullscreen() {
-      this.$emit("toggleFullscreen");
+    closeFullscreen() {
+      if (store.state.timeEventToBeCreated) {
+        store.commit("setTimeEventToBeCreated", null);
+      }
+
+      document.dispatchEvent(
+        new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+          detail: {
+            timeEventId: this.id,
+            isFullscreen: false,
+            writeMode: false
+          }
+        })
+      );
+    },
+
+    toggleWriteMode() {
+      this.writeMode = !this.writeMode;
     }
+  },
+
+  created() {
+    this.writeMode = this.writeModeE;
   },
 
   computed: {
@@ -86,6 +110,10 @@ export default Vue.extend({
           "." +
           imageReference.extension
       );
+    },
+
+    isTimeEventToBeCreated(): boolean {
+      return store.state.timeEventToBeCreated !== null;
     }
   }
 });

@@ -20,7 +20,7 @@
           class="btn-full card-image-shadow"
           color="white"
           icon
-          v-on:click.stop="toggleFullscreen()"
+          v-on:click.stop="openFullscreen()"
         >
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
@@ -40,6 +40,7 @@ import store from "@/store/store";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
 import Vue from "vue";
+import { FullscreenToggled } from "./fullscreen/fullscreen-toggled";
 
 /**
  * The variable card houses the three dynamic sizes of a time event
@@ -169,8 +170,16 @@ export default Vue.extend({
       }
     },
 
-    toggleFullscreen() {
-      this.$emit("toggleFullscreen");
+    openFullscreen() {
+      document.dispatchEvent(
+        new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+          detail: {
+            timeEventId: this.id,
+            isFullscreen: true,
+            writeMode: false
+          }
+        })
+      );
     },
 
     applyBoxStyles() {

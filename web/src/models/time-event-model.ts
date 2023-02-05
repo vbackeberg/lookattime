@@ -33,6 +33,8 @@ export default class TimeEventModel {
   importance: number;
   imageReferences: ImageReferenceModel[]; //TODO Obsolete, bc img stored in text
   title: string;
+  isFullscreen = false;
+  writeMode = false;
 
   constructor(
     positionCenter: number, // TODO derive from date

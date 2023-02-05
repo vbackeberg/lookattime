@@ -13,8 +13,16 @@
         v-bind:id="timeEvent.id"
         v-bind:imageReferences="timeEvent.imageReferences"
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
+        v-bind:isFullscreen="timeEvent.isFullscreen"
+        v-bind:writeMode="timeEvent.writeMode"
         v-on:openContextMenu="openContextMenu($event, timeEvent.id)"
       ></time-event>
+      <time-event-to-be-created
+        v-if="timeEventToBeCreated"
+        v-bind:id="timeEventToBeCreated.id"
+        v-bind:imageReferences="timeEventToBeCreated.imageReferences"
+        v-bind:writeMode="true"
+      ></time-event-to-be-created>
       <horizontal-line></horizontal-line>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
@@ -78,14 +86,19 @@ import Spacer from "@/models/spacer";
 import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
 import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";
 import HorizontalLine from "@/components/timeline/horizontal-line.vue";
-import { TimeEventFormModel } from "@/components/timeline/create-time-event-form/time-event-form-model";
+import { v4 as uuid } from "uuid";
+import { Temporal } from "@js-temporal/polyfill";
+import PositionTranslator from "@/timeline/position-translator";
+import { FullscreenToggled } from "@/components/timeline/time-event/fullscreen/fullscreen-toggled";
+import TimeEventToBeCreated from "./time-event/time-event-to-be-created.vue";
 
 export default Vue.extend({
   name: "Timeline",
 
   components: {
     TimeEvent,
-    HorizontalLine
+    HorizontalLine,
+    TimeEventToBeCreated
   },
 
   data() {
@@ -117,6 +130,18 @@ export default Vue.extend({
     await this.setSelectedTimeline();
 
     store.commit("setLoading", false);
+
+    document.addEventListener("fullscreen-toggled", e => {
+      const event = e as CustomEvent<FullscreenToggled>;
+      const index = this.timeEvents.findIndex(
+        timeEvent => timeEvent.id == event.detail.timeEventId
+      );
+
+      if (index !== -1) {
+        this.timeEvents[index].isFullscreen = event.detail.isFullscreen;
+        this.timeEvents[index].writeMode = event.detail.writeMode;
+      }
+    });
   },
 
   computed: {
@@ -128,6 +153,10 @@ export default Vue.extend({
 
     timeEvents(): TimeEventModel[] {
       return store.state.timeEvents;
+    },
+
+    timeEventToBeCreated(): TimeEventModel | null {
+      return store.state.timeEventToBeCreated;
     }
   },
 
@@ -144,8 +173,28 @@ export default Vue.extend({
     },
 
     createNewTimeEvent() {
-      this.editMode = false;
-      this.selectedTimeEvent = null;
+      const date = Temporal.Now.instant().epochSeconds;
+      const timeEventToBeCreated = new TimeEventModel(
+        PositionTranslator.toAbsolutePosition(date),
+        uuid(),
+        "",
+        date,
+        0, // TODO Shouldn't be set when creating. Maybe make 0 or -1 a reserved value for not set.
+        [],
+        ""
+      );
+
+      store.commit("setTimeEventToBeCreated", timeEventToBeCreated);
+
+      document.dispatchEvent(
+        new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+          detail: {
+            timeEventId: timeEventToBeCreated.id,
+            isFullscreen: true,
+            writeMode: true
+          }
+        })
+      );
     },
 
     deleteEvent() {

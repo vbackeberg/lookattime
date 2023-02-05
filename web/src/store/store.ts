@@ -1,15 +1,15 @@
+import HttpClient from "@/api/http-client";
+import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
+import UserLocalStorage from "@/local-storage/user-local-storage";
+import Spacer from "@/models/spacer";
 import TimeEventModel from "@/models/time-event-model";
 import TimeMarker from "@/models/time-marker";
-import Spacer from "@/models/spacer";
+import TimelineModel from "@/models/timeline-model";
+import UserModel from "@/models/user-model";
+import ViewResetter from "@/timeline/viewport/view-resetter";
+import { v4 as uuid } from "uuid";
 import Vue from "vue";
 import Vuex from "vuex";
-import { v4 as uuid } from "uuid";
-import ViewResetter from "@/timeline/viewport/view-resetter";
-import HttpClient from "@/api/http-client";
-import UserModel from "@/models/user-model";
-import TimelineModel from "@/models/timeline-model";
-import UserLocalStorage from "@/local-storage/user-local-storage";
-import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -27,6 +27,12 @@ export default new Vuex.Store({
     zoomLevel: 1728000000000,
 
     timeEvents: [] as TimeEventModel[],
+
+    /**
+     * Id of the temporary time event that is locally being
+     * added to timeEvents when creating a new time event.
+     */
+    timeEventToBeCreated: null as TimeEventModel | null,
 
     /**
      * Assures the screen does not get pushed to the left
@@ -100,6 +106,10 @@ export default new Vuex.Store({
 
     setLoading(state, loading: boolean) {
       state.loading = loading;
+    },
+
+    setTimeEventToBeCreated(state, timeEvent: TimeEventModel) {
+      state.timeEventToBeCreated = timeEvent;
     }
   },
 

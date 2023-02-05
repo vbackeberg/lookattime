@@ -111,7 +111,7 @@
 
     <v-spacer class="mt-auto"></v-spacer>
     <div class="mt-2 d-flex justify-end">
-      <v-btn color="secondary" class="me-2" text @click.stop="show = false">
+      <v-btn color="secondary" class="me-2" text @click.stop="cancel()">
         Cancel
       </v-btn>
       <v-btn
@@ -123,7 +123,7 @@
           size="24"
           v-if="loading"
         ></v-progress-circular>
-        {{ this.updateMode ? "Save" : "Create" }}
+        Save
       </v-btn>
     </div>
   </div>
@@ -137,8 +137,8 @@ import store from "@/store/store";
 import TemporalConversion from "@/temporal-extensions/temporal-conversion";
 import PositionTranslator from "@/timeline/position-translator";
 import Vue from "vue";
+import { FullscreenToggled } from "../fullscreen-toggled";
 import EditorWriteMode from "./editor-write-mode.vue";
-import { v4 as uuid } from "uuid";
 
 export default Vue.extend({
   name: "TextAreaWriteMode",
@@ -215,15 +215,17 @@ export default Vue.extend({
 
   methods: {
     populateForm() {
-      const index = store.state.timeEvents.findIndex(
-        timeEvent => timeEvent.id === this.id
-      );
+      const timeEvent = store.state.timeEvents
+        .concat(
+          store.state.timeEventToBeCreated
+            ? [store.state.timeEventToBeCreated]
+            : []
+        )
+        .find(timeEvent => timeEvent.id === this.id);
 
-      if (index === -1) {
-        throw Error("Could not get time event index because it was not found");
+      if (!timeEvent) {
+        throw Error("Could not get time event because it was not found");
       } else {
-        const timeEvent = store.state.timeEvents[index];
-
         this.title = timeEvent.title;
         this.text = timeEvent.text;
         this.importance = timeEvent.importance;
@@ -265,6 +267,35 @@ export default Vue.extend({
         this.loading = false;
       }
     },
+
+    // TODO: User may upload images and then hit cancel.
+    // This will lead to images being created and not used.
+    // Consider even sending an update call when cancelling
+    // or purge non-used images.
+
+    /**
+     * Switches back to read mode.
+     *
+     * If the time event has not been created, yet, cancel will discard
+     * the time event and close fullscreen mode.
+     */
+    async cancel() {
+      if (store.state.timeEventToBeCreated) {
+        store.commit("setTimeEventToBeCreated", null);
+        this.show = false;
+
+        document.dispatchEvent(
+          new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+            detail: {
+              timeEventId: this.id,
+              isFullscreen: false,
+              writeMode: false
+            }
+          })
+        );
+      } else {
+        this.$emit("input", false);
+      }
     }
   }
 });

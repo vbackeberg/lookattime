@@ -1,109 +1,111 @@
 <template>
   <div class="text-area">
-    <div class="title-area">
-      <!-- title and importance -->
-      <v-row>
-        <v-col cols="10">
-          <v-text-field
-            class="event-title flex-grow-3"
-            outlined
-            full-width
-            label="Title"
-            required
-            type="text"
-            v-model="title"
-            :rules="[ruleNotEmpty]"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            class="flex-grow-1"
-            label="Importance"
-            required
-            type="number"
-            v-model.number="importance"
-            :rules="[
-              ruleImportanceNoSame,
-              ruleImportanceNoNegative,
-              ruleNotEmpty
-            ]"
-          />
-        </v-col>
-      </v-row>
-      <!-- date and time picker -->
-      <v-row>
-        <div class="d-flex">
-          <v-menu
-            v-model="datePickerOpen"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="plainDate"
-                label="Date"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                :rules="[ruleNotEmpty]"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="plainDate"
-              @input="datePickerOpen = false"
-            ></v-date-picker>
-          </v-menu>
-
-          <v-btn
-            small
-            depressed
-            fab
-            color="grey lighten-4"
-            class="mx-1 my-auto"
-            @click.stop="timePickerVisible = !timePickerVisible"
-          >
-            <v-icon>mdi-clock-time-four-outline</v-icon>
-          </v-btn>
-
-          <v-menu
-            ref="menu"
-            v-model="timePickerOpen"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            :return-value.sync="plainTime"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-fade-transition>
+    <v-form v-model="valid" ref="form">
+      <div class="title-area">
+        <!-- title and importance -->
+        <v-row>
+          <v-col cols="10">
+            <v-text-field
+              class="event-title flex-grow-3"
+              outlined
+              full-width
+              label="Title"
+              required
+              type="text"
+              v-model="title"
+              :rules="[ruleNotEmpty]"
+            />
+          </v-col>
+          <v-col cols="2">
+            <v-text-field
+              class="flex-grow-1"
+              label="Importance"
+              required
+              type="number"
+              v-model.number="importance"
+              :rules="[
+                ruleImportanceNoSame,
+                ruleImportanceNoNegative,
+                ruleNotEmpty
+              ]"
+            />
+          </v-col>
+        </v-row>
+        <!-- date and time picker -->
+        <v-row>
+          <div class="d-flex">
+            <v-menu
+              v-model="datePickerOpen"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="plainTime"
-                  label="Time"
+                  v-model="plainDate"
+                  label="Date"
+                  prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  v-show="timePickerVisible"
+                  :rules="[ruleNotEmpty]"
                 ></v-text-field>
-              </v-fade-transition>
-            </template>
-            <v-time-picker
-              v-if="timePickerOpen"
-              v-model="plainTime"
-              use-seconds
-              full-width
-              @click:second="$refs.menu.save(plainTime)"
-            ></v-time-picker>
-          </v-menu>
-        </div>
-      </v-row>
-      <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
-    </div>
+              </template>
+              <v-date-picker
+                v-model="plainDate"
+                @input="datePickerOpen = false"
+              ></v-date-picker>
+            </v-menu>
+
+            <v-btn
+              small
+              depressed
+              fab
+              color="grey lighten-4"
+              class="mx-1 my-auto"
+              @click.stop="timePickerVisible = !timePickerVisible"
+            >
+              <v-icon>mdi-clock-time-four-outline</v-icon>
+            </v-btn>
+
+            <v-menu
+              ref="menu"
+              v-model="timePickerOpen"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="plainTime"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-fade-transition>
+                  <v-text-field
+                    v-model="plainTime"
+                    label="Time"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    v-show="timePickerVisible"
+                  ></v-text-field>
+                </v-fade-transition>
+              </template>
+              <v-time-picker
+                v-if="timePickerOpen"
+                v-model="plainTime"
+                use-seconds
+                full-width
+                @click:second="$refs.menu.save(plainTime)"
+              ></v-time-picker>
+            </v-menu>
+          </div>
+        </v-row>
+        <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
+      </div>
+    </v-form>
 
     <editor-write-mode v-model="text" v-bind:id="id" />
 

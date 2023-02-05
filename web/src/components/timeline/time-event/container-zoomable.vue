@@ -11,7 +11,7 @@
         alt="time event image"
       >
         <v-card-title class="card-title card-image-shadow">{{
-          title
+          timeEvent.title
         }}</v-card-title>
         <v-card-subtitle class="card-title card-image-shadow">{{
           formattedDate
@@ -48,10 +48,6 @@ import Vue from "vue";
 export default Vue.extend({
   props: {
     id: String,
-    text: String,
-    title: String,
-    date: Number,
-    importance: Number,
     imageReferences: Array,
     expansionZoomLevels: Array
   },
@@ -90,12 +86,11 @@ export default Vue.extend({
     },
 
     formattedDate(): string {
-      return Temporal.Instant.fromEpochSeconds(this.date).toLocaleString(
-        LOCALE,
-        {
-          timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
-        }
-      );
+      return Temporal.Instant.fromEpochSeconds(
+        this.timeEvent.date
+      ).toLocaleString(LOCALE, {
+        timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
+      });
     },
 
     imageSource(): string {
@@ -113,9 +108,11 @@ export default Vue.extend({
       );
     },
 
-    parsedText() {
-      return document.createRange().createContextualFragment(this.text)
-        .textContent;
+    parsedText(): string {
+      return (
+        document.createRange().createContextualFragment(this.timeEvent.text)
+          .textContent ?? ""
+      );
     }
   },
 

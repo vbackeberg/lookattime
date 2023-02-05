@@ -13,7 +13,7 @@
         v-bind:id="timeEvent.id"
         v-bind:imageReferences="timeEvent.imageReferences"
         v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
-        v-on:openContextMenu="openContextMenu($event, timeEvent)"
+        v-on:openContextMenu="openContextMenu($event, timeEvent.id)"
       ></time-event>
       <horizontal-line></horizontal-line>
     </div>
@@ -96,9 +96,7 @@ export default Vue.extend({
       x: 0,
       y: 0,
 
-      editMode: false,
-
-      selectedTimeEvent: null as null | TimeEventFormModel
+      selectedTimeEventId: null as string | null
     };
   },
 
@@ -134,16 +132,8 @@ export default Vue.extend({
   },
 
   methods: {
-    openContextMenu(e: MouseEvent, timeEvent: TimeEventModel) {
-      this.editMode = true;
-      this.selectedTimeEvent = {
-        id: timeEvent.id,
-        title: timeEvent.title,
-        text: timeEvent.text,
-        date: timeEvent.date,
-        importance: timeEvent.importance,
-        imageReferences: timeEvent.imageReferences
-      } as TimeEventFormModel;
+    openContextMenu(e: MouseEvent, timeEventId: string) {
+      this.selectedTimeEventId = timeEventId;
 
       this.showContextMenu = false;
       this.x = e.clientX;
@@ -153,15 +143,14 @@ export default Vue.extend({
       });
     },
 
-    // TODO: Make this send a call with a default Time Event (date at current position)
     createNewTimeEvent() {
       this.editMode = false;
       this.selectedTimeEvent = null;
     },
 
     deleteEvent() {
-      if (this.selectedTimeEvent?.id) {
-        store.dispatch("deleteTimeEvent", this.selectedTimeEvent.id);
+      if (this.selectedTimeEventId) {
+        store.dispatch("deleteTimeEvent", this.selectedTimeEventId);
       }
       this.showContextMenu = false;
     },

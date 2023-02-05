@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { BlobDeleteIfExistsResponse } from "@azure/storage-blob";
-import NoTimeEventUpdatedError from "../shared/errors/no-time-event-updated-error";
+import NoTimeEventCreatedOrUpdatedError from "../shared/errors/no-time-event-created-or-updated-error";
 import ImageBlobService from "../shared/image-blob-service";
 import TimeEventRequest from "../shared/models/api/time-event-request";
 import ImageDto from "../shared/models/dtos/image-dto";
@@ -8,6 +8,12 @@ import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequestValidator from "../shared/time-event-request-validator";
 const sql = require("mssql");
 
+/**
+ * Creates or updates a time event.
+ *
+ * @param context
+ * @param req
+ */
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
@@ -24,10 +30,12 @@ const httpTrigger: AzureFunction = async function (
   } else {
     try {
       await sql.connect(sqlConnectionConfig);
-      await updateTimeEvent(timeEventRequest);
-      await deleteImages(timeEventRequest);
+      await createOrUpdateTimeEvent(timeEventRequest);
+      await deleteObsoleteImages(timeEventRequest);
 
-      console.log("Successfully updated time event: " + timeEventRequest.id);
+      console.log(
+        "Successfully created or updated time event: " + timeEventRequest.id
+      );
     } catch (e) {
       console.error(e);
       context.res = {
@@ -36,24 +44,61 @@ const httpTrigger: AzureFunction = async function (
     }
   }
 
-  async function updateTimeEvent(timeEventRequest: TimeEventRequest) {
+  /**
+   * Creates or updates a time event.
+   *
+   * SQL statement:
+   * 1. Verifies that time event is
+   * actually associated with the given timeline and user.
+   *
+   * 2. Determines whether time event already exists or has
+   * to be created.
+   *
+   * 3. Updates if exists, inserts if not.
+   * @param timeEventRequest
+   */
+  async function createOrUpdateTimeEvent(timeEventRequest: TimeEventRequest) {
     const result = await sql.query`
       if exists (
-        select * from timelines
+        select id from timelines
         where id = ${timeEventRequest.timelineId}
         and userId = ${timeEventRequest.userId}
-      ) update timeEvents set
-        title = ${timeEventRequest.title},
-        textValue = ${timeEventRequest.textValue},
-        dateValue = ${timeEventRequest.dateValue},
-        importanceValue = ${timeEventRequest.importanceValue}
-      where
-        id = ${timeEventRequest.id}
-        and timelineId = ${timeEventRequest.timelineId};`;
+      )
+
+      begin
+        if exists (
+          select id from timeEvents
+          where id = ${timeEventRequest.id}
+        )
+        
+        begin
+          update timeEvents set
+            title = ${timeEventRequest.title},
+            textValue = ${timeEventRequest.textValue},
+            dateValue = ${timeEventRequest.dateValue},
+            importanceValue = ${timeEventRequest.importanceValue}
+          where
+            id = ${timeEventRequest.id}
+            and timelineId = ${timeEventRequest.timelineId}
+        end
+
+        else
+
+        begin
+          insert into timeEvents values (
+            ${timeEventRequest.id},
+            ${timeEventRequest.timelineId},
+            ${timeEventRequest.title},
+            ${timeEventRequest.textValue},
+            ${timeEventRequest.dateValue},
+            ${timeEventRequest.importanceValue}
+          )
+        end
+      end;`;
 
     if (result.rowsAffected[0] === 0) {
-      throw new NoTimeEventUpdatedError(
-        "Did not insert into timeEvents for timeEvent id: " +
+      throw new NoTimeEventCreatedOrUpdatedError(
+        "Did not insert into or updated timeEvents for timeEvent id: " +
           timeEventRequest.id +
           ", timelineId: " +
           timeEventRequest.timelineId +
@@ -83,7 +128,7 @@ const httpTrigger: AzureFunction = async function (
    *
    * @param timeEventRequest
    */
-  async function deleteImages(timeEventRequest: TimeEventRequest) {
+  async function deleteObsoleteImages(timeEventRequest: TimeEventRequest) {
     const imagesToDelete = await getImagesToDelete(
       timeEventRequest.id,
       retrieveImageIds(timeEventRequest.textValue)

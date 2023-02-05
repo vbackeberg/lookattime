@@ -28,15 +28,12 @@ export default Vue.extend({
 
   computed: {
     timeEvent(): TimeEventModel {
-      const index = store.state.timeEvents.findIndex(
+      const timeEvent = store.state.timeEvents.find(
         timeEvent => timeEvent.id === this.id
       );
 
-      if (index !== -1) {
-        return store.state.timeEvents[index];
-      } else {
-        throw Error("Could not get time event index because it was not found");
-      }
+      if (timeEvent) return timeEvent;
+      else throw Error("Could not get time event because it was not found");
     },
 
     formattedDate(): string {

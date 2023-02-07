@@ -249,7 +249,7 @@ export default Vue.extend({
 
       try {
         await store.dispatch(
-          "updateTimeEvent",
+          "createOrUpdateTimeEvent",
           new TimeEventModel(
             PositionTranslator.toAbsolutePosition(date),
             this.id,

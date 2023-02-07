@@ -83,9 +83,13 @@ export default new Vuex.Store({
       }
     },
 
-    updateTimeEvent(state, timeEvent: TimeEventModel) {
-      const index = state.timeEvents.findIndex(timeEvent => timeEvent.id);
-      state.timeEvents[index] = timeEvent;
+    createOrUpdateTimeEvent(state, timeEvent: TimeEventModel) {
+      const index = state.timeEvents.findIndex(
+        timeEvent => timeEvent.id === 
+      );
+      if (index === -1) {
+        state.timeEvents[index] = timeEvent;
+      }
     },
 
     setSelectedTimeline(state, timeline: TimelineModel) {
@@ -125,7 +129,7 @@ export default new Vuex.Store({
       ).then(() => commit("deleteTimeEvent", timeEventId));
     },
 
-    async updateTimeEvent(
+    async createOrUpdateTimeEvent(
       { commit, state },
       timeEvent: TimeEventModel
     ): Promise<void> {
@@ -133,18 +137,7 @@ export default new Vuex.Store({
         timeEvent,
         state.selectedTimeline.id,
         state.user.id
-      ).then(() => commit("updateTimeEvent", timeEvent));
-    },
-
-    async addTimeEvent(
-      { commit, state },
-      timeEvent: TimeEventModel
-    ): Promise<void> {
-      return HttpClient.createOrUpdateTimeEvent(
-        timeEvent,
-        state.selectedTimeline.id,
-        state.user.id
-      ).then(() => commit("addTimeEvent", timeEvent));
+      ).then(() => commit("createOrUpdateTimeEvent", timeEvent));
     },
 
     async loadTimeEvents({ commit, state }): Promise<void> {

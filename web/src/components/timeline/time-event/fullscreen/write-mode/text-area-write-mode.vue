@@ -260,8 +260,19 @@ export default Vue.extend({
             this.title!
           )
         );
+        store.commit("setTimeEventToBeCreated", null);
 
         this.show = false;
+
+        document.dispatchEvent(
+          new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+            detail: {
+              timeEventId: this.id,
+              isFullscreen: false,
+              writeMode: false
+            }
+          })
+        );
       } catch (e) {
         console.warn("Updating time event failed:", e);
         this.loading = false;

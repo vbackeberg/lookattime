@@ -83,13 +83,8 @@ export default new Vuex.Store({
       }
     },
 
-    createOrUpdateTimeEvent(state, timeEvent: TimeEventModel) {
-      const index = state.timeEvents.findIndex(
-        timeEvent => timeEvent.id === 
-      );
-      if (index === -1) {
-        state.timeEvents[index] = timeEvent;
-      }
+    updateTimeEvent(state, payload: any) {
+      state.timeEvents[payload.index] = payload.changedTimeEvent  ;
     },
 
     setSelectedTimeline(state, timeline: TimelineModel) {
@@ -131,13 +126,22 @@ export default new Vuex.Store({
 
     async createOrUpdateTimeEvent(
       { commit, state },
-      timeEvent: TimeEventModel
+      changedTimeEvent: TimeEventModel
     ): Promise<void> {
-      return HttpClient.createOrUpdateTimeEvent(
-        timeEvent,
+      await HttpClient.createOrUpdateTimeEvent(
+        changedTimeEvent,
         state.selectedTimeline.id,
         state.user.id
-      ).then(() => commit("createOrUpdateTimeEvent", timeEvent));
+      );
+
+      const index = state.timeEvents.findIndex(
+        timeEvent => timeEvent.id === changedTimeEvent.id
+      );
+      if (index === -1) {
+        commit("addTimeEvent", changedTimeEvent);
+      } else {
+        commit("updateTimeEvent", { changedTimeEvent, index });
+      }
     },
 
     async loadTimeEvents({ commit, state }): Promise<void> {

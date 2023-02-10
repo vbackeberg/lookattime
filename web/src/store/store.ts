@@ -83,8 +83,11 @@ export default new Vuex.Store({
       }
     },
 
-    updateTimeEvent(state, payload: any) {
-      state.timeEvents[payload.index] = payload.changedTimeEvent  ;
+    updateTimeEvent(
+      state,
+      payload: { changedTimeEvent: TimeEventModel; index: number }
+    ) {
+      state.timeEvents[payload.index] = payload.changedTimeEvent;
     },
 
     setSelectedTimeline(state, timeline: TimelineModel) {

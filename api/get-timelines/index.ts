@@ -19,13 +19,14 @@ const httpTrigger: AzureFunction = async function (
     try {
       await sql.connect(sqlConnectionConfig);
 
-      const result = await sql.query`select * from timelines where userId = ${userId};`;
-      
+      const result =
+        await sql.query`select * from timelines where userId = ${userId};`;
+
       context.res = {
         body: result.recordset,
       };
 
-      console.log(result);
+      console.log("Successfully retrieved timelines for user: " + userId);
     } catch (e) {
       console.warn(e);
       context.res = {

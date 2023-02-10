@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { sqlConnectionConfig }from "../shared/sql-connection-config";
+import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import { validate as validUuid } from "uuid";
 const sql = require("mssql");
 
@@ -17,13 +17,12 @@ const httpTrigger: AzureFunction = async function (
     };
   } else {
     try {
-      await sql.connect(
-        sqlConnectionConfig
-      );
+      await sql.connect(sqlConnectionConfig);
 
-      const result = await sql.query`select id, title from timelines where id = ${id};`;
-      
-      console.log(result);
+      const result =
+        await sql.query`select id, title from timelines where id = ${id};`;
+
+      console.log("Successfully retrieved timeline: " + id);
 
       if (!result.recordset[0]) {
         context.res = {
@@ -38,7 +37,7 @@ const httpTrigger: AzureFunction = async function (
       console.warn(e);
       context.res = {
         status: 500,
-      }; ;
+      };
     }
   }
 };

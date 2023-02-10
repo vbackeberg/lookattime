@@ -16,13 +16,15 @@ const httpTrigger: AzureFunction = async function (
   if (!validUuid(timelineId)) {
     context.res = {
       status: 400,
+      body: "invalid request",
     };
   } else {
     try {
       await sql.connect(sqlConnectionConfig);
 
       // TODO: Combine sql queries into one and do the mapping inside sql.
-      const timeEventsResult = await sql.query`select * from timeEvents where timelineId = ${timelineId};`;
+      const timeEventsResult =
+        await sql.query`select * from timeEvents where timelineId = ${timelineId};`;
       const imagesResult = await sql.query`
         select * from images
         where timeEventId in (
@@ -31,26 +33,26 @@ const httpTrigger: AzureFunction = async function (
 
       const images = imagesResult.recordset as ImageDto[];
 
-      const timeEvents = (timeEventsResult.recordset as TimeEventResponse[]).map(
-        (timeEvent) => {
-          timeEvent.imageReferences = images
-            .filter((image) => image.timeEventId === timeEvent.id)
-            .map((image) => {
-              return {
-                id: image.id,
-                extension: image.extension,
-              };
-            });
+      const timeEvents = (
+        timeEventsResult.recordset as TimeEventResponse[]
+      ).map((timeEvent) => {
+        timeEvent.imageReferences = images
+          .filter((image) => image.timeEventId === timeEvent.id)
+          .map((image) => {
+            return {
+              id: image.id,
+              extension: image.extension,
+            };
+          });
 
-          return timeEvent;
-        }
-      );
+        return timeEvent;
+      });
 
       context.res = {
         body: timeEvents,
       };
 
-      console.log(timeEvents);
+      console.log("Successfully retrieved time events for timeline " + timelineId);
     } catch (e) {
       console.warn(e);
       context.res = {

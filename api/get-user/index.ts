@@ -21,7 +21,7 @@ const httpTrigger: AzureFunction = async function (
       await sql.connect(sqlConnectionConfig);
 
       const result = await sql.query`select * from users where id = ${id};`;
-      console.log(result);
+      console.log("Successfully retrieved user: " + id);
 
       if (!result.recordset[0]) {
         context.res = {

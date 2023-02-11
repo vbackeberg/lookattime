@@ -260,19 +260,22 @@ export default Vue.extend({
             this.title!
           )
         );
-        store.commit("setTimeEventToBeCreated", null);
+
+        if (store.state.timeEventToBeCreated) {
+          store.commit("setTimeEventToBeCreated", null);
+
+          document.dispatchEvent(
+            new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+              detail: {
+                timeEventId: this.id,
+                isFullscreen: false,
+                writeMode: false
+              }
+            })
+          );
+        }
 
         this.show = false;
-
-        document.dispatchEvent(
-          new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
-            detail: {
-              timeEventId: this.id,
-              isFullscreen: false,
-              writeMode: false
-            }
-          })
-        );
       } catch (e) {
         console.warn("Updating time event failed:", e);
         this.loading = false;
@@ -291,9 +294,10 @@ export default Vue.extend({
      * the time event and close fullscreen mode.
      */
     async cancel() {
+      this.show = false;
+
       if (store.state.timeEventToBeCreated) {
         store.commit("setTimeEventToBeCreated", null);
-        this.show = false;
 
         document.dispatchEvent(
           new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
@@ -304,8 +308,6 @@ export default Vue.extend({
             }
           })
         );
-      } else {
-        this.$emit("input", false);
       }
     }
   }

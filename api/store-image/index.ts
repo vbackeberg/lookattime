@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { getExtension } from "mime";
-import { validate as validUuid } from "uuid";
+import { validate as validUuid, v4 as uuid } from "uuid";
 import NoImageBlobStoredError from "../shared/errors/no-image-blob-stored-error";
 import NoImageIdCreatedError from "../shared/errors/no-image-id-created-error";
 import FormDataParser from "../shared/form-data-parser";
@@ -34,7 +34,7 @@ const httpTrigger: AzureFunction = async function (
       body: { error: { message: "The image is invalid." } },
     };
   } else {
-    const imageId = req.query.imageId;
+    const imageId = uuid();
     const timeEventId = req.query.timeEventId;
     const timelineId = req.query.timelineId;
     const userId = req.query.userId;
@@ -89,7 +89,6 @@ const httpTrigger: AzureFunction = async function (
 
 function validQueryParameters(query: any): boolean {
   return (
-    validUuid(query.imageId) &&
     validUuid(query.timeEventId) &&
     validUuid(query.timelineId) &&
     validUuid(query.userId)

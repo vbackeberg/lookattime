@@ -46,9 +46,7 @@ export default Vue.extend({
         simpleUpload: {
           uploadUrl:
             process.env.VUE_APP_API_URL +
-            "/store-image?imageId=" +
-            uuid() +
-            "&timeEventId=" +
+            "/store-image?timeEventId=" +
             this.id +
             "&timelineId=" +
             store.state.selectedTimeline.id +

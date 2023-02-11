@@ -6,7 +6,6 @@
 import Vue from "vue";
 import ClassicEditor from "@/../ckeditor-build/ckeditor";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
-import { v4 as uuid } from "uuid";
 import store from "@/store/store";
 
 /**

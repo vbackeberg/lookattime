@@ -24,14 +24,14 @@ const httpTrigger: AzureFunction = async function (
     console.warn(e);
     context.res = {
       status: 400,
-      body: "invalid image",
+      body: { error: { message: "The image is invalid." } },
     };
   }
 
   if (!validQueryParameters(req.query) || !ImageValidator.isValid(imageData)) {
     context.res = {
       status: 400,
-      body: "invalid image",
+      body: { error: { message: "The image is invalid." } },
     };
   } else {
     const imageId = req.query.imageId;
@@ -77,6 +77,11 @@ const httpTrigger: AzureFunction = async function (
 
       context.res = {
         status: 500,
+        body: {
+          error: {
+            message: "Sorry, something went wrong storing the image.",
+          },
+        },
       };
     }
   }

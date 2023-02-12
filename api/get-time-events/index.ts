@@ -22,16 +22,37 @@ const httpTrigger: AzureFunction = async function (
     try {
       await sql.connect(sqlConnectionConfig);
 
-      const result =
+      // TODO: Combine sql queries into one and do the mapping inside sql.
+      const timeEventsResult =
         await sql.query`select * from timeEvents where timelineId = ${timelineId};`;
+      const imagesResult = await sql.query`
+        select * from images
+        where timeEventId in (
+          select id from timeEvents where timelineId = ${timelineId}
+        );`;
+
+      const images = imagesResult.recordset as ImageDto[];
+
+      const timeEvents = (
+        timeEventsResult.recordset as TimeEventResponse[]
+      ).map((timeEvent) => {
+        timeEvent.imageReferences = images
+          .filter((image) => image.timeEventId === timeEvent.id)
+          .map((image) => {
+            return {
+              id: image.id,
+              extension: image.extension,
+            };
+          });
+
+        return timeEvent;
+      });
 
       context.res = {
-        body: result.recordset,
+        body: timeEvents,
       };
 
-      console.log(
-        "Successfully retrieved time events for timeline " + timelineId
-      );
+      console.log("Successfully retrieved time events for timeline " + timelineId);
     } catch (e) {
       console.warn(e);
       context.res = {

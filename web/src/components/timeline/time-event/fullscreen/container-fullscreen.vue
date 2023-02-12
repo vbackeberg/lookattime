@@ -2,14 +2,6 @@
   <div class="container-fullscreen">
     <div class="container-content elevation-20">
       <v-card class="content">
-        <v-img
-          v-bind:src="imageSources[0]"
-          class="card-image white--text align-end"
-          max-height="400px"
-          alt="time event image"
-        >
-        </v-img>
-
         <text-area-write-mode
           v-if="writeMode"
           v-model="writeMode"
@@ -43,7 +35,6 @@
   </div>
 </template>
 <script lang="ts">
-import ImageReferenceModel from "@/models/image-reference-model";
 import Vue from "vue";
 import TextAreaWriteMode from "@/components/timeline/time-event/fullscreen/write-mode/text-area-write-mode.vue";
 import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-mode/text-area-read-mode.vue";
@@ -56,7 +47,6 @@ import store from "@/store/store";
 export default Vue.extend({
   props: {
     id: String,
-    imageReferences: Array,
     writeModeE: Boolean
   },
 
@@ -98,20 +88,6 @@ export default Vue.extend({
   },
 
   computed: {
-    imageSources(): string[] {
-      if (this.imageReferences.length < 1) {
-        return [];
-      }
-
-      return (this.imageReferences as ImageReferenceModel[]).map(
-        imageReference =>
-          process.env.VUE_APP_IMAGE_URL +
-          imageReference.id +
-          "." +
-          imageReference.extension
-      );
-    },
-
     isTimeEventToBeCreated(): boolean {
       return store.state.timeEventToBeCreated !== null;
     }

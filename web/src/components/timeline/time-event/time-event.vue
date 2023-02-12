@@ -3,7 +3,6 @@
     <container-fullscreen
       v-if="isFullscreen"
       v-bind:id="id"
-      v-bind:imageReferences="[]"
       v-bind:writeModeE="writeMode"
     />
     <!-- TODO consider remove binds because it has to fetch te anyway -->

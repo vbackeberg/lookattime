@@ -9,7 +9,7 @@
     <container-zoomable
       v-else
       v-bind:id="id"
-      v-bind:imageReferences="[]"
+      v-bind:imageReferences="imageReferences"
       v-bind:expansionZoomLevels="expansionZoomLevels"
     />
   </div>

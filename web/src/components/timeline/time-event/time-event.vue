@@ -5,7 +5,6 @@
       v-bind:id="id"
       v-bind:writeModeE="writeMode"
     />
-    <!-- TODO consider remove binds because it has to fetch te anyway -->
     <container-zoomable
       v-else
       v-bind:id="id"

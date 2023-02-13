@@ -204,7 +204,7 @@ export default new Vuex.Store({
     },
 
     async loadUser({ commit, dispatch }): Promise<void> {
-      const userId = UserLocalStorage.Instance.getUserId();
+      const userId = UserLocalStorage.getUserId();
 
       let user: UserModel;
       try {

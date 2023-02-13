@@ -127,7 +127,6 @@ export default Vue.extend({
 
     await store.dispatch("loadUser");
 
-    await this.$nextTick();
     await this.setSelectedTimeline();
 
     store.commit("setLoading", false);

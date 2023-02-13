@@ -6,29 +6,28 @@
       </v-card-title>
 
       <v-card-text>
-        <h3>Time Markers are back - now representing real dates!</h3>
+        <h3>Fully-featured editor for your Time Events!</h3>
         <p>
-          It has been a long way, but we are finally there: Time Markers are now
-          placed at meaningful dates along our timeline such as days, hours or
-          years. The markers will fade in and out at pre-defined zoom levels
-          depending on how deep we zoom in to our timeline. I describe the
-          calculation on my <a href="https://valerianb.medium.com">blog</a>.
-        </p>
-        <h3>Timeline is back, too!</h3>
-        <p>
-          And the horizontal timeline is back from summer break, too. 🌴 Now,
-          it's correctly positioned and fixed.
+          The next time you will open up a time event you will be greeted by the
+          all-new UI design for time event content. The most notable features
+          are: Formatting with headlines, bold, italic, etc. Images along the
+          text Quick toggling of edit and read mode On top of that, editing and
+          creating time events now happens in-place without a separate modal and
+          you have a real editor at your hands offering all the tools you would
+          expect for text editing. I chose to go with a great editor called
+          Ckeditor5 that is extendable and free.
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/time-markers-from-dates.gif"
+            src="https://lookattime2.blob.core.windows.net/lookattime-assets/rich-text-editor.png"
           ></v-img>
         </p>
 
         <h3>What are we going to work on next? 👷‍♂️</h3>
         <p>
-          We will fix the positioning of time markers such that they sit just
-          below the horizontal time line in the middle of the screen.
+          There are still a few rocks in the system. You have to reload the page
+          often after changing time events. These are going to be solved over
+          the coming weeks.
         </p>
 
         <h3>What is this about?</h3>

@@ -175,6 +175,16 @@ export default new Vuex.Store({
       commit("addTimeline", timeline);
     },
 
+    /**
+     * Fetches all timelines from the server.
+     * Then sets either one of the following timelines:
+     * - the timeline specified in the query parameters if there is one,
+     * - an empty new timeline if user has no timelines, yet,
+     * - the timeline specified in local storage.
+     *
+     * @param param0
+     * @returns
+     */
     async loadTimelines({ commit, dispatch, state }): Promise<void> {
       const timelines = await HttpClient.getTimelines(state.user.id);
 

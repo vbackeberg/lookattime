@@ -14,6 +14,7 @@
         />
 
         <v-btn
+          v-if="!readOnlyMode"
           class="buttons-top-right btn-edit"
           :class="{ 'btn-dark': writeMode }"
           color="white"
@@ -40,6 +41,7 @@ import TextAreaWriteMode from "@/components/timeline/time-event/fullscreen/write
 import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-mode/text-area-read-mode.vue";
 import { FullscreenToggled } from "./fullscreen-toggled";
 import store from "@/store/store";
+import { mapGetters } from "vuex";
 
 /**
  * This fullscreen card is used for the fullscreen view of a time event.
@@ -88,6 +90,7 @@ export default Vue.extend({
   },
 
   computed: {
+    ...mapGetters(["readOnlyMode"]),
     isTimeEventToBeCreated(): boolean {
       return store.state.timeEventToBeCreated !== null;
     }

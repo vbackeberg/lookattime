@@ -166,7 +166,7 @@ export default new Vuex.Store({
       timeline: TimelineModel
     ): Promise<void> {
       commit("setSelectedTimeline", timeline);
-      SelectedTimelineLocalStorage.Instance.setSelectedTimelineId(timeline.id);
+      SelectedTimelineLocalStorage.setSelectedTimelineId(timeline.id);
       await dispatch("loadTimeEvents");
     },
 
@@ -180,7 +180,7 @@ export default new Vuex.Store({
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);
-        const selectedTimelineId = SelectedTimelineLocalStorage.Instance.getSelectedTimelineId();
+        const selectedTimelineId = SelectedTimelineLocalStorage.getSelectedTimelineId();
 
         const timelineFound = timelines.find(
           timeline => timeline.id === selectedTimelineId

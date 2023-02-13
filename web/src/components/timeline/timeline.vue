@@ -127,8 +127,6 @@ export default Vue.extend({
 
     await store.dispatch("loadUser");
 
-    await this.setSelectedTimeline();
-
     store.commit("setLoading", false);
 
     document.addEventListener("fullscreen-toggled", e => {
@@ -218,20 +216,6 @@ export default Vue.extend({
       );
       store.state.spacerLeft = new Spacer(0, 1, "spacer-left");
       store.state.spacerRight = new Spacer(0, 1, "spacer-right");
-    },
-
-    async setSelectedTimeline() {
-      const timelineIdQueryParam = this.$route.query?.timeline;
-      if (timelineIdQueryParam) {
-        await store.dispatch(
-          "setSelectedTimeline",
-          new TimelineModel(
-            timelineIdQueryParam as string,
-            "",
-            "Shared timeline"
-          )
-        );
-      }
     },
 
     initializeTimelineServices() {

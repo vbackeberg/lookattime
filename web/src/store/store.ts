@@ -7,7 +7,7 @@ import TimeMarker from "@/models/time-marker";
 import TimelineModel from "@/models/timeline-model";
 import UserModel from "@/models/user-model";
 import ViewResetter from "@/timeline/viewport/view-resetter";
-import { v4 as uuid } from "uuid";
+import { v4 as uuid, validate as validUuid } from "uuid";
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -177,6 +177,21 @@ export default new Vuex.Store({
 
     async loadTimelines({ commit, dispatch, state }): Promise<void> {
       const timelines = await HttpClient.getTimelines(state.user.id);
+
+      const timelineIdQueryParam = new URLSearchParams(
+        window.location.search
+      ).get("timeline");
+
+      if (timelineIdQueryParam && validUuid(timelineIdQueryParam)) {
+        return await dispatch(
+          "setSelectedTimeline",
+          new TimelineModel(
+            timelineIdQueryParam as string,
+            "",
+            "Shared timeline"
+          )
+        );
+      }
 
       if (timelines.length > 0) {
         commit("setTimelines", timelines);

@@ -200,6 +200,7 @@ export default new Vuex.Store({
         );
       }
 
+      // Case shared timeline
       const timelineIdQueryParam = new URLSearchParams(
         window.location.search
       ).get("timeline");
@@ -215,6 +216,7 @@ export default new Vuex.Store({
         );
       }
 
+      // Case last selected timeline
       const timelineIndex = state.timelines.findIndex(
         timeline =>
           timeline.id === SelectedTimelineLocalStorage.getSelectedTimelineId()
@@ -227,6 +229,7 @@ export default new Vuex.Store({
         );
       }
 
+      // Case fallback to first timeline
       await dispatch("setSelectedTimeline", state.timelines[0]);
     },
 

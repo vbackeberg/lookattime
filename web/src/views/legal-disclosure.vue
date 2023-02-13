@@ -4,8 +4,8 @@
     <p>Disclosures in accordance with § 5 TMG:</p>
     <p>
       Valerian Backeberg<br />
-      Allacher Str. 121<br />
-      80997 München <br />
+      Krumpenhofweg 2<br />
+      80639 München <br />
     </p>
     <p>
       <strong>Contact:</strong> <br />

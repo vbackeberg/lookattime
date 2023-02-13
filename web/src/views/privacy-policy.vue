@@ -119,7 +119,7 @@
 
     <h2>Changes to our privacy policy</h2>
     We keep our privacy policy under regular review and place any updates on
-    this web page. This privacy policy was last updated on 5 April 2021.
+    this web page. This privacy policy was last updated on 13 February 2023.
     <br /><br />
 
     <h2><a name="contact">How to contact us?</a></h2>
@@ -129,8 +129,8 @@
     <br /><br />
     Write us at:<br />
     Valerian Backeberg<br />
-    Allacher Str. 121<br />
-    80997 München<br />
+    Krumpenhofweg 2<br />
+    80639 München<br />
     <br />
     Call us: +4917634515541<br />
     <br />

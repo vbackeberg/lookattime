@@ -78,7 +78,6 @@ import Vue from "vue";
 import store from "@/store/store";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
-import TimelineModel from "@/models/timeline-model";
 import { mapGetters } from "vuex";
 import ViewFocusTrigger from "@/timeline/viewport/view-focus-trigger";
 import TimeEventModel from "@/models/time-event-model";

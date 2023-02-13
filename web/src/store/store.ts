@@ -177,16 +177,28 @@ export default new Vuex.Store({
 
     /**
      * Fetches all timelines from the server.
-     * Then sets either one of the following timelines:
+     *
+     * Then sets either one of the following timelines as selected:
      * - the timeline specified in the query parameters if there is one,
-     * - an empty new timeline if user has no timelines, yet,
      * - the timeline specified in local storage.
+     * - the first timeline if
+     *  - the user has not selected a timeline,
+     *  - or its id is not in timelines,
      *
      * @param param0
      * @returns
      */
     async loadTimelines({ commit, dispatch, state }): Promise<void> {
       const timelines = await HttpClient.getTimelines(state.user.id);
+
+      if (timelines.length > 0) {
+        commit("setTimelines", timelines);
+      } else {
+        await dispatch(
+          "addTimeline",
+          new TimelineModel(uuid(), state.user.id, "My timeline")
+        );
+      }
 
       const timelineIdQueryParam = new URLSearchParams(
         window.location.search
@@ -203,29 +215,19 @@ export default new Vuex.Store({
         );
       }
 
-      if (timelines.length > 0) {
-        commit("setTimelines", timelines);
-        const selectedTimelineId = SelectedTimelineLocalStorage.getSelectedTimelineId();
+      const timelineIndex = state.timelines.findIndex(
+        timeline =>
+          timeline.id === SelectedTimelineLocalStorage.getSelectedTimelineId()
+      );
 
-        const timelineFound = timelines.find(
-          timeline => timeline.id === selectedTimelineId
+      if (timelineIndex !== -1) {
+        return await dispatch(
+          "setSelectedTimeline",
+          state.timelines[timelineIndex]
         );
-
-        if (timelineFound) {
-          await dispatch(
-            "setSelectedTimeline",
-            timelines.find(timeline => timeline.id === selectedTimelineId)
-          );
-        } else {
-          await dispatch("setSelectedTimeline", timelines[0]);
-        }
-      } else {
-        await dispatch(
-          "addTimeline",
-          new TimelineModel(uuid(), state.user.id, "My timeline")
-        );
-        await dispatch("setSelectedTimeline", state.timelines[0]);
       }
+
+      await dispatch("setSelectedTimeline", state.timelines[0]);
     },
 
     async loadUser({ commit, dispatch }): Promise<void> {

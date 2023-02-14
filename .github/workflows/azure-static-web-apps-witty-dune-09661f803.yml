@@ -5,11 +5,15 @@ on:
     tags:
       - "*"
 
+
+
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    env:
+      NODE_ENV: "production"
     steps:
       - uses: actions/checkout@v2
         with:

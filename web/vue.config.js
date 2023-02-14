@@ -4,11 +4,12 @@ module.exports = {
     proxy: "http://localhost:7071"
   },
   configureWebpack: config => {
-    console.warn(process.env.NODE_ENV)
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV === "production") {
+      config.devtool = "false";
+    } else {
       config.devtool = "source-map";
     }
   },
   lintOnSave: false,
-  transpileDependencies: ["vuetify"],
+  transpileDependencies: ["vuetify"]
 };

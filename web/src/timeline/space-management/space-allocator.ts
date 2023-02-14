@@ -1,4 +1,4 @@
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import store from "@/store/store";
 import Viewport from "../viewport/viewport";
 

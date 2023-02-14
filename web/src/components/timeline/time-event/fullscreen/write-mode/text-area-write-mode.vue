@@ -132,7 +132,7 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import ImageReferenceModel from "@/models/image-reference-model";
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import store from "@/store/store";
 import TemporalConversion from "@/temporal-extensions/temporal-conversion";
 import PositionTranslator from "@/timeline/position-translator";

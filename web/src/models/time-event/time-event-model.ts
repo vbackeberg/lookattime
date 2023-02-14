@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Constants } from "@/timeline/zooming/constants";
-import ImageReferenceModel from "./image-reference-model";
+import ImageReferenceModel from "../image-reference-model";
 
 //TODO Move into time event directory
 export default class TimeEventModel {

@@ -1,5 +1,5 @@
-import TimeEventModel from "@/models/time-event-model";
 import TimeEventResponse from "@/api/time-event/time-event-response";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import PositionTranslator from "@/timeline/position-translator";
 
 export default class TimeEventResponseMapper {

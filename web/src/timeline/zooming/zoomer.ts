@@ -1,4 +1,4 @@
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import store from "@/store/store";
 import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";

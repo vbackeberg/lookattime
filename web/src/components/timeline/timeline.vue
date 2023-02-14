@@ -80,7 +80,7 @@ import SpaceObserver from "@/timeline/space-management/space-observer";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
 import { mapGetters } from "vuex";
 import ViewFocusTrigger from "@/timeline/viewport/view-focus-trigger";
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import Spacer from "@/models/spacer";
 import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
 import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";

@@ -15,7 +15,7 @@ import EditorReadMode from "./editor-read-mode.vue";
 import { LOCALE } from "@/localization/locale";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import store from "@/store/store";
 
 export default Vue.extend({

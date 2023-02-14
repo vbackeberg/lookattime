@@ -1,4 +1,4 @@
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import TimelineModel from "@/models/timeline-model";
 import UserModel from "@/models/user-model";
 import axios from "axios";

@@ -34,7 +34,7 @@
 <script lang="ts">
 import { LOCALE } from "@/localization/locale";
 import ImageReferenceModel from "@/models/image-reference-model";
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import ExpansionState from "@/models/time-event/expansion-state";
 import store from "@/store/store";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";

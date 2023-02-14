@@ -2,7 +2,7 @@ import HttpClient from "@/api/http-client";
 import SelectedTimelineLocalStorage from "@/local-storage/selected-timeline-local-storage";
 import UserLocalStorage from "@/local-storage/user-local-storage";
 import Spacer from "@/models/spacer";
-import TimeEventModel from "@/models/time-event-model";
+import TimeEventModel from "@/models/time-event/time-event-model";
 import TimeMarker from "@/models/time-marker";
 import TimelineModel from "@/models/timeline-model";
 import UserModel from "@/models/user-model";

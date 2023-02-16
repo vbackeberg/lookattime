@@ -12,8 +12,6 @@ export default class TimeMarkerDepthObserver {
   public observe() {
     TimeMarkerRemover.removeAllMarkers();
 
-    console.log(`store.state.zoomLevel: ${store.state.zoomLevel}`);
-
     // May be undefined if not found. (The list is not complete, yet.)
     TimeDepth.currentDepth =
       TimeDepth.zoomLevelToDepthTranslation.find(

@@ -14,7 +14,7 @@ export class TimeMarkerCreator {
       DateTimeFormatOptions.TIME_ZONE
     );
 
-    const r =
+    const nanoseconds =
       BigInt(
         PositionTranslator.toDate(
           Math.trunc(store.state.spacerRight.positionLeft) +
@@ -22,7 +22,7 @@ export class TimeMarkerCreator {
         )
       ) * this.SECONDS_IN_NANOSECONDS;
     const rightmostDate = new Temporal.ZonedDateTime(
-      r,
+      nanoseconds,
       DateTimeFormatOptions.TIME_ZONE
     );
 

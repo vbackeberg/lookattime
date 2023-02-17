@@ -7,6 +7,7 @@ import TemporalRoundingExtension from "../time-depth/temporal-rounding-extension
 
 export class TimeMarkerCreator {
   private static SECONDS_IN_NANOSECONDS = 1000000000n;
+  public static eventTarget = new EventTarget();
 
   public static placeTimeMarkers(depth: Temporal.DurationLike): void {
     const leftmostDate = new Temporal.ZonedDateTime(
@@ -47,6 +48,8 @@ export class TimeMarkerCreator {
     store.state.timeMarkers = timeMarkers;
 
     this.addHTMLElements(timeMarkers.flatMap(t => t.htmlElement));
+
+    this.eventTarget.dispatchEvent(new Event("time-marker-creation-end"));
   }
 
   private static addHTMLElements(elements: HTMLElement[]) {

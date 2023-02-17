@@ -1,9 +1,14 @@
 :root {
   --transition-duration: 300ms;
+  --transition-property: transform;
 }
 
+/**
+* The transition class attached to all elements that should have a smooth transition
+* Its property is set to none during space extension and cutoff.
+*/
 .zoom-transition {
-  transition: transform var(--transition-duration)
+  transition: var(--transition-property) var(--transition-duration)
     cubic-bezier(0.05, 0.61, 0.35, 1.12);
 }
 

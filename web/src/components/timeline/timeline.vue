@@ -2,7 +2,7 @@
   <div id="timeline">
     <div id="buffer-top-area">
       <!-- space management listens to this zoom-transition -->
-      <svg id="spacer-left" class="spacer zoomable zoom-transition"></svg>
+      <svg id="spacer-left" class="spacer  zoom-transition"></svg>
       <svg id="spacer-right" class="spacer"></svg>
       <svg id="spacer-viewport-right" class="spacer"></svg>
     </div>
@@ -90,6 +90,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import PositionTranslator from "@/timeline/position-translator";
 import { FullscreenToggled } from "@/components/timeline/time-event/fullscreen/fullscreen-toggled";
 import TimeEventToBeCreated from "./time-event/time-event-to-be-created.vue";
+import ElementAnimationEnabler from "@/timeline/element-animation-enabler";
 
 export default Vue.extend({
   name: "Timeline",
@@ -223,6 +224,7 @@ export default Vue.extend({
       ViewFocusTrigger.Instance;
       CollisionCalculationTrigger.Instance;
       TimeMarkerDepthObserver.Instance;
+      ElementAnimationEnabler.Instance;
     },
 
     reloadPage() {

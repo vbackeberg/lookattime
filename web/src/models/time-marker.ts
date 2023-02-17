@@ -24,10 +24,7 @@ export default class TimeMarker {
 
   private createHTMLElement(): HTMLElement {
     const container = document.createElement("div");
-    container.setAttribute(
-      "class",
-      "time-marker-container zoom-transition zoomable"
-    );
+    container.setAttribute("class", "time-marker-container");
 
     container.insertAdjacentHTML(
       "afterbegin",

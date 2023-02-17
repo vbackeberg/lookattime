@@ -16,15 +16,14 @@ export default class SpaceAllocator {
     timelineElement: HTMLElement,
     distance: number
   ) {
-    const elements = document.getElementsByClassName("zoomable");
-    this.removeZoomAnimation(elements);
+    this.removeZoomAnimation();
 
     this.extendSpacerViewportRight(distance);
     this.repositionElements(distance);
 
     timelineElement.scrollBy(distance, 0);
 
-    this.addZoomAnimation(elements);
+    this.addZoomAnimation();
   }
 
   /**
@@ -40,27 +39,24 @@ export default class SpaceAllocator {
     timelineElement: HTMLElement,
     distance: number
   ) {
-    const elements = document.getElementsByClassName("zoomable");
-    this.removeZoomAnimation(elements);
+    this.removeZoomAnimation();
 
     timelineElement.scrollBy(-distance, 0);
 
     this.retractSpacerViewportRight();
     this.repositionElements(-distance);
 
-    this.addZoomAnimation(elements);
+    this.addZoomAnimation();
   }
 
-  private static removeZoomAnimation(elements: HTMLCollectionOf<Element>) {
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].classList.remove("zoom-transition");
-    }
+  private static removeZoomAnimation() {
+    const root = document.documentElement;
+    root.style.setProperty("--transition-property", "none");
   }
 
-  private static addZoomAnimation(elements: HTMLCollectionOf<Element>) {
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].classList.add("zoom-transition");
-    }
+  private static addZoomAnimation() {
+    const root = document.documentElement;
+    root.style.setProperty("--transition-property", "transform");
   }
 
   private static repositionElements(distance: number) {

@@ -72,10 +72,10 @@ export default class TemporalRoundingExtension {
       } else {
         return Temporal.ZonedDateTime.from({
           timeZone: DateTimeFormatOptions.TIME_ZONE,
-          year: year, // TODO make year + depth
+          year: year + depth.years,
           month: 1,
           day: 1
-        }).add({ years: depth.years });
+        });
       }
     }
 

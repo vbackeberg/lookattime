@@ -17,20 +17,81 @@ export default class TimeDepth {
   public static zoomLevelToDepthTranslation = Array<
     [number, Temporal.DurationLike, DateStringConversion]
   >(
+    // Obsolete, since outside of supported date range for Temporal.
+    // [
+    //   90_000_000_000,
+    //   { years: 1_000_000 },
+    //   (date: Temporal.Instant) =>
+    //     date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    // ],
+    // [
+    //   25_000_000_000,
+    //   { years: 500_000 },
+    //   (date: Temporal.Instant) =>
+    //     date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    // ],
     [
-      5000000,
+      9_000_000_000,
+      { years: 100_000 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      2_500_000_000,
+      { years: 50_000 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      900_000_000,
+      { years: 10000 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      250_000_000,
+      { years: 5000 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      90_000_000,
+      { years: 1000 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      25_000_000,
+      { years: 500 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      9_000_000,
       { years: 100 },
       (date: Temporal.Instant) =>
         date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
     ],
     [
-      300000,
+      2_500_000,
+      { years: 50 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      900_000,
       { years: 10 },
       (date: Temporal.Instant) =>
         date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
     ],
     [
-      20000,
+      200_000,
+      { years: 5 },
+      (date: Temporal.Instant) =>
+        date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()
+    ],
+    [
+      20_000,
       { years: 1 },
       (date: Temporal.Instant) =>
         date.toZonedDateTimeISO(DateTimeFormatOptions.TIME_ZONE).year.toString()

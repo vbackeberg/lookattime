@@ -41,7 +41,7 @@ export default class TemporalRoundingExtension {
     // by referring to the Object key here, too, but it's unclear how
     // to determine which properties to set in the object created in from({}).
 
-    if ("months" in depth) {
+    if (depth.months) {
       if (roundingMode === "trunc") {
         return Temporal.ZonedDateTime.from({
           timeZone: DateTimeFormatOptions.TIME_ZONE,
@@ -59,33 +59,23 @@ export default class TemporalRoundingExtension {
       }
     }
 
-    // TODO: Round to decades, centuries and so on.
-    // TODO: creation for decades is not stable:
-    // markers jump to different dates, because leftmost date jumps.
-    // We need to make sure it actually rounds to decades instead of 10 year
-    // steps from the leftmost year.
-    // E.g. 1620, 1630, 1640
-    // instead of 1623, 1633, 1643
+    if (depth.years) {
+      const year = Math.floor(date.year / depth.years) * depth.years;
 
-    // TODO: Other side effect: Rounding to rightmost date ends does
-    // not have 10yrs distance between second rightmost date, because
-    // it rounds to years.
-
-    if ("years" in depth) {
       if (roundingMode === "trunc") {
         return Temporal.ZonedDateTime.from({
           timeZone: DateTimeFormatOptions.TIME_ZONE,
-          year: date.year,
+          year: year,
           month: 1,
           day: 1
         });
       } else {
         return Temporal.ZonedDateTime.from({
           timeZone: DateTimeFormatOptions.TIME_ZONE,
-          year: date.year,
+          year: year, // TODO make year + depth
           month: 1,
           day: 1
-        }).add({ years: 1 });
+        }).add({ years: depth.years });
       }
     }
 

@@ -10,44 +10,50 @@ export class TimeMarkerCreator {
   public static eventTarget = new EventTarget();
 
   public static placeTimeMarkers(depth: Temporal.DurationLike): void {
-    const leftmostDate = new Temporal.ZonedDateTime(
-      BigInt(PositionTranslator.toDate(0)) * this.SECONDS_IN_NANOSECONDS,
-      DateTimeFormatOptions.TIME_ZONE
-    );
+    try {
+      const leftmostDate = new Temporal.ZonedDateTime(
+        BigInt(PositionTranslator.toDate(0)) * this.SECONDS_IN_NANOSECONDS,
+        DateTimeFormatOptions.TIME_ZONE
+      );
 
-    const nanoseconds =
-      BigInt(
-        PositionTranslator.toDate(
-          Math.trunc(store.state.spacerRight.positionLeft) +
-            store.state.spacerRight.width
-        )
-      ) * this.SECONDS_IN_NANOSECONDS;
-    const rightmostDate = new Temporal.ZonedDateTime(
-      nanoseconds,
-      DateTimeFormatOptions.TIME_ZONE
-    );
+      const nanoseconds =
+        BigInt(
+          PositionTranslator.toDate(
+            Math.trunc(store.state.spacerRight.positionLeft) +
+              store.state.spacerRight.width
+          )
+        ) * this.SECONDS_IN_NANOSECONDS;
+      const rightmostDate = new Temporal.ZonedDateTime(
+        nanoseconds,
+        DateTimeFormatOptions.TIME_ZONE
+      );
 
-    const leftmostDateAtTargetDepth = TemporalRoundingExtension.round(
-      leftmostDate,
-      depth,
-      "trunc"
-    );
+      const leftmostDateAtTargetDepth = TemporalRoundingExtension.round(
+        leftmostDate,
+        depth,
+        "trunc"
+      );
 
-    const rightmostDateAtTargetDepth = TemporalRoundingExtension.round(
-      rightmostDate,
-      depth,
-      "ceil"
-    );
+      const rightmostDateAtTargetDepth = TemporalRoundingExtension.round(
+        rightmostDate,
+        depth,
+        "ceil"
+      );
 
-    const timeMarkers = this.createTimeMarkerArray(
-      leftmostDateAtTargetDepth,
-      rightmostDateAtTargetDepth,
-      depth
-    );
+      const timeMarkers = this.createTimeMarkerArray(
+        leftmostDateAtTargetDepth,
+        rightmostDateAtTargetDepth,
+        depth
+      );
 
-    store.state.timeMarkers = timeMarkers;
+      store.state.timeMarkers = timeMarkers;
 
-    this.addHTMLElements(timeMarkers.flatMap(t => t.htmlElement));
+      this.addHTMLElements(timeMarkers.flatMap(t => t.htmlElement));
+    } catch (e) {
+      console.log(
+        "Traveler 🧑‍🚀, you can't go further out in time, yet. Come back to this place, later."
+      );
+    }
 
     this.eventTarget.dispatchEvent(new Event("time-marker-creation-end"));
   }

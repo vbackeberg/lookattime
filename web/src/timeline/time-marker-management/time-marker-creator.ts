@@ -80,11 +80,10 @@ export class TimeMarkerCreator {
     depth: Temporal.DurationLike
   ): TimeMarker[] {
     const timeMarkers = [] as TimeMarker[];
-    let i = dateLeft;
 
-    while (Temporal.ZonedDateTime.compare(i, dateRight) === -1) {
-      timeMarkers.push(new TimeMarker(i.epochSeconds));
-      i = i.add(depth);
+    while (Temporal.ZonedDateTime.compare(dateLeft, dateRight) === -1) {
+      timeMarkers.push(new TimeMarker(dateLeft.epochSeconds));
+      dateLeft = dateLeft.add(depth);
     }
     timeMarkers.push(new TimeMarker(dateRight.epochSeconds));
     return timeMarkers;

@@ -35,12 +35,6 @@ export default class TemporalRoundingExtension {
       });
     }
 
-    // Rounding date units
-
-    // TODO: For rounding date units there is redundancy. It might be resolved
-    // by referring to the Object key here, too, but it's unclear how
-    // to determine which properties to set in the object created in from({}).
-
     if (depth.months) {
       if (roundingMode === "trunc") {
         return Temporal.ZonedDateTime.from({

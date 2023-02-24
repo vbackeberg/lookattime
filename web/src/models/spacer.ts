@@ -5,7 +5,7 @@ export default class Spacer {
   htmlElement!: HTMLElement;
   constructor(positionLeft: number, width: number, id: string) {
     this.id = id;
-    this.width = width;
+    this.width = width; // TODO constant set to 1
     this.htmlElement = document.getElementById(id) as HTMLElement;
     this.positionLeft = positionLeft;
   }

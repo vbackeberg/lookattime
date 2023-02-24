@@ -12,19 +12,19 @@ export class TimeMarkerCreator {
   public static placeTimeMarkers(depth: Temporal.DurationLike): void {
     try {
       const leftmostDate = new Temporal.ZonedDateTime(
-        BigInt(PositionTranslator.toDate(0)) * this.SECONDS_IN_NANOSECONDS,
+        BigInt(
+          PositionTranslator.toDate(store.state.timelineElement.scrollLeft)
+        ) * this.SECONDS_IN_NANOSECONDS,
         DateTimeFormatOptions.TIME_ZONE
       );
 
-      const nanoseconds =
+      const rightmostDate = new Temporal.ZonedDateTime(
         BigInt(
           PositionTranslator.toDate(
-            Math.trunc(store.state.spacerRight.positionLeft) +
-              store.state.spacerRight.width
+            store.state.spacerViewportRight.positionLeft +
+              store.state.spacerViewportRight.width
           )
-        ) * this.SECONDS_IN_NANOSECONDS;
-      const rightmostDate = new Temporal.ZonedDateTime(
-        nanoseconds,
+        ) * this.SECONDS_IN_NANOSECONDS,
         DateTimeFormatOptions.TIME_ZONE
       );
 

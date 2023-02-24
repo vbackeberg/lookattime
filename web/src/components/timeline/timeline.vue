@@ -83,14 +83,13 @@ import ViewFocusTrigger from "@/timeline/viewport/view-focus-trigger";
 import TimeEventModel from "@/models/time-event/time-event-model";
 import Spacer from "@/models/spacer";
 import CollisionCalculationTrigger from "@/timeline/collision/collision-calculation-trigger";
-import TimeMarkerDepthObserver from "@/timeline/time-marker-management/time-marker-depth-observer";
+import TimeMarkerRecreationTrigger from "@/timeline/time-marker-management/time-marker-recreation-trigger";
 import HorizontalLine from "@/components/timeline/horizontal-line.vue";
 import { v4 as uuid } from "uuid";
 import { Temporal } from "@js-temporal/polyfill";
 import PositionTranslator from "@/timeline/position-translator";
 import { FullscreenToggled } from "@/components/timeline/time-event/fullscreen/fullscreen-toggled";
 import TimeEventToBeCreated from "./time-event/time-event-to-be-created.vue";
-import ElementAnimationEnabler from "@/timeline/element-animation-enabler";
 
 export default Vue.extend({
   name: "Timeline",
@@ -223,8 +222,7 @@ export default Vue.extend({
       ZoomObserver.Instance;
       ViewFocusTrigger.Instance;
       CollisionCalculationTrigger.Instance;
-      TimeMarkerDepthObserver.Instance;
-      ElementAnimationEnabler.Instance;
+      TimeMarkerRecreationTrigger.Instance;
     },
 
     reloadPage() {

@@ -6,7 +6,7 @@ import PositionTranslator from "../position-translator";
 import TemporalRoundingExtension from "../time-depth/temporal-rounding-extension";
 
 export class TimeMarkerCreator {
-  private static SECONDS_IN_NANOSECONDS = 1000000000n;
+  private static SECONDS_IN_NANOSECONDS = 1_000_000_000n;
   public static eventTarget = new EventTarget();
 
   public static placeTimeMarkers(depth: Temporal.DurationLike): void {

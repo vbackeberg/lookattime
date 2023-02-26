@@ -47,7 +47,7 @@ export default new Vuex.Store({
     timeMarkerDepth: 1,
 
     selectedTimeline: {} as TimelineModel,
-    timelines: [] as TimelineModel[],
+    timelines: [] as TimelineModel[], // TODO change to new array syntax
 
     user: {} as UserModel,
     loading: true

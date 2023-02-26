@@ -37,6 +37,9 @@ export default class TimeMarkerRecreationTrigger {
    * ones within the changed viewport.
    */
   private recreateTimeMarkers = () => {
+    // TODO: Use the same pattern for Time Events:
+    // Only display those time events that are within view port.
+
     TimeMarkerRemover.removeAllMarkers();
 
     TimeDepth.currentDepth = this.getNewDepth();

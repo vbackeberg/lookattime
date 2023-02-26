@@ -14,6 +14,10 @@ type DateStringConversion = {
 };
 
 export default class TimeDepth {
+  /**
+   * Sorted from highest to lowest zoom level to allow searching for first
+   * time depth that is.
+   */
   public static zoomLevelToDepthTranslation = Array<
     [number, Temporal.DurationLike, DateStringConversion]
   >(

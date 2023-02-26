@@ -39,12 +39,7 @@ export default class TimeMarkerRecreationTrigger {
   private recreateTimeMarkers = () => {
     TimeMarkerRemover.removeAllMarkers();
 
-    // May be undefined if not found. (The list is not complete, yet.)
-    TimeDepth.currentDepth =
-      TimeDepth.zoomLevelToDepthTranslation.find(
-        // TODO: do not recalculate if depth has not changed.
-        tuple => tuple[0] <= store.state.zoomLevel
-      ) ?? TimeDepth.zoomLevelToDepthTranslation[0];
+    TimeDepth.currentDepth = this.getNewDepth();
 
     TimeMarkerCreator.placeTimeMarkers(TimeDepth.currentDepth[1]);
 
@@ -52,6 +47,19 @@ export default class TimeMarkerRecreationTrigger {
       timeMarker.htmlElement.classList.add("zoom-transition");
     });
   };
+
+  /**
+   * First depth to be lower or equal current zoom level.
+   * Assumes translation table to be sorted from highest to lowest
+   * zoom level.
+   */
+  private getNewDepth() {
+    return (
+      TimeDepth.zoomLevelToDepthTranslation.find(
+        tuple => tuple[0] <= store.state.zoomLevel
+      ) ?? TimeDepth.zoomLevelToDepthTranslation[0]
+    );
+  }
 
   private static instance: TimeMarkerRecreationTrigger;
 

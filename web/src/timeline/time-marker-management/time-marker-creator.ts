@@ -4,6 +4,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import DateTimeFormatOptions from "../date-time-format-options";
 import PositionTranslator from "../position-translator";
 import TemporalRoundingExtension from "../time-depth/temporal-rounding-extension";
+import Viewport from "../viewport/viewport";
 
 export class TimeMarkerCreator {
   private static SECONDS_IN_NANOSECONDS = 1_000_000_000n;
@@ -19,12 +20,8 @@ export class TimeMarkerCreator {
       );
 
       const rightmostDate = new Temporal.ZonedDateTime(
-        BigInt(
-          PositionTranslator.toDate(
-            store.state.spacerViewportRight.positionLeft +
-              store.state.spacerViewportRight.width
-          )
-        ) * this.SECONDS_IN_NANOSECONDS,
+        BigInt(PositionTranslator.toDate(Viewport.rightEdge())) *
+          this.SECONDS_IN_NANOSECONDS,
         DateTimeFormatOptions.TIME_ZONE
       );
 
@@ -37,7 +34,7 @@ export class TimeMarkerCreator {
       const rightmostDateAtTargetDepth = TemporalRoundingExtension.round(
         rightmostDate,
         depth,
-        "ceil"
+        "trunc"
       );
 
       const timeMarkers = this.createTimeMarkerArray(

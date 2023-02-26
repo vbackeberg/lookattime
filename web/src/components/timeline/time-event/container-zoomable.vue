@@ -1,5 +1,5 @@
 <template>
-  <div class="container-zoomable ">
+  <div class="container-zoomable zoom-transition">
     <div class="buffer-top grow-transition"></div>
     <v-card
       class="content elevation-0 grow-transition"

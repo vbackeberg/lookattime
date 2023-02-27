@@ -10,18 +10,43 @@ export class TimeMarkerCreator {
   private static SECONDS_IN_NANOSECONDS = 1_000_000_000n;
   public static eventTarget = new EventTarget();
 
+  /**
+   * Calculate leftmost and rightmost date and place time markers in
+   * between these dates at the given depth.
+   *
+   * All HTML elements are created separately in one large document
+   * fragment for performance reasons.
+   *
+   * @param depth
+   */
   public static placeTimeMarkers(depth: Temporal.DurationLike): void {
     try {
+      /**
+       * Left side of the viewport plus additional margin to the left
+       * to minimize elements popping in. Will be 0 if it would exceed
+       * the left edge of the timeline.
+       */
       const leftmostDate = new Temporal.ZonedDateTime(
         BigInt(
-          PositionTranslator.toDate(store.state.timelineElement.scrollLeft)
+          PositionTranslator.toDate(
+            Math.max(0, store.state.timelineElement.scrollLeft - 500)
+          )
         ) * this.SECONDS_IN_NANOSECONDS,
         DateTimeFormatOptions.TIME_ZONE
       );
 
+      /**
+       * Same as leftmost but on the right
+       */
       const rightmostDate = new Temporal.ZonedDateTime(
-        BigInt(PositionTranslator.toDate(Viewport.rightEdge())) *
-          this.SECONDS_IN_NANOSECONDS,
+        BigInt(
+          PositionTranslator.toDate(
+            Math.min(
+              store.state.timelineElement.scrollWidth,
+              Viewport.rightEdge() + 500
+            )
+          )
+        ) * this.SECONDS_IN_NANOSECONDS,
         DateTimeFormatOptions.TIME_ZONE
       );
 

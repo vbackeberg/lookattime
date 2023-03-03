@@ -214,6 +214,11 @@ export default Vue.extend({
       }
     },
 
+    // TODO: User may upload images and then hit cancel.
+    // This will lead to images being created and not used.
+    // Consider even sending an update call when cancelling
+    // or purge non-used images.
+
     /**
      * Submits an update or creation of a time event.
      *
@@ -260,11 +265,6 @@ export default Vue.extend({
         this.loading = false;
       }
     },
-
-    // TODO: User may upload images and then hit cancel.
-    // This will lead to images being created and not used.
-    // Consider even sending an update call when cancelling
-    // or purge non-used images.
 
     /**
      * Switches back to read mode.

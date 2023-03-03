@@ -6,7 +6,7 @@
       v-on:contextmenu.prevent="openContextMenu"
     >
       <v-img
-        v-bind:src="imageSource"
+        v-bind:src="previewImageSrc"
         class="card-image white--text align-end"
         alt="time event image"
       >
@@ -94,7 +94,7 @@ export default Vue.extend({
       });
     },
 
-    imageSource(): string {
+    previewImageSrc(): string {
       if (this.imageReferences.length < 1) {
         return "";
       }

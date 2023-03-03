@@ -266,6 +266,9 @@ export default Vue.extend({
       }
     },
 
+    // TODO: Consider asking before closing to avoid data loss
+    // Alternatively, store data
+
     /**
      * Switches back to read mode.
      *

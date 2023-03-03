@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import PositionTranslator from "@/timeline/position-translator";
 import { Constants } from "@/timeline/zooming/constants";
 import ImageReferenceModel from "../image-reference-model";
 
@@ -36,7 +37,6 @@ export default class TimeEventModel {
   writeMode = false;
 
   constructor(
-    positionCenter: number, // TODO derive from date
     id: string,
     text: string,
     date: number,
@@ -44,7 +44,7 @@ export default class TimeEventModel {
     imageReferences: ImageReferenceModel[],
     title: string
   ) {
-    this.positionCenter = positionCenter;
+    this.positionCenter = PositionTranslator.toAbsolutePosition(date);
     this.id = id;
     this.text = text;
     this.date = date;

@@ -135,7 +135,6 @@ import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event/time-event-model";
 import store from "@/store/store";
 import TemporalConversion from "@/temporal-extensions/temporal-conversion";
-import PositionTranslator from "@/timeline/position-translator";
 import Vue from "vue";
 import { FullscreenToggled } from "../fullscreen-toggled";
 import EditorWriteMode from "./editor-write-mode.vue";
@@ -251,7 +250,6 @@ export default Vue.extend({
         await store.dispatch(
           "createOrUpdateTimeEvent",
           new TimeEventModel(
-            PositionTranslator.toAbsolutePosition(date),
             this.id,
             this.text!,
             date,

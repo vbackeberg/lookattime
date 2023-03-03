@@ -87,7 +87,6 @@ import TimeMarkerRecreationTrigger from "@/timeline/time-marker-management/time-
 import HorizontalLine from "@/components/timeline/horizontal-line.vue";
 import { v4 as uuid } from "uuid";
 import { Temporal } from "@js-temporal/polyfill";
-import PositionTranslator from "@/timeline/position-translator";
 import { FullscreenToggled } from "@/components/timeline/time-event/fullscreen/fullscreen-toggled";
 import TimeEventToBeCreated from "./time-event/time-event-to-be-created.vue";
 
@@ -172,7 +171,6 @@ export default Vue.extend({
     createNewTimeEvent() {
       const date = Temporal.Now.instant().epochSeconds;
       const timeEventToBeCreated = new TimeEventModel(
-        PositionTranslator.toAbsolutePosition(date),
         uuid(),
         "",
         date,

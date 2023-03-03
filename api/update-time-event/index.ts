@@ -192,11 +192,11 @@ const httpTrigger: AzureFunction = async function (
    * For one image in the text, `matchAll(regex)` will return an array like the following.
    * The match at index 1 represents the id.
    *
-   * 0: `"<img src=\"https://lookattime2.blob.core.windows.net/lookattime2/01853899-20f4-41a0-bb4c-a02763982b3c.jpeg\">"`
+   * 0: `<img src=\"https://lookattime2.blob.core.windows.net/lookattime2/01853899-20f4-41a0-bb4c-a02763982b3c.jpeg\">`
    *
-   * 1: `"01853899-20f4-41a0-bb4c-a02763982b3c"`
+   * 1: `01853899-20f4-41a0-bb4c-a02763982b3c`
    *
-   * 2: `"jpeg"`
+   * 2: `jpeg`
    *
    * @param textValue
    *

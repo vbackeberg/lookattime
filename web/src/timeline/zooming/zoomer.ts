@@ -85,8 +85,6 @@ export default class Zoomer {
 
   private repositionTimeMarkers() {
     for (let i = 0; i < store.state.timeMarkers.length; i++) {
-      // TODO: Try limit calculation to visible time markers only to increase performance.
-
       const newPosition = PositionTranslator.toAbsolutePosition(
         store.state.timeMarkers[i].date
       );

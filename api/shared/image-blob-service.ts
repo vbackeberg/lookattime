@@ -22,7 +22,7 @@ export default class ImageBlobService {
     try {
       return blockBlobClient.upload(imageData.data, imageData.data.byteLength);
     } catch (e) {
-      throw new NoImageBlobStoredError(e.message); // TODO Consider removing this error and just let error bubble up.
+      throw new NoImageBlobStoredError(e.message);
     }
   }
 

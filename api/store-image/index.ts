@@ -68,12 +68,21 @@ const httpTrigger: AzureFunction = async function (
 
       if (e instanceof NoImageBlobStoredError) {
         console.warn(
-          "Storing image blob failed. Revert storing imageId: " + imageId
+          "Storing image blob failed. Delete associated image id: " + imageId
         );
         await deleteImage(imageId);
       }
 
-      // TODO: if sql failed delete blobs.
+      if (e instanceof NoImageIdCreatedError) {
+        console.warn(
+          "Inserting image id failed. Delete associated image blob: " + imageId
+        );
+        await ImageBlobService.deleteImage({
+          id: imageId,
+          timeEventId: timeEventId,
+          extension: imageExtension,
+        });
+      }
 
       context.res = {
         status: 500,

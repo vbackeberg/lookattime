@@ -11,7 +11,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.5.0",
+    "@azure/storage-blob": "^12.13.0",
     "mime": "^2.5.2",
     "mssql": "^7.1.0",
     "parse-multipart": "^1.0.4",

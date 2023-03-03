@@ -5,12 +5,12 @@
 
 version: 2
 updates:
-  - package-ecosystem: "web"
+  - package-ecosystem: "npm"
     directory: "/web"
     schedule:
       interval: "weekly"
   
-  - package-ecosystem: "api"
+  - package-ecosystem: "npm"
     directory: "/api"
     schedule:
       interval: "weekly"

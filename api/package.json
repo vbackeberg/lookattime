@@ -19,7 +19,7 @@
     "validate-image-type": "^1.1.1"
   },
   "devDependencies": {
-    "@azure/functions": "^3.0.0",
+    "@azure/functions": "^3.5.0",
     "@types/mime": "^2.0.3",
     "@types/mssql": "^6.0.7",
     "@types/uuid": "^8.3.0",

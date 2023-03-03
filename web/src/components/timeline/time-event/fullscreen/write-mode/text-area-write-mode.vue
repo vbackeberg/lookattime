@@ -131,7 +131,6 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event/time-event-model";
 import store from "@/store/store";
 import TemporalConversion from "@/temporal-extensions/temporal-conversion";
@@ -171,12 +170,6 @@ export default Vue.extend({
       text: null as null | string,
       importance: null as null | number,
 
-      // Images
-      imageFiles: [] as File[],
-
-      imageReferencesToDelete: [] as ImageReferenceModel[],
-      imageReferencesToAdd: [] as ImageReferenceModel[],
-
       // Form state:
       valid: true,
       loading: false
@@ -190,18 +183,6 @@ export default Vue.extend({
   },
 
   computed: {
-    imageReferences(): ImageReferenceModel[] {
-      const imageReferences = (this.imageReferences ??
-        []) as ImageReferenceModel[];
-
-      return imageReferences
-        .filter(
-          imageReference =>
-            !this.imageReferencesToDelete.includes(imageReference)
-        )
-        .concat(this.imageReferencesToAdd);
-    },
-
     show: {
       get(): boolean {
         return this.show;

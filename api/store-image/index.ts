@@ -60,7 +60,7 @@ const httpTrigger: AzureFunction = async function (
       context.res = {
         status: storeImageBlobResponse._response.status,
         body: JSON.stringify({
-          url: `${process.env.IMAGE_STORAGE_URL}/${imageId}.${imageExtension}`, // TODO add on web
+          url: `${process.env.IMAGE_STORAGE_URL}/${imageId}.${imageExtension}`,
         }),
       };
     } catch (e) {

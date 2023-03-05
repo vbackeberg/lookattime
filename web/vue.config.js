@@ -9,7 +9,10 @@ module.exports = {
   css: {
     loaderOptions: {
       scss: {
-        additionalData: `@use "~@/colors.scss";`
+        additionalData: `
+          @use "~@/colors.scss";
+          @import "~@/styles/variables.scss";
+        `
       }
     }
   }

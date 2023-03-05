@@ -14,9 +14,9 @@
 
 // Time Marker styles
 
-$time-marker-container-width: 100px;
-
 .time-marker-container {
+  $time-marker-container-width: 100px;
+
   position: absolute;
   content-visibility: auto;
   width: $time-marker-container-width;

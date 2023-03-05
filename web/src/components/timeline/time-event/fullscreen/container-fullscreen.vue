@@ -100,7 +100,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "src/components/timeline/time-event/time-event.scss";
-@import "src/colors.scss";
+@use "src/colors.scss";
 
 .container-fullscreen {
   position: fixed;
@@ -148,7 +148,7 @@ export default Vue.extend({
     }
 
     .btn-dark {
-      background-color: $lat-primary-color + dd;
+      background-color: colors.$lat-primary-color + dd;
     }
   }
 }

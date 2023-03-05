@@ -2,7 +2,7 @@
   <div id="timeline">
     <div id="buffer-top-area">
       <!-- space management listens to this zoom-transition -->
-      <svg id="spacer-left" class="spacer  zoom-transition"></svg>
+      <svg id="spacer-left" class="spacer zoom-transition"></svg>
       <svg id="spacer-right" class="spacer"></svg>
       <svg id="spacer-viewport-right" class="spacer"></svg>
     </div>

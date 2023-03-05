@@ -37,7 +37,7 @@ export default Vue.extend({
 
       horizontalLineElement.style.visibility = "visible";
 
-      window.onresize = _ =>
+      window.onresize = (_) =>
         this.repositionHorizontalLine(anchorElement, horizontalLineElement);
     },
 
@@ -60,8 +60,10 @@ export default Vue.extend({
       anchorElement: HTMLElement,
       horizontalLineElement: HTMLElement
     ) {
-      horizontalLineElement.style.top = `${anchorElement.getBoundingClientRect()
-        .top - horizontalLineElement.getBoundingClientRect().height}px`;
+      horizontalLineElement.style.top = `${
+        anchorElement.getBoundingClientRect().top -
+        horizontalLineElement.getBoundingClientRect().height
+      }px`;
     }
   }
 });

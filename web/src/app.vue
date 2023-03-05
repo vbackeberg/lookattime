@@ -4,12 +4,20 @@
       <manage-timelines-form v-model="showManageTimelinesForm" />
       <whats-new-dialog v-model="showWhatsNewDialog" />
       <share-dialog v-model="showShareDialog" />
-      <v-btn text icon @click.stop="showWhatsNewDialog = true"
-        ><v-badge color="red" offset-y="8">
-          <v-icon x-large>mdi-alert-decagram</v-icon></v-badge
-        ></v-btn
-      >
+
+      <v-tooltip bottom transition="fade-transition">
+        <template v-slot:activator="{ on }">
+          <v-btn text icon @click.stop="showWhatsNewDialog = true" v-on="on"
+            ><v-badge color="red" offset-y="8">
+              <v-icon x-large>mdi-alert-decagram</v-icon></v-badge
+            ></v-btn
+          >
+        </template>
+        <span>What's new?</span>
+      </v-tooltip>
+
       <v-spacer />
+
       <router-link to="/"
         ><v-toolbar-title class="app-bar-title"
           >Look at Time</v-toolbar-title
@@ -17,11 +25,20 @@
       >
       <v-spacer />
       <v-menu offset-y>
-        <template v-slot:activator="{ on }"
-          ><v-avatar v-ripple color="primary" class="app-bar-avatar" v-on="on"
-            >🤓</v-avatar
-          ></template
-        >
+        <template v-slot:activator="{ on: menu }">
+          <v-tooltip bottom transition="fade-transition">
+            <template v-slot:activator="{ on: tooltip }">
+              <v-avatar
+                v-ripple
+                color="primary"
+                class="app-bar-avatar"
+                v-on="{ ...menu, ...tooltip }"
+                >🤓</v-avatar
+              >
+            </template>
+            <span>Your timelines</span>
+          </v-tooltip>
+        </template>
         <v-list v-if="!loading">
           <v-list-item @click.stop="showManageTimelinesForm = true"
             >My timelines</v-list-item
@@ -75,6 +92,7 @@ import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
 import store from "./store/store";
 import WhatsNewDialog from "@/components/whats-new-dialog.vue";
 import ShareDialog from "@/components/share-dialog.vue";
+import mergeProps from "vue";
 
 export default {
   name: "App",
@@ -97,6 +115,10 @@ export default {
     loading(): boolean {
       return store.state.loading;
     }
+  },
+
+  methods: {
+    mergeProps
   }
 };
 </script>

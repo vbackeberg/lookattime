@@ -27,18 +27,24 @@
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
     <div id="time-marker-area"></div>
-    <v-btn
-      v-if="!readOnlyMode"
-      id="fab"
-      fab
-      large
-      fixed
-      right
-      bottom
-      color="primary"
-      @click.stop="createNewTimeEvent"
-      ><v-icon>mdi-plus</v-icon></v-btn
-    >
+    <v-tooltip top v-if="!readOnlyMode" transition="fade-transition">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          id="fab"
+          fab
+          large
+          fixed
+          right
+          bottom
+          color="primary"
+          @click.stop="createNewTimeEvent"
+          v-bind="attrs"
+          v-on="on"
+          ><v-icon>mdi-plus</v-icon></v-btn
+        >
+      </template>
+      <span>Add new time event</span>
+    </v-tooltip>
     <v-overlay :value="loading">
       <div class="loading-container">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
@@ -127,10 +133,10 @@ export default Vue.extend({
 
     store.commit("setLoading", false);
 
-    document.addEventListener("fullscreen-toggled", e => {
+    document.addEventListener("fullscreen-toggled", (e) => {
       const event = e as CustomEvent<FullscreenToggled>;
       const index = this.timeEvents.findIndex(
-        timeEvent => timeEvent.id == event.detail.timeEventId
+        (timeEvent) => timeEvent.id == event.detail.timeEventId
       );
 
       if (index !== -1) {

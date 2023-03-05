@@ -100,7 +100,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "src/components/timeline/time-event/time-event.scss";
-@use "src/colors.scss";
 
 .container-fullscreen {
   position: fixed;

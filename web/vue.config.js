@@ -5,5 +5,12 @@ module.exports = {
   },
   lintOnSave: false,
   transpileDependencies: ["vuetify"],
-  productionSourceMap: false
+  productionSourceMap: false,
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@use "~@/colors.scss";`
+      }
+    }
+  }
 };

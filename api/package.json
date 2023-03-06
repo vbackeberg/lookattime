@@ -16,7 +16,7 @@
     "mssql": "^9.1.1",
     "parse-multipart": "^1.0.4",
     "uuid": "^9.0.0",
-    "validate-image-type": "^1.1.1"
+    "validate-image-type": "^2.0.0"
   },
   "devDependencies": {
     "@azure/functions": "^3.0.0",

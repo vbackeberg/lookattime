@@ -16,7 +16,7 @@ export default Vue.extend({
   computed: {
     sanitizedHtmlString: {
       get(): string {
-        return DomPurify.sanitize(this.value); // TODO sanitize in backend before saving.
+        return DomPurify.sanitize(this.value);
       }
     }
   },

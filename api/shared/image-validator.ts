@@ -2,7 +2,7 @@ import { validateBufferMIMEType } from "validate-image-type";
 import ValidationError from "./errors/validation-error";
 import ImageRequest from "./models/api/image-request";
 export default class ImageValidator {
-  public static isValid(image: ImageRequest): boolean {
+  public static async isValid(image: ImageRequest): Promise<boolean> {
     try {
       if (!image.type) {
         throw new ValidationError(
@@ -19,7 +19,7 @@ export default class ImageValidator {
         );
       }
 
-      const result = validateBufferMIMEType(image.data, {
+      const result = await validateBufferMIMEType(image.data, {
         allowMimeTypes: [
           "image/jpeg",
           "image/gif",

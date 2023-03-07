@@ -15,6 +15,7 @@
     "mime": "^3.0.0",
     "mssql": "^9.1.1",
     "parse-multipart": "^1.0.4",
+    "sanitize-html": "^2.10.0",
     "uuid": "^9.0.0",
     "validate-image-type": "^2.0.0"
   },
@@ -22,6 +23,7 @@
     "@azure/functions": "^3.0.0",
     "@types/mime": "^3.0.1",
     "@types/mssql": "^8.1.2",
+    "@types/sanitize-html": "^2.8.1",
     "@types/uuid": "^9.0.1",
     "eslint": "8.35.0",
     "eslint-config-prettier": "^8.7.0",

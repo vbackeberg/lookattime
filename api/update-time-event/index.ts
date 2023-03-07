@@ -6,6 +6,7 @@ import TimeEventRequest from "../shared/models/api/time-event-request";
 import ImageDto from "../shared/models/dtos/image-dto";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequestValidator from "../shared/time-event-request-validator";
+import sanitize from "sanitize-html";
 const sql = require("mssql");
 
 /**
@@ -58,6 +59,8 @@ const httpTrigger: AzureFunction = async function (
    * @param timeEventRequest
    */
   async function createOrUpdateTimeEvent(timeEventRequest: TimeEventRequest) {
+    const textValueSanitized = sanitize(timeEventRequest.textValue);
+
     const result = await sql.query`
       if exists (
         select id from timelines
@@ -74,7 +77,7 @@ const httpTrigger: AzureFunction = async function (
         begin
           update timeEvents set
             title = ${timeEventRequest.title},
-            textValue = ${timeEventRequest.textValue},
+            textValue = ${textValueSanitized},
             dateValue = ${timeEventRequest.dateValue},
             importanceValue = ${timeEventRequest.importanceValue}
           where
@@ -89,7 +92,7 @@ const httpTrigger: AzureFunction = async function (
             ${timeEventRequest.id},
             ${timeEventRequest.timelineId},
             ${timeEventRequest.title},
-            ${timeEventRequest.textValue},
+            ${textValueSanitized},
             ${timeEventRequest.dateValue},
             ${timeEventRequest.importanceValue}
           )

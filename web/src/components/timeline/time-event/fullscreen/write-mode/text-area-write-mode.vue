@@ -137,6 +137,7 @@ import TemporalConversion from "@/temporal-extensions/temporal-conversion";
 import Vue from "vue";
 import { FullscreenToggled } from "../fullscreen-toggled";
 import EditorWriteMode from "./editor-write-mode.vue";
+import DomPurify from "dompurify";
 
 export default Vue.extend({
   name: "TextAreaWriteMode",
@@ -150,8 +151,8 @@ export default Vue.extend({
       // Form validation rules:
       ruleImportanceNoSame: (v: number) =>
         !store.state.timeEvents
-          .filter(timeEvent => timeEvent.id != this.id)
-          .map(timeEvent => timeEvent.importance)
+          .filter((timeEvent) => timeEvent.id != this.id)
+          .map((timeEvent) => timeEvent.importance)
           .includes(Number(v)) ||
         "You have another time event with the same importance level. Please pick a different level!",
       ruleImportanceNoNegative: (v: number) =>
@@ -201,7 +202,7 @@ export default Vue.extend({
             ? [store.state.timeEventToBeCreated]
             : []
         )
-        .find(timeEvent => timeEvent.id === this.id);
+        .find((timeEvent) => timeEvent.id === this.id);
 
       if (!timeEvent) {
         throw Error("Could not get time event because it was not found");
@@ -237,7 +238,7 @@ export default Vue.extend({
           "createOrUpdateTimeEvent",
           new TimeEventModel(
             this.id,
-            this.text!,
+            DomPurify.sanitize(this.text!),
             date,
             this.importance!,
             [], // TODO: Obsolete, image urls are stored in text.

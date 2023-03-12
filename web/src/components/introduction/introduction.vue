@@ -14,11 +14,14 @@
     </v-overlay>
 
     <v-slide-y-transition>
-      <v-card id="dialog" rounded elevation="1" v-show="!overlay">
-        <v-card-title id="title">
-          <p>Welcome to Look at Time!</p>
-          <p>Would you like to get an introduction?</p>
-        </v-card-title>
+      <v-card id="dialog" rounded="xl" v-show="!overlay">
+        <div id="title-container">
+          <div id="astronaut" class="emoji">🧑‍🚀</div>
+          <v-card-title id="title">
+            <p>Welcome time traveler!</p>
+            <p>Would you like to get an introduction?</p>
+          </v-card-title>
+        </div>
         <v-card-actions>
           <v-btn block color="primary" @click="startIntroduction()"
             >Take the tour</v-btn
@@ -78,9 +81,28 @@ export default Vue.extend({
   text-align: center;
 }
 
-#title {
-  word-break: normal;
+#title-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#astronaut {
+  width: 30%;
+
+  font-size: 6em;
+
+  display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+#title {
+  width: 70%;
+
+  word-break: normal;
+
+  justify-content: center;
+  align-items: center;
 }
 
 ::v-deep .v-overlay__content {

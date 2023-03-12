@@ -4,16 +4,17 @@
 }
 
 /**
-* The transition class attached to all elements that should have a smooth transition
-* Its property is set to none during space extension and cutoff.
-*/
+ * The transition class attached to all elements that should have a smooth transition
+ * Its property is set to none during space extension and cutoff.
+ */
 .zoom-transition {
   transition: var(--transition-property) var(--transition-duration)
     cubic-bezier(0.05, 0.61, 0.35, 1.12);
 }
 
-// Time Marker styles
-
+/** 
+ * Time Marker styles
+ */
 .time-marker-container {
   $time-marker-container-width: 100px;
 

@@ -17,7 +17,9 @@
         >
       </p>
     </div>
-    <introduction v-if="hasNoTimeEvents"></introduction>
+    <introduction
+      v-if="privacyPolicyAgreed && hasNoTimeEvents && !loading"
+    ></introduction>
   </div>
 </template>
 
@@ -59,6 +61,10 @@ export default Vue.extend({
   computed: {
     hasNoTimeEvents(): boolean {
       return store.state.timeEvents.length === 0;
+    },
+
+    loading(): boolean {
+      return store.state.loading;
     }
   },
 

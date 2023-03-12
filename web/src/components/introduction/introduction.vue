@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <v-overlay :value="overlay" :z-index="400" opacity="0.3" :dark="false">
-      <v-btn id="btn-end" color="secondary" @click="stopIntroduction()"
+      <v-btn id="btn-end" color="secondary" elevation="10" @click="stopIntroduction()"
         ><v-icon>mdi-close</v-icon>End Tour</v-btn
       >
 

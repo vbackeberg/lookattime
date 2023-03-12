@@ -1,6 +1,6 @@
 <template>
   <v-slide-x-transition>
-    <v-card class="step-card"
+    <v-card elevation="10" class="step-card"
       ><v-card-text class="black--text"
         >Let's start by creating your first time event. Click here
         👉</v-card-text

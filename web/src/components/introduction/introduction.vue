@@ -4,6 +4,13 @@
       <v-btn id="btn-end" color="secondary" @click="stopIntroduction()"
         ><v-icon>mdi-close</v-icon>End Tour</v-btn
       >
+
+      <step
+        v-if="step === 1"
+        anchorElementId="fab"
+        :right="true"
+        :bottom="true"
+      ></step>
     </v-overlay>
 
     <v-slide-y-transition>

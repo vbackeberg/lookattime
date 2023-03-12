@@ -17,6 +17,7 @@
         >
       </p>
     </div>
+    <introduction v-if="hasNoTimeEvents"></introduction>
   </div>
 </template>
 
@@ -25,6 +26,8 @@ import Vue from "vue";
 import Timeline from "@/components/timeline/timeline.vue";
 import PreventMobileDialog from "@/components/prevent-mobile-dialog.vue";
 import PrivacyPolicyDialog from "@/components/privacy-policy-dialog.vue";
+import store from "@/store/store";
+import Introduction from "@/components/introduction/introduction.vue";
 
 export default Vue.extend({
   name: "Home",
@@ -32,7 +35,8 @@ export default Vue.extend({
   components: {
     Timeline,
     PreventMobileDialog,
-    PrivacyPolicyDialog
+    PrivacyPolicyDialog,
+    Introduction
   },
 
   created() {
@@ -50,6 +54,12 @@ export default Vue.extend({
       privacyPolicyAgreed: false,
       privacyPolicyDisagreed: false
     };
+  },
+
+  computed: {
+    hasNoTimeEvents(): boolean {
+      return store.state.timeEvents.length === 0;
+    }
   },
 
   methods: {

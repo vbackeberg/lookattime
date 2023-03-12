@@ -33,3 +33,11 @@
     background-color: black;
   }
 }
+
+/**
+ * Specify a font for emojis to have them rendered the same
+ * accross browsers and OS's.
+ */
+.emoji {
+  font-family: "Noto Color Emoji", sans-serif;
+}

@@ -72,7 +72,7 @@ export default new Vuex.Store({
 
     deleteTimeEvent(state, timeEventId) {
       const index = state.timeEvents.findIndex(
-        timeEvent => timeEvent.id === timeEventId
+        (timeEvent) => timeEvent.id === timeEventId
       );
       if (index === -1) {
         console.warn(
@@ -142,7 +142,7 @@ export default new Vuex.Store({
       );
 
       const index = state.timeEvents.findIndex(
-        timeEvent => timeEvent.id === changedTimeEvent.id
+        (timeEvent) => timeEvent.id === changedTimeEvent.id
       );
       if (index === -1) {
         commit("addTimeEvent", changedTimeEvent);
@@ -151,7 +151,14 @@ export default new Vuex.Store({
       }
     },
 
+    /**
+     * Loads all time events for a given timeline.
+     *
+     * Sets loading true when starting and false after finished.
+     */
     async loadTimeEvents({ commit, state }): Promise<void> {
+      commit("setLoading", true);
+
       ViewResetter.Instance.resetView();
 
       const timeEvents = await HttpClient.getTimeEvents(
@@ -159,6 +166,7 @@ export default new Vuex.Store({
       );
 
       commit("setTimeEvents", timeEvents);
+      commit("setLoading", false);
     },
 
     async setSelectedTimeline(
@@ -218,7 +226,7 @@ export default new Vuex.Store({
 
       // Case last selected timeline
       const timelineIndex = state.timelines.findIndex(
-        timeline =>
+        (timeline) =>
           timeline.id === SelectedTimelineLocalStorage.getSelectedTimelineId()
       );
 
@@ -233,7 +241,17 @@ export default new Vuex.Store({
       await dispatch("setSelectedTimeline", state.timelines[0]);
     },
 
+    /**
+     * First loads the given user or creates a new one if no user
+     * exists.
+     *
+     * Then loads timelines for user.
+     *
+     * Sets loading true when starting.
+     */
     async loadUser({ commit, dispatch }): Promise<void> {
+      commit("setLoading", true);
+
       const userId = UserLocalStorage.getUserId();
 
       let user: UserModel;

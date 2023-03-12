@@ -117,10 +117,6 @@ export default Vue.extend({
     };
   },
 
-  created() {
-    store.commit("setLoading", true);
-  },
-
   async mounted() {
     this.setHTMLElements();
     this.setSpacers();
@@ -130,8 +126,6 @@ export default Vue.extend({
     this.initializeTimelineServices();
 
     await store.dispatch("loadUser");
-
-    store.commit("setLoading", false);
 
     document.addEventListener("fullscreen-toggled", (e) => {
       const event = e as CustomEvent<FullscreenToggled>;

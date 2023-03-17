@@ -1,8 +1,7 @@
 <template>
-<!-- turn all these into ids because they should be unique -->
-  <div class="container-fullscreen">
-    <div class="container-content elevation-20">
-      <v-card class="content">
+  <div id="fullscreen-container">
+    <div id="fullscreen-container-content" class="elevation-20">
+      <v-card id="fullscreen-content">
         <text-area-write-mode
           v-if="writeMode"
           v-model="writeMode"
@@ -16,7 +15,8 @@
 
         <v-btn
           v-if="!readOnlyMode"
-          class="buttons-top-right btn-edit"
+          id="btn-edit"
+          class="buttons-top-right"
           :class="{ 'btn-dark': writeMode }"
           color="white"
           icon
@@ -25,7 +25,8 @@
           ><v-icon>mdi-pencil</v-icon></v-btn
         >
         <v-btn
-          class="buttons-top-right btn-close"
+          id="btn-close"
+          class="buttons-top-right"
           color="white"
           icon
           v-on:click.stop="closeFullscreen()"
@@ -102,7 +103,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import "src/components/timeline/time-event/time-event.scss";
 
-.container-fullscreen {
+#fullscreen-container {
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -110,7 +111,7 @@ export default Vue.extend({
   z-index: 6;
 }
 
-.container-content {
+#fullscreen-container-content {
   height: 100%;
   width: 75%;
   max-width: 1000px;
@@ -124,7 +125,7 @@ export default Vue.extend({
 
   overflow: hidden;
 
-  .content {
+  #fullscreen-content {
     height: 100%;
     width: 100%;
 
@@ -139,11 +140,11 @@ export default Vue.extend({
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    .btn-close {
+    #btn-close {
       right: 8px;
     }
 
-    .btn-edit {
+    #btn-edit {
       right: 56px;
     }
 

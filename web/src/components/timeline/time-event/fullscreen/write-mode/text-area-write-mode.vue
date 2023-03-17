@@ -1,12 +1,13 @@
 <template>
-  <div class="text-area">
+  <div id="text-area">
     <v-form v-model="valid" ref="form">
-      <div class="title-area">
+      <div id="title-area">
         <!-- title and importance -->
         <v-row>
           <v-col cols="10">
             <v-text-field
-              class="event-title flex-grow-3"
+              id="event-title"
+              class="flex-grow-3"
               outlined
               full-width
               label="Title"

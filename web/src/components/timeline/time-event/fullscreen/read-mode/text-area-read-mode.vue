@@ -1,8 +1,8 @@
 <template>
-  <div class="text-area">
-    <div class="title-area">
-      <div class="event-title">{{ timeEvent.title }}</div>
-      <div class="event-subtitle">{{ formattedDate }}</div>
+  <div id="text-area">
+    <div id="title-area">
+      <div id="event-title">{{ timeEvent.title }}</div>
+      <div id="event-subtitle">{{ formattedDate }}</div>
       <!-- TODO: Maybe, add relationships to other dates here. (like wikipedia tags below title) -->
     </div>
     <editor-read-mode v-bind:value="timeEvent.text" />

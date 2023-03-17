@@ -1,4 +1,5 @@
 <template>
+<!-- turn all these into ids because they should be unique -->
   <div class="container-fullscreen">
     <div class="container-content elevation-20">
       <v-card class="content">

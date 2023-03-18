@@ -19,7 +19,7 @@
       <v-spacer />
 
       <router-link to="/"
-        ><v-toolbar-title class="app-bar-title"
+        ><v-toolbar-title id="app-bar-title"
           >Look at Time</v-toolbar-title
         ></router-link
       >
@@ -136,7 +136,7 @@ body {
   overflow-y: hidden;
 }
 
-.app-bar-title {
+#app-bar-title {
   user-select: none;
   color: rgba(0, 0, 0, 0.87);
   font-family: Comfortaa;

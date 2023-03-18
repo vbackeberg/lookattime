@@ -31,7 +31,7 @@
               <v-avatar
                 v-ripple
                 color="primary"
-                class="app-bar-avatar"
+                id="app-bar-avatar"
                 v-on="{ ...menu, ...tooltip }"
                 >🤓</v-avatar
               >
@@ -143,7 +143,7 @@ body {
   font-weight: 400;
 }
 
-.app-bar-avatar {
+#app-bar-avatar {
   color: #fff;
   user-select: none;
   font-size: 24px;

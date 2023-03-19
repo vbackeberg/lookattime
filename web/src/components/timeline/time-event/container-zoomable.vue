@@ -67,6 +67,7 @@ export default Vue.extend({
 
     this.updateExpansionState();
 
+    // TODO: Have only one global listener that calls update on all time events.
     document.addEventListener("update-expansion-states", () => {
       this.updateExpansionState();
     });

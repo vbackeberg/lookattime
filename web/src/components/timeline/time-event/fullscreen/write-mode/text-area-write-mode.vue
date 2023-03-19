@@ -52,6 +52,7 @@
                   v-bind="attrs"
                   v-on="on"
                   :rules="[ruleNotEmpty]"
+                  :error-messages="errorMessageSameDate"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -193,6 +194,17 @@ export default Vue.extend({
       set(value: boolean) {
         this.$emit("input", value);
       }
+    },
+
+    errorMessageSameDate(): Array<string> {
+      return store.state.timeEvents
+        .filter((timeEvent) => timeEvent.id != this.id)
+        .map((timeEvent) => timeEvent.date)
+        .includes(
+          TemporalConversion.epochSeconds(this.plainDate!, this.plainTime)
+        )
+        ? ["You have another event at this date!"]
+        : [];
     }
   },
 

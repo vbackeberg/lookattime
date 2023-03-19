@@ -47,6 +47,10 @@
             <v-icon class="app-bar-menu-button">mdi-share-variant</v-icon
             >Share</v-list-item
           >
+          <v-list-item @click.stop="startIntroduction()">
+            <v-icon class="app-bar-menu-button">mdi-help</v-icon
+            >Introduction</v-list-item
+          >
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -93,6 +97,8 @@ import store from "./store/store";
 import WhatsNewDialog from "@/components/whats-new-dialog.vue";
 import ShareDialog from "@/components/share-dialog.vue";
 import mergeProps from "vue";
+import TimelineModel from "./models/timeline-model";
+import { v4 as uuid } from "uuid";
 
 export default {
   name: "App",
@@ -118,7 +124,25 @@ export default {
   },
 
   methods: {
-    mergeProps
+    mergeProps,
+
+    async startIntroduction() {
+      if (store.state.timeEvents.length > 0) {
+        await this.createNewTimeline();
+      }
+      store.commit("setShowIntroduction", true);
+    },
+
+    async createNewTimeline() {
+      const timeline = new TimelineModel(
+        uuid(),
+        store.state.user.id,
+        "Timeline"
+      );
+
+      await store.dispatch("addTimeline", timeline);
+      store.dispatch("setSelectedTimeline", timeline);
+    }
   }
 };
 </script>

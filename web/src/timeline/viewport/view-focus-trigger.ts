@@ -1,5 +1,6 @@
 import store from "@/store/store";
 import Vue from "vue";
+import { MutationPayload } from "vuex";
 import ViewFocuser from "./view-focuser";
 import ViewResetter from "./view-resetter";
 
@@ -12,7 +13,7 @@ export default class ViewFocusTrigger {
   private constructor() {
     this.viewFocuser = ViewFocuser.Instance;
 
-    store.subscribe(async mutation => {
+    store.subscribe(async (mutation: MutationPayload) => {
       if (mutation.type === "setTimeEvents") {
         await Vue.nextTick();
 

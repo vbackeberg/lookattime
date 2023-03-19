@@ -79,7 +79,11 @@
         <v-btn block color="primary" @click="startIntroduction()"
           >Take the tour</v-btn
         >
-        <v-btn block color="tertiary" @click="stopIntroduction()" class="mt-3"
+        <v-btn
+          block
+          color="tertiary"
+          @click="stopIntroduction()"
+          class="mt-3 ml-0"
           >Close</v-btn
         >
       </v-card-actions>

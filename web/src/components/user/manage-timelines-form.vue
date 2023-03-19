@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid"; // TODO do in backend
 import store from "@/store/store";
 import TimelineModel from "@/models/timeline-model";
 

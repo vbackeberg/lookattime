@@ -116,6 +116,7 @@
         Cancel
       </v-btn>
       <v-btn
+        id="text-area-btn-save"
         :disabled="!valid || loading"
         color="primary"
         @click.stop="submit()"

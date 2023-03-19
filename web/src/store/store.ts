@@ -29,7 +29,7 @@ export default new Vuex.Store({
     timeEvents: [] as TimeEventModel[],
 
     /**
-     * Id of the temporary time event that is locally being
+     * The temporary time event that is locally being
      * added to timeEvents when creating a new time event.
      */
     timeEventToBeCreated: null as TimeEventModel | null,

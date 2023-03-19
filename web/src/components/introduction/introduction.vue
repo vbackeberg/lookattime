@@ -6,7 +6,7 @@
       v-on:next="next()"
       anchorElementIdOrClass="fab"
       location="left"
-      text="Let's start by creating your first time event. Click here 👉"
+      text="Look at Time allows you to create interactive timelines. Let's start by creating your first time event. Click here 👉"
     ></step>
 
     <step
@@ -15,7 +15,7 @@
       v-on:next="next()"
       anchorElementIdOrClass="event-title"
       location="bottom"
-      text="This is your editor. You can add a title, a date and the importance of your event. When two events come close to each other, the one with lower importance will fade out."
+      text="This is your editor. You can add a title, a date and the importance of your event. Importance allows you to keep an overview when you zoom out. When two events come close to each other, the one with lower importance will fade out."
     ></step>
 
     <step

@@ -40,8 +40,9 @@
           </v-tooltip>
         </template>
         <v-list v-if="!loading">
-          <v-list-item @click.stop="showManageTimelinesForm = true"
-            >My timelines</v-list-item
+          <v-list-item @click.stop="showManageTimelinesForm = true">
+            <v-icon class="app-bar-menu-button">mdi-apps</v-icon>My
+            timelines</v-list-item
           >
           <v-list-item @click.stop="showShareDialog = true">
             <v-icon class="app-bar-menu-button">mdi-share-variant</v-icon

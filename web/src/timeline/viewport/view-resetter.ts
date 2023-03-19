@@ -17,7 +17,7 @@ export default class ViewResetter {
   public resetView() {
     store.state.timelineZero = store.state.timelineElement.clientWidth / 2;
     TimeMarkerRemover.removeAllMarkers();
-    store.state.timeMarkerDepth = 1;
+    store.state.timeMarkerDepth = 1; // TODO obsolete, remove
     store.state.zoomLevel = Constants.MAX_ZOOM_LEVEL;
     this.repositionSpacerViewportRight();
   }

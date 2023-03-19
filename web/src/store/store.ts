@@ -50,7 +50,8 @@ export default new Vuex.Store({
     timelines: [] as TimelineModel[], // TODO change to new array syntax
 
     user: {} as UserModel,
-    loading: true
+    loading: true,
+    showIntroduction: true
   },
 
   getters: {
@@ -112,6 +113,10 @@ export default new Vuex.Store({
 
     setLoading(state, loading: boolean) {
       state.loading = loading;
+    },
+
+    setShowIntroduction(state, showIntroduction: boolean) {
+      state.showIntroduction = showIntroduction;
     },
 
     setTimeEventToBeCreated(state, timeEvent: TimeEventModel) {

@@ -18,7 +18,7 @@
       </p>
     </div>
     <introduction
-      v-if="privacyPolicyAgreed && hasNoTimeEvents && !loading"
+      v-if="privacyPolicyAgreed && !loading && showIntroduction"
     ></introduction>
   </div>
 </template>
@@ -28,8 +28,8 @@ import Vue from "vue";
 import Timeline from "@/components/timeline/timeline.vue";
 import PreventMobileDialog from "@/components/prevent-mobile-dialog.vue";
 import PrivacyPolicyDialog from "@/components/privacy-policy-dialog.vue";
-import store from "@/store/store";
 import Introduction from "@/components/introduction/introduction.vue";
+import { mapState } from "vuex";
 
 export default Vue.extend({
   name: "Home",
@@ -59,13 +59,7 @@ export default Vue.extend({
   },
 
   computed: {
-    hasNoTimeEvents(): boolean {
-      return store.state.timeEvents.length === 0;
-    },
-
-    loading(): boolean {
-      return store.state.loading;
-    }
+    ...mapState(["loading", "showIntroduction"])
   },
 
   methods: {

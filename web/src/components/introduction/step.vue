@@ -1,64 +1,211 @@
 <template>
-  <v-slide-x-transition>
-    <v-card elevation="10" class="step-card"
-      ><v-card-text class="black--text"
-        >Let's start by creating your first time event. Click here
-        👉</v-card-text
-      ></v-card
+  <transition :name="`slide-${location}`">
+    <v-card elevation="10" class="step-card" v-show="elementsFound"
+      ><v-card-text class="black--text">{{ text }}</v-card-text></v-card
     >
-  </v-slide-x-transition>
+  </transition>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+
 export default Vue.extend({
   name: "Step",
 
   props: {
-    anchorElementId: String,
-    right: Boolean,
-    bottom: Boolean
+    text: { type: String, required: true },
+
+    /** The element to position the step at */
+    anchorElementIdOrClass: { type: String, required: true },
+
+    /**
+     * The element to trigger the next step.
+     * If undefined, the `anchorElement` triggers the next step
+     */
+    triggerElementIdOrClass: String,
+
+    /** Defines where to place the step card around the anchor element. */
+    location: {
+      type: String,
+      required: true,
+      validator: (v: string) => ["top", "bottom", "left", "right"].includes(v)
+    },
+
+    /** Any event type such as "wheel" */
+    trigger: { type: String, default: "click" }
   },
 
+  data() {
+    return {
+      elementsFound: false,
+      anchorElement: undefined as DOMRect | null | undefined,
+      triggerElement: undefined as Element | null | undefined,
+      mutationObserver: {} as MutationObserver
+    };
+  },
+
+  /**
+   * Starts trying to position the step component at the right location.
+   * The `anchorElement` may appear in the DOM before or after
+   * the step component has been created.
+   */
   mounted() {
-    const anchorElement = document.getElementById(this.anchorElementId)!!;
-    anchorElement.style.zIndex = "401";
+    const observer = new MutationObserver(() => {
+      this.tryPlaceNearAnchorElement(observer);
+    });
 
-    const margin = 24;
+    this.tryPlaceNearAnchorElement(observer);
 
-    if (this.right) {
-      const position =
-        document.documentElement.clientWidth -
-        anchorElement.getBoundingClientRect().left +
-        margin;
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  },
 
-      (this.$el as HTMLElement).style.right = position + "px";
-    } else {
-      const position = anchorElement.getBoundingClientRect().right + margin;
+  methods: {
+    /**
+     * Places the element next to the `anchorElement` if it is present.
+     */
+    async tryPlaceNearAnchorElement(mutationObserver: MutationObserver) {
+      this.anchorElement = this.getElementByIdOrClass(
+        this.anchorElementIdOrClass
+      )?.getBoundingClientRect();
 
-      (this.$el as HTMLElement).style.left = position + "px";
-    }
+      this.triggerElement = this.getElementByIdOrClass(
+        this.triggerElementIdOrClass ?? this.anchorElementIdOrClass
+      );
 
-    if (this.bottom) {
-      const position =
-        document.documentElement.clientHeight -
-        anchorElement.getBoundingClientRect().bottom;
+      // Do not proceed until required elements are found.
+      if (!this.anchorElement || !this.triggerElement) return;
 
-      (this.$el as HTMLElement).style.bottom = position + "px";
-    } else {
-      const position = anchorElement.getBoundingClientRect().top;
+      this.elementsFound = true;
 
-      (this.$el as HTMLElement).style.top = position + "px";
+      mutationObserver.disconnect();
+
+      // Element isn't yet rendered, which would make it's height 0.
+      await this.$nextTick();
+
+      const margin = 24;
+
+      switch (this.location) {
+        case "top": {
+          (this.$el as HTMLElement).style.bottom =
+            document.documentElement.clientHeight -
+            this.anchorElement.top +
+            margin +
+            "px";
+
+          this.horizontalAlignCenter();
+          break;
+        }
+        case "bottom": {
+          (this.$el as HTMLElement).style.top =
+            this.anchorElement.bottom + margin + "px";
+
+          this.horizontalAlignCenter();
+          break;
+        }
+        case "left": {
+          (this.$el as HTMLElement).style.right =
+            document.documentElement.clientWidth -
+            this.anchorElement.left +
+            margin +
+            "px";
+
+          this.verticalAlignCenter();
+          break;
+        }
+        case "right": {
+          (this.$el as HTMLElement).style.left =
+            this.anchorElement.right + margin + "px";
+
+          this.verticalAlignCenter();
+          break;
+        }
+      }
+
+      this.triggerElement.addEventListener(this.trigger, () => {
+        this.$emit("next");
+      });
+    },
+
+    verticalAlignCenter() {
+      (this.$el as HTMLElement).style.top =
+        this.anchorElement!!.top +
+        this.anchorElement!!.height / 2 -
+        (this.$el as HTMLElement).offsetHeight / 2 +
+        "px";
+
+      console.log((this.$el as HTMLElement).style.top);
+    },
+
+    horizontalAlignCenter() {
+      (this.$el as HTMLElement).style.left =
+        this.anchorElement!!.left +
+        this.anchorElement!!.width / 2 -
+        (this.$el as HTMLElement).offsetWidth / 2 +
+        "px";
+    },
+
+    getElementByIdOrClass(elementIdOrClass: string): Element | null {
+      return (
+        document.getElementById(elementIdOrClass) ??
+        document.getElementsByClassName(elementIdOrClass)[0]
+      );
     }
   }
 });
 </script>
 <style lang="scss" scoped>
-$max-width: 240px;
+$width: 240px;
 
 .step-card {
-  position: absolute;
-  max-width: $max-width;
+  position: fixed;
+  max-width: $width;
   height: fit-content;
+  z-index: 7;
+}
+
+$transitionDuration: 0.3s;
+$translatePx: 10px;
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all $transitionDuration;
+}
+.slide-left-enter,
+.slide-left-leave-to {
+  transform: translateX(-$translatePx);
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all $transitionDuration;
+}
+.slide-right-enter,
+.slide-right-leave-to {
+  transform: translateX($translatePx);
+  opacity: 0;
+}
+
+.slide-top-enter-active,
+.slide-top-leave-active {
+  transition: all $transitionDuration;
+}
+.slide-top-enter,
+.slide-top-leave-to {
+  transform: translateY(-$translatePx);
+  opacity: 0;
+}
+
+.slide-bottom-enter-active,
+.slide-bottom-leave-active {
+  transition: all $transitionDuration;
+}
+.slide-bottom-enter,
+.slide-bottom-leave-to {
+  transform: translateY($translatePx);
+  opacity: 0;
 }
 </style>

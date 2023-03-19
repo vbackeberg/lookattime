@@ -1,40 +1,106 @@
 <template>
-  <div id="container">
-    <v-overlay :value="overlay" :z-index="400" opacity="0.3" :dark="false">
-      <v-btn id="btn-end" color="secondary" elevation="10" @click="stopIntroduction()"
-        ><v-icon>mdi-close</v-icon>End Tour</v-btn
-      >
+  <div>
+    <step
+      :key="1"
+      v-if="step === 1"
+      v-on:next="next()"
+      anchorElementIdOrClass="fab"
+      location="left"
+      text="Let's start by creating your first time event. Click here 👉"
+    ></step>
 
-      <step
-        v-if="step === 1"
-        anchorElementId="fab"
-        :right="true"
-        :bottom="true"
-      ></step>
-    </v-overlay>
+    <step
+      :key="2"
+      v-if="step === 2"
+      v-on:next="next()"
+      anchorElementIdOrClass="event-title"
+      location="bottom"
+      text="This is your editor. You can add a title, a date and the importance of your event. When two events come close to each other, the one with lower importance will fade out."
+    ></step>
 
-    <v-slide-y-transition>
-      <v-card id="dialog" rounded="xl" v-show="!overlay">
-        <div id="title-container">
-          <div id="astronaut" class="emoji">🧑‍🚀</div>
-          <v-card-title id="title">
-            <p>Welcome time traveler!</p>
-            <p>Would you like to get an introduction?</p>
-          </v-card-title>
-        </div>
-        <v-card-actions>
-          <v-btn block color="primary" @click="startIntroduction()"
-            >Take the tour</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-slide-y-transition>
+    <step
+      :key="3"
+      v-if="step === 3"
+      v-on:next="next()"
+      anchorElementIdOrClass="text-area-btn-save"
+      location="top"
+      text="Hit save when you have filled out every mandatory field."
+    ></step>
+
+    <step
+      :key="4"
+      v-if="step === 4"
+      v-on:next="next()"
+      anchorElementIdOrClass="content"
+      triggerElementIdOrClass="fab"
+      location="top"
+      text="Great, you have created your first time event! Now, click the blue plus button on the lower right, once again. As soon as we have a second time event, you'll see the magic happen."
+    ></step>
+
+    <step
+      :key="5"
+      v-if="step === 5"
+      v-on:next="next()"
+      anchorElementIdOrClass="text-area-btn-save"
+      location="top"
+      text="Fill out the fields and hit the save button. Make sure you pick a date that is a few days apart from the first one!"
+    ></step>
+
+    <step
+      :key="6"
+      v-if="step === 6"
+      v-on:next="next()"
+      anchorElementIdOrClass="horizontal-line"
+      triggerElementIdOrClass="timeline"
+      location="top"
+      trigger="wheel"
+      text="Whoa! What happened? Your timeline has come to live. Below you can see where you are in time. Use your mouse wheel to zoom in and out."
+    ></step>
+
+    <step
+      :key="7"
+      v-if="step === 7"
+      v-on:next="stopIntroduction()"
+      anchorElementIdOrClass="app-bar-avatar"
+      location="left"
+      text="I have one last hint for you, traveler. Click on your avatar above to access your timelines and create new ones. Now, have a good flight!"
+      class="mt-14"
+    ></step>
+
+    <v-card id="dialog" rounded="xl" v-show="showDialog">
+      <div id="title-container">
+        <div id="astronaut" class="emoji">🧑‍🚀</div>
+        <v-card-title id="title">
+          <p>Welcome time traveler!</p>
+          <p>Would you like to get an introduction?</p>
+        </v-card-title>
+      </div>
+      <v-card-actions class="d-flex flex-column">
+        <v-btn block color="primary" @click="startIntroduction()"
+          >Take the tour</v-btn
+        >
+        <v-btn block color="tertiary" @click="stopIntroduction()" class="mt-3"
+          >Close</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+
+    <v-btn
+      v-show="step > 0"
+      id="btn-end"
+      color="secondary"
+      elevation="10"
+      @click="stopIntroduction()"
+      ><v-icon>mdi-close</v-icon>End Tour</v-btn
+    >
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Step from "@/components/introduction/step.vue";
+import store from "@/store/store";
+import { mapState } from "vuex";
 
 export default Vue.extend({
   name: "Introduction",
@@ -45,39 +111,51 @@ export default Vue.extend({
 
   data() {
     return {
-      overlay: false,
+      showDialog: true,
       step: 0
     };
   },
 
+  computed: { ...mapState(["timeEvents"]) },
+
+  watch: {
+    timeEvents: {
+      immediate: true,
+      handler(timeEvents) {
+        if (timeEvents.length > 0 && this.step === 0) {
+          store.commit("setShowIntroduction", false);
+        }
+      }
+    }
+  },
+
   methods: {
     startIntroduction() {
-      this.overlay = true;
+      this.showDialog = false;
       this.step = 1;
     },
 
     stopIntroduction() {
-      this.overlay = false;
+      this.step = 0;
+      store.commit("setShowIntroduction", false);
+    },
+
+    next() {
+      this.step++;
     }
   }
 });
 </script>
 
 <style lang="scss" scoped>
-#container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: grid;
-}
-
 #dialog {
-  flex: 0 0 auto;
-  align-self: center;
-  justify-self: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
   padding: 24px;
-  max-width: 400px;
-  max-height: 300px;
+  width: 400px;
+  height: 300px;
   text-align: center;
 }
 
@@ -115,9 +193,8 @@ export default Vue.extend({
 }
 
 #btn-end {
-  position: relative;
-  margin-top: 100px;
-  margin-left: auto;
-  margin-right: auto;
+  position: absolute;
+  left: 64px;
+  top: 64px;
 }
 </style>

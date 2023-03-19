@@ -127,6 +127,10 @@ export default {
   methods: {
     mergeProps,
 
+    /**
+     * Shows the introduction dialog, again.
+     * If there are time events it switches to an empty new timeline, first.
+     */
     async startIntroduction() {
       if (store.state.timeEvents.length > 0) {
         await this.createNewTimeline();

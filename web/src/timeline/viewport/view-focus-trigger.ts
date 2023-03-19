@@ -9,36 +9,26 @@ import ViewResetter from "./view-resetter";
  */
 export default class ViewFocusTrigger {
   private viewFocuser: ViewFocuser;
+  private viewResetter: ViewResetter;
 
   private constructor() {
     this.viewFocuser = ViewFocuser.Instance;
+    this.viewResetter = ViewResetter.Instance;
 
     store.subscribe(async (mutation: MutationPayload) => {
       if (mutation.type === "setTimeEvents") {
         await Vue.nextTick();
 
         if (mutation.payload.length > 0) {
-          await ViewResetter.Instance.initiateView();
+          await this.viewResetter.initiateView();
         }
       }
-
-      /* TODO
-      Since zoom level in store is set to max at start, the second
-      event will always be inside view, thus view will stay max zoomed out.
-
-      Either set zoom level to min zoom level and fix the repositioning which
-      seems to be broken for an unknown reason.
-
-
-      Or: Change the view focuser logic such that it zooms in as much
-      as needed such that the time event is well visible (fully expanded).
-      */
 
       if (mutation.type === "addTimeEvent") {
         await Vue.nextTick();
 
-        if (store.state.timeEvents.length === 1) {
-          this.viewFocuser.focusOnPosition(mutation.payload.positionCenter);
+        if (store.state.timeEvents.length < 3) {
+          await this.viewResetter.initiateView();
         } else {
           this.viewFocuser.extendFocus(mutation.payload.positionCenter);
         }

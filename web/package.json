@@ -43,7 +43,7 @@
     "@vue/vue2-jest": "^27.0.0-alpha.3",
     "eslint": "^8.36.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^9.0.0",
+    "eslint-plugin-vue": "^9.10.0",
     "jest": "^27.1.0",
     "json-server": "^0.17.2",
     "lint-staged": "^13.2.0",

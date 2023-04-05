@@ -59,7 +59,12 @@ const httpTrigger: AzureFunction = async function (
    * @param timeEventRequest
    */
   async function createOrUpdateTimeEvent(timeEventRequest: TimeEventRequest) {
-    const textValueSanitized = sanitize(timeEventRequest.textValue);
+    const textValueSanitized = sanitize(timeEventRequest.textValue, {
+      allowedTags: sanitize.defaults.allowedTags.concat(["img"]),
+      allowedAttributes: {
+        img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
+      },
+    });
 
     const result = await sql.query`
       if exists (

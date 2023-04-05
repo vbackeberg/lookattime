@@ -6,8 +6,9 @@ import TimeEventRequest from "../shared/models/api/time-event-request";
 import ImageDto from "../shared/models/dtos/image-dto";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequestValidator from "../shared/time-event-request-validator";
-import sanitize from "sanitize-html";
 import TimeEventResponse from "../get-time-events/time-event-response";
+import { JSDOM } from "jsdom";
+import DOMPurify from "dompurify";
 const sql = require("mssql");
 
 /**
@@ -68,12 +69,9 @@ const httpTrigger: AzureFunction = async function (
    * @param timeEventRequest
    */
   async function createOrUpdateTimeEvent(timeEventRequest: TimeEventRequest) {
-    const textValueSanitized = sanitize(timeEventRequest.textValue, {
-      allowedTags: sanitize.defaults.allowedTags.concat(["img"]),
-      allowedAttributes: {
-        img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
-      },
-    });
+    const textValueSanitized = DOMPurify(new JSDOM("").window).sanitize(
+      timeEventRequest.textValue
+    );
 
     const result = await sql.query`
       if exists (

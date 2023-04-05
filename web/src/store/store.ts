@@ -86,13 +86,15 @@ export default new Vuex.Store({
 
     updateTimeEvent(
       state,
-      payload: { changedTimeEvent: TimeEventModel; index: number }
+      payload: { timeEventWithImages: TimeEventModel; index: number }
     ) {
-      state.timeEvents[payload.index].title = payload.changedTimeEvent.title;
-      state.timeEvents[payload.index].text = payload.changedTimeEvent.text;
-      state.timeEvents[payload.index].date = payload.changedTimeEvent.date;
+      state.timeEvents[payload.index].title = payload.timeEventWithImages.title;
+      state.timeEvents[payload.index].text = payload.timeEventWithImages.text;
+      state.timeEvents[payload.index].date = payload.timeEventWithImages.date;
       state.timeEvents[payload.index].importance =
-        payload.changedTimeEvent.importance;
+        payload.timeEventWithImages.importance;
+      state.timeEvents[payload.index].imageReferences =
+        payload.timeEventWithImages.imageReferences;
     },
 
     setSelectedTimeline(state, timeline: TimelineModel) {
@@ -140,7 +142,7 @@ export default new Vuex.Store({
       { commit, state },
       changedTimeEvent: TimeEventModel
     ): Promise<void> {
-      await HttpClient.createOrUpdateTimeEvent(
+      const timeEventWithImages = await HttpClient.createOrUpdateTimeEvent(
         changedTimeEvent,
         state.selectedTimeline.id,
         state.user.id
@@ -150,9 +152,9 @@ export default new Vuex.Store({
         (timeEvent) => timeEvent.id === changedTimeEvent.id
       );
       if (index === -1) {
-        commit("addTimeEvent", changedTimeEvent);
+        commit("addTimeEvent", timeEventWithImages);
       } else {
-        commit("updateTimeEvent", { changedTimeEvent, index });
+        commit("updateTimeEvent", { timeEventWithImages, index });
       }
     },
 

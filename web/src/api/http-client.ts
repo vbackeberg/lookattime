@@ -183,15 +183,19 @@ export default class HttpClient {
    * @param timeEvent
    * @param timelineId
    * @param userId
+   * 
+   * @returns updated time event.
    */
   public static async createOrUpdateTimeEvent(
     timeEvent: TimeEventModel,
     timelineId: string,
     userId: string
-  ): Promise<void> {
-    return axios.post(
+  ): Promise<TimeEventModel> {
+    const response = await axios.post(
       process.env.VUE_APP_API_URL + "/update-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId)
     );
+
+    return TimeEventResponseMapper.map(response.data as TimeEventResponse);
   }
 }

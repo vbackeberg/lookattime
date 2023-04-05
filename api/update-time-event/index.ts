@@ -7,6 +7,7 @@ import ImageDto from "../shared/models/dtos/image-dto";
 import { sqlConnectionConfig } from "../shared/sql-connection-config";
 import TimeEventRequestValidator from "../shared/time-event-request-validator";
 import sanitize from "sanitize-html";
+import TimeEventResponse from "../get-time-events/time-event-response";
 const sql = require("mssql");
 
 /**
@@ -14,6 +15,8 @@ const sql = require("mssql");
  *
  * @param context
  * @param req
+ *
+ * @returns the time event with the changed images and sanitized HTML.
  */
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -33,6 +36,12 @@ const httpTrigger: AzureFunction = async function (
       await sql.connect(sqlConnectionConfig);
       await createOrUpdateTimeEvent(timeEventRequest);
       await deleteObsoleteImages(timeEventRequest);
+
+      const timeEvent = await getTimeEventWithImages(timeEventRequest.id);
+
+      context.res = {
+        body: timeEvent,
+      };
 
       console.log(
         "Successfully created or updated time event: " + timeEventRequest.id
@@ -216,6 +225,29 @@ const httpTrigger: AzureFunction = async function (
         /<img src="https:\/\/lookattime2\.blob\.core\.windows\.net\/lookattime2\/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})\.(jpeg|gif|png|svg)">/gm
       )
     ).map((match) => match[1]);
+  }
+
+  /**
+   * Retrieves the time event including the changed image references.
+   *
+   * @param timeEventId
+   */
+  async function getTimeEventWithImages(
+    timeEventId: string
+  ): Promise<TimeEventResponse> {
+    const getTimeEventTask = sql.query`select * from timeEvents where id = ${timeEventId};`;
+    const getImagesTask = sql.query`select * from images where timeEventId = ${timeEventId};`;
+
+    const timeEvent = (await getTimeEventTask)
+      .recordset[0] as TimeEventResponse;
+
+    timeEvent.imageReferences = (
+      (await getImagesTask).recordset as ImageDto[]
+    ).map((image) => {
+      return { id: image.id, extension: image.extension };
+    });
+
+    return timeEvent;
   }
 };
 export default httpTrigger;

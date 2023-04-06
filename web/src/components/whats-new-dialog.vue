@@ -1,33 +1,25 @@
 <template>
   <v-dialog v-model="show" max-width="600">
     <v-card>
-      <v-card-title>
-        What's new?
-      </v-card-title>
+      <v-card-title> What's new? </v-card-title>
 
       <v-card-text>
-        <h3>Fully-featured editor for your Time Events!</h3>
+        <h3>Tutorials & Tooltips 👨‍🏫</h3>
         <p>
-          The next time you will open up a time event you will be greeted by the
-          all-new UI design for time event content. The most notable features
-          are: Formatting with headlines, bold, italic, etc. Images along the
-          text Quick toggling of edit and read mode On top of that, editing and
-          creating time events now happens in-place without a separate modal and
-          you have a real editor at your hands offering all the tools you would
-          expect for text editing. I chose to go with a great editor called
-          Ckeditor5 that is extendable and free.
+          If you haven’t used Look at Time so far, a quick tutorial will guide
+          you through the basics and help you create your first timeline with a
+          few events. I hope you will like it!
         </p>
         <p>
           <v-img
-            src="https://lookattime2.blob.core.windows.net/lookattime-assets/rich-text-editor.png"
+            src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*JndN-PNnzsI9PUHvBOyTpg.png"
           ></v-img>
         </p>
 
         <h3>What are we going to work on next? 👷‍♂️</h3>
         <p>
-          There are still a few rocks in the system. You have to reload the page
-          often after changing time events. These are going to be solved over
-          the coming weeks.
+          It's time to pretty up the title and date area for the time event
+          cards. Also, time events that have no image will soon look better.
         </p>
 
         <h3>What is this about?</h3>

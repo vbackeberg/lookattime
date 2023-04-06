@@ -62,4 +62,29 @@ export default Vue.extend({
   }
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+/* 
+* This style sheet is not scoped because ckeditor resides outside this component
+* and would not adopt scoped styles.
+* This means the styles are global and might effect other ckeditor instances.
+* However, there should not be any other ckeditor instances in the app.
+*/
+
+.ck.ck-editor[role="application"] {
+  flex: 1 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  .ck-editor__main {
+    flex: 1 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    .ck-content:not(.ck-comment__input *) {
+      flex: 1 0 auto;
+    }
+  }
+}
+</style>

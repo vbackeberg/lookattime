@@ -46,7 +46,7 @@
     "eslint-plugin-vue": "^9.10.0",
     "jest": "^27.1.0",
     "json-server": "^0.17.2",
-    "lint-staged": "^13.2.0",
+    "lint-staged": "^13.2.1",
     "prettier": "^2.8.7",
     "sass": "^1.60.0",
     "sass-loader": "^13.2.2",

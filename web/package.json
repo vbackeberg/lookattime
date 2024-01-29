@@ -13,7 +13,7 @@
     "@ckeditor/ckeditor5-vue2": "^3.0.1",
     "@js-temporal/polyfill": "^0.4.3",
     "axios": "^1.6.0",
-    "core-js": "^3.29.1",
+    "core-js": "^3.35.1",
     "dompurify": "^3.0.1",
     "mime": "^3.0.0",
     "uuid": "^9.0.0",

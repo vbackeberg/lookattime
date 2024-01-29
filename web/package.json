@@ -47,7 +47,7 @@
     "jest": "^27.1.0",
     "json-server": "^0.17.2",
     "lint-staged": "^13.2.1",
-    "prettier": "^2.8.7",
+    "prettier": "^3.2.4",
     "sass": "^1.70.0",
     "sass-loader": "^13.2.2",
     "ts-jest": "^27.0.4",

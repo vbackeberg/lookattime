@@ -17,7 +17,7 @@
     "mime": "^4.0.1",
     "mssql": "^9.1.1",
     "parse-multipart": "^1.0.4",
-    "uuid": "^9.0.0",
+    "uuid": "^9.0.1",
     "validate-image-type": "^2.0.0"
   },
   "devDependencies": {
@@ -26,7 +26,7 @@
     "@types/jsdom": "21.1.1",
     "@types/mime": "^3.0.1",
     "@types/mssql": "^8.1.2",
-    "@types/uuid": "^9.0.1",
+    "@types/uuid": "^9.0.8",
     "eslint": "8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "typescript": "^5.1.6"

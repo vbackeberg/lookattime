@@ -21,7 +21,7 @@
     "validate-image-type": "^2.0.0"
   },
   "devDependencies": {
-    "@azure/functions": "^3.5.1",
+    "@azure/functions": "^4.2.0",
     "@types/dompurify": "^3.0.5",
     "@types/jsdom": "21.1.1",
     "@types/mime": "^3.0.4",

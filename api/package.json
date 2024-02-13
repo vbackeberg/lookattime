@@ -15,7 +15,7 @@
     "dompurify": "^3.0.8",
     "jsdom": "^24.0.0",
     "mime": "^4.0.1",
-    "mssql": "^9.1.1",
+    "mssql": "^10.0.2",
     "parse-multipart": "^1.0.4",
     "uuid": "^9.0.1",
     "validate-image-type": "^3.0.0"

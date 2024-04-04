@@ -14,7 +14,7 @@
     "@js-temporal/polyfill": "^0.4.4",
     "axios": "^1.6.7",
     "core-js": "^3.36.1",
-    "dompurify": "^3.0.1",
+    "dompurify": "^3.0.11",
     "mime": "^3.0.0",
     "uuid": "^9.0.1",
     "vue": "^2.7.13",
@@ -24,7 +24,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@types/dompurify": "^3.0.0",
+    "@types/dompurify": "^3.0.5",
     "@types/jest": "^27.1.5",
     "@types/mime": "^3.0.1",
     "@types/uuid": "^9.0.8",

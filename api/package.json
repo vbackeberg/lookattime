@@ -11,7 +11,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.17.0",
+    "@azure/storage-blob": "^12.23.0",
     "dompurify": "^3.0.11",
     "jsdom": "^24.0.0",
     "mime": "^4.0.3",

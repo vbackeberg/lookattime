@@ -17,7 +17,7 @@
     "mime": "^4.0.3",
     "mssql": "^10.0.2",
     "parse-multipart": "^1.0.4",
-    "uuid": "^9.0.1",
+    "uuid": "^10.0.0",
     "validate-image-type": "^3.0.0"
   },
   "devDependencies": {

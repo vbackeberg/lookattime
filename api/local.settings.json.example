@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "DB_DATABASE": "lookattime",
+    "DB_SERVER": "",
+    "DB_USERNAME": "azureuser",
+    "DB_PASSWORD": ""
+  }
+}

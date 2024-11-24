@@ -1,7 +1,12 @@
 module.exports = {
   devServer: {
     allowedHosts: "all",
-    proxy: "http://localhost:7071"
+    proxy: {
+      '^/api': {
+        target: "http://127.0.0.1:7071",
+        changeOrigin: true
+      }
+    },
   },
   lintOnSave: false,
   transpileDependencies: ["vuetify"],

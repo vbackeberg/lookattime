@@ -2,18 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Azure Functions",
+      "name": "Azure Backend",
       "type": "node",
       "request": "attach",
       "port": 9229,
       "preLaunchTask": "func: host start"
     },
     {
-      "name": "Launch chrome debugging",
-      "type": "chrome",
+      "name": "Frontend",
+      "type": "node-terminal",
       "request": "launch",
-      "url": "http://localhost",
-      "webRoot": "${workspaceFolder}/web"
-  }
+      "command": "npm run serve",
+      "cwd": "${workspaceFolder}/web",
+    }
   ]
 }

@@ -5,9 +5,9 @@ export class Constants {
    * maximum value for translateX / position left.
    *
    * The maximum zoom level indicates that one absolute browser pixel
-   * will correspond to 1728000000000 relative units ()
+   * will correspond to 1,728,000,000,000 relative units ()
    */
-  public static MAX_ZOOM_LEVEL = 1728000000000;
+  public static MAX_ZOOM_LEVEL = 1_728_000_000_000;
 
   /**
    * The minimum zoom level indicates that one absolute browser pixel

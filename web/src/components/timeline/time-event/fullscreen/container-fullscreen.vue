@@ -2,6 +2,25 @@
   <div id="fullscreen-container">
     <div id="fullscreen-container-content" class="elevation-20">
       <v-card id="fullscreen-content">
+        <div class="buttons-top-right">
+          <v-btn
+          v-if="!readOnlyMode"
+          class=""
+          :class="{ 'btn-dark': writeMode }"
+          icon
+          :disabled="isTimeEventToBeCreated"
+          v-on:click.stop="writeMode = !writeMode"
+          ><v-icon>mdi-pencil</v-icon></v-btn
+          >
+          <v-btn
+            class=""
+            icon
+            v-on:click.stop="closeFullscreen()"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </div>
+
         <text-area-write-mode
           v-if="writeMode"
           v-model="writeMode"
@@ -12,27 +31,6 @@
           v-model="writeMode"
           v-bind:id="id"
         />
-
-        <v-btn
-          v-if="!readOnlyMode"
-          id="btn-edit"
-          class="buttons-top-right"
-          :class="{ 'btn-dark': writeMode }"
-          color="white"
-          icon
-          :disabled="isTimeEventToBeCreated"
-          v-on:click.stop="writeMode = !writeMode"
-          ><v-icon>mdi-pencil</v-icon></v-btn
-        >
-        <v-btn
-          id="btn-close"
-          class="buttons-top-right"
-          color="white"
-          icon
-          v-on:click.stop="closeFullscreen()"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
       </v-card>
     </div>
   </div>
@@ -135,17 +133,10 @@ export default Vue.extend({
     flex-direction: column;
 
     .buttons-top-right {
-      position: absolute;
-      top: 8px;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    #btn-close {
-      right: 8px;
-    }
-
-    #btn-edit {
-      right: 56px;
+      display: flex;
+      justify-content: end;
+      padding: 8px;
+      gap: 4px;
     }
 
     .btn-dark {

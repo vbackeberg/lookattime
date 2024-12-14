@@ -259,6 +259,7 @@ $distance-bubble-below-box: 72px;
 
   border-color: #aaa !important;
   border-style: solid;
+  background-color: #fbfbfb;
 
   overflow: hidden;
   font-size: 0.875em;

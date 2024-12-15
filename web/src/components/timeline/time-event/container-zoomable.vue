@@ -56,9 +56,11 @@ export default Vue.extend({
     this.updateExpansionState();
 
     // TODO: Have only one global listener that calls update on all time events.
-    document.addEventListener("update-expansion-states", () => {
-      this.updateExpansionState();
-    });
+    document.addEventListener("update-expansion-states", this.updateExpansionState);
+  },
+
+  destroyed() {
+    document.removeEventListener("update-expansion-states", this.updateExpansionState);
   },
 
   computed: {
@@ -135,10 +137,10 @@ export default Vue.extend({
      * we do not change the class through class binding.
      */
     updateExpansionState() {
-      const newExpansionState = (this
-        .expansionZoomLevels as number[]).findIndex(
-        zoomLevel => store.state.zoomLevel <= zoomLevel
-      );
+      const newExpansionState = (this.timeEvent.expansionZoomLevels)
+        .findIndex(  // todo: it is not updated yet. not a true reference
+          zoomLevel => store.state.zoomLevel <= zoomLevel
+        );
 
       if (newExpansionState !== this.expansionState) {
         switch (newExpansionState) {

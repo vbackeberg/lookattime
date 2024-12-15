@@ -12,7 +12,6 @@
         v-bind:key="timeEvent.id"
         v-bind:id="timeEvent.id"
         v-bind:imageReferences="timeEvent.imageReferences"
-        v-bind:expansionZoomLevels="timeEvent.expansionZoomLevels"
         v-bind:isFullscreen="timeEvent.isFullscreen"
         v-bind:writeMode="timeEvent.writeMode"
         v-on:openContextMenu="openContextMenu($event, timeEvent.id)"

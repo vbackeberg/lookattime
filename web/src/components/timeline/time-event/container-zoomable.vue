@@ -1,27 +1,15 @@
 <template>
   <div class="container-zoomable zoom-transition">
     <div class="buffer-top grow-transition"></div>
-    <v-card
-      class="content elevation-0 grow-transition"
-      v-on:contextmenu.prevent="openContextMenu"
-    >
-      <v-img
-        v-bind:src="previewImageSrc"
-        class="card-image white--text align-end"
-        alt="time event image"
-      >
+    <v-card class="content elevation-0 grow-transition" v-on:contextmenu.prevent="openContextMenu">
+      <v-img v-bind:src="previewImageSrc" class="card-image white--text align-end" alt="time event image">
         <v-card-title class="card-title card-image-shadow">{{
           timeEvent.title
-        }}</v-card-title>
+          }}</v-card-title>
         <v-card-subtitle class="card-title card-image-shadow">{{
           formattedDate
-        }}</v-card-subtitle>
-        <v-btn
-          class="btn-full card-image-shadow"
-          color="white"
-          icon
-          v-on:click.stop="openFullscreen()"
-        >
+          }}</v-card-subtitle>
+        <v-btn class="btn-full card-image-shadow" color="white" icon v-on:click.stop="openFullscreen()">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
       </v-img>
@@ -212,8 +200,7 @@ $box-height: 400px;
 
 // We resize the time event using scale instead of width/height to increase render performance.
 $scale-factor-bubble-width: 0.2;
-$scale-factor-bubble-height: $scale-factor-bubble-width *
-  ($box-width / $box-height);
+$scale-factor-bubble-height: $scale-factor-bubble-width * ($box-width / $box-height);
 $scale-factor-dot-width: 0.05;
 $scale-factor-dot-height: $scale-factor-dot-width / 2.5;
 
@@ -320,15 +307,12 @@ $distance-bubble-below-box: 72px;
   .content {
     transform: scale($scale-factor-bubble-width, $scale-factor-bubble-height);
 
-    border-width: $box-border-width / $scale-factor-bubble-height
-      $box-border-width / $scale-factor-bubble-width;
+    border-width: $box-border-width / $scale-factor-bubble-height $box-border-width / $scale-factor-bubble-width;
     border-radius: 50%;
 
     .card-image {
       height: 100%;
-      transform: scaleY(
-        $scale-factor-bubble-width / $scale-factor-bubble-height
-      );
+      transform: scaleY($scale-factor-bubble-width / $scale-factor-bubble-height );
 
       .card-title {
         display: none;
@@ -377,7 +361,6 @@ $distance-bubble-below-box: 72px;
 
 .btn-full {
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 2px;right: 2px;
 }
 </style>

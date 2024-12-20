@@ -8,59 +8,63 @@ import TimelineModel from "@/models/timeline-model";
 import UserModel from "@/models/user-model";
 import ViewResetter from "@/timeline/viewport/view-resetter";
 import { v4 as uuid, validate as validUuid } from "uuid";
-import Vue from "vue";
-import Vuex from "vuex";
-Vue.use(Vuex);
+import { defineStore } from 'pinia'
 
-export default new Vuex.Store({
-  plugins: [],
-
-  state: {
-    timelineElement: {} as HTMLElement,
-    timelineZero: 0,
-
-    /**
+interface State {
+  /**
      * The zoom level determines how many seconds are represented by one pixel.
      * A zoom level of 335 means that one pixel covers a timespan of 335 seconds.
      * The lower the zoom level the bigger the distance between time events (zoom out).
      */
+  zoomLevel: number,
+
+  timeEvents: TimeEventModel[],
+
+  /**
+   * The temporary time event that is locally being
+   * added to timeEvents when creating a new time event.
+   */
+  timeEventToBeCreated?: TimeEventModel,
+
+  /**
+   * Assures the screen does not get pushed to the left
+   * when spacer right falls below right screen edge on
+   * space cutting.
+   */
+  spacerViewportRight?: Spacer,
+  spacerLeft?: Spacer,
+  spacerRight?: Spacer,
+
+  timeMarkers: TimeMarker[],
+  timeMarkerDepth: number,
+
+  selectedTimeline?: TimelineModel,
+  timelines: TimelineModel[], // TODO change to new array syntax
+
+  user?: UserModel,
+  loading: boolean,
+  showIntroduction: boolean,
+  timelineElement?: HTMLElement,
+  timelineZero: number
+}
+
+export const useLookAtTime = defineStore("lookAtTime", {
+  state: (): State => ({
     zoomLevel: 1_728_000_000_000,
-
-    timeEvents: [] as TimeEventModel[],
-
-    /**
-     * The temporary time event that is locally being
-     * added to timeEvents when creating a new time event.
-     */
-    timeEventToBeCreated: null as TimeEventModel | null,
-
-    /**
-     * Assures the screen does not get pushed to the left
-     * when spacer right falls below right screen edge on
-     * space cutting.
-     */
-    spacerViewportRight: {} as Spacer,
-    spacerLeft: {} as Spacer,
-    spacerRight: {} as Spacer,
-
-    timeMarkers: [] as TimeMarker[],
-    timeMarkerDepth: 1,
-
-    selectedTimeline: {} as TimelineModel,
-    timelines: [] as TimelineModel[], // TODO change to new array syntax
-
-    user: {} as UserModel,
+    timeEvents: [],
+    timeMarkers: [],
+    timeMarkerDepth: 0,
+    timelines: [],
     loading: true,
-    showIntroduction: true
-  },
+    showIntroduction: true,
+    timelineZero: 0,
+  }),
 
   getters: {
-    readOnlyMode(state): boolean {
-      return !state.timelines.includes(state.selectedTimeline);
-    }
+    readOnlyMode: (state) => state.selectedTimeline && !state.timelines.includes(state.selectedTimeline)
   },
 
-  mutations: {
+  actions: {
     setTimeEvents(state, timeEvents: TimeEventModel[]) {
       timeEvents.sort((a, b) => a.date - b.date);
       state.timeEvents = timeEvents;
@@ -71,42 +75,8 @@ export default new Vuex.Store({
       state.timeEvents.sort((a, b) => a.date - b.date);
     },
 
-    deleteTimeEvent(state, timeEventId) {
-      const index = state.timeEvents.findIndex(
-        (timeEvent) => timeEvent.id === timeEventId
-      );
-      if (index === -1) {
-        console.warn(
-          "Error deleting time event. Time event to delete was not found."
-        );
-      } else {
-        state.timeEvents.splice(index, 1);
-      }
-    },
-
-    updateTimeEvent(
-      state,
-      payload: { timeEventWithImages: TimeEventModel; index: number }
-    ) {
-      state.timeEvents[payload.index].title = payload.timeEventWithImages.title;
-      state.timeEvents[payload.index].text = payload.timeEventWithImages.text;
-      state.timeEvents[payload.index].date = payload.timeEventWithImages.date;
-      state.timeEvents[payload.index].importance =
-        payload.timeEventWithImages.importance;
-      state.timeEvents[payload.index].imageReferences =
-        payload.timeEventWithImages.imageReferences;
-    },
-
-    setSelectedTimeline(state, timeline: TimelineModel) {
-      state.selectedTimeline = timeline;
-    },
-
     setTimelines(state, timelines: TimelineModel[]) {
       state.timelines = timelines;
-    },
-
-    addTimeline(state, timeline: TimelineModel) {
-      state.timelines.push(timeline);
     },
 
     setUser(state, user: UserModel) {
@@ -123,19 +93,28 @@ export default new Vuex.Store({
 
     setTimeEventToBeCreated(state, timeEvent: TimeEventModel) {
       state.timeEventToBeCreated = timeEvent;
-    }
-  },
+    },
 
-  actions: {
     async deleteTimeEvent(
-      { commit, state },
+      { state },
       timeEventId: string
     ): Promise<void> {
-      return HttpClient.deleteTimeEvent(
+      await HttpClient.deleteTimeEvent(
         timeEventId,
         state.selectedTimeline.id,
         state.user.id
-      ).then(() => commit("deleteTimeEvent", timeEventId));
+      )
+
+      const index = state.timeEvents.findIndex(
+        (timeEvent) => timeEvent.id === timeEventId
+      );
+      if (index === -1) {
+        console.warn(
+          "Error deleting time event. Time event to delete was not found."
+        );
+      } else {
+        state.timeEvents.splice(index, 1);
+      }
     },
 
     async createOrUpdateTimeEvent(
@@ -152,9 +131,16 @@ export default new Vuex.Store({
         (timeEvent) => timeEvent.id === changedTimeEvent.id
       );
       if (index === -1) {
-        commit("addTimeEvent", timeEventWithImages);
+        state.timeEvents.push(timeEventWithImages);
+        state.timeEvents.sort((a, b) => a.date - b.date);
       } else {
-        commit("updateTimeEvent", { timeEventWithImages, index });
+        state.timeEvents[index].title = timeEventWithImages.title;
+        state.timeEvents[index].text = timeEventWithImages.text;
+        state.timeEvents[index].date = timeEventWithImages.date;
+        state.timeEvents[index].importance =
+          timeEventWithImages.importance;
+        state.timeEvents[index].imageReferences =
+          timeEventWithImages.imageReferences;
       }
     },
 
@@ -163,31 +149,23 @@ export default new Vuex.Store({
      *
      * Sets loading true when starting and false after finished.
      */
-    async loadTimeEvents({ commit, state }): Promise<void> {
-      commit("setLoading", true);
-
+    async loadTimeEvents(): Promise<void> {
+      this.loading = true;
       ViewResetter.Instance.resetView();
-
-      const timeEvents = await HttpClient.getTimeEvents(
-        state.selectedTimeline.id
-      );
-
-      commit("setTimeEvents", timeEvents);
-      commit("setLoading", false);
+      this.timeEvents = await HttpClient.getTimeEvents(this.selectedTimeline!.id);
+      this.loading = false;
     },
 
-    async setSelectedTimeline(
-      { commit, dispatch },
-      timeline: TimelineModel
-    ): Promise<void> {
-      commit("setSelectedTimeline", timeline);
+    async setSelectedTimeline(timeline: TimelineModel): Promise<void> {
+      this.selectedTimeline = timeline;
+
       SelectedTimelineLocalStorage.setSelectedTimelineId(timeline.id);
-      await dispatch("loadTimeEvents");
+      this.loadTimeEvents();
     },
 
-    async addTimeline({ commit }, timeline: TimelineModel): Promise<void> {
+    async addTimeline(timeline: TimelineModel): Promise<void> {
       await HttpClient.createTimeline(timeline);
-      commit("addTimeline", timeline);
+      this.timelines.push(timeline)
     },
 
     /**
@@ -203,16 +181,13 @@ export default new Vuex.Store({
      * @param param0
      * @returns
      */
-    async loadTimelines({ commit, dispatch, state }): Promise<void> {
-      const timelines = await HttpClient.getTimelines(state.user.id);
+    async loadTimelines(): Promise<void> {
+      const timelines = await HttpClient.getTimelines(this.user!.id);
 
       if (timelines.length > 0) {
-        commit("setTimelines", timelines);
+        this.timelines = timelines;
       } else {
-        await dispatch(
-          "addTimeline",
-          new TimelineModel(uuid(), state.user.id, "My timeline")
-        );
+        this.addTimeline(new TimelineModel(uuid(), this.user!.id, "My timeline"))
       }
 
       // Case shared timeline
@@ -221,31 +196,21 @@ export default new Vuex.Store({
       ).get("timeline");
 
       if (timelineIdQueryParam && validUuid(timelineIdQueryParam)) {
-        return await dispatch(
-          "setSelectedTimeline",
-          new TimelineModel(
-            timelineIdQueryParam as string,
-            "",
-            "Shared timeline"
-          )
-        );
+        this.setSelectedTimeline(new TimelineModel(timelineIdQueryParam as string, "", "Shared timeline"))
       }
 
       // Case last selected timeline
-      const timelineIndex = state.timelines.findIndex(
+      const timelineIndex = this.timelines.findIndex(
         (timeline) =>
           timeline.id === SelectedTimelineLocalStorage.getSelectedTimelineId()
       );
 
       if (timelineIndex !== -1) {
-        return await dispatch(
-          "setSelectedTimeline",
-          state.timelines[timelineIndex]
-        );
+        this.setSelectedTimeline(this.timelines[timelineIndex]);
       }
 
       // Case fallback to first timeline
-      await dispatch("setSelectedTimeline", state.timelines[0]);
+      this.setSelectedTimeline(this.timelines[0]);
     },
 
     /**
@@ -256,8 +221,8 @@ export default new Vuex.Store({
      *
      * Sets loading true when starting.
      */
-    async loadUser({ commit, dispatch }): Promise<void> {
-      commit("setLoading", true);
+    async loadUser(): Promise<void> {
+      this.loading = true;
 
       const userId = UserLocalStorage.getUserId();
 
@@ -270,10 +235,8 @@ export default new Vuex.Store({
         await HttpClient.createUser(user);
       }
 
-      commit("setUser", user);
-      await dispatch("loadTimelines");
+      this.user = user;
+      this.loadTimelines();
     }
   },
-
-  modules: {}
 });

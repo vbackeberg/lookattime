@@ -1,24 +1,8 @@
 {
-  "compilerOptions": {
-    "noImplicitAny": false, // CKEditor is untyped
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "noImplicitThis": true,
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "types": ["webpack-env", "vuetify", "jest"],
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules", "tests/**/*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
 }

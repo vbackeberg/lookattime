@@ -15,8 +15,8 @@ module.exports = {
     ecmaVersion: 2020
   },
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-console": import.meta.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-debugger": import.meta.env.NODE_ENV === "production" ? "warn" : "off",
     "no-self-assign": "off",
     "vue/multi-word-component-names": "off",
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],

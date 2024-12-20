@@ -93,7 +93,7 @@ export default Vue.extend({
       const imageReference = this.imageReferences[0] as ImageReferenceModel;
 
       return (
-        process.env.VUE_APP_IMAGE_URL +
+        import.meta.env.VITE_IMAGE_URL +
         imageReference.id +
         "." +
         imageReference.extension

@@ -1,36 +1,28 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/home.vue";
+import { createMemoryHistory, createRouter } from 'vue-router'
+import LegalDisclosure from '@/views/legal-disclosure.vue';
+import Home from '@/views/home.vue';
+import PrivacyPolicy from '@/views/privacy-policy.vue';
 
-Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/legal-disclosure",
-    name: "Legal Disclosure",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/legal-disclosure.vue")
-  },
-  {
-    path: "/privacy-policy",
-    name: "Privacy Policy",
-    component: () =>
-      import("../views/privacy-policy.vue")
-  }
-];
-
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
+const router = createRouter({
+  history: createMemoryHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/",
+      name: "Home",
+      component: Home
+    },
+    {
+      path: "/legal-disclosure",
+      name: "Legal Disclosure",
+      component: () => import('@/views/legal-disclosure.vue')
+    },
+    {
+      path: "/privacy-policy",
+      name: "Privacy Policy",
+      component: () => import('@/views/privacy-policy.vue')
+    }
+  ]
 });
 
 export default router;

@@ -62,7 +62,7 @@ export default Vue.extend({
 
     shareTimelineUrl(): string {
       return (
-        process.env.VUE_APP_BASE_URL +
+        import.meta.env.VITE_BASE_URL +
         "/?timeline=" +
         store.state.selectedTimeline.id
       );

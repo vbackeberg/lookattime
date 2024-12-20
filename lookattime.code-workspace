@@ -21,7 +21,8 @@
 		"cSpell.words": [
 			"Backeberg",
 			"ckeditor",
-			"dtos"
+			"dtos",
+			"pinia"
 		]
 	}
 }

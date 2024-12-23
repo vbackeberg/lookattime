@@ -8,23 +8,18 @@
         <v-container>
           <v-list>
             <v-list-item-group v-model="selectedTimelineIndex">
-              <v-list-item
-                v-for="timeline in timelines"
-                :key="timeline.id"
-                v-on:click="select(timeline)"
-              >
+              <v-list-item v-for="timeline in store.timelines" :key="timeline.id" v-on:click="select(timeline)">
                 {{ timeline.title }}
               </v-list-item>
               <v-list-item v-on:click="create()">
-                Create new timeline</v-list-item
-              >
+                Create new timeline</v-list-item>
             </v-list-item-group>
           </v-list>
         </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" text @click.stop="back()">
+        <v-btn color="secondary" variant="text" @click.stop="back()">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -32,73 +27,47 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
 import { v4 as uuid } from "uuid"; // TODO do in backend
-import store from "@/store/store";
+import { useLookAtTime } from "@/store/store";
 import TimelineModel from "@/models/timeline-model";
+import { computed } from 'vue';
+const store = useLookAtTime()
 
-export default Vue.extend({
-  name: "ManageTimelinesForm",
+const emits = defineEmits({ show: Boolean })
+const props = defineProps({ show: Boolean })
 
-  props: {
-    value: Boolean
-  },
+const show = computed({
+  get: () => props.show,
+  set: (value) => emits("show", value)
+})
 
-  data() {
-    return {
-      selectedTimelineIndex: 0
-    };
-  },
+const selectedTimelineIndex = computed(() => store.timelines.indexOf(store.selectedTimeline!))
 
-  created() {
-    this.selectedTimelineIndex = this.timelines.indexOf(
-      store.state.selectedTimeline
-    );
-  },
-
-  computed: {
-    show: {
-      get(): boolean {
-        return this.value;
-      },
-      set(value: boolean) {
-        this.$emit("input", value);
-      }
-    },
-
-    timelines() {
-      return store.state.timelines;
-    }
-  },
-
-  methods: {
-    select(timeline: TimelineModel) {
-      if (store.state.selectedTimeline.id != timeline.id) {
-        store.dispatch("setSelectedTimeline", timeline);
-      }
-
-      this.show = false;
-    },
-
-    async create() {
-      this.show = false;
-
-      const timeline = new TimelineModel(
-        uuid(),
-        store.state.user.id,
-        "Timeline"
-      );
-
-      await store.dispatch("addTimeline", timeline);
-      store.dispatch("setSelectedTimeline", timeline);
-    },
-
-    back() {
-      this.show = false;
-    }
+async function select(timeline: TimelineModel) {
+  if (store.selectedTimeline?.id != timeline.id) {
+    await store.setSelectedTimeline(timeline);
   }
-});
+
+  show.value = false;
+}
+
+async function create() {
+  show.value = false;
+
+  const timeline = new TimelineModel(
+    uuid(),
+    store.user!.id,
+    "Timeline"
+  );
+
+  await store.addTimeline(timeline);
+  await store.setSelectedTimeline(timeline);
+}
+
+function back() {
+  show.value = false;
+}
 </script>
 
 <style lang="scss"></style>

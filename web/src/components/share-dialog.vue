@@ -11,14 +11,8 @@
           but not edit it.
         </p>
 
-        <v-text-field
-          outlined
-          filled
-          readonly
-          v-model="shareTimelineUrl"
-          :append-icon="copied ? 'mdi-check' : 'mdi-content-copy'"
-          @click:append="writeToClipboard()"
-        ></v-text-field>
+        <v-text-field outlined filled readonly v-model="shareTimelineUrl"
+          :append-icon="copied ? 'mdi-check' : 'mdi-content-copy'" @click:append="writeToClipboard()"></v-text-field>
       </v-card-text>
       <v-divider></v-divider>
 
@@ -32,56 +26,33 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import store from "@/store/store";
-import Vue from "vue";
+<script setup lang="ts">
+import { useLookAtTime } from '@/store/store';
+import { computed } from 'vue';
+const store = useLookAtTime()
+const emits = defineEmits({ show: Boolean })
+const props = defineProps({ show: Boolean })
 
-export default Vue.extend({
-  name: "ShareDialog",
+const show = computed({
+  get: () => props.show,
+  set: (value) => { emits("show", value); reset(value) }
+})
+let copied = false;
 
-  props: {
-    value: Boolean
-  },
+function shareTimelineUrl() {
+  return `${import.meta.env.VITE_BASE_URL}/?timeline=${store.selectedTimeline!.id}`
+}
 
-  data() {
-    return {
-      copied: false
-    };
-  },
+async function writeToClipboard() {
+  await navigator.clipboard.writeText(shareTimelineUrl());
+  copied = true;
+}
 
-  computed: {
-    show: {
-      get(): boolean {
-        return this.value;
-      },
-      set(value: boolean) {
-        this.$emit("input", value);
-        this.reset(value);
-      }
-    },
-
-    shareTimelineUrl(): string {
-      return (
-        import.meta.env.VITE_BASE_URL +
-        "/?timeline=" +
-        store.state.selectedTimeline.id
-      );
-    }
-  },
-
-  methods: {
-    async writeToClipboard() {
-      await navigator.clipboard.writeText(this.shareTimelineUrl);
-      this.copied = true;
-    },
-
-    reset(value: boolean) {
-      if (!value) {
-        this.copied = false;
-      }
-    }
+function reset(value: boolean) {
+  if (!value) {
+    copied = false;
   }
-});
+}
 </script>
 
 <style scoped lang="scss"></style>

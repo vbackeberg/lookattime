@@ -24,7 +24,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-1" text @click="show = false">
+        <v-btn color="green darken-1" variant="text" @click="show = false">
           Okay!
         </v-btn>
       </v-card-actions>
@@ -33,19 +33,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 
-const props = defineProps({ value: Boolean })
+const emits = defineEmits({show: Boolean})
+const props = defineProps({ show: Boolean })
 
-computed: {
-  show: {
-    get(): boolean {
-      return this.value;
-    },
-    set(value: boolean) {
-      this.$emit("input", value);
-    }
-  }
-}
+const show = computed({
+  get: () => props.show,
+  set: (value) => emits("show", value)
+})
 </script>
 
 <style scoped lang="scss">

@@ -112,7 +112,7 @@
     <editor-write-mode v-model="text" v-bind:id="id" />
 
     <div class="mt-2 d-flex justify-end">
-      <v-btn color="secondary" class="me-2" text @click.stop="cancel()">
+      <v-btn color="secondary" class="me-2"variant="text"@click.stop="cancel()">
         Cancel
       </v-btn>
       <v-btn

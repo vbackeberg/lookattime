@@ -2,71 +2,64 @@
   <svg id="horizontal-line"></svg>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
+import { nextTick, onMounted } from 'vue';
 
-export default Vue.extend({
-  name: "HorizontalLine",
 
-  mounted() {
-    this.observeAndRepositionHorizontalLine();
-  },
+onMounted(() => {
+  observeAndRepositionHorizontalLine();
+})
 
-  methods: {
-    /**
-     * Repositions and unhides horizontal line once
-     * and then repositions whenever window resizes.
-     *
-     * Because the anchor element `time-marker-area` is
-     * mounted in the parent component, the function
-     * needs to wait for the next tick after which the
-     * parent is mounted, too.
-     */
-    async observeAndRepositionHorizontalLine() {
-      await Vue.nextTick();
+/**
+ * Repositions and unhides horizontal line once
+ * and then repositions whenever window resizes.
+ *
+ * Because the anchor element `time-marker-area` is
+ * mounted in the parent component, the function
+ * needs to wait for the next tick after which the
+ * parent is mounted, too.
+ */
+async function observeAndRepositionHorizontalLine() {
+  await nextTick();
 
-      const anchorElement = document.getElementById(
-        "time-marker-area"
-      ) as HTMLElement;
+  const anchorElement = document.getElementById(
+    "time-marker-area"
+  ) as HTMLElement;
 
-      const horizontalLineElement = document.getElementById(
-        "horizontal-line"
-      ) as HTMLElement;
+  const horizontalLineElement = document.getElementById(
+    "horizontal-line"
+  ) as HTMLElement;
 
-      this.repositionHorizontalLine(anchorElement, horizontalLineElement);
+  repositionHorizontalLine(anchorElement, horizontalLineElement);
 
-      horizontalLineElement.style.visibility = "visible";
+  horizontalLineElement.style.visibility = "visible";
 
-      window.onresize = (_) =>
-        this.repositionHorizontalLine(anchorElement, horizontalLineElement);
-    },
+  window.onresize = (_) => repositionHorizontalLine(anchorElement, horizontalLineElement);
+};
 
-    /**
-     * Anchor horizontal line to bottom of anchor element.
-     *
-     * The horizontal line is a special element in the application
-     * because it is bound to two different constraints. On the one hand
-     * it needs to cover the range from the viewports left to right edge,
-     * regardless of the timelines actual width - this is why it has to be
-     * a fixed element. On the other hand it needs to be positioned right
-     * between the time events `connector` and `date` elements to make them
-     * appear as emerging from the timeline. This is why its vertical
-     * position must be set in a programmatical way.
-     *
-     * Both elements are guaranteed to exist since this method is called
-     * after component has been mounted.
-     */
-    repositionHorizontalLine(
-      anchorElement: HTMLElement,
-      horizontalLineElement: HTMLElement
-    ) {
-      horizontalLineElement.style.top = `${
-        anchorElement.getBoundingClientRect().top -
-        horizontalLineElement.getBoundingClientRect().height
-      }px`;
-    }
-  }
-});
+/**
+ * Anchor horizontal line to bottom of anchor element.
+ *
+ * The horizontal line is a special element in the application
+ * because it is bound to two different constraints. On the one hand
+ * it needs to cover the range from the viewports left to right edge,
+ * regardless of the timelines actual width - this is why it has to be
+ * a fixed element. On the other hand it needs to be positioned right
+ * between the time events `connector` and `date` elements to make them
+ * appear as emerging from the timeline. This is why its vertical
+ * position must be set in a programmatical way.
+ *
+ * Both elements are guaranteed to exist since this method is called
+ * after component has been mounted.
+ */
+function repositionHorizontalLine(
+  anchorElement: HTMLElement,
+  horizontalLineElement: HTMLElement
+) {
+  horizontalLineElement.style.top = `${anchorElement.getBoundingClientRect().top -
+    horizontalLineElement.getBoundingClientRect().height
+    }px`;
+}
 </script>
 
 <style scoped lang="scss">

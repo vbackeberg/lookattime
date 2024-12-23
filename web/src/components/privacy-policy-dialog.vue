@@ -12,8 +12,7 @@
         </p>
         <p>
           <router-link to="/privacy-policy">
-            Read the privacy policy.</router-link
-          >
+            Read the privacy policy.</router-link>
         </p>
       </v-card-text>
 
@@ -32,35 +31,22 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
+import { computed } from 'vue';
 
-export default Vue.extend({
-  name: "PrivacyPolicyDialog",
+const emits = defineEmits({ show: Boolean, setPrivacyPolicyAgreed: Boolean })
+const props = defineProps({ show: Boolean })
 
-  props: {
-    value: Boolean
-  },
+const show = computed({
+  get: () => props.show,
+  set: (value) => emits("show", value)
+})
 
-  computed: {
-    show: {
-      get(): boolean {
-        return this.value;
-      },
-      set(value: boolean) {
-        this.$emit("input", value);
-      }
-    }
-  },
-
-  methods: {
-    setPrivacyPolicyAgreed(value: boolean) {
-      window.localStorage.setItem("privacyPolicyAgreed", value.toString());
-      this.$emit("setPrivacyPolicyAgreed", value);
-      this.show = false;
-    }
-  }
-});
+function setPrivacyPolicyAgreed(value: boolean) {
+  window.localStorage.setItem("privacyPolicyAgreed", value.toString());
+  emits("setPrivacyPolicyAgreed", value);
+  show.value = false;
+}
 </script>
 
 <style scoped lang="scss"></style>

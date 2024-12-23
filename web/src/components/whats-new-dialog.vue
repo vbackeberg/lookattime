@@ -11,9 +11,7 @@
           few events. I hope you will like it!
         </p>
         <p>
-          <v-img
-            src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*JndN-PNnzsI9PUHvBOyTpg.png"
-          ></v-img>
+          <v-img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*JndN-PNnzsI9PUHvBOyTpg.png"></v-img>
         </p>
 
         <h3>What are we going to work on next? 👷‍♂️</h3>
@@ -45,27 +43,16 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
+import { computed } from 'vue';
 
-export default Vue.extend({
-  name: "WhatsNewDialog",
+const emits = defineEmits({ show: Boolean })
+const props = defineProps({ show: Boolean })
 
-  props: {
-    value: Boolean
-  },
-
-  computed: {
-    show: {
-      get(): boolean {
-        return this.value;
-      },
-      set(value: boolean) {
-        this.$emit("input", value);
-      }
-    }
-  }
-});
+const show = computed({
+  get: () => props.show,
+  set: (value) => emits("show", value)
+})
 </script>
 
 <style scoped lang="scss"></style>

@@ -20,8 +20,8 @@
         <p>
           Or take a look behind the curtain
           <a href="https://valerianb.medium.com">on my blog</a>.
-        </p></v-card-text
-      >
+        </p>
+      </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="green darken-1" text @click="show = false">
@@ -32,27 +32,20 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
 
-export default Vue.extend({
-  name: "PreventMobileDialog",
+const props = defineProps({ value: Boolean })
 
-  props: {
-    value: Boolean
-  },
-
-  computed: {
-    show: {
-      get(): boolean {
-        return this.value;
-      },
-      set(value: boolean) {
-        this.$emit("input", value);
-      }
+computed: {
+  show: {
+    get(): boolean {
+      return this.value;
+    },
+    set(value: boolean) {
+      this.$emit("input", value);
     }
   }
-});
+}
 </script>
 
 <style scoped lang="scss">

@@ -65,81 +65,63 @@ export const useLookAtTime = defineStore("lookAtTime", {
   },
 
   actions: {
-    setTimeEvents(state, timeEvents: TimeEventModel[]) {
+    setTimeEvents(state: { timeEvents: TimeEventModel[]; }, timeEvents: TimeEventModel[]) {
       timeEvents.sort((a, b) => a.date - b.date);
       state.timeEvents = timeEvents;
     },
 
-    addTimeEvent(state, timeEvent: TimeEventModel) {
+    addTimeEvent(state: { timeEvents: TimeEventModel[]; }, timeEvent: TimeEventModel) {
       state.timeEvents.push(timeEvent);
-      state.timeEvents.sort((a, b) => a.date - b.date);
+      state.timeEvents.sort((a: { date: number; }, b: { date: number; }) => a.date - b.date);
     },
 
-    setTimelines(state, timelines: TimelineModel[]) {
-      state.timelines = timelines;
-    },
-
-    setUser(state, user: UserModel) {
-      state.user = user;
-    },
-
-    setLoading(state, loading: boolean) {
-      state.loading = loading;
-    },
-
-    setShowIntroduction(state, showIntroduction: boolean) {
-      state.showIntroduction = showIntroduction;
-    },
-
-    setTimeEventToBeCreated(state, timeEvent: TimeEventModel) {
+    setTimeEventToBeCreated(state: { timeEventToBeCreated: TimeEventModel; }, timeEvent: TimeEventModel) {
       state.timeEventToBeCreated = timeEvent;
     },
 
     async deleteTimeEvent(
-      { state },
       timeEventId: string
     ): Promise<void> {
       await HttpClient.deleteTimeEvent(
         timeEventId,
-        state.selectedTimeline.id,
-        state.user.id
+        this.selectedTimeline!.id,
+        this.user!.id
       )
 
-      const index = state.timeEvents.findIndex(
-        (timeEvent) => timeEvent.id === timeEventId
+      const index = this.timeEvents.findIndex(
+        (timeEvent: { id: string; }) => timeEvent.id === timeEventId
       );
       if (index === -1) {
         console.warn(
           "Error deleting time event. Time event to delete was not found."
         );
       } else {
-        state.timeEvents.splice(index, 1);
+        this.timeEvents.splice(index, 1);
       }
     },
 
     async createOrUpdateTimeEvent(
-      { commit, state },
       changedTimeEvent: TimeEventModel
     ): Promise<void> {
       const timeEventWithImages = await HttpClient.createOrUpdateTimeEvent(
         changedTimeEvent,
-        state.selectedTimeline.id,
-        state.user.id
+        this.selectedTimeline!.id,
+        this.user!.id
       );
 
-      const index = state.timeEvents.findIndex(
-        (timeEvent) => timeEvent.id === changedTimeEvent.id
+      const index = this.timeEvents.findIndex(
+        (timeEvent: { id: string; }) => timeEvent.id === changedTimeEvent.id
       );
       if (index === -1) {
-        state.timeEvents.push(timeEventWithImages);
-        state.timeEvents.sort((a, b) => a.date - b.date);
+        this.timeEvents.push(timeEventWithImages);
+        this.timeEvents.sort((a: { date: number; }, b: { date: number; }) => a.date - b.date);
       } else {
-        state.timeEvents[index].title = timeEventWithImages.title;
-        state.timeEvents[index].text = timeEventWithImages.text;
-        state.timeEvents[index].date = timeEventWithImages.date;
-        state.timeEvents[index].importance =
+        this.timeEvents[index].title = timeEventWithImages.title;
+        this.timeEvents[index].text = timeEventWithImages.text;
+        this.timeEvents[index].date = timeEventWithImages.date;
+        this.timeEvents[index].importance =
           timeEventWithImages.importance;
-        state.timeEvents[index].imageReferences =
+        this.timeEvents[index].imageReferences =
           timeEventWithImages.imageReferences;
       }
     },

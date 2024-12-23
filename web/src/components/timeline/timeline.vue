@@ -1,5 +1,5 @@
 <template>
-  <div id="timeline">
+  <div ref="timeline" id="timeline">
     <div id="buffer-top-area">
       <!-- space management listens to this zoom-transition -->
       <svg id="spacer-left" class="spacer zoom-transition"></svg>
@@ -7,67 +7,35 @@
       <svg id="spacer-viewport-right" class="spacer"></svg>
     </div>
     <div id="time-event-area">
-      <time-event
-        v-for="timeEvent in timeEvents"
-        v-bind:key="timeEvent.id"
-        v-bind:id="timeEvent.id"
-        v-bind:imageReferences="timeEvent.imageReferences"
-        v-bind:isFullscreen="timeEvent.isFullscreen"
+      <time-event v-for="timeEvent in store.timeEvents" v-bind:key="timeEvent.id" v-bind:id="timeEvent.id"
+        v-bind:imageReferences="timeEvent.imageReferences" v-bind:isFullscreen="timeEvent.isFullscreen"
         v-bind:writeMode="timeEvent.writeMode"
-        v-on:openContextMenu="openContextMenu($event, timeEvent.id)"
-      ></time-event>
-      <time-event-to-be-created
-        v-if="timeEventToBeCreated"
-        v-bind:id="timeEventToBeCreated.id"
-        v-bind:imageReferences="timeEventToBeCreated.imageReferences"
-        v-bind:writeMode="true"
-      ></time-event-to-be-created>
+        v-on:openContextMenu="openContextMenu($event, timeEvent.id)"></time-event>
+      <time-event-to-be-created v-if="store.timeEventToBeCreated" v-bind:id="store.timeEventToBeCreated.id"
+        v-bind:imageReferences="store.timeEventToBeCreated.imageReferences"
+        v-bind:writeMode="true"></time-event-to-be-created>
       <horizontal-line></horizontal-line>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
     <div id="time-marker-area"></div>
-    <v-tooltip top v-if="!readOnlyMode" transition="fade-transition">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          id="fab"
-          fab
-          large
-          fixed
-          right
-          bottom
-          color="primary"
-          @click.stop="createNewTimeEvent"
-          v-bind="attrs"
-          v-on="on"
-          ><v-icon>mdi-plus</v-icon></v-btn
-        >
+    <v-tooltip top v-if="!store.readOnlyMode" transition="fade-transition">
+      <template v-slot:activator="{ props }">
+        <v-btn id="fab" fab large fixed right bottom color="primary" @click.stop="createNewTimeEvent" v-bind="props"
+          v-on="props"><v-icon>mdi-plus</v-icon></v-btn>
       </template>
       <span>Add new time event</span>
     </v-tooltip>
-    <v-overlay :value="loading">
+    <v-overlay :value="store.loading">
       <div class="loading-container">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
         <p class="loading-text fadeIn delay3s">
           Please wait while we are spinning up our database...
         </p>
-        <v-btn
-          rounded
-          color="error"
-          class="fadeIn delay8s"
-          @click.stop="reloadPage()"
-          >refresh now</v-btn
-        >
+        <v-btn rounded color="error" class="fadeIn delay8s" @click.stop="reloadPage()">refresh now</v-btn>
       </div>
     </v-overlay>
 
-    <v-menu
-      v-model="showContextMenu"
-      :position-x="x"
-      :position-y="y"
-      absolute
-      offset-y
-      style="max-width: 600px"
-    >
+    <v-menu v-model="showContextMenu" :position-x="x" :position-y="y" absolute offset-y style="max-width: 600px">
       <v-list>
         <v-list-item v-on:click.stop="deleteEvent()">
           <v-list-item-title>Delete</v-list-item-title>
@@ -77,13 +45,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import TimeEvent from "@/components/timeline/time-event/time-event.vue";
-import Vue from "vue";
-import store from "@/store/store";
 import SpaceObserver from "@/timeline/space-management/space-observer";
 import ZoomObserver from "@/timeline/zooming/zoom-observer";
-import { mapGetters } from "vuex";
 import ViewFocusTrigger from "@/timeline/viewport/view-focus-trigger";
 import TimeEventModel from "@/models/time-event/time-event-model";
 import Spacer from "@/models/spacer";
@@ -92,141 +57,109 @@ import TimeMarkerRecreationTrigger from "@/timeline/time-marker-management/time-
 import HorizontalLine from "@/components/timeline/horizontal-line.vue";
 import { v4 as uuid } from "uuid";
 import { Temporal } from "@js-temporal/polyfill";
-import { FullscreenToggled } from "@/components/timeline/time-event/fullscreen/fullscreen-toggled";
 import TimeEventToBeCreated from "./time-event/time-event-to-be-created.vue";
+import { useLookAtTime } from "@/store/store";
+import { nextTick, onMounted, useTemplateRef } from "vue";
+import type { FullscreenToggled } from "./time-event/fullscreen/fullscreen-toggled";
 
-export default Vue.extend({
-  name: "Timeline",
+const store = useLookAtTime();
 
-  components: {
-    TimeEvent,
-    HorizontalLine,
-    TimeEventToBeCreated
-  },
+let isFullscreen = false;
+let showContextMenu = false;
+let x = 0;
+let y = 0;
+let selectedTimeEventId = null as string | null
 
-  data() {
-    return {
-      isFullscreen: false,
+const timelineElement = useTemplateRef("timeline")
 
-      showContextMenu: false,
-      x: 0,
-      y: 0,
+onMounted(async () => {
+  setHTMLElements();
+  setSpacers();
 
-      selectedTimeEventId: null as string | null
-    };
-  },
+  store.timelineZero = timelineElement.value!.clientWidth / 2;
 
-  async mounted() {
-    this.setHTMLElements();
-    this.setSpacers();
+  initializeTimelineServices();
 
-    store.state.timelineZero = this.$el.clientWidth / 2;
+  await store.loadUser();
 
-    this.initializeTimelineServices();
+  document.addEventListener("fullscreen-toggled", (e) => {
+    const event = e as CustomEvent<FullscreenToggled>;
+    const index = store.timeEvents.findIndex(
+      (timeEvent) => timeEvent.id == event.detail.timeEventId
+    );
 
-    await store.dispatch("loadUser");
-
-    document.addEventListener("fullscreen-toggled", (e) => {
-      const event = e as CustomEvent<FullscreenToggled>;
-      const index = this.timeEvents.findIndex(
-        (timeEvent) => timeEvent.id == event.detail.timeEventId
-      );
-
-      if (index !== -1) {
-        this.timeEvents[index].isFullscreen = event.detail.isFullscreen;
-        this.timeEvents[index].writeMode = event.detail.writeMode;
-      }
-    });
-  },
-
-  computed: {
-    ...mapGetters(["readOnlyMode"]),
-
-    loading(): boolean {
-      return store.state.loading;
-    },
-
-    timeEvents(): TimeEventModel[] {
-      return store.state.timeEvents;
-    },
-
-    timeEventToBeCreated(): TimeEventModel | null {
-      return store.state.timeEventToBeCreated;
+    if (index !== -1) {
+      store.timeEvents[index].isFullscreen = event.detail.isFullscreen;
+      store.timeEvents[index].writeMode = event.detail.writeMode;
     }
-  },
+  });
+})
 
-  methods: {
-    openContextMenu(e: MouseEvent, timeEventId: string) {
-      this.selectedTimeEventId = timeEventId;
+function openContextMenu(e: MouseEvent, timeEventId: string) {
+  selectedTimeEventId = timeEventId;
 
-      this.showContextMenu = false;
-      this.x = e.clientX;
-      this.y = e.clientY;
-      this.$nextTick(() => {
-        this.showContextMenu = true;
-      });
-    },
+  showContextMenu = false;
+  x = e.clientX;
+  y = e.clientY;
+  nextTick(() => {
+    showContextMenu = true;
+  });
+}
 
-    createNewTimeEvent() {
-      const date = Temporal.Now.instant().epochSeconds;
-      const timeEventToBeCreated = new TimeEventModel(
-        uuid(),
-        "",
-        date,
-        0, // TODO Shouldn't be set when creating. Maybe make 0 or -1 a reserved value for not set.
-        [],
-        ""
-      );
+function createNewTimeEvent() {
+  const date = Temporal.Now.instant().epochSeconds;
+  const timeEventToBeCreated = new TimeEventModel(
+    uuid(),
+    "",
+    date,
+    0, // TODO Shouldn't be set when creating. Maybe make 0 or -1 a reserved value for not set.
+    [],
+    ""
+  );
 
-      store.commit("setTimeEventToBeCreated", timeEventToBeCreated);
+  store.timeEventToBeCreated = timeEventToBeCreated;
 
-      document.dispatchEvent(
-        new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
-          detail: {
-            timeEventId: timeEventToBeCreated.id,
-            isFullscreen: true,
-            writeMode: true
-          }
-        })
-      );
-    },
-
-    deleteEvent() {
-      if (this.selectedTimeEventId) {
-        store.dispatch("deleteTimeEvent", this.selectedTimeEventId);
+  document.dispatchEvent(
+    new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+      detail: {
+        timeEventId: timeEventToBeCreated.id,
+        isFullscreen: true,
+        writeMode: true
       }
-      this.showContextMenu = false;
-    },
+    })
+  );
+}
 
-    setHTMLElements() {
-      store.state.timelineElement = document.getElementById(
-        "timeline"
-      ) as HTMLElement;
-    },
-
-    setSpacers() {
-      store.state.spacerViewportRight = new Spacer(
-        0,
-        1,
-        "spacer-viewport-right"
-      );
-      store.state.spacerLeft = new Spacer(0, 1, "spacer-left");
-      store.state.spacerRight = new Spacer(0, 1, "spacer-right");
-    },
-
-    initializeTimelineServices() {
-      SpaceObserver.Instance;
-      ZoomObserver.Instance;
-      ViewFocusTrigger.Instance;
-      CollisionCalculationTrigger.Instance;
-      TimeMarkerRecreationTrigger.Instance;
-    },
-
-    reloadPage() {
-      location.href = location.href;
-    }
+function deleteEvent() {
+  if (selectedTimeEventId) {
+    store.deleteTimeEvent(selectedTimeEventId);
   }
-});
+  showContextMenu = false;
+}
+
+function setHTMLElements() {
+  store.timelineElement = document.getElementById(
+    "timeline"
+  ) as HTMLElement;
+}
+
+function setSpacers() {
+  store.spacerViewportRight = new Spacer(0, 1, "spacer-viewport-right");
+  store.spacerLeft = new Spacer(0, 1, "spacer-left");
+  store.spacerRight = new Spacer(0, 1, "spacer-right");
+}
+
+function initializeTimelineServices() {
+  SpaceObserver.Instance;
+  ZoomObserver.Instance;
+  ViewFocusTrigger.Instance;
+  CollisionCalculationTrigger.Instance;
+  TimeMarkerRecreationTrigger.Instance;
+}
+
+function reloadPage() {
+  location.href = location.href;
+}
 </script>
 
 <style scoped lang="scss">
@@ -299,6 +232,7 @@ export default Vue.extend({
       opacity: 0;
       visibility: visible;
     }
+
     to {
       opacity: 1;
       visibility: visible;

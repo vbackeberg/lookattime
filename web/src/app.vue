@@ -6,8 +6,9 @@
       <share-dialog v-model="showShareDialog" />
 
       <v-tooltip bottom transition="fade-transition">
-        <template v-slot:activator="{ on }">
-          <v-btn text icon @click.stop="showWhatsNewDialog = true" v-on="on"><v-badge color="red" offset-y="8">
+        <template v-slot:activator="{ props }">
+          <v-btn variant="text" icon @click.stop="showWhatsNewDialog = true" v-on="props"><v-badge color="red"
+              offset-y="8">
               <v-icon x-large>mdi-alert-decagram</v-icon></v-badge></v-btn>
         </template>
         <span>What's new?</span>
@@ -18,9 +19,9 @@
       <router-link to="/"><v-toolbar-title id="app-bar-title">Look at Time</v-toolbar-title></router-link>
       <v-spacer />
       <v-menu offset-y>
-        <template v-slot:activator="{ on: menu }">
+        <template v-slot:activator="{ props: menu }">
           <v-tooltip bottom transition="fade-transition">
-            <template v-slot:activator="{ on: tooltip }">
+            <template v-slot:activator="{ props: tooltip }">
               <v-avatar v-ripple color="primary" id="app-bar-avatar" v-on="{ ...menu, ...tooltip }">🤓</v-avatar>
             </template>
             <span>Your timelines</span>
@@ -44,17 +45,17 @@
 
     <v-footer app color="white" padless>
       <div class="footer-buttons">
-        <v-btn text rounded x-small class="my-2" href="https://valerianb.medium.com" target="_blank">
+        <v-btn variant="text" rounded x-small class="my-2" href="https://valerianb.medium.com" target="_blank">
           Blog
         </v-btn>
-        <v-btn text rounded x-small class="my-2"
+        <v-btn variant="text" rounded x-small class="my-2"
           href="mailto:contact.lookattime@gmail.com?subject=My%20feedback%20on%20Look%20At%20Time&amp;body=Feel%20free%20to%20include%20a%20screenshot%20of%20your%20issue.">
           Feedback
         </v-btn>
-        <v-btn text rounded x-small class="my-2" to="/legal-disclosure">
+        <v-btn variant="text" rounded x-small class="my-2" to="/legal-disclosure">
           Legal Disclosure
         </v-btn>
-        <v-btn text rounded x-small class="my-2" to="/privacy-policy">
+        <v-btn variant="text" rounded x-small class="my-2" to="/privacy-policy">
           Privacy Policy
         </v-btn>
       </div>
@@ -62,12 +63,16 @@
   </v-app>
 </template>
 
+<script setup lang="ts">
+const store = useLookAtTime()
+</script>
+
 <script lang="ts">
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
-import store from "./store/store";
+import { useLookAtTime } from "./store/store";
 import WhatsNewDialog from "@/components/whats-new-dialog.vue";
 import ShareDialog from "@/components/share-dialog.vue";
-import mergeProps from "vue";
+import { mergeProps } from "vue";
 import TimelineModel from "./models/timeline-model";
 import { v4 as uuid } from "uuid";
 
@@ -90,7 +95,7 @@ export default {
 
   computed: {
     loading(): boolean {
-      return store.state.loading;
+      return store.loading;
     }
   },
 
@@ -102,21 +107,21 @@ export default {
      * If there are time events it switches to an empty new timeline, first.
      */
     async startIntroduction() {
-      if (store.state.timeEvents.length > 0) {
+      if (store.timeEvents.length > 0) {
         await this.createNewTimeline();
       }
-      store.commit("setShowIntroduction", true);
+      store.showIntroduction = true;
     },
 
     async createNewTimeline() {
       const timeline = new TimelineModel(
         uuid(),
-        store.state.user.id,
+        store.user!.id,
         "Timeline"
       );
 
-      await store.dispatch("addTimeline", timeline);
-      store.dispatch("setSelectedTimeline", timeline);
+      await store.addTimeline(timeline)
+      store.setSelectedTimeline(timeline);
     }
   }
 };

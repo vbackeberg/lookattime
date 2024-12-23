@@ -2,10 +2,8 @@
   <div class="home">
     <prevent-mobile-dialog v-model="isMobile"></prevent-mobile-dialog>
     <timeline v-if="privacyPolicyAgreed" ref="timelineElement"></timeline>
-    <privacy-policy-dialog
-      v-model="showPrivacyPolicyDialog"
-      @setPrivacyPolicyAgreed="onSetPrivacyPolicyAgreed"
-    ></privacy-policy-dialog>
+    <privacy-policy-dialog v-model="showPrivacyPolicyDialog"
+      @setPrivacyPolicyAgreed="onSetPrivacyPolicyAgreed"></privacy-policy-dialog>
     <div class="privacy-policy-disagreed" v-if="privacyPolicyDisagreed">
       <p>
         Sorry, you can only use this service after agreeing to the privacy
@@ -13,62 +11,30 @@
       </p>
       <p>
         <router-link to="/privacy-policy">
-          Read the privacy policy.</router-link
-        >
+          Read the privacy policy.</router-link>
       </p>
     </div>
-    <introduction
-      v-if="privacyPolicyAgreed && !loading && showIntroduction"
-    ></introduction>
+    <introduction v-if="privacyPolicyAgreed && !store.loading && store.showIntroduction"></introduction>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Timeline from "@/components/timeline/timeline.vue";
-import PreventMobileDialog from "@/components/prevent-mobile-dialog.vue";
-import PrivacyPolicyDialog from "@/components/privacy-policy-dialog.vue";
-import Introduction from "@/components/introduction/introduction.vue";
-import { mapState } from "vuex";
+<script setup lang="ts">
+import { useLookAtTime } from "@/store/store";
+const store = useLookAtTime();
 
-export default Vue.extend({
-  name: "Home",
+let privacyPolicyAgreed = false;
+let privacyPolicyDisagreed = false;
+let showPrivacyPolicyDialog = false;
 
-  components: {
-    Timeline,
-    PreventMobileDialog,
-    PrivacyPolicyDialog,
-    Introduction
-  },
+privacyPolicyAgreed = window.localStorage.getItem("privacyPolicyAgreed") === "true";
+showPrivacyPolicyDialog = !privacyPolicyAgreed;
 
-  created() {
-    this.privacyPolicyAgreed =
-      window.localStorage.getItem("privacyPolicyAgreed") === "true"
-        ? true
-        : false;
-    this.showPrivacyPolicyDialog = !this.privacyPolicyAgreed;
-  },
+const isMobile = navigator.maxTouchPoints > 1;
 
-  data() {
-    return {
-      isMobile: navigator.maxTouchPoints > 1,
-      showPrivacyPolicyDialog: false,
-      privacyPolicyAgreed: false,
-      privacyPolicyDisagreed: false
-    };
-  },
-
-  computed: {
-    ...mapState(["loading", "showIntroduction"])
-  },
-
-  methods: {
-    onSetPrivacyPolicyAgreed(value: boolean) {
-      this.privacyPolicyAgreed = value;
-      this.privacyPolicyDisagreed = !value;
-    }
-  }
-});
+function onSetPrivacyPolicyAgreed(value: boolean) {
+  privacyPolicyAgreed = value;
+  privacyPolicyDisagreed = !value;
+};
 </script>
 
 <style scoped lang="scss">
@@ -78,6 +44,7 @@ export default Vue.extend({
   display: flex;
   flex-flow: column nowrap;
 }
+
 .controls {
   height: 50px;
   width: 100%;

@@ -1,27 +1,16 @@
 <template>
   <div class="container-outer">
-    <container-fullscreen
-      v-bind:id="id"
-      v-bind:writeModeE="writeMode"
-      v-bind:imageReferences="[]"
-    />
+    <container-fullscreen v-bind:id="id" v-bind:writeModeE="writeMode" v-bind:imageReferences="[]" />
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
 import ContainerFullscreen from "./fullscreen/container-fullscreen.vue";
-export default Vue.extend({
-  name: "TimeEventToBeCreated",
-  components: {
-    ContainerFullscreen
-  },
-  props: {
-    id: String,
-    imageReferences: Array,
-    writeMode: Boolean
-  }
-});
+const props = defineProps({
+  id: String,
+  imageReferences: Array,
+  writeMode: Boolean
+})
 </script>
 
 <style scoped lang="scss">

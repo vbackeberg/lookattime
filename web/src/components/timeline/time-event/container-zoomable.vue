@@ -5,10 +5,10 @@
       <v-img v-bind:src="previewImageSrc" class="card-image white--text align-end" alt="time event image">
         <v-card-title class="card-title card-image-shadow">{{
           timeEvent.title
-          }}</v-card-title>
+        }}</v-card-title>
         <v-card-subtitle class="card-title card-image-shadow">{{
           formattedDate
-          }}</v-card-subtitle>
+        }}</v-card-subtitle>
         <v-btn class="btn-full card-image-shadow" color="white" icon v-on:click.stop="openFullscreen()">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
@@ -19,178 +19,168 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { LOCALE } from "@/localization/locale";
 import ImageReferenceModel from "@/models/image-reference-model";
 import TimeEventModel from "@/models/time-event/time-event-model";
 import ExpansionState from "@/models/time-event/expansion-state";
-import store from "@/store/store";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
-import Vue from "vue";
-import { FullscreenToggled } from "./fullscreen/fullscreen-toggled";
+import { useLookAtTime } from "@/store/store";
+import { computed, onMounted, onUnmounted } from "vue";
+
+const store = useLookAtTime()
 
 /**
  * The variable card houses the three dynamic sizes of a time event
  * that change during zoom.
  */
-export default Vue.extend({
-  props: {
-    id: String,
-    imageReferences: Array,
-    expansionZoomLevels: Array
-  },
+const props = defineProps({
+  id: String,
+  imageReferences: Array<ImageReferenceModel>,
+  expansionZoomLevels: Array<ExpansionState>
+});
 
-  data() {
-    return {
-      /**
-       * Defines whether the time event should look like a box, bubble, dot or flat.
-       */
-      expansionState: ExpansionState.Flat
-    };
-  },
+/**
+ * Defines whether the time event should look like a box, bubble, dot or flat.
+ */
+let expansionState = ExpansionState.Flat
 
-  mounted() {
-    this.initializeHTMLElement();
+onMounted(() => {
+  initializeHTMLElement();
 
-    this.updateExpansionState();
+  updateExpansionState();
 
-    // TODO: Have only one global listener that calls update on all time events.
-    document.addEventListener("update-expansion-states", this.updateExpansionState);
-  },
+  // TODO: Have only one global listener that calls update on all time events.
+  document.addEventListener("update-expansion-states", updateExpansionState);
+})
 
-  destroyed() {
-    document.removeEventListener("update-expansion-states", this.updateExpansionState);
-  },
+onUnmounted(() => {
+  document.removeEventListener("update-expansion-states", updateExpansionState);
+})
 
-  computed: {
-    timeEvent(): TimeEventModel {
-      // TODO: Consider replacing by find()
-      const index = store.state.timeEvents.findIndex(
-        timeEvent => timeEvent.id === this.id
-      );
+const timeEvent = computed(() => {
+  // TODO: Consider replacing by find()
+  const index = store.timeEvents.findIndex(
+    timeEvent => timeEvent.id === props.id
+  );
 
-      if (index !== -1) {
-        return store.state.timeEvents[index];
-      } else {
-        throw Error("Could not get time event index because it was not found");
-      }
-    },
-
-    formattedDate(): string {
-      return Temporal.Instant.fromEpochSeconds(
-        this.timeEvent.date
-      ).toLocaleString(LOCALE, {
-        timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
-      });
-    },
-
-    previewImageSrc(): string {
-      if (this.imageReferences.length < 1) {
-        return "";
-      }
-
-      const imageReference = this.imageReferences[0] as ImageReferenceModel;
-
-      return (
-        import.meta.env.VITE_IMAGE_URL +
-        imageReference.id +
-        "." +
-        imageReference.extension
-      );
-    },
-
-    parsedText(): string {
-      return (
-        document.createRange().createContextualFragment(this.timeEvent.text)
-          .textContent ?? ""
-      );
-    }
-  },
-
-  methods: {
-    openContextMenu(e: MouseEvent) {
-      this.$parent?.$emit("openContextMenu", e);
-    },
-
-    /**
-     *  After the HTML element has been created, we tie it to the time event
-     *  object so that we can access it for translateX modifications during the
-     *  zoom.
-     *
-     *  We re-assign the position to trigger an initial translateX modification
-     *  on the HTML element after it has been created.
-     */
-    initializeHTMLElement() {
-      // TODO: This could be transformed into an event. Maybe there is already a vue event.
-      this.timeEvent.zoomContainerHtmlElement = this.$el as HTMLElement;
-
-      this.timeEvent.positionCenter = this.timeEvent.positionCenter;
-    },
-
-    /**
-     * Sets the expansion state according to the current zoom level.
-     * The index in expansion zoom levels represents a specific
-     * expansion state via the enums integer value.
-     *
-     * Then applies the appropriate CSS class. For performance reasons
-     * we do not change the class through class binding.
-     */
-    updateExpansionState() {
-      const newExpansionState = (this.timeEvent.expansionZoomLevels)
-        .findIndex(  // todo: it is not updated yet. not a true reference
-          zoomLevel => store.state.zoomLevel <= zoomLevel
-        );
-
-      if (newExpansionState !== this.expansionState) {
-        switch (newExpansionState) {
-          case ExpansionState.Box:
-            this.applyBoxStyles();
-            break;
-
-          case ExpansionState.Bubble:
-            this.applyBubbleStyles();
-            break;
-
-          default:
-            this.applyDotStyles();
-            break;
-        }
-
-        this.expansionState = newExpansionState;
-      }
-    },
-
-    openFullscreen() {
-      document.dispatchEvent(
-        new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
-          detail: {
-            timeEventId: this.id,
-            isFullscreen: true,
-            writeMode: false
-          }
-        })
-      );
-    },
-
-    applyBoxStyles() {
-      this.$el.classList.remove("bubble");
-      this.$el.classList.remove("dot");
-      this.$el.classList.add("box");
-    },
-
-    applyBubbleStyles() {
-      this.$el.classList.remove("box");
-      this.$el.classList.remove("dot");
-      this.$el.classList.add("bubble");
-    },
-
-    applyDotStyles() {
-      this.$el.classList.remove("box");
-      this.$el.classList.remove("bubble");
-      this.$el.classList.add("dot");
-    }
+  if (index !== -1) {
+    return store.timeEvents[index];
+  } else {
+    throw Error("Could not get time event index because it was not found");
   }
+})
+
+const formattedDate = computed(() => {
+  return Temporal.Instant.fromEpochSeconds(
+    timeEvent.value.date
+  ).toLocaleString(LOCALE, {
+    timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
+  });
+})
+
+const previewImageSrc = computed(() => {
+  const imageReference = props.imageReferences?.[0]
+
+  if (imageReference) {
+
+    return (
+      import.meta.env.VITE_IMAGE_URL +
+      imageReference.id +
+      "." +
+      imageReference.extension
+    );
+  } else return ""
+})
+
+const parsedText = computed(() =>
+  document.createRange().createContextualFragment(timeEvent.value.text).textContent ?? ""
+);
+
+methods: {
+  openContextMenu(e: MouseEvent) {
+    $parent?.$emit("openContextMenu", e);
+  },
+
+  /**
+   *  After the HTML element has been created, we tie it to the time event
+   *  object so that we can access it for translateX modifications during the
+   *  zoom.
+   *
+   *  We re-assign the position to trigger an initial translateX modification
+   *  on the HTML element after it has been created.
+   */
+  initializeHTMLElement() {
+    // TODO: This could be transformed into an event. Maybe there is already a vue event.
+    timeEvent.zoomContainerHtmlElement = $el as HTMLElement;
+
+    timeEvent.positionCenter = timeEvent.positionCenter;
+  },
+
+  /**
+   * Sets the expansion state according to the current zoom level.
+   * The index in expansion zoom levels represents a specific
+   * expansion state via the enums integer value.
+   *
+   * Then applies the appropriate CSS class. For performance reasons
+   * we do not change the class through class binding.
+   */
+  updateExpansionState() {
+    const newExpansionState = (timeEvent.expansionZoomLevels)
+      .findIndex(  // todo: it is not updated yet. not a true reference
+        zoomLevel => store.state.zoomLevel <= zoomLevel
+      );
+
+    if (newExpansionState !== expansionState) {
+      switch (newExpansionState) {
+        case ExpansionState.Box:
+          applyBoxStyles();
+          break;
+
+        case ExpansionState.Bubble:
+          applyBubbleStyles();
+          break;
+
+        default:
+          applyDotStyles();
+          break;
+      }
+
+      expansionState = newExpansionState;
+    }
+  },
+
+  openFullscreen() {
+    document.dispatchEvent(
+      new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+        detail: {
+          timeEventId: id,
+          isFullscreen: true,
+          writeMode: false
+        }
+      })
+    );
+  },
+
+  applyBoxStyles() {
+    $el.classList.remove("bubble");
+    $el.classList.remove("dot");
+    $el.classList.add("box");
+  },
+
+  applyBubbleStyles() {
+    $el.classList.remove("box");
+    $el.classList.remove("dot");
+    $el.classList.add("bubble");
+  },
+
+  applyDotStyles() {
+    $el.classList.remove("box");
+    $el.classList.remove("bubble");
+    $el.classList.add("dot");
+  }
+}
 });
 </script>
 
@@ -363,6 +353,7 @@ $distance-bubble-below-box: 72px;
 
 .btn-full {
   position: absolute;
-  top: 2px;right: 2px;
+  top: 2px;
+  right: 2px;
 }
 </style>

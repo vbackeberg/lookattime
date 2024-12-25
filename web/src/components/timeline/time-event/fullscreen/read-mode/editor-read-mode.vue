@@ -2,16 +2,11 @@
   <div class="ck-content" v-html="value"></div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
 
-export default Vue.extend({
-  name: "EditorReadMode",
-
-  props: {
-    value: String
-  }
-});
+const props = defineProps({
+  value: String
+})
 </script>
 
 <style lang="scss" scoped></style>

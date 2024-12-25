@@ -65,18 +65,18 @@ export const useLookAtTime = defineStore("lookAtTime", {
   },
 
   actions: {
-    setTimeEvents(state: { timeEvents: TimeEventModel[]; }, timeEvents: TimeEventModel[]) {
+    setTimeEvents(timeEvents: TimeEventModel[]) {
       timeEvents.sort((a, b) => a.date - b.date);
-      state.timeEvents = timeEvents;
+      this.timeEvents = timeEvents;
     },
 
-    addTimeEvent(state: { timeEvents: TimeEventModel[]; }, timeEvent: TimeEventModel) {
-      state.timeEvents.push(timeEvent);
-      state.timeEvents.sort((a: { date: number; }, b: { date: number; }) => a.date - b.date);
+    addTimeEvent(timeEvent: TimeEventModel) {
+      this.timeEvents.push(timeEvent);
+      this.timeEvents.sort((a: { date: number; }, b: { date: number; }) => a.date - b.date);
     },
 
-    setTimeEventToBeCreated(state: { timeEventToBeCreated: TimeEventModel; }, timeEvent: TimeEventModel) {
-      state.timeEventToBeCreated = timeEvent;
+    setTimeEventToBeCreated(timeEvent: TimeEventModel | undefined) {
+      this.timeEventToBeCreated = timeEvent;
     },
 
     async deleteTimeEvent(

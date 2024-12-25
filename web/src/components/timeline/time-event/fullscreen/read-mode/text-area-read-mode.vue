@@ -9,46 +9,42 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
 import EditorReadMode from "./editor-read-mode.vue";
 import { LOCALE } from "@/localization/locale";
 import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
-import TimeEventModel from "@/models/time-event/time-event-model";
-import store from "@/store/store";
+import { useLookAtTime } from "@/store/store";
+import { computed } from "vue";
 
-export default Vue.extend({
-  name: "TextAreaReadMode",
-  components: { EditorReadMode },
-  props: {
-    id: String,
-    value: Boolean
-  },
+const store = useLookAtTime()
 
-  computed: {
-    timeEvent(): TimeEventModel {
-      const timeEvent = store.state.timeEvents.find(
-        timeEvent => timeEvent.id === this.id
-      );
+const props = defineProps({
+  id: String,
+  value: Boolean
+})
 
-      if (timeEvent) return timeEvent;
-      else throw Error("Could not get time event because it was not found");
-    },
+const timeEvent = computed(() => {
+  const timeEvent = store.timeEvents.find(
+    timeEvent => timeEvent.id === props.id
+  );
 
-    formattedDate(): string {
-      return Temporal.Instant.fromEpochSeconds(
-        this.timeEvent.date
-      ).toLocaleString(LOCALE, {
-        timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
-      });
-    }
-  }
-});
+  if (timeEvent) return timeEvent;
+  else throw Error("Could not get time event because it was not found");
+})
+
+const formattedDate = computed(() => {
+  return Temporal.Instant.fromEpochSeconds(
+    timeEvent.value.date
+  ).toLocaleString(LOCALE, {
+    timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
+  });
+})
 </script>
 
 <style lang="scss" scoped>
 @import "src/components/timeline/time-event/fullscreen/fullscreen.scss";
+
 .event-title {
   margin-bottom: 26px; // Corresponds to v-text-field margins + details
 }

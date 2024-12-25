@@ -3,98 +3,69 @@
     <div id="fullscreen-container-content" class="elevation-20">
       <v-card id="fullscreen-content">
         <div class="buttons-top-right">
-          <v-btn
-          v-if="!readOnlyMode"
-          class=""
-          :class="{ 'btn-dark': writeMode }"
-          icon
-          :disabled="isTimeEventToBeCreated"
-          v-on:click.stop="writeMode = !writeMode"
-          ><v-icon>mdi-pencil</v-icon></v-btn
-          >
-          <v-btn
-            class=""
-            icon
-            v-on:click.stop="closeFullscreen()"
-          >
+          <v-btn v-if="!readOnlyMode" class="" :class="{ 'btn-dark': writeMode }" icon
+            :disabled="isTimeEventToBeCreated"
+            v-on:click.stop="writeMode = !writeMode"><v-icon>mdi-pencil</v-icon></v-btn>
+          <v-btn class="" icon v-on:click.stop="closeFullscreen()">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
 
-        <text-area-write-mode
-          v-if="writeMode"
-          v-model="writeMode"
-          v-bind:id="id"
-        />
-        <text-area-read-mode
-          v-if="!writeMode"
-          v-model="writeMode"
-          v-bind:id="id"
-        />
+        <text-area-write-mode v-if="writeMode" v-model="writeMode" v-bind:id="id" />
+        <text-area-read-mode v-if="!writeMode" v-model="writeMode" v-bind:id="id" />
       </v-card>
     </div>
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
 import TextAreaWriteMode from "@/components/timeline/time-event/fullscreen/write-mode/text-area-write-mode.vue";
 import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-mode/text-area-read-mode.vue";
-import { FullscreenToggled } from "./fullscreen-toggled";
-import store from "@/store/store";
-import { mapGetters } from "vuex";
+import { useLookAtTime } from "@/store/store";
+import type { FullscreenToggled } from "./fullscreen-toggled";
+
+const store = useLookAtTime()
 
 /**
  * This fullscreen card is used for the fullscreen view of a time event.
  */
-export default Vue.extend({
-  props: {
-    id: String,
-    writeModeE: Boolean
-  },
+const props = defineProps({
+  id: { type: String, required: true },
+  writeModeE: Boolean
+})
 
-  components: {
-    TextAreaWriteMode,
-    TextAreaReadMode
-  },
+let writeMode = false
 
-  data() {
-    return {
-      writeMode: false
-    };
-  },
+function closeFullscreen() {
+  if (store.timeEventToBeCreated) {
+    store.setTimeEventToBeCreated(undefined);
+  }
 
-  methods: {
-    closeFullscreen() {
-      if (store.state.timeEventToBeCreated) {
-        store.commit("setTimeEventToBeCreated", null);
+  document.dispatchEvent(
+    new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
+      detail: {
+        timeEventId: props.id,
+        isFullscreen: false,
+        writeMode: false
       }
+    })
+  );
+}
 
-      document.dispatchEvent(
-        new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
-          detail: {
-            timeEventId: this.id,
-            isFullscreen: false,
-            writeMode: false
-          }
-        })
-      );
-    },
+function toggleWriteMode() {
+  this.writeMode = !this.writeMode;
+}
+},
 
-    toggleWriteMode() {
-      this.writeMode = !this.writeMode;
-    }
-  },
+created() {
+  this.writeMode = this.writeModeE;
+},
 
-  created() {
-    this.writeMode = this.writeModeE;
-  },
-
-  computed: {
+computed: {
     ...mapGetters(["readOnlyMode"]),
     isTimeEventToBeCreated(): boolean {
-      return store.state.timeEventToBeCreated !== null;
-    }
+    return store.timeEventToBeCreated !== null;
   }
+}
 });
 </script>
 

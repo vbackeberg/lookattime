@@ -3,7 +3,7 @@
     <div id="fullscreen-container-content" class="elevation-20">
       <v-card id="fullscreen-content">
         <div class="buttons-top-right">
-          <v-btn v-if="!readOnlyMode" class="" :class="{ 'btn-dark': writeMode }" icon
+          <v-btn v-if="!store.readOnlyMode" class="" :class="{ 'btn-dark': writeMode }" icon
             :disabled="isTimeEventToBeCreated"
             v-on:click.stop="writeMode = !writeMode"><v-icon>mdi-pencil</v-icon></v-btn>
           <v-btn class="" icon v-on:click.stop="closeFullscreen()">
@@ -17,11 +17,10 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import TextAreaWriteMode from "@/components/timeline/time-event/fullscreen/write-mode/text-area-write-mode.vue";
-import TextAreaReadMode from "@/components/timeline/time-event/fullscreen/read-mode/text-area-read-mode.vue";
+<script setup lang="ts">
 import { useLookAtTime } from "@/store/store";
 import type { FullscreenToggled } from "./fullscreen-toggled";
+import { computed } from "vue";
 
 const store = useLookAtTime()
 
@@ -51,22 +50,11 @@ function closeFullscreen() {
   );
 }
 
-function toggleWriteMode() {
-  this.writeMode = !this.writeMode;
-}
-},
+writeMode = props.writeModeE;
 
-created() {
-  this.writeMode = this.writeModeE;
-},
-
-computed: {
-    ...mapGetters(["readOnlyMode"]),
-    isTimeEventToBeCreated(): boolean {
-    return store.timeEventToBeCreated !== null;
-  }
-}
-});
+const isTimeEventToBeCreated = computed(() => {
+  return store.timeEventToBeCreated !== null;
+})
 </script>
 
 <style lang="scss" scoped>

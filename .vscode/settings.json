@@ -12,12 +12,13 @@
   },
   "azureFunctions.postDeployTask": "npm install",
   "cSpell.words": [
-    "vuetify",
-    "vuex",
-    "zoomer",
     "Backeberg",
     "ckeditor",
     "dtos",
-    "pinia"
+    "pinia",
+    "VITE",
+    "vuetify",
+    "vuex",
+    "zoomer"
   ]
 }

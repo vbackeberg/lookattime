@@ -22,9 +22,9 @@
           <div class="d-flex">
             <v-menu v-model="datePickerOpen" :close-on-content-click="false" :nudge-right="40"
               transition="scale-transition" offset-y min-width="auto">
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field v-model="plainDate" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                  v-on="on" :rules="[ruleNotEmpty]" :error-messages="errorMessageSameDate"></v-text-field>
+              <template v-slot:activator="{ props }">
+                <v-text-field v-model="plainDate" label="Date" prepend-icon="mdi-calendar" readonly v-bind="props.attrs"
+                  v-on="props.on" :rules="[ruleNotEmpty]" :error-messages="errorMessageSameDate"></v-text-field>
               </template>
               <v-date-picker v-model="plainDate" @input="datePickerOpen = false"></v-date-picker>
             </v-menu>
@@ -36,14 +36,14 @@
 
             <v-menu ref="menu" v-model="timePickerOpen" :close-on-content-click="false" :nudge-right="40"
               :return-value.sync="plainTime" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-fade-transition>
-                  <v-text-field v-model="plainTime" label="Time" readonly v-bind="attrs" v-on="on"
+                  <v-text-field v-model="plainTime" label="Time" readonly v-bind="props.attrs" v-on="props.on"
                     v-show="timePickerVisible"></v-text-field>
                 </v-fade-transition>
               </template>
               <v-time-picker v-if="timePickerOpen" v-model="plainTime" use-seconds full-width
-                @click:second="$refs.menu.save(plainTime)"></v-time-picker>
+                @click:second="menu.save(plainTime)"></v-time-picker>
             </v-menu>
           </div>
         </v-row>
@@ -72,13 +72,14 @@ import TemporalConversion from "@/temporal-extensions/temporal-conversion";
 import EditorWriteMode from "./editor-write-mode.vue";
 import DomPurify from "dompurify";
 import { useLookAtTime } from "@/store/store";
-import { computed } from "vue";
+import { computed, useTemplateRef } from "vue";
 import type { FullscreenToggled } from "../fullscreen-toggled";
 const store = useLookAtTime()
 const props = defineProps({
   id: { type: String, required: true },
   show: Boolean
 })
+const menu = useTemplateRef("menu")
 
 // Form validation rules:
 const ruleImportanceNoSame = (v: number) =>

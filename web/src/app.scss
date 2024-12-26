@@ -21,7 +21,7 @@
   position: absolute;
   content-visibility: auto;
   width: $time-marker-container-width;
-  left: -$time-marker-container-width / 2;
+  left: calc(-1* $time-marker-container-width / 2);
 
   display: flex;
   flex-direction: column;

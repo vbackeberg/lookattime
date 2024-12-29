@@ -1,18 +1,20 @@
 import TimeEventModel from "@/models/time-event/time-event-model";
-import store from "@/store/store";
 import PositionTranslator from "../position-translator";
 import { Constants } from "./constants";
+import { useLookAtTime } from "@/store/store";
 
 export default class Zoomer {
+  private store = useLookAtTime();
+  
   /**
    * Moves all timeEvents towards or away from the reference position by the zoom factor.
    * Re-aligns spacer for right page edge.
    * Moves timeline zero.
    */
   public zoom(zoomFactor: number, referencePosition: number) {
-    const newZoomLevel = store.state.zoomLevel * zoomFactor;
+    const newZoomLevel = this.store.zoomLevel * zoomFactor;
     if (this.zoomLevelInBounds(newZoomLevel)) {
-      store.state.zoomLevel = newZoomLevel;
+      this.store.zoomLevel = newZoomLevel;
       this.reposition(zoomFactor, referencePosition);
     }
   }
@@ -27,12 +29,12 @@ export default class Zoomer {
   }
 
   private repositionTimeEvents() {
-    for (let i = 0; i < store.state.timeEvents.length; i++) {
+    for (let i = 0; i < this.store.timeEvents.length; i++) {
       const newPositionCenter = PositionTranslator.toAbsolutePosition(
-        store.state.timeEvents[i].date
+        this.store.timeEvents[i].date
       );
 
-      store.state.timeEvents[i].positionCenter = newPositionCenter;
+      this.store.timeEvents[i].positionCenter = newPositionCenter;
     }
   }
 
@@ -45,11 +47,11 @@ export default class Zoomer {
    */
   private repositionSpacerLeft() {
     const width =
-      store.state.timelineElement.clientWidth / 2 -
+      this.store.timelineElement!.clientWidth / 2 -
       TimeEventModel.boxWidthOffset;
 
-    store.state.spacerLeft.positionLeft =
-      store.state.timeEvents[0].positionCenter -
+    this.store.spacerLeft!.positionLeft =
+      this.store.timeEvents[0].positionCenter -
       TimeEventModel.boxWidthOffset -
       width;
   }
@@ -77,19 +79,19 @@ export default class Zoomer {
     referencePosition: number
   ) {
     const distance =
-      (store.state.timelineZero - referencePosition) / zoomFactor;
+      (this.store.timelineZero - referencePosition) / zoomFactor;
     const newPosition = referencePosition + distance;
 
-    store.state.timelineZero = newPosition;
+    this.store.timelineZero = newPosition;
   }
 
   private repositionTimeMarkers() {
-    for (let i = 0; i < store.state.timeMarkers.length; i++) {
+    for (let i = 0; i < this.store.timeMarkers.length; i++) {
       const newPosition = PositionTranslator.toAbsolutePosition(
-        store.state.timeMarkers[i].date
+        this.store.timeMarkers[i].date
       );
 
-      store.state.timeMarkers[i].positionCenter = newPosition;
+      this.store.timeMarkers[i].positionCenter = newPosition;
     }
   }
   private zoomLevelInBounds(newZoomLevel: number) {

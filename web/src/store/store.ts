@@ -75,6 +75,14 @@ export const useLookAtTime = defineStore("lookAtTime", {
       this.timeEvents.sort((a: { date: number; }, b: { date: number; }) => a.date - b.date);
     },
 
+    updateTimeEvent(timeEventWithImages: TimeEventModel, index: number) {
+      this.timeEvents[index].title = timeEventWithImages.title;
+      this.timeEvents[index].text = timeEventWithImages.text;
+      this.timeEvents[index].date = timeEventWithImages.date;
+      this.timeEvents[index].importance = timeEventWithImages.importance;
+      this.timeEvents[index].imageReferences = timeEventWithImages.imageReferences;
+    },
+
     setTimeEventToBeCreated(timeEvent: TimeEventModel | undefined) {
       this.timeEventToBeCreated = timeEvent;
     },
@@ -116,13 +124,7 @@ export const useLookAtTime = defineStore("lookAtTime", {
         this.timeEvents.push(timeEventWithImages);
         this.timeEvents.sort((a: { date: number; }, b: { date: number; }) => a.date - b.date);
       } else {
-        this.timeEvents[index].title = timeEventWithImages.title;
-        this.timeEvents[index].text = timeEventWithImages.text;
-        this.timeEvents[index].date = timeEventWithImages.date;
-        this.timeEvents[index].importance =
-          timeEventWithImages.importance;
-        this.timeEvents[index].imageReferences =
-          timeEventWithImages.imageReferences;
+        this.updateTimeEvent(timeEventWithImages, index);
       }
     },
 

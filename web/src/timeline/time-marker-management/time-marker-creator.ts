@@ -1,14 +1,15 @@
 import TimeMarker from "@/models/time-marker";
-import store from "@/store/store";
 import { Temporal } from "@js-temporal/polyfill";
 import DateTimeFormatOptions from "../date-time-format-options";
 import PositionTranslator from "../position-translator";
 import TemporalRoundingExtension from "../time-depth/temporal-rounding-extension";
 import Viewport from "../viewport/viewport";
+import { useLookAtTime } from "@/store/store";
 
 export class TimeMarkerCreator {
-  private static SECONDS_IN_NANOSECONDS = 1_000_000_000n;
-  public static eventTarget = new EventTarget();
+  private SECONDS_IN_NANOSECONDS = 1_000_000_000n;
+  private eventTarget = new EventTarget();
+  private store = useLookAtTime();
 
   /**
    * Calculate leftmost and rightmost date and place time markers in
@@ -19,7 +20,7 @@ export class TimeMarkerCreator {
    *
    * @param depth
    */
-  public static placeTimeMarkers(depth: Temporal.DurationLike): void {
+  public placeTimeMarkers(depth: Temporal.DurationLike): void {
     try {
       /**
        * Left side of the viewport plus additional margin to the left
@@ -29,7 +30,7 @@ export class TimeMarkerCreator {
       const leftmostDate = new Temporal.ZonedDateTime(
         BigInt(
           PositionTranslator.toDate(
-            Math.max(0, store.state.timelineElement.scrollLeft - 500)
+            Math.max(0, this.store.timelineElement!.scrollLeft - 500)
           )
         ) * this.SECONDS_IN_NANOSECONDS,
         DateTimeFormatOptions.TIME_ZONE
@@ -42,7 +43,7 @@ export class TimeMarkerCreator {
         BigInt(
           PositionTranslator.toDate(
             Math.min(
-              store.state.timelineElement.scrollWidth,
+              this.store.timelineElement!.scrollWidth,
               Viewport.rightEdge() + 500
             )
           )
@@ -68,7 +69,7 @@ export class TimeMarkerCreator {
         depth
       );
 
-      store.state.timeMarkers = timeMarkers;
+      this.store.timeMarkers = timeMarkers;
 
       this.addHTMLElements(timeMarkers.flatMap(t => t.htmlElement));
     } catch (e) {
@@ -80,13 +81,13 @@ export class TimeMarkerCreator {
     this.eventTarget.dispatchEvent(new Event("time-marker-creation-end"));
   }
 
-  private static addHTMLElements(elements: HTMLElement[]) {
+  private addHTMLElements(elements: HTMLElement[]) {
     const documentFragment = document.createDocumentFragment();
     for (let i = 0; i < elements.length; i++) {
       documentFragment.appendChild(elements[i]);
     }
 
-    store.state.timelineElement
+    this.store.timelineElement!
       .querySelector("#time-marker-area")
       ?.appendChild(documentFragment);
   }
@@ -96,7 +97,7 @@ export class TimeMarkerCreator {
    * all time markers between the leftmost and rightmost date at
    * the given depth.
    */
-  private static createTimeMarkerArray(
+  private createTimeMarkerArray(
     dateLeft: Temporal.ZonedDateTime,
     dateRight: Temporal.ZonedDateTime,
     depth: Temporal.DurationLike

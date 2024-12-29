@@ -1,6 +1,4 @@
-import store from "@/store/store";
-import Vue from "vue";
-import { MutationPayload } from "vuex";
+import { useLookAtTime } from "@/store/store";
 import ViewFocuser from "./view-focuser";
 import ViewResetter from "./view-resetter";
 
@@ -10,36 +8,39 @@ import ViewResetter from "./view-resetter";
 export default class ViewFocusTrigger {
   private viewFocuser: ViewFocuser;
   private viewResetter: ViewResetter;
+  private store = useLookAtTime();
 
   private constructor() {
     this.viewFocuser = ViewFocuser.Instance;
     this.viewResetter = ViewResetter.Instance;
 
-    store.subscribe(async (mutation: MutationPayload) => {
-      if (mutation.type === "setTimeEvents") {
-        await Vue.nextTick();
+    this.store.$onAction(
+      ({ name, args, after }) => {
+        if (name === "setTimeEvents") {
+          after(async () => {
+            if (args[0].length > 0) {
+              await this.viewResetter.initiateView();
+            }
+          })
+        }
 
-        if (mutation.payload.length > 0) {
-          await this.viewResetter.initiateView();
+        if (name === "addTimeEvent") {
+          after(async () => {
+            if (this.store.timeEvents.length < 3) {
+              await this.viewResetter.initiateView();
+            } else {
+              this.viewFocuser.extendFocus(args[0].positionCenter);
+            }
+          })
+        }
+
+        if (name === "updateTimeEvent") {
+          after(() => {
+            this.viewFocuser.extendFocus(args[0].positionCenter);
+          })
         }
       }
-
-      if (mutation.type === "addTimeEvent") {
-        await Vue.nextTick();
-
-        if (store.state.timeEvents.length < 3) {
-          await this.viewResetter.initiateView();
-        } else {
-          this.viewFocuser.extendFocus(mutation.payload.positionCenter);
-        }
-      }
-
-      if (mutation.type === "updateTimeEvent") {
-        await Vue.nextTick();
-
-        this.viewFocuser.extendFocus(mutation.payload.positionCenter);
-      }
-    });
+    )
   }
 
   private static instance: ViewFocusTrigger;

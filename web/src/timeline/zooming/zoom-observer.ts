@@ -1,6 +1,6 @@
-import { FullscreenToggled } from "@/components/timeline/time-event/fullscreen/fullscreen-toggled";
-import store from "@/store/store";
+import { useLookAtTime } from "@/store/store";
 import Zoomer from "./zoomer";
+import type { FullscreenToggled } from "@/components/timeline/time-event/fullscreen/fullscreen-toggled";
 
 /**
  * Observes mouse wheel events and calls zoomer with zoom factor according to wheel spin direction.
@@ -8,10 +8,11 @@ import Zoomer from "./zoomer";
 export default class ZoomObserver {
   private timelineElement: HTMLElement;
   private zoomer: Zoomer;
+  private store = useLookAtTime();
   private constructor() {
     this.zoomer = Zoomer.Instance;
 
-    this.timelineElement = store.state.timelineElement;
+    this.timelineElement = this.store.timelineElement!;
     this.observe();
     this.pauseOnFullscreen();
   }
@@ -27,7 +28,7 @@ export default class ZoomObserver {
 
     e.preventDefault();
 
-    if (store.state.timeEvents.length === 0) {
+    if (this.store.timeEvents.length === 0) {
       return;
     }
 

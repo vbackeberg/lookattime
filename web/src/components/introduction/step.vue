@@ -1,13 +1,15 @@
 <template>
   <transition :name="`slide-${location}`">
-    <v-card elevation="10" class="step-card" v-show="elementsFound"><v-card-text class="black--text">{{ text
-        }}</v-card-text></v-card>
+    <v-card ref="step" elevation="10" class="step-card" v-show="elementsFound">
+      <v-card-text class="black--text">{{ text }}</v-card-text>
+    </v-card>
   </transition>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { nextTick, onMounted, useTemplateRef } from 'vue';
 
+const step = useTemplateRef('step');
 
 const props = defineProps({
   text: { type: String, required: true },
@@ -19,7 +21,7 @@ const props = defineProps({
    * The element to trigger the next step.
    * If undefined, the `anchorElement` triggers the next step
    */
-  triggerElementIdOrClass: String,
+  triggerElementIdOrClass: { type: String },
 
   /** Defines where to place the step card around the anchor element. */
   location: {
@@ -34,8 +36,8 @@ const props = defineProps({
 
 let elementsFound = false
 let anchorElement = undefined as DOMRect | null | undefined
-let triggerElement = undefined as Element | null | undefined
-let mutationObserver = {} as MutationObserver
+
+const emits = defineEmits(["next"])
 
 /**
  * Starts trying to position the step component at the right location.
@@ -55,98 +57,88 @@ onMounted(() => {
   });
 })
 
-    /**
-     * Places the element next to the `anchorElement` if it is present.
-     */
-    async function tryPlaceNearAnchorElement(mutationObserver: MutationObserver) {
-    anchorElement = getElementByIdOrClass(
-      anchorElementIdOrClass
-    )?.getBoundingClientRect();
+/**
+ * Places the element next to the `anchorElement` if it is present.
+ */
+async function tryPlaceNearAnchorElement(mutationObserver: MutationObserver) {
+  const anchorElement = getElementByIdOrClass(props.anchorElementIdOrClass)?.getBoundingClientRect();
 
-    triggerElement = getElementByIdOrClass(
-      triggerElementIdOrClass ?? anchorElementIdOrClass
-    );
+  const triggerElement = getElementByIdOrClass(props.triggerElementIdOrClass ?? props.anchorElementIdOrClass);
 
-    // Do not proceed until required elements are found.
-    if (!anchorElement || !triggerElement) return;
+  // Do not proceed until required elements are found.
+  if (!anchorElement || !triggerElement) return;
 
-    elementsFound = true;
+  elementsFound = true;
 
-    mutationObserver.disconnect();
+  mutationObserver.disconnect();
 
-    // Element isn't yet rendered, which would make it's height 0.
-    await $nextTick();
+  // Element isn't yet rendered, which would make it's height 0.
+  await nextTick();
 
-    const margin = 24;
+  const margin = 24;
 
-    switch (location) {
-      case "top": {
-        ($el as HTMLElement).style.bottom =
-          document.documentElement.clientHeight -
-          anchorElement.top +
-          margin +
-          "px";
+  switch (props.location) {
+    case "top": {
+      step.value!.style!.bottom =
+        document.documentElement.clientHeight -
+        anchorElement.top +
+        margin +
+        "px";
 
-        horizontalAlignCenter();
-        break;
-      }
-      case "bottom": {
-        ($el as HTMLElement).style.top =
-          anchorElement.bottom + margin + "px";
-
-        horizontalAlignCenter();
-        break;
-      }
-      case "left": {
-        ($el as HTMLElement).style.right =
-          document.documentElement.clientWidth -
-          anchorElement.left +
-          margin +
-          "px";
-
-        verticalAlignCenter();
-        break;
-      }
-      case "right": {
-        ($el as HTMLElement).style.left =
-          anchorElement.right + margin + "px";
-
-        verticalAlignCenter();
-        break;
-      }
+      horizontalAlignCenter();
+      break;
     }
+    case "bottom": {
+      step.value!.style!.top =
+        anchorElement.bottom + margin + "px";
 
-    triggerElement.addEventListener(trigger, () => {
-      $emit("next");
-    });
-  },
+      horizontalAlignCenter();
+      break;
+    }
+    case "left": {
+      step.value!.style!.right =
+        document.documentElement.clientWidth -
+        anchorElement.left +
+        margin +
+        "px";
 
-  verticalAlignCenter() {
-    ($el as HTMLElement).style.top =
-      anchorElement!!.top +
-      anchorElement!!.height / 2 -
-      ($el as HTMLElement).offsetHeight / 2 +
-      "px";
+      verticalAlignCenter();
+      break;
+    }
+    case "right": {
+      step.value!.style!.left =
+        anchorElement.right + margin + "px";
 
-    console.log(($el as HTMLElement).style.top);
-  },
-
-  horizontalAlignCenter() {
-    ($el as HTMLElement).style.left =
-      anchorElement!!.left +
-      anchorElement!!.width / 2 -
-      ($el as HTMLElement).offsetWidth / 2 +
-      "px";
-  },
-
-  getElementByIdOrClass(elementIdOrClass: string): Element | null {
-    return (
-      document.getElementById(elementIdOrClass) ??
-      document.getElementsByClassName(elementIdOrClass)[0]
-    );
+      verticalAlignCenter();
+      break;
+    }
   }
+
+  triggerElement.addEventListener(trigger, () => { emits("next"); });
 }
-});
+
+function verticalAlignCenter() {
+  step.value!.style!.top =
+    anchorElement!!.top +
+    anchorElement!!.height / 2 -
+    step.value!.offsetHeight / 2 +
+    "px";
+}
+
+function horizontalAlignCenter() {
+  step.value!.style!.left =
+    anchorElement!!.left +
+    anchorElement!!.width / 2 -
+    step.value!.offsetWidth / 2 +
+    "px";
+}
+
+function getElementByIdOrClass(elementIdOrClass: string): Element | null {
+  return (
+    document.getElementById(elementIdOrClass) ??
+    document.getElementsByClassName(elementIdOrClass)[0]
+  );
+}
 </script>
 <style lang="scss" scoped>
 $width: 240px;

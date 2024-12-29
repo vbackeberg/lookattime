@@ -1,13 +1,13 @@
 import TimeEventModel from "@/models/time-event/time-event-model";
-import store from "@/store/store";
 import Zoomer from "../zooming/zoomer";
+import { useLookAtTime } from "@/store/store";
 
 export default class ViewFocuser {
-  private zoomer: Zoomer;
+  private zoomer = Zoomer.Instance;
   private timelineElement: HTMLElement;
-  private constructor() {
-    this.zoomer = Zoomer.Instance;
-    this.timelineElement = store.state.timelineElement;
+
+  private constructor(private store = useLookAtTime()) {
+    this.timelineElement = this.store.timelineElement!;
   }
 
   /**

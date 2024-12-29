@@ -7,11 +7,8 @@ import type { FullscreenToggled } from "@/components/timeline/time-event/fullscr
  */
 export default class ZoomObserver {
   private timelineElement: HTMLElement;
-  private zoomer: Zoomer;
-  private store = useLookAtTime();
-  private constructor() {
-    this.zoomer = Zoomer.Instance;
-
+  private zoomer = Zoomer.Instance;
+  private constructor(private store = useLookAtTime()) {
     this.timelineElement = this.store.timelineElement!;
     this.observe();
     this.pauseOnFullscreen();

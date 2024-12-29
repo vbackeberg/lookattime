@@ -44,7 +44,7 @@ export default class TimeEventModel {
     imageReferences: ImageReferenceModel[],
     title: string
   ) {
-    this.positionCenter = PositionTranslator.toAbsolutePosition(date);
+    this.positionCenter = PositionTranslator.Instance.toAbsolutePosition(date);
     this.id = id;
     this.text = text;
     this.date = date;

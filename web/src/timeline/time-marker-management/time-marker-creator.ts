@@ -9,8 +9,10 @@ import { useLookAtTime } from "@/store/store";
 export class TimeMarkerCreator {
   private SECONDS_IN_NANOSECONDS = 1_000_000_000n;
   private eventTarget = new EventTarget();
-  private store = useLookAtTime();
+  private positionTranslator = PositionTranslator.Instance;
+  private viewport = Viewport.Instance;
 
+  private constructor(private store = useLookAtTime()) { }
   /**
    * Calculate leftmost and rightmost date and place time markers in
    * between these dates at the given depth.
@@ -29,7 +31,7 @@ export class TimeMarkerCreator {
        */
       const leftmostDate = new Temporal.ZonedDateTime(
         BigInt(
-          PositionTranslator.toDate(
+          this.positionTranslator.toDate(
             Math.max(0, this.store.timelineElement!.scrollLeft - 500)
           )
         ) * this.SECONDS_IN_NANOSECONDS,
@@ -41,10 +43,10 @@ export class TimeMarkerCreator {
        */
       const rightmostDate = new Temporal.ZonedDateTime(
         BigInt(
-          PositionTranslator.toDate(
+          this.positionTranslator.toDate(
             Math.min(
               this.store.timelineElement!.scrollWidth,
-              Viewport.rightEdge() + 500
+              this.viewport.rightEdge() + 500
             )
           )
         ) * this.SECONDS_IN_NANOSECONDS,
@@ -110,5 +112,11 @@ export class TimeMarkerCreator {
     }
     timeMarkers.push(new TimeMarker(dateRight.epochSeconds));
     return timeMarkers;
+  }
+
+  private static instance: TimeMarkerCreator;
+
+  public static get Instance(): TimeMarkerCreator {
+    return this.instance || (this.instance = new this());
   }
 }

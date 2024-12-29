@@ -1,13 +1,19 @@
-import store from "@/store/store";
+import { useLookAtTime } from "@/store/store";
 
 export default class Viewport {
+  private constructor (private store = useLookAtTime()) {};
+
   /**
    * @returns scrollLeft + clientWidth
    */
-  static rightEdge(): number {
+  rightEdge(): number {
     return (
-      store.state.timelineElement.scrollLeft +
-      store.state.timelineElement.clientWidth
+      this.store.timelineElement!.scrollLeft +
+      this.store.timelineElement!.clientWidth
     );
   }
-}
+
+  private static instance: Viewport;
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
+  }}

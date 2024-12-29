@@ -1,4 +1,4 @@
-import store from "@/store/store";
+import { useLookAtTime } from "@/store/store";
 import TimeDepth from "../time-depth/time-depth";
 import { TimeMarkerCreator } from "./time-marker-creator";
 import TimeMarkerRemover from "./time-marker-remover";
@@ -12,9 +12,11 @@ import TimeMarkerRemover from "./time-marker-remover";
 export default class TimeMarkerRecreationTrigger {
   private timelineElement: HTMLElement;
   private scrollEndTimer: number | undefined;
+  private timeMarkerCreator = TimeMarkerCreator.Instance;
+  private timeMarkerRemover = TimeMarkerRemover.Instance;
 
-  constructor() {
-    this.timelineElement = store.state.timelineElement;
+  private constructor(private store = useLookAtTime()) {
+    this.timelineElement = this.store.timelineElement!;
     this.observe();
   }
 
@@ -40,13 +42,13 @@ export default class TimeMarkerRecreationTrigger {
     // TODO: Use the same pattern for Time Events:
     // Only display those time events that are within view port.
 
-    TimeMarkerRemover.removeAllMarkers();
+    this.timeMarkerRemover.removeAllMarkers();
 
     TimeDepth.currentDepth = this.getNewDepth();
 
-    TimeMarkerCreator.placeTimeMarkers(TimeDepth.currentDepth[1]);
+    this.timeMarkerCreator.placeTimeMarkers(TimeDepth.currentDepth[1]);
 
-    store.state.timeMarkers.forEach(timeMarker => {
+    this.store.timeMarkers.forEach(timeMarker => {
       timeMarker.htmlElement.classList.add("zoom-transition");
     });
   };
@@ -59,7 +61,7 @@ export default class TimeMarkerRecreationTrigger {
   private getNewDepth() {
     return (
       TimeDepth.zoomLevelToDepthTranslation.find(
-        tuple => tuple[0] <= store.state.zoomLevel
+        tuple => tuple[0] <= this.store.zoomLevel
       ) ?? TimeDepth.zoomLevelToDepthTranslation[0]
     );
   }

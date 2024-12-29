@@ -1,13 +1,15 @@
 import TimeEventModel from "@/models/time-event/time-event-model";
-import store from "@/store/store";
 import { Constants } from "../zooming/constants";
+import { useLookAtTime } from "@/store/store";
 
 /**
  * Calculates zoom-level-dependent expansion states for every time event.
  */
 export default class CollisionCalculator {
-  public static recalculateCollisions() {
-    for (let i = 0; i < store.state.timeEvents.length; i++) {
+  private constructor(private store = useLookAtTime()) {}
+
+  public recalculateCollisions() {
+    for (let i = 0; i < this.store.timeEvents.length; i++) {
       const newExpansionZoomlevels = [
         Constants.MAX_ZOOM_LEVEL,
         Constants.MAX_ZOOM_LEVEL,
@@ -25,7 +27,7 @@ export default class CollisionCalculator {
         this.findCollisionRight(i, TimeEventModel.bubbleWidth)
       );
 
-      store.state.timeEvents[i].expansionZoomLevels = newExpansionZoomlevels;
+      this.store.timeEvents[i].expansionZoomLevels = newExpansionZoomlevels;
     }
 
     document.dispatchEvent(new Event("update-expansion-states"));
@@ -38,22 +40,22 @@ export default class CollisionCalculator {
    * If no collision is found, it returns the maximum zoom level,
    * which represents the maximum zoomed out view.
    */
-  private static findCollisionRight(
+  private findCollisionRight(
     currentTimeEventIndex: number,
     width: number
   ): number {
     for (
       let i = currentTimeEventIndex + 1;
-      i < store.state.timeEvents.length;
+      i < this.store.timeEvents.length;
       i++
     ) {
       if (
-        store.state.timeEvents[i].importance >
-        store.state.timeEvents[currentTimeEventIndex].importance
+        this.store.timeEvents[i].importance >
+        this.store.timeEvents[currentTimeEventIndex].importance
       ) {
         return this.calculateCollisionZoomLevel(
-          store.state.timeEvents[i],
-          store.state.timeEvents[currentTimeEventIndex],
+          this.store.timeEvents[i],
+          this.store.timeEvents[currentTimeEventIndex],
           width
         );
       }
@@ -62,18 +64,18 @@ export default class CollisionCalculator {
     return Constants.MAX_ZOOM_LEVEL;
   }
 
-  private static findCollisionLeft(
+  private findCollisionLeft(
     currentTimeEventIndex: number,
     width: number
   ): number {
     for (let i = currentTimeEventIndex - 1; i > -1; i--) {
       if (
-        store.state.timeEvents[i].importance >
-        store.state.timeEvents[currentTimeEventIndex].importance
+        this.store.timeEvents[i].importance >
+        this.store.timeEvents[currentTimeEventIndex].importance
       ) {
         return this.calculateCollisionZoomLevel(
-          store.state.timeEvents[i],
-          store.state.timeEvents[currentTimeEventIndex],
+          this.store.timeEvents[i],
+          this.store.timeEvents[currentTimeEventIndex],
           width
         );
       }
@@ -86,13 +88,13 @@ export default class CollisionCalculator {
    * Calculates the zoom level at which the given time events
    * would collide.
    */
-  private static calculateCollisionZoomLevel(
+  private calculateCollisionZoomLevel(
     collidingTimeEvent: TimeEventModel,
     currentTimeEvent: TimeEventModel,
     width: number
   ) {
     return (
-      store.state.zoomLevel *
+      this.store.zoomLevel *
       (Math.abs(
         collidingTimeEvent.positionCenter - currentTimeEvent.positionCenter
       ) /

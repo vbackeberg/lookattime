@@ -1,4 +1,4 @@
-import store from "@/store/store";
+import { useLookAtTime } from "@/store/store";
 import SpaceAllocator from "./space-allocator";
 
 /**
@@ -9,27 +9,28 @@ import SpaceAllocator from "./space-allocator";
 export default class SpaceObserver {
   private spacerLeftElement: HTMLElement;
   public eventTarget = new EventTarget();
+  private spaceAllocator = SpaceAllocator.Instance;
 
-  private constructor() {
+  private constructor(private store = useLookAtTime()) {
     this.spacerLeftElement = document.getElementById(
       "spacer-left"
     ) as HTMLElement;
 
     this.spacerLeftElement.addEventListener("transitionend", () => {
       const expendableLeftSpace = Math.min(
-        store.state.spacerLeft.positionLeft,
-        store.state.timelineElement.scrollLeft
+        this.store.spacerLeft!.positionLeft,
+        this.store.timelineElement!.scrollLeft
       );
 
       if (expendableLeftSpace > 0) {
-        SpaceAllocator.cutoffLeftSpace(
-          store.state.timelineElement,
+        this.spaceAllocator.cutoffLeftSpace(
+          this.store.timelineElement!,
           expendableLeftSpace
         );
-      } else if (store.state.spacerLeft.positionLeft < 0) {
-        SpaceAllocator.extendLeftSpace(
-          store.state.timelineElement,
-          -store.state.spacerLeft.positionLeft
+      } else if (this.store.spacerLeft!.positionLeft < 0) {
+        this.spaceAllocator.extendLeftSpace(
+          this.store.timelineElement!,
+          -this.store.spacerLeft!.positionLeft
         );
       }
 

@@ -4,8 +4,9 @@ import { Constants } from "./constants";
 import { useLookAtTime } from "@/store/store";
 
 export default class Zoomer {
-  private store = useLookAtTime();
-  
+  private positionTranslator = PositionTranslator.Instance;
+  private constructor(private store = useLookAtTime()) { }
+
   /**
    * Moves all timeEvents towards or away from the reference position by the zoom factor.
    * Re-aligns spacer for right page edge.
@@ -30,7 +31,7 @@ export default class Zoomer {
 
   private repositionTimeEvents() {
     for (let i = 0; i < this.store.timeEvents.length; i++) {
-      const newPositionCenter = PositionTranslator.toAbsolutePosition(
+      const newPositionCenter = this.positionTranslator.toAbsolutePosition(
         this.store.timeEvents[i].date
       );
 
@@ -87,7 +88,7 @@ export default class Zoomer {
 
   private repositionTimeMarkers() {
     for (let i = 0; i < this.store.timeMarkers.length; i++) {
-      const newPosition = PositionTranslator.toAbsolutePosition(
+      const newPosition = this.positionTranslator.toAbsolutePosition(
         this.store.timeMarkers[i].date
       );
 

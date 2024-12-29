@@ -8,9 +8,8 @@ import ViewResetter from "./view-resetter";
 export default class ViewFocusTrigger {
   private viewFocuser: ViewFocuser;
   private viewResetter: ViewResetter;
-  private store = useLookAtTime();
 
-  private constructor() {
+  private constructor(private store = useLookAtTime()) {
     this.viewFocuser = ViewFocuser.Instance;
     this.viewResetter = ViewResetter.Instance;
 

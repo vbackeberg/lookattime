@@ -1,8 +1,12 @@
 import TimeEventModel from "@/models/time-event/time-event-model";
-import store from "@/store/store";
+import { useLookAtTime } from "@/store/store";
 import Viewport from "../viewport/viewport";
 
 export default class SpaceAllocator {
+  private constructor(private store = useLookAtTime()) { }
+
+  private viewport = Viewport.Instance;
+
   /**
    * Extends space to the left by given distance.
    * Takes care of removing animations during position shifting.
@@ -12,7 +16,7 @@ export default class SpaceAllocator {
    * views right edge is at a position higher than any element on
    * the screen.
    */
-  public static extendLeftSpace(
+  public extendLeftSpace(
     timelineElement: HTMLElement,
     distance: number
   ) {
@@ -35,7 +39,7 @@ export default class SpaceAllocator {
    * views right edge were at a position higher than any element on
    * the screen.
    */
-  public static cutoffLeftSpace(
+  public cutoffLeftSpace(
     timelineElement: HTMLElement,
     distance: number
   ) {
@@ -49,26 +53,26 @@ export default class SpaceAllocator {
     this.addZoomAnimation();
   }
 
-  private static removeZoomAnimation() {
+  private removeZoomAnimation() {
     const root = document.documentElement;
     root.style.setProperty("--transition-property", "none");
   }
 
-  private static addZoomAnimation() {
+  private addZoomAnimation() {
     const root = document.documentElement;
     root.style.setProperty("--transition-property", "transform");
   }
 
-  private static repositionElements(distance: number) {
+  private repositionElements(distance: number) {
     this.repositionSpacerLeft(distance);
     this.repositionTimeEvents(distance);
     this.repositionTimeMarkers(distance);
     this.repositionSpacerRight();
-    store.state.timelineZero += distance;
+    this.store.timelineZero += distance;
   }
 
-  private static repositionSpacerLeft(distance: number) {
-    store.state.spacerLeft.positionLeft += distance;
+  private repositionSpacerLeft(distance: number) {
+    this.store.spacerLeft!.positionLeft += distance;
   }
 
   /**
@@ -78,37 +82,42 @@ export default class SpaceAllocator {
    * ↑                                                                  ↑
    * time event position center                           spacer position
    */
-  private static repositionSpacerRight() {
+  private repositionSpacerRight() {
     const width =
-      store.state.timelineElement.clientWidth / 2 -
+      this.store.timelineElement!.clientWidth / 2 -
       TimeEventModel.boxWidthOffset;
 
-    store.state.spacerRight.positionLeft =
-      store.state.timeEvents[store.state.timeEvents.length - 1].positionCenter +
+    this.store.spacerRight!.positionLeft =
+      this.store.timeEvents[this.store.timeEvents.length - 1].positionCenter +
       TimeEventModel.boxWidthOffset +
       width -
-      store.state.spacerRight.width;
+      this.store.spacerRight!.width;
   }
 
-  private static repositionTimeEvents(distance: number) {
-    for (let i = 0; i < store.state.timeEvents.length; i++) {
-      store.state.timeEvents[i].positionCenter += distance;
+  private repositionTimeEvents(distance: number) {
+    for (let i = 0; i < this.store.timeEvents.length; i++) {
+      this.store.timeEvents[i].positionCenter += distance;
     }
   }
 
-  private static repositionTimeMarkers(distance: number) {
-    for (let i = 0; i < store.state.timeMarkers.length; i++) {
-      store.state.timeMarkers[i].positionCenter += distance;
+  private repositionTimeMarkers(distance: number) {
+    for (let i = 0; i < this.store.timeMarkers.length; i++) {
+      this.store.timeMarkers[i].positionCenter += distance;
     }
   }
 
-  private static retractSpacerViewportRight() {
-    store.state.spacerViewportRight.positionLeft =
-      Viewport.rightEdge() - store.state.spacerViewportRight.width;
+  private retractSpacerViewportRight() {
+    this.store.spacerViewportRight!.positionLeft =
+      this.viewport.rightEdge() - this.store.spacerViewportRight!.width;
   }
 
-  private static extendSpacerViewportRight(distance: number) {
-    store.state.spacerViewportRight.positionLeft =
-      Viewport.rightEdge() + distance - store.state.spacerViewportRight.width;
+  private extendSpacerViewportRight(distance: number) {
+    this.store.spacerViewportRight!.positionLeft =
+      this.viewport.rightEdge() + distance - this.store.spacerViewportRight!.width;
+  }
+
+  private static instance: SpaceAllocator;
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
   }
 }

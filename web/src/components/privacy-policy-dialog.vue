@@ -34,7 +34,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const emits = defineEmits({ show: Boolean, setPrivacyPolicyAgreed: Boolean })
+const emits = defineEmits<{
+  show: [value: boolean]
+  setPrivacyPolicyAgreed: [value: boolean]
+}>()
 const props = defineProps({ show: Boolean })
 
 const show = computed({

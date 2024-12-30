@@ -20,6 +20,11 @@
 
 <script setup lang="ts">
 import { useLookAtTime } from "@/store/store";
+import Introduction from "@/components/introduction/introduction.vue";
+import preventMobileDialog from "@/components/prevent-mobile-dialog.vue";
+import timeline from "@/components/timeline/timeline.vue";
+import privacyPolicyDialog from "@/components/privacy-policy-dialog.vue";
+
 const store = useLookAtTime();
 
 let privacyPolicyAgreed = false;

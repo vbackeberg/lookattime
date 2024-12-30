@@ -58,7 +58,7 @@ const isTimeEventToBeCreated = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "src/components/timeline/time-event/time-event.scss";
+@import "web/src/components/timeline/time-event/time-event.scss";
 
 #fullscreen-container {
   position: fixed;

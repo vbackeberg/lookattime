@@ -8,5 +8,3 @@ const props = defineProps({
   value: String
 })
 </script>
-
-<style lang="scss" scoped></style>

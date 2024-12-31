@@ -1,0 +1,21 @@
+/* Styles that are shared between write and read mode */
+
+#text-area {
+  height: 100%;
+  padding: 0px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+#text-area #title-area {
+  margin-bottom: 16px;
+}
+
+#text-area #title-area #event-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+#text-area #title-area #event-subtitle {
+  color: grey;
+}

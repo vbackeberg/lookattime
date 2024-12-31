@@ -51,5 +51,3 @@ function setPrivacyPolicyAgreed(value: boolean) {
   show.value = false;
 }
 </script>
-
-<style scoped lang="scss"></style>

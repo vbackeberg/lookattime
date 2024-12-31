@@ -1,0 +1,6 @@
+/* Vuetify variable overrides */
+
+:root {
+    --tooltip-opacity: 1;
+    --tooltip-background-color: black;
+  }

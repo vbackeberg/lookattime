@@ -42,7 +42,7 @@ function onSetPrivacyPolicyAgreed(value: boolean) {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .home {
   height: 100%;
   width: 100%;

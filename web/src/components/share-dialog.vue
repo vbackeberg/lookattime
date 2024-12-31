@@ -55,4 +55,4 @@ function reset(value: boolean) {
 }
 </script>
 
-<style scoped lang="scss"></style>
+

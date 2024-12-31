@@ -162,7 +162,7 @@ function reloadPage() {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 #timeline {
   flex: 1;
   width: 100%;

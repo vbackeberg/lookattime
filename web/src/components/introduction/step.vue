@@ -140,60 +140,61 @@ function getElementByIdOrClass(elementIdOrClass: string): Element | null {
   );
 }
 </script>
-<style lang="scss" scoped>
-$width: 240px;
+<style scoped>
+:root {
+  --width: 240px;
+  --transitionDuration: 0.3s;
+  --translatePx: 10px;
+}
 
 .step-card {
   position: fixed;
-  max-width: $width;
+  max-width: var(--width);
   height: fit-content;
   z-index: 7;
 }
 
-$transitionDuration: 0.3s;
-$translatePx: 10px;
-
 .slide-left-enter-active,
 .slide-left-leave-active {
-  transition: all $transitionDuration;
+  transition: all var(--transitionDuration);
 }
 
 .slide-left-enter,
 .slide-left-leave-to {
-  transform: translateX(-$translatePx);
+  transform: translateX(-var(--translatePx));
   opacity: 0;
 }
 
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all $transitionDuration;
+  transition: all var(--transitionDuration);
 }
 
 .slide-right-enter,
 .slide-right-leave-to {
-  transform: translateX($translatePx);
+  transform: translateX(var(--translatePx));
   opacity: 0;
 }
 
 .slide-top-enter-active,
 .slide-top-leave-active {
-  transition: all $transitionDuration;
+  transition: all var(--transitionDuration);
 }
 
 .slide-top-enter,
 .slide-top-leave-to {
-  transform: translateY(-$translatePx);
+  transform: translateY(-var(--translatePx));
   opacity: 0;
 }
 
 .slide-bottom-enter-active,
 .slide-bottom-leave-active {
-  transition: all $transitionDuration;
+  transition: all var(--transitionDuration);
 }
 
 .slide-bottom-enter,
 .slide-bottom-leave-to {
-  transform: translateY($translatePx);
+  transform: translateY(var(--translatePx));
   opacity: 0;
 }
 </style>

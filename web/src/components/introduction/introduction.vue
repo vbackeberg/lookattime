@@ -80,7 +80,7 @@ function next() {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 #dialog {
   position: absolute;
   left: 50%;
@@ -117,11 +117,11 @@ function next() {
 }
 
 ::v-deep .v-overlay__content {
-  // These allow the steps to be absolutely positioned.
+  /* These allow the steps to be absolutely positioned. */
   width: 100%;
   height: 100%;
 
-  // This allows btn-end to be centered via margin auto.
+  /* This allows btn-end to be centered via margin auto. */
   display: flex;
 }
 

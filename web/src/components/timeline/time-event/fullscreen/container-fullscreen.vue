@@ -57,14 +57,12 @@ const isTimeEventToBeCreated = computed(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-@import "web/src/components/timeline/time-event/time-event.scss";
-
+<style lang="css" scoped>
 #fullscreen-container {
   position: fixed;
   width: 100%;
   height: 100vh;
-  padding-bottom: 100px; // app bar height + footer height
+  padding-bottom: 100px; /* app bar height + footer height */
   z-index: 6;
 }
 
@@ -78,29 +76,29 @@ const isTimeEventToBeCreated = computed(() => {
   border-color: #aaa !important;
   border-style: solid;
   border-radius: 16px;
-  border-width: $box-border-width;
+  border-width: var(--box-border-width);
 
   overflow: hidden;
+}
 
-  #fullscreen-content {
-    height: 100%;
-    width: 100%;
+#fullscreen-content {
+  height: 100%;
+  width: 100%;
 
-    overflow-y: scroll;
+  overflow-y: scroll;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
 
-    .buttons-top-right {
-      display: flex;
-      justify-content: end;
-      padding: 8px;
-      gap: 4px;
-    }
+.buttons-top-right {
+  display: flex;
+  justify-content: end;
+  padding: 8px;
+  gap: 4px;
+}
 
-    .btn-dark {
-      background-color: colors.$lat-primary-color + dd;
-    }
-  }
+.btn-dark {
+  background-color: var(--lat-primary-color)dd;
 }
 </style>

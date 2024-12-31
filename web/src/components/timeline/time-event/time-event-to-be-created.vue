@@ -13,7 +13,7 @@ const props = defineProps({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .container-outer {
   height: 100%;
   width: 100%;

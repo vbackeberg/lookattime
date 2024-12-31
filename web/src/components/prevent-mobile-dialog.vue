@@ -44,7 +44,7 @@ const show = computed({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .card-text {
   font-size: medium;
 }

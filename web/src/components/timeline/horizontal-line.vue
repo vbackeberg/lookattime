@@ -62,7 +62,7 @@ function repositionHorizontalLine(
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 /** Hidden until correctly positioned */
 #horizontal-line {
   visibility: hidden;

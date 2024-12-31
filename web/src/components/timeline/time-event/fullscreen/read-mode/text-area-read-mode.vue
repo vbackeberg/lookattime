@@ -42,10 +42,8 @@ const formattedDate = computed(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-@import "src/components/timeline/time-event/fullscreen/fullscreen.scss";
-
+<style lang="css" scoped>
 .event-title {
-  margin-bottom: 26px; // Corresponds to v-text-field margins + details
+  margin-bottom: 26px; /* Corresponds to v-text-field margins + details */
 }
 </style>

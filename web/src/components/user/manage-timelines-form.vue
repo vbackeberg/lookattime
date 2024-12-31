@@ -69,5 +69,3 @@ function back() {
   show.value = false;
 }
 </script>
-
-<style lang="scss"></style>

@@ -18,7 +18,7 @@ export default class HttpClient {
    */
   public static async deleteUser(userId: string): Promise<void> {
     return axios.delete(
-      import.meta.env.VUE_APP_API_URL + "/delete-user?id=" + userId
+      window.location.origin + "/api/delete-user?id=" + userId
     );
   }
 
@@ -29,7 +29,7 @@ export default class HttpClient {
    */
   public static async createUser(user: UserModel): Promise<void> {
     return axios.post(
-      import.meta.env.VUE_APP_API_URL + "/create-user",
+      window.location.origin + "/api/create-user",
       UserApiMapper.toApi(user)
     );
   }
@@ -51,15 +51,14 @@ export default class HttpClient {
     userId: string
   ): Promise<void> {
     return axios.post(
-      import.meta.env.VUE_APP_API_URL +
-        "/store-image?imageId=" +
-        imageId +
-        "&timeEventId=" +
-        timeEventId +
-        "&timelineId=" +
-        timelineId +
-        "&userId=" +
-        userId,
+      window.location.origin + "/api/store-image?imageId=" +
+      imageId +
+      "&timeEventId=" +
+      timeEventId +
+      "&timelineId=" +
+      timelineId +
+      "&userId=" +
+      userId,
       ImageRequestMapper.map(image)
     );
   }
@@ -71,7 +70,7 @@ export default class HttpClient {
    */
   public static async getUser(userId: string): Promise<UserModel> {
     const response = await axios.get(
-      import.meta.env.VUE_APP_API_URL + "/get-user?id=" + userId
+      window.location.origin + "/api/get-user?id=" + userId
     );
 
     return UserApiMapper.toModel(response.data);
@@ -90,13 +89,12 @@ export default class HttpClient {
     userId: string
   ): Promise<void> {
     return axios.delete(
-      import.meta.env.VUE_APP_API_URL +
-        "/delete-time-event?id=" +
-        timeEventId +
-        "&timelineId=" +
-        timelineId +
-        "&userId=" +
-        userId
+      window.location.origin + "/api/delete-time-event?id=" +
+      timeEventId +
+      "&timelineId=" +
+      timelineId +
+      "&userId=" +
+      userId
     );
   }
 
@@ -109,7 +107,7 @@ export default class HttpClient {
     timelineId: string
   ): Promise<TimeEventModel[]> {
     const response = await axios.get(
-      import.meta.env.VUE_APP_API_URL + "/get-time-events?timelineId=" + timelineId
+      window.location.origin + "/api/get-time-events?timelineId=" + timelineId
     );
 
     return (response.data as TimeEventResponse[]).map(
@@ -129,11 +127,10 @@ export default class HttpClient {
     userId: string
   ): Promise<void> {
     return axios.delete(
-      import.meta.env.VUE_APP_API_URL +
-        "/delete-timeline?id=" +
-        timelineId +
-        "&userId=" +
-        userId
+      window.location.origin + "/api/delete-timeline?id=" +
+      timelineId +
+      "&userId=" +
+      userId
     );
   }
 
@@ -144,7 +141,7 @@ export default class HttpClient {
    */
   public static async createTimeline(timeline: TimelineRequest): Promise<void> {
     return axios.post(
-      import.meta.env.VUE_APP_API_URL + "/create-timeline",
+      window.location.origin + "/api/create-timeline",
       timeline
     );
   }
@@ -155,8 +152,10 @@ export default class HttpClient {
    * @param userId
    */
   public static async getTimelines(userId: string): Promise<TimelineModel[]> {
+    const url = window.location.origin + "/api/get-timelines?userId=" + userId
+
     const response = await axios.get(
-      import.meta.env.VUE_APP_API_URL + "/get-timelines?userId=" + userId
+      url
     );
 
     return (response.data as TimelineModel[]).map((timeline: TimelineModel) =>
@@ -171,7 +170,7 @@ export default class HttpClient {
    */
   public static async getTimeline(timelineId: string): Promise<TimelineModel> {
     const response = await axios.get(
-      import.meta.env.VUE_APP_API_URL + "/get-timeline?id=" + timelineId
+      window.location.origin + "/api/get-timeline?id=" + timelineId
     );
 
     return TimelineResponseMapper.map(response.data);
@@ -192,7 +191,7 @@ export default class HttpClient {
     userId: string
   ): Promise<TimeEventModel> {
     const response = await axios.post(
-      import.meta.env.VUE_APP_API_URL + "/update-time-event",
+      window.location.origin + "/api/update-time-event",
       TimeEventRequestMapper.map(timeEvent, timelineId, userId)
     );
 

@@ -40,7 +40,7 @@ const show = computed({
 let copied = false;
 
 function shareTimelineUrl() {
-  return `${import.meta.env.VITE_BASE_URL}/?timeline=${store.selectedTimeline!.id}`
+  return `${window.location.origin}/?timeline=${store.selectedTimeline!.id}`
 }
 
 async function writeToClipboard() {

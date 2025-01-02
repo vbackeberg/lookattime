@@ -1,9 +1,9 @@
 <template>
   <v-app id="app">
     <v-app-bar app flat color="#fff">
-      <manage-timelines-form v-model="showManageTimelinesForm" />
-      <whats-new-dialog v-model="showWhatsNewDialog" />
-      <share-dialog v-model="showShareDialog" />
+      <ManageTimelinesForm v-model="showManageTimelinesForm" />
+      <WhatsNewDialog v-model="showWhatsNewDialog" />
+      <ShareDialog v-model="showShareDialog" />
 
       <v-tooltip bottom transition="fade-transition">
         <template v-slot:activator="{ props }">
@@ -27,7 +27,7 @@
             <span>Your timelines</span>
           </v-tooltip>
         </template>
-        <v-list v-if="!loading">
+        <v-list v-if="!store.loading">
           <v-list-item @click.stop="showManageTimelinesForm = true">
             <v-icon class="app-bar-menu-button">mdi-apps</v-icon>My
             timelines</v-list-item>
@@ -64,67 +64,41 @@
 </template>
 
 <script setup lang="ts">
-const store = useLookAtTime()
-</script>
-
-<script lang="ts">
 import ManageTimelinesForm from "@/components/user/manage-timelines-form.vue";
 import { useLookAtTime } from "./store/store";
 import WhatsNewDialog from "@/components/whats-new-dialog.vue";
 import ShareDialog from "@/components/share-dialog.vue";
-import { mergeProps } from "vue";
+import { ref } from "vue";
 import TimelineModel from "./models/timeline-model";
 import { v4 as uuid } from "uuid";
 
-export default {
-  name: "App",
+const store = useLookAtTime()
 
-  components: {
-    ManageTimelinesForm,
-    WhatsNewDialog,
-    ShareDialog
-  },
+const showManageTimelinesForm = ref(false)
+const showWhatsNewDialog = ref(false)
+const showShareDialog = ref(false)
 
-  data() {
-    return {
-      showManageTimelinesForm: false,
-      showWhatsNewDialog: false,
-      showShareDialog: false
-    };
-  },
-
-  computed: {
-    loading(): boolean {
-      return store.loading;
-    }
-  },
-
-  methods: {
-    mergeProps,
-
-    /**
-     * Shows the introduction dialog, again.
-     * If there are time events it switches to an empty new timeline, first.
-     */
-    async startIntroduction() {
-      if (store.timeEvents.length > 0) {
-        await this.createNewTimeline();
-      }
-      store.showIntroduction = true;
-    },
-
-    async createNewTimeline() {
-      const timeline = new TimelineModel(
-        uuid(),
-        store.user!.id,
-        "Timeline"
-      );
-
-      await store.addTimeline(timeline)
-      store.setSelectedTimeline(timeline);
-    }
+/**
+ * Shows the introduction dialog, again.
+ * If there are time events it switches to an empty new timeline, first.
+ */
+async function startIntroduction() {
+  if (store.timeEvents.length > 0) {
+    await createNewTimeline();
   }
-};
+  store.showIntroduction = true;
+}
+
+async function createNewTimeline() {
+  const timeline = new TimelineModel(
+    uuid(),
+    store.user!.id,
+    "Timeline"
+  );
+
+  await store.addTimeline(timeline)
+  store.setSelectedTimeline(timeline);
+}
 </script>
 
 <style lang="css">

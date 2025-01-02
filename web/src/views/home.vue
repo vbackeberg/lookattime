@@ -13,7 +13,7 @@
           Read the privacy policy.</router-link>
       </p>
     </div>
-    <introduction v-if="privacyPolicyAgreed && !store.loading && store.showIntroduction"></introduction>
+    <Introduction v-if="privacyPolicyAgreed && !store.loading && store.showIntroduction"></Introduction>
   </div>
 </template>
 

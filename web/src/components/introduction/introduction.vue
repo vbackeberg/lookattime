@@ -116,7 +116,7 @@ function next() {
   align-items: center;
 }
 
-::v-deep .v-overlay__content {
+:deep(.v-overlay__content) {
   /* These allow the steps to be absolutely positioned. */
   width: 100%;
   height: 100%;

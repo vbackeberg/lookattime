@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" max-width="600">
+  <v-dialog :model-value="show" max-width="600">
     <v-card>
       <v-card-title>
         Privacy Policy

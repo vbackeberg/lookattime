@@ -1,9 +1,8 @@
 <template>
   <div class="home">
-    <prevent-mobile-dialog v-model="isMobile"></prevent-mobile-dialog>
-    <timeline v-if="privacyPolicyAgreed" ref="timelineElement"></timeline>
-    <privacy-policy-dialog v-model="showPrivacyPolicyDialog"
-      @setPrivacyPolicyAgreed="onSetPrivacyPolicyAgreed"></privacy-policy-dialog>
+    <PreventMobileDialog v-model="isMobile"></PreventMobileDialog>
+    <Timeline v-if="privacyPolicyAgreed" ref="timelineElement"></Timeline>
+    <PrivacyPolicyDialog v-model:show="showPrivacyPolicyDialog" @setPrivacyPolicyAgreed="onSetPrivacyPolicyAgreed" />
     <div class="privacy-policy-disagreed" v-if="privacyPolicyDisagreed">
       <p>
         Sorry, you can only use this service after agreeing to the privacy
@@ -21,24 +20,24 @@
 <script setup lang="ts">
 import { useLookAtTime } from "@/store/store";
 import Introduction from "@/components/introduction/introduction.vue";
-import preventMobileDialog from "@/components/prevent-mobile-dialog.vue";
-import timeline from "@/components/timeline/timeline.vue";
-import privacyPolicyDialog from "@/components/privacy-policy-dialog.vue";
+import Timeline from "@/components/timeline/timeline.vue";
+import PrivacyPolicyDialog from "@/components/privacy-policy-dialog.vue";
+import PreventMobileDialog from "@/components/prevent-mobile-dialog.vue";
+import { ref, computed } from "vue";
 
 const store = useLookAtTime();
 
-let privacyPolicyAgreed = false;
-let privacyPolicyDisagreed = false;
-let showPrivacyPolicyDialog = false;
+const privacyPolicyAgreed = ref(false);
+const privacyPolicyDisagreed = ref(false);
+const showPrivacyPolicyDialog = computed(() => !privacyPolicyAgreed.value)
 
-privacyPolicyAgreed = window.localStorage.getItem("privacyPolicyAgreed") === "true";
-showPrivacyPolicyDialog = !privacyPolicyAgreed;
+privacyPolicyAgreed.value = window.localStorage.getItem("privacyPolicyAgreed") === "true";
 
 const isMobile = navigator.maxTouchPoints > 1;
 
 function onSetPrivacyPolicyAgreed(value: boolean) {
-  privacyPolicyAgreed = value;
-  privacyPolicyDisagreed = !value;
+  privacyPolicyAgreed.value = value;
+  privacyPolicyDisagreed.value = !value;
 };
 </script>
 

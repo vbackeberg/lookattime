@@ -1,6 +1,8 @@
 :root {
   --transition-duration: 300ms;
   --transition-property: transform;
+
+  --box-border-width: 1px;
 }
 
 .zoom-transition {

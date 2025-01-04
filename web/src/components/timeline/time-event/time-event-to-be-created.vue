@@ -1,15 +1,16 @@
 <template>
   <div class="container-outer">
-    <container-fullscreen v-bind:id="id" v-bind:writeModeE="writeMode" v-bind:imageReferences="[]" />
+    <ContainerFullscreen v-bind:id="props.id" v-bind:writeModeE="props.writeMode" v-bind:imageReferences="[]" />
   </div>
 </template>
 
 <script setup lang="ts">
-import ContainerFullscreen from "./fullscreen/container-fullscreen.vue";
+import ContainerFullscreen from './fullscreen/container-fullscreen.vue';
+
 const props = defineProps({
-  id: String,
-  imageReferences: Array,
-  writeMode: Boolean
+  id: { type: String, required: true },
+  imageReferences: { type: Array, required: true },
+  writeMode: { type: Boolean, required: true }
 })
 </script>
 

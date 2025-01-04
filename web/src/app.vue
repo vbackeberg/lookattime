@@ -101,7 +101,10 @@ async function createNewTimeline() {
 }
 </script>
 
-<style lang="css">
+<style>
+@import "./app.css";
+@import "./colors.css";
+
 #app {
   height: 100%;
 }

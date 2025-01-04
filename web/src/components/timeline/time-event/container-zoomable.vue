@@ -27,7 +27,6 @@ import DateTimeFormatOptions from "@/timeline/date-time-format-options";
 import { Temporal } from "@js-temporal/polyfill";
 import { useLookAtTime } from "@/store/store";
 import { computed, onMounted, onUnmounted, useTemplateRef } from "vue";
-import { id } from "vuetify/locale";
 import type { FullscreenToggled } from "./fullscreen/fullscreen-toggled";
 
 const store = useLookAtTime()
@@ -38,9 +37,9 @@ const el = useTemplateRef("time-event")
  * that change during zoom.
  */
 const props = defineProps({
-  id: String,
-  imageReferences: Array<ImageReferenceModel>,
-  expansionZoomLevels: Array<ExpansionState>
+  id: { type: String, required: true },
+  imageReferences: { type: Array<ImageReferenceModel>, required: true },
+  expansionZoomLevels: { type: Array<ExpansionState>, required: true }
 });
 
 /**
@@ -156,7 +155,7 @@ function openFullscreen() {
   document.dispatchEvent(
     new CustomEvent<FullscreenToggled>("fullscreen-toggled", {
       detail: {
-        timeEventId: id,
+        timeEventId: props.id,
         isFullscreen: true,
         writeMode: false
       }
@@ -184,6 +183,8 @@ function applyDotStyles() {
 </script>
 
 <style scoped>
+@import "./time-event.css";
+
 :root {
   --box-width: 300px;
   --box-height: 400px;
@@ -331,4 +332,3 @@ function applyDotStyles() {
   right: 2px;
 }
 </style>
-

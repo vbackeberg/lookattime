@@ -1,12 +1,70 @@
 <template>
-  <ckeditor :editor="editor" v-model="text" :config="editorConfig"></ckeditor>
+  <ckeditor :editor="editor" v-model="text" :config="config"></ckeditor>
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from "@/../ckeditor-build/ckeditor";
 import { useLookAtTime } from "@/store/store";
-import CKEditor from "@ckeditor/ckeditor5-vue2";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { Ckeditor } from '@ckeditor/ckeditor5-vue';
+import {
+  ClassicEditor,
+  Alignment,
+  Autoformat,
+  AutoImage,
+  Autosave,
+  BalloonToolbar,
+  BlockQuote,
+  Bold,
+  Code,
+  CodeBlock,
+  Essentials,
+  FontBackgroundColor,
+  FontColor,
+  FontFamily,
+  FontSize,
+  Heading,
+  Highlight,
+  HorizontalLine,
+  ImageBlock,
+  ImageCaption,
+  ImageInline,
+  ImageInsert,
+  ImageInsertViaUrl,
+  ImageResize,
+  ImageStyle,
+  ImageTextAlternative,
+  ImageToolbar,
+  ImageUpload,
+  Indent,
+  IndentBlock,
+  Italic,
+  Link,
+  LinkImage,
+  List,
+  ListProperties,
+  Paragraph,
+  RemoveFormat,
+  SimpleUploadAdapter,
+  SpecialCharacters,
+  SpecialCharactersArrows,
+  SpecialCharactersCurrency,
+  SpecialCharactersEssentials,
+  SpecialCharactersLatin,
+  SpecialCharactersMathematical,
+  SpecialCharactersText,
+  Strikethrough,
+  Subscript,
+  Superscript,
+  Table,
+  TableCaption,
+  TableCellProperties,
+  TableColumnResize,
+  TableProperties,
+  TableToolbar,
+  TextTransformation,
+  TodoList,
+  Underline
+} from "ckeditor5"
 
 /**
  * A component that wraps the CKEditor5
@@ -25,29 +83,156 @@ const text = computed({
   set: (value) => emits("text", value)
 })
 
-const editor = ClassicEditor;
-const editorData = "<p>Your text here.</p>";
-const editorConfig = {
-  image: {
-    upload: {
-      types: ["jpeg", "gif", "png", "svg+xml"]
+const isLayoutReady = ref(false);
+
+const editor = ClassicEditor
+const config = computed(() => {
+  if (!isLayoutReady.value) {
+    return undefined;
+  }
+
+  return {
+    toolbar: {
+      items: [
+        'heading',
+        '|',
+        'fontSize',
+        'fontFamily',
+        'fontColor',
+        'fontBackgroundColor',
+        '|',
+        'bold',
+        'italic',
+        'underline',
+        'strikethrough',
+        'subscript',
+        'superscript',
+        'code',
+        'removeFormat',
+        '|',
+        'specialCharacters',
+        'horizontalLine',
+        'link',
+        'insertImage',
+        'insertTable',
+        'highlight',
+        'blockQuote',
+        'codeBlock',
+        '|',
+        'alignment',
+        '|',
+        'bulletedList',
+        'numberedList',
+        'todoList',
+        'outdent',
+        'indent'
+      ],
+      shouldNotGroupWhenFull: false
+    },
+    plugins: [
+      Alignment,
+      Autoformat,
+      AutoImage,
+      Autosave,
+      BalloonToolbar,
+      BlockQuote,
+      Bold,
+      Code,
+      CodeBlock,
+      Essentials,
+      FontBackgroundColor,
+      FontColor,
+      FontFamily,
+      FontSize,
+      Heading,
+      Highlight,
+      HorizontalLine,
+      ImageBlock,
+      ImageCaption,
+      ImageInline,
+      ImageInsert,
+      ImageInsertViaUrl,
+      ImageResize,
+      ImageStyle,
+      ImageTextAlternative,
+      ImageToolbar,
+      ImageUpload,
+      Indent,
+      IndentBlock,
+      Italic,
+      Link,
+      LinkImage,
+      List,
+      ListProperties,
+      Paragraph,
+      RemoveFormat,
+      SimpleUploadAdapter,
+      SpecialCharacters,
+      SpecialCharactersArrows,
+      SpecialCharactersCurrency,
+      SpecialCharactersEssentials,
+      SpecialCharactersLatin,
+      SpecialCharactersMathematical,
+      SpecialCharactersText,
+      Strikethrough,
+      Subscript,
+      Superscript,
+      Table,
+      TableCaption,
+      TableCellProperties,
+      TableColumnResize,
+      TableProperties,
+      TableToolbar,
+      TextTransformation,
+      TodoList,
+      Underline
+    ],
+    balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'bulletedList', 'numberedList'],
+    fontFamily: {
+      supportAllValues: true
+    },
+    fontSize: {
+      options: [10, 12, 14, 'default', 18, 20, 22],
+      supportAllValues: true
+    },
+    image: {
+      toolbar: [
+        'toggleImageCaption',
+        'imageTextAlternative',
+        '|',
+        'imageStyle:inline',
+        'imageStyle:wrapText',
+        'imageStyle:breakText',
+        '|',
+        'resizeImage'
+      ],
+      upload: { types: ["jpeg", "gif", "png", "svg+xml"] }
+    },
+    simpleUpload: { uploadUrl: `${window.location}/api/store-image?timeEventId=${props.id}&timelineId=${store.selectedTimeline!.id}&userId=${store.user!.id}` },
+    initialData: 'Your text here',
+    licenseKey: "GPL",
+    list: {
+      properties: {
+        styles: true,
+        startIndex: true,
+        reversed: true
+      }
+    },
+    placeholder: 'Type or paste your content here!',
+    table: {
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
     }
-  },
-  simpleUpload: {
-    uploadUrl:
-      import.meta.env.VITE_API_URL +
-      "/store-image?timeEventId=" +
-      props.id +
-      "&timelineId=" +
-      store.selectedTimeline!.id +
-      "&userId=" +
-      store.user!.id
-  },
-  headers: {}
-}
+  };
+});
+
+onMounted(() => {
+  isLayoutReady.value = true;
+});
 
 </script>
 <style>
+@import 'ckeditor5/ckeditor5.css';
+
 /* 
 * This style sheet is not scoped because ckeditor resides outside this component
 * and would not adopt scoped styles.

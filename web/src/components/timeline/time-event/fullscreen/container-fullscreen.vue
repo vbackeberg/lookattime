@@ -1,6 +1,6 @@
 <template>
   <div id="fullscreen-container">
-    <div id="fullscreen-container-content" class="elevation-20">
+    <div id="fullscreen-container-content" class="elevation-10">
       <v-card id="fullscreen-content">
         <div class="buttons-top-right">
           <v-btn v-if="!store.readOnlyMode" class="" :class="{ 'btn-dark': writeMode }" icon
@@ -11,8 +11,8 @@
           </v-btn>
         </div>
 
-        <text-area-write-mode v-if="writeMode" v-model="writeMode" v-bind:id="id" />
-        <text-area-read-mode v-if="!writeMode" v-model="writeMode" v-bind:id="id" />
+        <TextAreaWriteMode v-if="writeMode" v-model="writeMode" v-bind:id="id" />
+        <TextAreaReadMode v-if="!writeMode" v-model="writeMode" v-bind:id="id" />
       </v-card>
     </div>
   </div>
@@ -21,6 +21,8 @@
 import { useLookAtTime } from "@/store/store";
 import type { FullscreenToggled } from "./fullscreen-toggled";
 import { computed } from "vue";
+import TextAreaWriteMode from "./write-mode/text-area-write-mode.vue";
+import TextAreaReadMode from "./read-mode/text-area-read-mode.vue";
 
 const store = useLookAtTime()
 
@@ -57,12 +59,14 @@ const isTimeEventToBeCreated = computed(() => {
 })
 </script>
 
-<style lang="css" scoped>
+<style scoped>
+@import "./fullscreen.css";
+
 #fullscreen-container {
   position: fixed;
   width: 100%;
   height: 100vh;
-  padding-bottom: 100px; /* app bar height + footer height */
+  padding-bottom: 160px; /* app bar height + footer height + shadow */
   z-index: 6;
 }
 

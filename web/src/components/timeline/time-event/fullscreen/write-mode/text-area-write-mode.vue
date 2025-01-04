@@ -26,7 +26,7 @@
                 <v-text-field v-model="plainDate" label="Date" prepend-icon="mdi-calendar" readonly v-bind="props.attrs"
                   v-on="props.on" :rules="[ruleNotEmpty]" :error-messages="errorMessageSameDate"></v-text-field>
               </template>
-              <v-date-picker v-model="plainDate" @input="datePickerOpen = false"></v-date-picker>
+              <v-date-picker v-model="plainDate" @update:model-value="datePickerOpen = false"></v-date-picker>
             </v-menu>
 
             <v-btn small depressed fab color="grey lighten-4" class="mx-1 my-auto"

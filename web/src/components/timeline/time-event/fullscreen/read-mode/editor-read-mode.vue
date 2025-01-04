@@ -1,5 +1,5 @@
 <template>
-  <div class="ck-content" v-html="value"></div>
+  <div class="ck-content" v-html="props.value"></div>
 </template>
 
 <script setup lang="ts">

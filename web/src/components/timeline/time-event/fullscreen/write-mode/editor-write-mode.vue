@@ -1,5 +1,5 @@
 <template>
-  <ckeditor :editor="editor" v-model="text" :config="config"></ckeditor>
+  <ckeditor v-if="editor && config" :editor="editor" v-model="text" :config="config"></ckeditor>
 </template>
 
 <script setup lang="ts">
@@ -202,7 +202,7 @@ const config = computed(() => {
       upload: { types: ["jpeg", "gif", "png", "svg+xml"] }
     },
     simpleUpload: { uploadUrl: `${window.location}/api/store-image?timeEventId=${props.id}&timelineId=${store.selectedTimeline!.id}&userId=${store.user!.id}` },
-    licenseKey: "GPL",
+    licenseKey: 'GPL',
     placeholder: 'Type or paste your content here!',
     table: {
       contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']

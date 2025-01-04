@@ -68,12 +68,12 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import TimeEventModel from "@/models/time-event/time-event-model";
-import TemporalConversion from "@/temporal-extensions/temporal-conversion";
-import EditorWriteMode from "./editor-write-mode.vue";
-import DomPurify from "dompurify";
 import { useLookAtTime } from "@/store/store";
-import { computed, useTemplateRef } from "vue";
+import TemporalConversion from "@/temporal-extensions/temporal-conversion";
+import DomPurify from "dompurify";
+import { computed, ref, useTemplateRef } from "vue";
 import type { FullscreenToggled } from "../fullscreen-toggled";
+import EditorWriteMode from "./editor-write-mode.vue";
 const store = useLookAtTime()
 const props = defineProps({
   id: { type: String, required: true },
@@ -95,20 +95,20 @@ const ruleImportanceNoNegative = (v: number) =>
 const ruleNotEmpty = (v: string) => !!v || "This field is required.";
 
 // Date picker state:
-let datePickerOpen = false;
-let timePickerOpen = false;
-let timePickerVisible = false;
+const datePickerOpen = ref(false);
+const timePickerOpen = ref(false);
+const timePickerVisible = ref(false);
 
 // Form fields:
-let plainDate = null as null | string;
-let plainTime = null as null | string;
-let title = null as null | string;
-let text = null as null | string;
-let importance = null as null | number;
+const plainDate = ref(null as null | string);
+const plainTime = ref(null as null | string);
+const title = ref(null as null | string);
+const text = ref(null as null | string);
+const importance = ref(null as null | number);
 
 // Form state:
-let valid = true;
-let loading = false;
+const valid = ref(true);
+const loading = ref(false);
 
 if (props.id !== null) {
   populateForm();
@@ -125,7 +125,7 @@ const errorMessageSameDate = computed(() => {
     .filter((timeEvent) => timeEvent.id != props.id)
     .map((timeEvent) => timeEvent.date)
     .includes(
-      TemporalConversion.epochSeconds(plainDate!, plainTime)
+      TemporalConversion.epochSeconds(plainDate.value!, plainTime.value)
     )
     ? ["You have another event at this date!"]
     : [];
@@ -143,11 +143,11 @@ function populateForm() {
   if (!timeEvent) {
     throw Error("Could not get time event because it was not found");
   } else {
-    title = timeEvent.title;
-    text = timeEvent.text;
-    importance = timeEvent.importance;
-    plainDate = TemporalConversion.plainDate(timeEvent.date);
-    plainTime = TemporalConversion.plainTime(timeEvent.date);
+    title.value = timeEvent.title;
+    text.value = timeEvent.text;
+    importance.value = timeEvent.importance;
+    plainDate.value = TemporalConversion.plainDate(timeEvent.date);
+    plainTime.value = TemporalConversion.plainTime(timeEvent.date);
   }
 }
 
@@ -162,22 +162,22 @@ function populateForm() {
  * All non-null asserted calls are secured by form validation rules.
  */
 async function submit() {
-  loading = true;
+  loading.value = true;
 
   const date = TemporalConversion.epochSeconds(
-    plainDate!,
-    plainTime
+    plainDate.value!,
+    plainTime.value
   );
 
   try {
     await store.createOrUpdateTimeEvent(
       new TimeEventModel(
         props.id,
-        DomPurify.sanitize(text!),
+        DomPurify.sanitize(text.value!),
         date,
-        importance!,
+        importance.value!,
         [], // TODO: Obsolete, image urls are stored in text.
-        title!
+        title.value!
       ))
 
     if (store.timeEventToBeCreated) {
@@ -194,10 +194,10 @@ async function submit() {
       );
     }
 
-    props.show = false;
+    show.value = false;
   } catch (e) {
     console.warn("Updating time event failed:", e);
-    loading = false;
+    loading.value = false;
   }
 }
 
@@ -211,7 +211,7 @@ async function submit() {
  * the time event and close fullscreen mode.
  */
 async function cancel() {
-  props.show = false;
+  show.value = false;
 
   if (store.timeEventToBeCreated) {
     store.setTimeEventToBeCreated(undefined);

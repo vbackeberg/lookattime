@@ -42,7 +42,7 @@ const formattedDate = computed(() => {
 })
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 .event-title {
   margin-bottom: 26px; /* Corresponds to v-text-field margins + details */
 }

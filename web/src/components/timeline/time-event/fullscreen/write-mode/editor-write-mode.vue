@@ -188,13 +188,6 @@ const config = computed(() => {
       Underline
     ],
     balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'bulletedList', 'numberedList'],
-    fontFamily: {
-      supportAllValues: true
-    },
-    fontSize: {
-      options: [10, 12, 14, 'default', 18, 20, 22],
-      supportAllValues: true
-    },
     image: {
       toolbar: [
         'toggleImageCaption',
@@ -209,15 +202,7 @@ const config = computed(() => {
       upload: { types: ["jpeg", "gif", "png", "svg+xml"] }
     },
     simpleUpload: { uploadUrl: `${window.location}/api/store-image?timeEventId=${props.id}&timelineId=${store.selectedTimeline!.id}&userId=${store.user!.id}` },
-    initialData: 'Your text here',
     licenseKey: "GPL",
-    list: {
-      properties: {
-        styles: true,
-        startIndex: true,
-        reversed: true
-      }
-    },
     placeholder: 'Type or paste your content here!',
     table: {
       contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']

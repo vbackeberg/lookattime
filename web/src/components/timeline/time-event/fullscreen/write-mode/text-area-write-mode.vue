@@ -66,7 +66,6 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import TimeEventModel from "@/models/time-event/time-event-model";
 import { useLookAtTime } from "@/store/store";
 import TemporalConversion from "@/temporal-extensions/temporal-conversion";

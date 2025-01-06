@@ -32,15 +32,15 @@
 
     <v-card id="dialog" rounded="xl" v-show="showDialog">
       <div id="title-container">
-        <div id="astronaut" class="emoji">🧑‍🚀</div>
+        <v-img src="@/assets/astronaut.svg" width="20%"></v-img>
         <v-card-title id="title">
-          <p>Welcome time traveler!</p>
-          <p>Would you like to get an introduction?</p>
+          Welcome time traveler!
+          Would you like to get an introduction?
         </v-card-title>
       </div>
       <v-card-actions class="d-flex flex-column">
-        <v-btn block color="primary" @click="startIntroduction()">Take the tour</v-btn>
-        <v-btn block color="tertiary" @click="stopIntroduction()" class="mt-3 ml-0">Close</v-btn>
+        <v-btn block variant="flat" color="primary" @click="startIntroduction()">Take the tour</v-btn>
+        <v-btn block variant="tonal" color="tertiary"  @click="stopIntroduction()">Close</v-btn>
       </v-card-actions>
     </v-card>
 
@@ -52,31 +52,31 @@
 <script setup lang="ts">
 import Step from "@/components/introduction/step.vue";
 import { useLookAtTime } from "@/store/store";
-import { watch } from "vue";
+import { ref, watch } from "vue";
 
-let showDialog = true
-let step = 0
+let showDialog = ref(true)
+let step = ref(0)
 
 const store = useLookAtTime()
 
 watch(store.timeEvents, async (newTimeEvents) => {
-  if (newTimeEvents.length > 0 && step === 0) {
+  if (newTimeEvents.length > 0 && step.value === 0) {
     store.showIntroduction = false;
   }
 });
 
 function startIntroduction() {
-  showDialog = false;
-  step = 1;
+  showDialog.value = false;
+  step.value = 1;
 }
 
 function stopIntroduction() {
-  step = 0;
+  step.value = 0;
   store.showIntroduction = false;
 }
 
 function next() {
-  step++;
+  step.value++;
 }
 </script>
 
@@ -94,26 +94,12 @@ function next() {
 
 #title-container {
   display: flex;
-  flex-direction: row;
-}
-
-#astronaut {
-  width: 30%;
-
-  font-size: 6em;
-
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
 #title {
-  width: 70%;
-
-  word-break: normal;
-
-  justify-content: center;
-  align-items: center;
+  white-space: normal;
 }
 
 :deep(.v-overlay__content) {

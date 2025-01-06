@@ -20,7 +20,7 @@
     <div id="time-marker-area"></div>
     <v-tooltip location="top end" text="Add new time event" v-if="!store.readOnlyMode" transition="fade-transition">
       <template v-slot:activator="{ props }">
-        <v-fab location="bottom end" absolute class="me-4 mb-4" v-bind="props" color="primary" icon="mdi-plus"
+        <v-fab id="fab" v-bind="props" color="primary" icon="mdi-plus"
           @click.stop="createNewTimeEvent"></v-fab>
       </template>
     </v-tooltip>
@@ -188,8 +188,9 @@ function reloadPage() {
 }
 
 #fab {
-  margin-bottom: 64px;
-  margin-right: 64px;
+  position: fixed;
+  bottom: 120px;
+  right: 120px;
 }
 
 .spacer {

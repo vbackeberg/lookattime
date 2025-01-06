@@ -20,10 +20,10 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="setPrivacyPolicyAgreed(true)">
+        <v-btn variant="flat" color="primary" @click="setPrivacyPolicyAgreed(true)">
           I agree
         </v-btn>
-        <v-btn color="secondary" @click="setPrivacyPolicyAgreed(false)">
+        <v-btn variant="flat" color="tertiary" @click="setPrivacyPolicyAgreed(false)">
           I disagree
         </v-btn>
       </v-card-actions>

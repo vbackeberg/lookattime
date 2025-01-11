@@ -7,5 +7,10 @@
 	"settings": {
 		"debug.internalConsoleOptions": "neverOpen",
 		"editor.formatOnType": true,
+	},
+	"extensions": {
+		"recommendations": [
+			"vue.volar"
+		]
 	}
 }

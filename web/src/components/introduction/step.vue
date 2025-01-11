@@ -1,15 +1,13 @@
 <template>
   <transition :name="`slide-${location}`">
-    <v-card ref="step" elevation="10" class="step-card" v-show="elementsFound">
+    <v-card elevation="10" class="step-card" v-show="elementsFound" :style="locationStyle">
       <v-card-text class="black--text">{{ text }}</v-card-text>
     </v-card>
   </transition>
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, useTemplateRef } from 'vue';
-
-const step = useTemplateRef('step');
+import { computed, nextTick, onMounted, ref } from 'vue'
 
 const props = defineProps({
   text: { type: String, required: true },
@@ -34,8 +32,9 @@ const props = defineProps({
   trigger: { type: String, default: "click" }
 })
 
-let elementsFound = false
-let anchorElement = undefined as DOMRect | null | undefined
+const elementsFound = ref(false)
+const anchorElement = ref<DOMRect | null | undefined>(undefined)
+let triggerElement: Element | null | undefined = undefined
 
 const emits = defineEmits(["next"])
 
@@ -46,10 +45,8 @@ const emits = defineEmits(["next"])
  */
 onMounted(() => {
   const observer = new MutationObserver(() => {
-    tryPlaceNearAnchorElement(observer);
+    findElements(observer);
   });
-
-  tryPlaceNearAnchorElement(observer);
 
   observer.observe(document.body, {
     childList: true,
@@ -57,80 +54,65 @@ onMounted(() => {
   });
 })
 
-/**
- * Places the element next to the `anchorElement` if it is present.
- */
-async function tryPlaceNearAnchorElement(mutationObserver: MutationObserver) {
-  const anchorElement = getElementByIdOrClass(props.anchorElementIdOrClass)?.getBoundingClientRect();
-
-  const triggerElement = getElementByIdOrClass(props.triggerElementIdOrClass ?? props.anchorElementIdOrClass);
+async function findElements(mutationObserver: MutationObserver) {
+  anchorElement.value = getElementByIdOrClass(props.anchorElementIdOrClass)?.getBoundingClientRect();
+  triggerElement = getElementByIdOrClass(props.triggerElementIdOrClass ?? props.anchorElementIdOrClass);
 
   // Do not proceed until required elements are found.
-  if (!anchorElement || !triggerElement) return;
+  if (!anchorElement.value || !triggerElement) return;
 
-  elementsFound = true;
-
+  elementsFound.value = true;
   mutationObserver.disconnect();
+  triggerElement.addEventListener(props.trigger, () => { emits("next"); });
 
   // Element isn't yet rendered, which would make it's height 0.
   await nextTick();
+}
+
+/**
+ * Places the element next to the `anchorElement` if it is present.
+ */
+const locationStyle = computed(() => {
+  if (!elementsFound.value) return {}
 
   const margin = 24;
 
   switch (props.location) {
     case "top": {
-      step.value!.style!.bottom =
-        document.documentElement.clientHeight -
-        anchorElement.top +
-        margin +
-        "px";
-
-      horizontalAlignCenter();
-      break;
+      const bottom = `${document.documentElement.clientHeight - anchorElement.value!.top + margin}px`;
+      return { bottom, left: horizontalAlignCenter() }
     }
-    case "bottom": {
-      step.value!.style!.top =
-        anchorElement.bottom + margin + "px";
+    // case "bottom": {
+    //   step.value!.style!.top =
+    //     anchorElement.bottom + margin + "px";
 
-      horizontalAlignCenter();
-      break;
-    }
+    //   horizontalAlignCenter();
+    //   break;
+    // }
     case "left": {
-      step.value!.style!.right =
-        document.documentElement.clientWidth -
-        anchorElement.left +
-        margin +
-        "px";
+      const left = `${document.documentElement.clientWidth - anchorElement.value!.left + margin}px`;
 
-      verticalAlignCenter();
-      break;
+      return { left, top: verticalAlignCenter() }
     }
-    case "right": {
-      step.value!.style!.left =
-        anchorElement.right + margin + "px";
+    //   verticalAlignCenter();
+    //   break;
+    // }
+    // case "right": {
+    //   step.value!.style!.left =
+    //     anchorElement.right + margin + "px";
 
-      verticalAlignCenter();
-      break;
-    }
+    //   verticalAlignCenter();
+    //   break;
+    // }
   }
-
-  triggerElement.addEventListener(trigger, () => { emits("next"); });
-}
+})
 
 function verticalAlignCenter() {
-  step.value!.style!.top =
-    anchorElement!!.top +
-    anchorElement!!.height / 2 -
-    step.value!.offsetHeight / 2 +
-    "px";
+  return `${anchorElement.value!.top + anchorElement.value!.height / 2 - 200 / 2}px`
 }
 
 function horizontalAlignCenter() {
-  step.value!.style!.left =
-    anchorElement!!.left +
-    anchorElement!!.width / 2 -
-    step.value!.offsetWidth / 2 +
-    "px";
+  return `${anchorElement!.value!.left + anchorElement!.value!.width / 2 - 200 / 2}px`
 }
 
 function getElementByIdOrClass(elementIdOrClass: string): Element | null {

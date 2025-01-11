@@ -5,6 +5,9 @@
     "DB_DATABASE": "lookattime",
     "DB_SERVER": "",
     "DB_USERNAME": "azureuser",
-    "DB_PASSWORD": ""
+    "DB_PASSWORD": "",
+    "AzureWebJobsStorageLookattime": "",
+    "AzureWebJobsStorageLookattime_ContainerName":"",
+    "IMAGE_STORAGE_URL":""
   }
 }

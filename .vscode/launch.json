@@ -15,5 +15,11 @@
       "command": "npm run dev",
       "cwd": "${workspaceFolder}/web",
     }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack",
+      "configurations": ["Azure Backend", "Frontend"]
+    }
   ]
 }

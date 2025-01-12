@@ -1,7 +1,8 @@
 <template>
   <div ref="time-event" class="container-zoomable zoom-transition">
     <div class="buffer-top grow-transition"></div>
-    <v-card class="content elevation-0 grow-transition" v-on:contextmenu.prevent="openContextMenu">
+    <v-card class="content elevation-0 grow-transition" v-on:contextmenu.prevent="openContextMenu"
+      id="container-zoomable-content">
       <v-img v-bind:src="previewImageSrc" class="card-image white--text align-end" alt="time event image">
         <v-card-title class="card-title card-image-shadow">{{
           timeEvent.title

@@ -1,32 +1,31 @@
 <template>
   <div>
-    <step :key="1" v-if="step === 1" v-on:next="next()" anchorElementIdOrClass="fab" location="left"
+    <step :key="1" v-if="step === 1" v-on:next="next" anchorElementId="btn-new-time-event" location="left"
       text="Look at Time allows you to create interactive timelines. Let's start by creating your first time event. Click here 👉">
     </step>
 
-    <step :key="2" v-if="step === 2" v-on:next="next()" anchorElementIdOrClass="event-title" location="bottom"
+    <step :key="2" v-if="step === 2" v-on:next="next" anchorElementId="event-title" location="bottom"
       text="This is your editor. You can add a title, a date and the importance of your event. Importance allows you to keep an overview when you zoom out. When two events come close to each other, the one with lower importance will fade out.">
     </step>
 
-    <step :key="3" v-if="step === 3" v-on:next="next()" anchorElementIdOrClass="text-area-btn-save" location="top"
+    <step :key="3" v-if="step === 3" v-on:next="next" anchorElementId="text-area-btn-save" location="top"
       text="Hit save when you have filled out every mandatory field."></step>
 
-    <step :key="4" v-if="step === 4" v-on:next="next()" anchorElementIdOrClass="content" triggerElementIdOrClass="fab"
-      location="top"
+    <step :key="4" v-if="step === 4" v-on:next="next" anchorElementId="container-zoomable-content"
+      triggerElementId="btn-new-time-event" location="top"
       text="Great, you have created your first time event! Now, click the blue plus button on the lower right, once again. As soon as we have a second time event, you'll see the magic happen.">
     </step>
 
-    <step :key="5" v-if="step === 5" v-on:next="next()" anchorElementIdOrClass="text-area-btn-save" location="top"
+    <step :key="5" v-if="step === 5" v-on:next="next" anchorElementId="text-area-btn-save" location="top"
       text="Fill out the fields and hit the save button. Make sure you pick a date that is a few days apart from the first one!">
     </step>
 
-    <step :key="6" v-if="step === 6" v-on:next="next()" anchorElementIdOrClass="horizontal-line"
-      triggerElementIdOrClass="timeline" location="top" trigger="wheel"
+    <step :key="6" v-if="step === 6" v-on:next="nextAfterTimeEventCreated" anchorElementId="horizontal-line"
+      triggerElementId="timeline" location="top" trigger="wheel"
       text="Whoa! What happened? Your timeline has come to live. Below you can see where you are in time. Use your mouse wheel to zoom in and out.">
     </step>
 
-    <step :key="7" v-if="step === 7" v-on:next="stopIntroduction()" anchorElementIdOrClass="app-bar-avatar"
-      location="left"
+    <step :key="7" v-if="step === 7" v-on:next="stopIntroduction" anchorElementId="app-bar-avatar" location="left"
       text="I have one last hint for you, traveler. Click on your avatar above to access your timelines and create new ones. Now, have a good flight!"
       class="mt-14"></step>
 
@@ -39,13 +38,12 @@
         </v-card-title>
       </div>
       <v-card-actions class="d-flex flex-column">
-        <v-btn block variant="flat" color="primary" @click="startIntroduction()">Take the tour</v-btn>
-        <v-btn block variant="tonal" color="tertiary"  @click="stopIntroduction()">Close</v-btn>
+        <v-btn block variant="flat" color="primary" @click="startIntroduction">Take the tour</v-btn>
+        <v-btn block variant="tonal" color="tertiary" @click="stopIntroduction">Close</v-btn>
       </v-card-actions>
     </v-card>
-
     <v-btn v-show="step > 0" id="btn-end" color="secondary" elevation="10"
-      @click="stopIntroduction()"><v-icon>mdi-close</v-icon>End Tour</v-btn>
+      @click="stopIntroduction"><v-icon>mdi-close</v-icon>End Tour</v-btn>
   </div>
 </template>
 
@@ -75,9 +73,18 @@ function stopIntroduction() {
   store.showIntroduction = false;
 }
 
-function next() {
-  step.value++;
+async function next() {
+  await new Promise(r => setTimeout(r, 700));
+  step.value++
 }
+
+async function nextAfterTimeEventCreated() {
+  while (store.timeEvents.length < 2) {
+    await new Promise(r => setTimeout(r, 100));
+  }
+  next()
+}
+
 </script>
 
 <style scoped>

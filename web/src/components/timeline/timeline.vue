@@ -18,7 +18,7 @@
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
     <div id="time-marker-area"></div>
-    <v-tooltip location="top end" text="Add new time event" v-if="!store.readOnlyMode" transition="fade-transition">
+    <v-tooltip location="top" offset="36" text="Add new time event" v-if="!store.readOnlyMode" transition="fade-transition">
       <template v-slot:activator="{ props }">
         <v-fab id="fab" v-bind="props" color="primary" icon="mdi-plus"
           @click.stop="createNewTimeEvent"></v-fab>

@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app>
     <v-app-bar app flat color="#fff">
       <ManageTimelinesForm v-model="showManageTimelinesForm" />
       <WhatsNewDialog v-model="showWhatsNewDialog" />

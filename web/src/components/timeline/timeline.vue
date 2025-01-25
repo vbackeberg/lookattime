@@ -14,11 +14,12 @@
       <time-event-to-be-created v-if="store.timeEventToBeCreated" v-bind:id="store.timeEventToBeCreated.id"
         v-bind:imageReferences="store.timeEventToBeCreated.imageReferences"
         v-bind:writeMode="true"></time-event-to-be-created>
-      <horizontal-line></horizontal-line>
+      <horizontal-line :time-marker-area="timeMarkerArea" :parent-mounted="mounted" ></horizontal-line>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
-    <div id="time-marker-area"></div>
-    <v-tooltip location="top" offset="36" text="Add new time event" v-if="!store.readOnlyMode" transition="fade-transition">
+    <div id="time-marker-area" ref="time-marker-area"></div>
+    <v-tooltip location="top" offset="36" text="Add new time event" v-if="!store.readOnlyMode"
+      transition="fade-transition">
       <template v-slot:activator="{ props }">
         <v-fab id="btn-new-time-event" v-bind="props" color="primary" icon="mdi-plus"
           @click.stop="createNewTimeEvent"></v-fab>
@@ -58,8 +59,13 @@ import { v4 as uuid } from "uuid";
 import { Temporal } from "@js-temporal/polyfill";
 import TimeEventToBeCreated from "./time-event/time-event-to-be-created.vue";
 import { useLookAtTime } from "@/store/store";
-import { nextTick, onMounted, useTemplateRef } from "vue";
+import { nextTick, onMounted, ref, useTemplateRef, watchEffect } from "vue";
 import type { FullscreenToggled } from "./time-event/fullscreen/fullscreen-toggled";
+
+const timeMarkerArea = useTemplateRef("time-marker-area")
+
+const mounted = ref(false)
+onMounted(() => mounted.value = true)
 
 const store = useLookAtTime();
 

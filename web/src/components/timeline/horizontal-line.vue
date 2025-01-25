@@ -1,13 +1,20 @@
 <template>
-  <svg id="horizontal-line"></svg>
+  <svg id="horizontal-line" ref="horizontal-line"></svg>
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted } from 'vue';
+import { onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue';
 
+const props = defineProps<{ timeMarkerArea: HTMLDivElement | null, parentMounted: boolean }>()
+const horizontalLine = useTemplateRef("horizontal-line")
+
+watchEffect(() => {
+  repositionHorizontalLine()
+  observeAndRepositionHorizontalLine()
+})
 
 onMounted(() => {
-  observeAndRepositionHorizontalLine();
+  // TODO: resize observer for time marker area: If it changes height, reposition line
 })
 
 /**
@@ -20,22 +27,10 @@ onMounted(() => {
  * parent is mounted, too.
  */
 async function observeAndRepositionHorizontalLine() {
-  await nextTick();
-
-  const anchorElement = document.getElementById(
-    "time-marker-area"
-  ) as HTMLElement;
-
-  const horizontalLineElement = document.getElementById(
-    "horizontal-line"
-  ) as HTMLElement;
-
-  repositionHorizontalLine(anchorElement, horizontalLineElement);
-
-  horizontalLineElement.style.visibility = "visible";
-
-  window.onresize = (_) => repositionHorizontalLine(anchorElement, horizontalLineElement);
+  window.onresize = (_) => { if (props.timeMarkerArea && horizontalLine.value) { repositionHorizontalLine() } };
 };
+
+// onUnmounted(() => { o1?.disconnect(); o2?.disconnect() });
 
 /**
  * Anchor horizontal line to bottom of anchor element.
@@ -52,13 +47,18 @@ async function observeAndRepositionHorizontalLine() {
  * Both elements are guaranteed to exist since this method is called
  * after component has been mounted.
  */
-function repositionHorizontalLine(
-  anchorElement: HTMLElement,
-  horizontalLineElement: HTMLElement
-) {
-  horizontalLineElement.style.top = `${anchorElement.getBoundingClientRect().top -
-    horizontalLineElement.getBoundingClientRect().height
-    }px`;
+function repositionHorizontalLine() {
+  console.log("call reposition")
+  if (props.timeMarkerArea && horizontalLine.value) {
+    console.log("reposition");
+    horizontalLine.value.style.visibility = "visible";
+    console.log(props.timeMarkerArea.getBoundingClientRect().top)
+    console.log(horizontalLine.value.getBoundingClientRect().height)
+
+    horizontalLine.value.style.top =
+      `${props.timeMarkerArea.getBoundingClientRect().top - horizontalLine.value.getBoundingClientRect().height}px`;
+  }
+
 }
 </script>
 

@@ -2,7 +2,7 @@
   <div id="fullscreen-container">
     <div id="fullscreen-container-content" class="elevation-10">
       <v-card id="fullscreen-content">
-        <div class="buttons-top-right">
+        <div class="flex justify-end px-2 py-2 gap-2">
           <v-btn v-if="!store.readOnlyMode" class="" :class="{ 'btn-dark': writeMode }" icon
             :disabled="isTimeEventToBeCreated"
             v-on:click.stop="writeMode = !writeMode"><v-icon>mdi-pencil</v-icon></v-btn>
@@ -54,9 +54,7 @@ function closeFullscreen() {
 
 writeMode = props.writeModeE;
 
-const isTimeEventToBeCreated = computed(() => {
-  return store.timeEventToBeCreated !== null;
-})
+const isTimeEventToBeCreated = computed(() => (store.timeEventToBeCreated !== undefined))
 </script>
 
 <style scoped>
@@ -66,7 +64,8 @@ const isTimeEventToBeCreated = computed(() => {
   position: fixed;
   width: 100%;
   height: 100vh;
-  padding-bottom: 160px; /* app bar height + footer height + shadow */
+  padding-bottom: 160px;
+  /* app bar height + footer height + shadow */
   z-index: 6;
 }
 
@@ -93,13 +92,6 @@ const isTimeEventToBeCreated = computed(() => {
 
   display: flex;
   flex-direction: column;
-}
-
-.buttons-top-right {
-  display: flex;
-  justify-content: end;
-  padding: 8px;
-  gap: 4px;
 }
 
 .btn-dark {

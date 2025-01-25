@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --transition-duration: 300ms;
   --transition-property: transform;

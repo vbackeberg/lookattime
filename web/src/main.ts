@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
-import Test from './test.vue'
+import App from './app.vue'
 import router from './router'
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
@@ -10,7 +10,7 @@ import Aura from '@primevue/themes/aura';
 const vuetify = createVuetify()
 const pinia = createPinia()
 
-createApp(Test)
+createApp(App)
   .use(vuetify)
   .use(router)
   .use(pinia)
@@ -19,4 +19,4 @@ createApp(Test)
       preset: Aura
     }
   })
-  .mount('#test')
+  .mount('#app')

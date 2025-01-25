@@ -16,6 +16,7 @@
     "ckeditor",
     "dtos",
     "pinia",
+    "primevue",
     "VITE",
     "vuetify",
     "vuex",

@@ -7,13 +7,13 @@
       <svg id="spacer-viewport-right" class="spacer"></svg>
     </div>
     <div id="time-event-area">
-      <time-event v-for="timeEvent in store.timeEvents" v-bind:key="timeEvent.id" v-bind:id="timeEvent.id"
-        v-bind:imageReferences="timeEvent.imageReferences" v-bind:isFullscreen="timeEvent.isFullscreen"
-        v-bind:writeMode="timeEvent.writeMode"
+      <time-event v-for="timeEvent in store.timeEvents" :key="timeEvent.id" :id="timeEvent.id"
+        :imageReferences="timeEvent.imageReferences" :isFullscreen="timeEvent.isFullscreen"
+        :writeMode="timeEvent.writeMode"
         v-on:openContextMenu="openContextMenu($event, timeEvent.id)"></time-event>
-      <time-event-to-be-created v-if="store.timeEventToBeCreated" v-bind:id="store.timeEventToBeCreated.id"
-        v-bind:imageReferences="store.timeEventToBeCreated.imageReferences"
-        v-bind:writeMode="true"></time-event-to-be-created>
+      <time-event-to-be-created v-if="store.timeEventToBeCreated" :id="store.timeEventToBeCreated.id"
+        :imageReferences="store.timeEventToBeCreated.imageReferences"
+        :writeMode="true"></time-event-to-be-created>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
     <div class="relative flex-1 h-4">

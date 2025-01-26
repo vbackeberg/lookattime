@@ -1,7 +1,7 @@
 <template>
   <div ref="time-event" class="container-zoomable zoom-transition">
     <div class="buffer-top grow-transition"></div>
-    <v-card class="content elevation-0 grow-transition" v-on:contextmenu.prevent="openContextMenu"
+    <v-card class="content elevation-0 grow-transition" v-on:contextmenu.prevent="$emit('openContextMenu')"
       id="container-zoomable-content">
       <v-img v-bind:src="previewImageSrc" class="card-image white--text align-end" alt="time event image">
         <v-card-title class="card-title card-image-shadow">{{
@@ -37,16 +37,7 @@ const el = useTemplateRef("time-event")
  * The variable card houses the three dynamic sizes of a time event
  * that change during zoom.
  */
-const props = defineProps({
-  id: { type: String, required: true },
-  imageReferences: { type: Array<ImageReferenceModel>, required: true },
-  expansionZoomLevels: { type: Array<ExpansionState>, required: true }
-});
-
-/**
- * Defines whether the time event should look like a box, bubble, dot or flat.
- */
-let expansionState = ExpansionState.Flat
+const props = defineProps<{ id: string, imageReferences: ImageReferenceModel[] }>();
 
 onMounted(() => {
   initializeHTMLElement();
@@ -100,10 +91,6 @@ const parsedText = computed(() =>
   document.createRange().createContextualFragment(timeEvent.value.text).textContent ?? ""
 );
 
-function openContextMenu(e: MouseEvent) {
-  $parent?.$emit("openContextMenu", e);
-}
-
 /**
  *  After the HTML element has been created, we tie it to the time event
  *  object so that we can access it for translateX modifications during the
@@ -118,6 +105,12 @@ function initializeHTMLElement() {
 
   timeEvent.value.positionCenter = timeEvent.value.positionCenter;
 }
+
+
+/**
+ * Defines whether the time event should look like a box, bubble, dot or flat.
+ */
+let expansionState = ExpansionState.Flat
 
 /**
  * Sets the expansion state according to the current zoom level.

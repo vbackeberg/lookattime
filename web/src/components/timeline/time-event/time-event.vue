@@ -1,24 +1,21 @@
 <template>
   <div class="container-outer">
-    <container-fullscreen v-if="isFullscreen" v-bind:id="id" v-bind:writeModeE="writeMode" />
-    <container-zoomable v-else v-bind:id="id" v-bind:imageReferences
-      v-bind:expansionZoomLevels />
+    <container-fullscreen v-if="isFullscreen" :id="props.id" :writeModeE="props.writeMode" />
+    <container-zoomable v-else :id="props.id" :imageReferences="props.imageReferences" v-on:contextmenu.prevent="$emit('openContextMenu')" />
   </div>
 </template>
 
 <script setup lang="ts">
 import ContainerFullscreen from "./fullscreen/container-fullscreen.vue";
 import ContainerZoomable from "./container-zoomable.vue";
-import ExpansionState from "@/models/time-event/expansion-state";
 import ImageReferenceModel from "@/models/image-reference-model";
 
-const props = defineProps({
-  id: String,
-  imageReferences: Array<ImageReferenceModel>,
-  expansionZoomLevels: Array<ExpansionState>,
-  isFullscreen: Boolean,
-  writeMode: Boolean
-})
+const props = defineProps<{
+  id: string,
+  imageReferences: ImageReferenceModel[],
+  isFullscreen: boolean,
+  writeMode: boolean
+}>()
 </script>
 
 <style scoped lang="css">

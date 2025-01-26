@@ -10,10 +10,9 @@
       <time-event v-for="timeEvent in store.timeEvents" :key="timeEvent.id" :id="timeEvent.id"
         :imageReferences="timeEvent.imageReferences" :isFullscreen="timeEvent.isFullscreen"
         :writeMode="timeEvent.writeMode"
-        v-on:openContextMenu="openContextMenu($event, timeEvent.id)"></time-event>
+        v-on:openContextMenu="(e: MouseEvent, el: HTMLDivElement) => openContextMenu(e, el, timeEvent.id)"></time-event>
       <time-event-to-be-created v-if="store.timeEventToBeCreated" :id="store.timeEventToBeCreated.id"
-        :imageReferences="store.timeEventToBeCreated.imageReferences"
-        :writeMode="true"></time-event-to-be-created>
+        :imageReferences="store.timeEventToBeCreated.imageReferences" :writeMode="true"></time-event-to-be-created>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
     <div class="relative flex-1 h-4">
@@ -37,7 +36,7 @@
       </div>
     </v-overlay>
 
-    <v-menu v-model="showContextMenu" :position-x="x" :position-y="y" absolute offset-y style="max-width: 600px">
+    <v-menu v-model="showContextMenu" :activator="contextMenuActivator" location="end">
       <v-list>
         <v-list-item v-on:click.stop="deleteEvent()">
           <v-list-item-title>Delete</v-list-item-title>
@@ -71,10 +70,10 @@ onMounted(() => mounted.value = true)
 
 const store = useLookAtTime();
 
-let isFullscreen = false;
-let showContextMenu = false;
-let x = 0;
-let y = 0;
+let contextMenuActivator = ref<Element | undefined>(undefined);
+let showContextMenu = ref(true);
+let x = ref(0);
+let y = ref(0);
 let selectedTimeEventId = null as string | null
 
 const timelineElement = useTemplateRef("timeline")
@@ -102,14 +101,13 @@ onMounted(async () => {
   });
 })
 
-function openContextMenu(e: MouseEvent, timeEventId: string) {
+function openContextMenu(e: MouseEvent, el: HTMLDivElement, timeEventId: string) {
   selectedTimeEventId = timeEventId;
 
-  showContextMenu = false;
-  x = e.clientX;
-  y = e.clientY;
+  contextMenuActivator.value = el;
+  showContextMenu.value = false;
   nextTick(() => {
-    showContextMenu = true;
+    showContextMenu.value = true;
   });
 }
 
@@ -141,7 +139,7 @@ function deleteEvent() {
   if (selectedTimeEventId) {
     store.deleteTimeEvent(selectedTimeEventId);
   }
-  showContextMenu = false;
+  showContextMenu.value = false;
 }
 
 function setHTMLElements() {

@@ -1,7 +1,8 @@
 <template>
   <div ref="time-event" class="container-zoomable zoom-transition">
     <div class="buffer-top grow-transition"></div>
-    <v-card class="content elevation-0 grow-transition" v-on:contextmenu.prevent="$emit('openContextMenu')"
+    <v-card class="content elevation-0 grow-transition"
+      v-on:contextmenu.prevent="(e: MouseEvent) => $emit('openContextMenu', e, card)" ref="card"
       id="container-zoomable-content">
       <v-img v-bind:src="previewImageSrc" class="card-image white--text align-end" alt="time event image">
         <v-card-title class="card-title card-image-shadow">{{
@@ -32,6 +33,7 @@ import type { FullscreenToggled } from "./fullscreen/fullscreen-toggled";
 
 const store = useLookAtTime()
 const el = useTemplateRef("time-event")
+const card = useTemplateRef("card")
 
 /**
  * The variable card houses the three dynamic sizes of a time event

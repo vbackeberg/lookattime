@@ -1,7 +1,8 @@
 <template>
   <div class="container-outer">
     <container-fullscreen v-if="isFullscreen" :id="props.id" :writeModeE="props.writeMode" />
-    <container-zoomable v-else :id="props.id" :imageReferences="props.imageReferences" v-on:contextmenu.prevent="$emit('openContextMenu')" />
+    <container-zoomable v-else :id="props.id" :imageReferences="props.imageReferences"
+      v-on:openContextMenu="(e: MouseEvent, el: HTMLDivElement) => $emit('openContextMenu', e, el)" />
   </div>
 </template>
 

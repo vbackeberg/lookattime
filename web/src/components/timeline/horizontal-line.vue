@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue';
 
-const props = defineProps<{ timeMarkerArea: HTMLDivElement | null, parentMounted: boolean }>()
+// const props = defineProps<{ timeMarkerArea: HTMLDivElement | null, parentMounted: boolean }>()
 const horizontalLine = useTemplateRef("horizontal-line")
 
 watchEffect(() => {
@@ -15,6 +15,7 @@ watchEffect(() => {
 
 onMounted(() => {
   // TODO: resize observer for time marker area: If it changes height, reposition line
+  // const o = new ResizeObserver()
 })
 
 /**
@@ -27,7 +28,7 @@ onMounted(() => {
  * parent is mounted, too.
  */
 async function observeAndRepositionHorizontalLine() {
-  window.onresize = (_) => { if (props.timeMarkerArea && horizontalLine.value) { repositionHorizontalLine() } };
+  // window.onresize = (_) => { if (props.timeMarkerArea && horizontalLine.value) { repositionHorizontalLine() } };
 };
 
 // onUnmounted(() => { o1?.disconnect(); o2?.disconnect() });
@@ -48,16 +49,16 @@ async function observeAndRepositionHorizontalLine() {
  * after component has been mounted.
  */
 function repositionHorizontalLine() {
-  console.log("call reposition")
-  if (props.timeMarkerArea && horizontalLine.value) {
-    console.log("reposition");
-    horizontalLine.value.style.visibility = "visible";
-    console.log(props.timeMarkerArea.getBoundingClientRect().top)
-    console.log(horizontalLine.value.getBoundingClientRect().height)
+  // console.log("call reposition")
+  // if (props.timeMarkerArea && horizontalLine.value) {
+  //   console.log("reposition");
+  //   horizontalLine.value.style.visibility = "visible";
+  //   console.log(props.timeMarkerArea.getBoundingClientRect().top)
+  //   console.log(horizontalLine.value.getBoundingClientRect().height)
 
-    horizontalLine.value.style.top =
-      `${props.timeMarkerArea.getBoundingClientRect().top - horizontalLine.value.getBoundingClientRect().height}px`;
-  }
+  //   horizontalLine.value.style.top =
+  //     `${props.timeMarkerArea.getBoundingClientRect().top - horizontalLine.value.getBoundingClientRect().height}px`;
+  // }
 
 }
 </script>
@@ -65,11 +66,12 @@ function repositionHorizontalLine() {
 <style scoped>
 /** Hidden until correctly positioned */
 #horizontal-line {
-  visibility: hidden;
+  /* visibility: hidden; */
 
   width: 100%;
   height: 4px;
-  position: fixed;
+  position: absolute;
+  
 
   background-color: #000;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

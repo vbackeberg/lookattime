@@ -14,10 +14,12 @@
       <time-event-to-be-created v-if="store.timeEventToBeCreated" v-bind:id="store.timeEventToBeCreated.id"
         v-bind:imageReferences="store.timeEventToBeCreated.imageReferences"
         v-bind:writeMode="true"></time-event-to-be-created>
-      <horizontal-line :time-marker-area="timeMarkerArea" :parent-mounted="mounted" ></horizontal-line>
     </div>
     <!-- TODO: When depth below years, show year as a big number underneath -->
-    <div id="time-marker-area" ref="time-marker-area"></div>
+    <div class="relative flex-1 h-4">
+      <div id="time-marker-area" ref="time-marker-area"></div>
+      <horizontal-line></horizontal-line>
+    </div>
     <v-tooltip location="top" offset="36" text="Add new time event" v-if="!store.readOnlyMode"
       transition="fade-transition">
       <template v-slot:activator="{ props }">
@@ -175,7 +177,7 @@ function reloadPage() {
   overflow-y: hidden;
   overflow-x: scroll;
   position: relative;
-  background-color: #fff;
+  background-color: #223;
 
   display: flex;
   flex-flow: column nowrap;

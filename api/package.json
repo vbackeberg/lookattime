@@ -15,7 +15,7 @@
     "dompurify": "^3.0.1",
     "jsdom": "^21.1.1",
     "mime": "^3.0.0",
-    "mssql": "^9.1.1",
+    "mssql": "^11.0.0",
     "parse-multipart": "^1.0.4",
     "uuid": "^9.0.0",
     "validate-image-type": "^2.0.0"
@@ -25,7 +25,6 @@
     "@types/dompurify": "^3.0.0",
     "@types/jsdom": "21.1.1",
     "@types/mime": "^3.0.1",
-    "@types/mssql": "^8.1.2",
     "@types/uuid": "^9.0.1",
     "eslint": "8.38.0",
     "eslint-config-prettier": "^8.8.0",

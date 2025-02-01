@@ -121,8 +121,7 @@ export const useLookAtTime = defineStore("lookAtTime", {
         (timeEvent: { id: string; }) => timeEvent.id === changedTimeEvent.id
       );
       if (index === -1) {
-        this.timeEvents.push(timeEventWithImages);
-        this.timeEvents.sort((a: { date: number; }, b: { date: number; }) => a.date - b.date);
+        this.addTimeEvent(timeEventWithImages);
       } else {
         this.updateTimeEvent(timeEventWithImages, index);
       }
@@ -136,7 +135,7 @@ export const useLookAtTime = defineStore("lookAtTime", {
     async loadTimeEvents(): Promise<void> {
       this.loading = true;
       ViewResetter.Instance.resetView();
-      this.timeEvents = await HttpClient.getTimeEvents(this.selectedTimeline!.id);
+      this.setTimeEvents(await HttpClient.getTimeEvents(this.selectedTimeline!.id))
       this.loading = false;
     },
 

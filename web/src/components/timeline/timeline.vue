@@ -71,9 +71,7 @@ onMounted(() => mounted.value = true)
 const store = useLookAtTime();
 
 let contextMenuActivator = ref<Element | undefined>(undefined);
-let showContextMenu = ref(true);
-let x = ref(0);
-let y = ref(0);
+let showContextMenu = ref(false);
 let selectedTimeEventId = null as string | null
 
 const timelineElement = useTemplateRef("timeline")

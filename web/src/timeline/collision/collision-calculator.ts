@@ -54,6 +54,7 @@ export default class CollisionCalculator {
         this.store.timeEvents[currentTimeEventIndex].importance
       ) {
         return this.calculateCollisionZoomLevel(
+          //@ts-ignore
           this.store.timeEvents[i],
           this.store.timeEvents[currentTimeEventIndex],
           width
@@ -74,6 +75,7 @@ export default class CollisionCalculator {
         this.store.timeEvents[currentTimeEventIndex].importance
       ) {
         return this.calculateCollisionZoomLevel(
+          //@ts-ignore
           this.store.timeEvents[i],
           this.store.timeEvents[currentTimeEventIndex],
           width
@@ -100,5 +102,10 @@ export default class CollisionCalculator {
       ) /
         width)
     );
+  }
+  
+  private static instance: CollisionCalculator;
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
   }
 }

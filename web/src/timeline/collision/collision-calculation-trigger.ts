@@ -17,7 +17,7 @@ export default class CollisionCalculationTrigger {
       ) {
         await nextTick();
 
-        CollisionCalculator.recalculateCollisions();
+        CollisionCalculator.Instance.recalculateCollisions();
       }
     });
   }

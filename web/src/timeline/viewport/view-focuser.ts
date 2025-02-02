@@ -1,6 +1,7 @@
 import TimeEventModel from "@/models/time-event/time-event-model";
 import Zoomer from "../zooming/zoomer";
 import { useLookAtTime } from "@/store/store";
+import DebugLogger from "../debug-logger";
 
 export default class ViewFocuser {
   private zoomer = Zoomer.Instance;
@@ -60,9 +61,11 @@ export default class ViewFocuser {
     // minimum zoom level. (Probably same for maximum case)
     this.zoomer.zoom(zoomFactor, absoluteCenter);
 
-    this.timelineElement.scrollTo({
-      left: absoluteCenter - this.timelineElement.clientWidth / 2
-    });
+    const scrollTo = absoluteCenter - this.timelineElement.clientWidth / 2
+    console.debug(`Scrolling from ${this.timelineElement.scrollLeft} to ${scrollTo}`)
+    DebugLogger.Instance.logTimelineState(this.constructor.name)
+
+    this.timelineElement.scrollTo({ left: scrollTo });
   }
 
   private validate(left: number, right: number) {

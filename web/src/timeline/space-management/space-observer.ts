@@ -1,5 +1,6 @@
 import { useLookAtTime } from "@/store/store";
 import SpaceAllocator from "./space-allocator";
+import DebugLogger from "../debug-logger";
 
 /**
  * Observes movements of the left spacer to keep all elements in the positive position space.
@@ -33,6 +34,9 @@ export default class SpaceObserver {
           -this.store.spacerLeft!.positionLeft
         );
       }
+
+      console.debug("Space management end")
+      DebugLogger.Instance.logTimelineState(this.constructor.name)
 
       this.eventTarget.dispatchEvent(new Event("space-management-end"));
     });

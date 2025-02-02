@@ -1,6 +1,7 @@
 import TimeEventModel from "@/models/time-event/time-event-model";
 import { useLookAtTime } from "@/store/store";
 import Viewport from "../viewport/viewport";
+import DebugLogger from "../debug-logger";
 
 export default class SpaceAllocator {
   private constructor(private store = useLookAtTime()) { }
@@ -21,6 +22,9 @@ export default class SpaceAllocator {
     distance: number
   ) {
     this.removeZoomAnimation();
+
+    console.debug(`Extending left space by: ${distance}`)
+    DebugLogger.Instance.logTimelineState(this.constructor.name)
 
     this.extendSpacerViewportRight(distance);
     this.repositionElements(distance);
@@ -45,6 +49,9 @@ export default class SpaceAllocator {
   ) {
     this.removeZoomAnimation();
 
+    console.debug(`Cutting off left space by: ${-distance}`)
+    DebugLogger.Instance.logTimelineState(this.constructor.name)
+    
     timelineElement.scrollBy(-distance, 0);
 
     this.retractSpacerViewportRight();

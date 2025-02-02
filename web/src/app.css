@@ -2,7 +2,7 @@
 
 :root {
   --transition-duration: 300ms;
-  --transition-property: transform;
+  --transition-property: translate;
 
   --box-border-width: 1px;
 }

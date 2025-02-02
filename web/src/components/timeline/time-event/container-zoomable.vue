@@ -4,7 +4,7 @@
     <v-card class="content elevation-0 grow-transition"
       v-on:contextmenu.prevent="(e: MouseEvent) => $emit('openContextMenu', e, card)" ref="card"
       id="container-zoomable-content">
-      <v-img v-bind:src="previewImageSrc" class="card-image white--text align-end" alt="time event image">
+      <v-img v-bind:src="previewImageSrc" class="card-image white$text align-end" alt="time event image">
         <v-card-title class="card-title card-image-shadow">{{ positionCenter }}</v-card-title>
         <v-card-subtitle class="card-title card-image-shadow">{{ formattedDate }}</v-card-subtitle>
         <v-btn class="btn-full card-image-shadow" color="white" icon v-on:click.stop="openFullscreen()">
@@ -144,30 +144,31 @@ function applyDotStyles() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 @import "./time-event.css";
 
-:root {
-  --box-width: 300px;
-  --box-height: 400px;
+* {
+  $box-width: 300px;
+  $box-height: 400px;
 
-  --scale-factor-bubble-width: 0.2;
-  --scale-factor-bubble-height: calc(var(--scale-factor-bubble-width) * (var(--box-width) / var(--box-height)));
-  --scale-factor-dot-width: 0.05;
-  --scale-factor-dot-height: calc(var(--scale-factor-dot-width) / 2.5);
+  $scale-factor-bubble-width: 0.2;
+  $scale-factor-bubble-height: $scale-factor-bubble-width * ($box-width / $box-height);
+  $scale-factor-dot-width: 0.05;
+  $scale-factor-dot-height: $scale-factor-dot-width / 2.5;
 
-  --distance-bubble-below-box: 72px;
+  $distance-bubble-below-box: 72px;
+
+  $transition-duration: 300ms;
+  $transition-property: translate;
+
+  $box-border-width: 1px;
 }
 
 /* Applies transition to the element */
 .grow-transition {
-  transition-property: transform;
-  transition-duration: var(--transition-duration);
+  transition-property: scale;
+  transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.zoom-transition {
-  transition: var(--transition-property) var(--transition-duration) cubic-bezier(0.05, 0.61, 0.35, 1.12);
 }
 
 .container-zoomable {
@@ -175,8 +176,8 @@ function applyDotStyles() {
   /* TranslateX refers to the center of the element, so we position the */
   /* elements center at 0px by shifting it to the left by half its width. */
   translate: v-bind(positionCenter+"px");
-  left: calc(-1 * var(--box-width) / 2);
-  width: var(--box-width);
+  left: -1 * $box-width / 2;
+  width: $box-width;
   height: 100%;
 
   /* This property reduces subtle vertical position shifting when translateX */
@@ -191,8 +192,8 @@ function applyDotStyles() {
 }
 
 .content {
-  width: var(--box-width);
-  flex: 0 0 var(--box-height);
+  width: $box-width;
+  flex: 0 0 $box-height;
   pointer-events: auto;
 
   border-color: #aaa !important;
@@ -222,75 +223,83 @@ function applyDotStyles() {
   flex: 0 0 200px;
 }
 
-.box .buffer-top {
-  height: 0;
+.box {
+
+  .buffer-top {
+    height: 0;
+  }
+
+  .content {
+    border-radius: 4px;
+    border-width: $box-border-width;
+
+    .card-image {
+      max-height: 180px;
+    }
+
+    .card-text {
+      flex-grow: 1;
+      overflow-y: hidden;
+      text-align: left;
+    }
+  }
+
+  .connector {
+    height: $distance-bubble-below-box;
+  }
+
 }
 
-.box .content {
-  border-radius: 4px;
-  border-width: var(--box-border-width);
+.bubble {
+  .buffer-top {
+    height: $distance-bubble-below-box - 8px;
+  }
+
+  .content {
+    scale: $scale-factor-bubble-width $scale-factor-bubble-height;
+    border-width: $box-border-width / $scale-factor-bubble-height $box-border-width / $scale-factor-bubble-width;
+    border-radius: 50%;
+
+    .card-image {
+      height: 100%;
+      scale: 1 $scale-factor-bubble-width / $scale-factor-bubble-height;
+
+      .card-title {
+        display: none;
+      }
+    }
+
+    .btn-full,
+    .card-text {
+      display: none;
+    }
+  }
+
+  .connector {
+    height: 8px;
+  }
 }
 
-.box .content .card-image {
-  max-height: 180px;
-}
+.dot {
+  .buffer-top {
+    height: $distance-bubble-below-box;
+  }
 
-.box .content .card-text {
-  flex-grow: 1;
-  overflow-y: hidden;
-  text-align: left;
-}
+  .content {
+    scale: $scale-factor-dot-width $scale-factor-dot-height;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    border-bottom: 0;
+    background-color: #000;
 
-.box .connector {
-  height: var(--distance-bubble-below-box);
-}
+    .card-image,
+    .card-text {
+      display: none;
+    }
+  }
 
-.bubble .buffer-top {
-  height: calc(var(--distance-bubble-below-box) - 8px);
-}
-
-.bubble .content {
-  transform: scale(var(--scale-factor-bubble-width), var(--scale-factor-bubble-height));
-  border-width: calc(var(--box-border-width) / var(--scale-factor-bubble-height)) calc(var(--box-border-width) / var(--scale-factor-bubble-width));
-  border-radius: 50%;
-}
-
-.bubble .content .card-image {
-  height: 100%;
-  transform: scaleY(calc(var(--scale-factor-bubble-width) / var(--scale-factor-bubble-height)));
-}
-
-.bubble .content .card-image .card-title {
-  display: none;
-}
-
-.bubble .content .btn-full,
-.bubble .content .card-text {
-  display: none;
-}
-
-.bubble .connector {
-  height: 8px;
-}
-
-.dot .buffer-top {
-  height: var(--distance-bubble-below-box);
-}
-
-.dot .content {
-  transform: scale(var(--scale-factor-dot-width), var(--scale-factor-dot-height));
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  border-bottom: 0;
-  background-color: #000;
-}
-
-.dot .content .card-image,
-.dot .content .card-text {
-  display: none;
-}
-
-.dot .connector {
-  flex: 0 0 0;
+  .connector {
+    flex: 0 0 0;
+  }
 }
 
 .btn-full {

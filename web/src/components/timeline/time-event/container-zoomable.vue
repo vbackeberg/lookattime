@@ -5,12 +5,8 @@
       v-on:contextmenu.prevent="(e: MouseEvent) => $emit('openContextMenu', e, card)" ref="card"
       id="container-zoomable-content">
       <v-img v-bind:src="previewImageSrc" class="card-image white--text align-end" alt="time event image">
-        <v-card-title class="card-title card-image-shadow">{{
-          timeEvent.title
-        }}</v-card-title>
-        <v-card-subtitle class="card-title card-image-shadow">{{
-          formattedDate
-        }}</v-card-subtitle>
+        <v-card-title class="card-title card-image-shadow">{{ positionCenter }}</v-card-title>
+        <v-card-subtitle class="card-title card-image-shadow">{{ formattedDate }}</v-card-subtitle>
         <v-btn class="btn-full card-image-shadow" color="white" icon v-on:click.stop="openFullscreen()">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
@@ -39,11 +35,11 @@ const card = useTemplateRef("card")
  * The variable card houses the three dynamic sizes of a time event
  * that change during zoom.
  */
-const props = defineProps<{ id: string, imageReferences: ImageReferenceModel[] }>();
+const props = defineProps<{
+  id: string, imageReferences: ImageReferenceModel[], positionCenter: number, date: number, text: string, expansionZoomLevels: number[]
+}>();
 
 onMounted(() => {
-  initializeHTMLElement();
-
   updateExpansionState();
 
   // TODO: Have only one global listener that calls update on all time events.
@@ -54,25 +50,11 @@ onUnmounted(() => {
   document.removeEventListener("update-expansion-states", updateExpansionState);
 })
 
-const timeEvent = computed(() => {
-  // TODO: Consider replacing by find()
-  const index = store.timeEvents.findIndex(
-    timeEvent => timeEvent.id === props.id
-  );
-
-  if (index !== -1) {
-    return store.timeEvents[index];
-  } else {
-    throw Error("Could not get time event index because it was not found");
-  }
-})
-
 const formattedDate = computed(() => {
-  return Temporal.Instant.fromEpochSeconds(
-    timeEvent.value.date
-  ).toLocaleString(LOCALE, {
-    timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
-  });
+  return Temporal.Instant.fromEpochSeconds(props.date)
+    .toLocaleString(LOCALE, {
+      timeZone: Temporal.TimeZone.from(DateTimeFormatOptions.TIME_ZONE)
+    });
 })
 
 const previewImageSrc = computed(() => {
@@ -90,24 +72,8 @@ const previewImageSrc = computed(() => {
 })
 
 const parsedText = computed(() =>
-  document.createRange().createContextualFragment(timeEvent.value.text).textContent ?? ""
+  document.createRange().createContextualFragment(props.text).textContent ?? ""
 );
-
-/**
- *  After the HTML element has been created, we tie it to the time event
- *  object so that we can access it for translateX modifications during the
- *  zoom.
- *
- *  We re-assign the position to trigger an initial translateX modification
- *  on the HTML element after it has been created.
- */
-function initializeHTMLElement() {
-  // TODO: This could be transformed into an event. Maybe there is already a vue event.
-  timeEvent.value.zoomContainerHtmlElement = el.value!;
-
-  timeEvent.value.positionCenter = timeEvent.value.positionCenter;
-}
-
 
 /**
  * Defines whether the time event should look like a box, bubble, dot or flat.
@@ -123,7 +89,7 @@ let expansionState = ExpansionState.Flat
  * we do not change the class through class binding.
  */
 function updateExpansionState() {
-  const newExpansionState = (timeEvent.value.expansionZoomLevels)
+  const newExpansionState = (props.expansionZoomLevels)
     .findIndex(  // todo: it is not updated yet. not a true reference
       zoomLevel => store.zoomLevel <= zoomLevel
     );
@@ -200,10 +166,15 @@ function applyDotStyles() {
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
+.zoom-transition {
+  transition: var(--transition-property) var(--transition-duration) cubic-bezier(0.05, 0.61, 0.35, 1.12);
+}
+
 .container-zoomable {
   position: relative;
   /* TranslateX refers to the center of the element, so we position the */
   /* elements center at 0px by shifting it to the left by half its width. */
+  translate: v-bind(positionCenter+"px");
   left: calc(-1 * var(--box-width) / 2);
   width: var(--box-width);
   height: 100%;

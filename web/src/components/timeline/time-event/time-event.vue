@@ -1,7 +1,7 @@
 <template>
   <div class="container-outer">
-    <container-fullscreen v-if="isFullscreen" :id="props.id" :writeModeE="props.writeMode" />
-    <container-zoomable v-else :id="props.id" :imageReferences="props.imageReferences"
+    <container-fullscreen v-if="isFullscreen" :id :writeModeE="props.writeMode" />
+    <container-zoomable v-else :id :imageReferences :positionCenter :date :text :expansionZoomLevels
       v-on:openContextMenu="(e: MouseEvent, el: HTMLDivElement) => $emit('openContextMenu', e, el)" />
   </div>
 </template>
@@ -15,7 +15,9 @@ const props = defineProps<{
   id: string,
   imageReferences: ImageReferenceModel[],
   isFullscreen: boolean,
-  writeMode: boolean
+  writeMode: boolean,
+  positionCenter: number
+  date: number, text: string, expansionZoomLevels: number[]
 }>()
 </script>
 

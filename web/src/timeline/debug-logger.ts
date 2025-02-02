@@ -3,6 +3,7 @@ import { useLookAtTime } from "@/store/store";
 export default class DebugLogger {
     private constructor(private store = useLookAtTime()) { }
     public logTimelineState(caller: string) {
+        return;
 
         console.debug(`
         ${caller}:

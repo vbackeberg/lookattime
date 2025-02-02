@@ -2,12 +2,12 @@
 import PositionTranslator from "@/timeline/position-translator";
 import { Constants } from "@/timeline/zooming/constants";
 import ImageReferenceModel from "../image-reference-model";
+import type { ShallowRef } from "vue";
 
 export default class TimeEventModel {
   static boxWidth = 300;
   static bubbleWidth = 60;
   static boxWidthOffset = 150;
-  private _positionCenter!: number;
 
   /**
    * Contains a zoom level for each expansion state. The values define at
@@ -25,8 +25,8 @@ export default class TimeEventModel {
    * Contains the time event element and certain child elements that are
    * modified when changing the expansion state.
    */
-  zoomContainerHtmlElement?: HTMLElement;
-
+  // zoomContainerHtmlElement?: ShallowRef<HTMLElement | undefined>;
+  // moveZoomContainer = (p: number) => { }
   id: string;
   text: string;
   date: number;
@@ -35,7 +35,7 @@ export default class TimeEventModel {
   title: string;
   isFullscreen = false;
   writeMode = false;
-
+  positionCenter: number;
   constructor(
     id: string,
     text: string,
@@ -53,21 +53,24 @@ export default class TimeEventModel {
     this.title = title;
   }
 
-  /**
-   * Set positionCenter and translateX the time event.
-   *
-   * The HTML element will only be present after the Vue
-   * component has been mounted, so we check for its presence.
-   */
-  public set positionCenter(newPositionCenter: number) {
-    this._positionCenter = newPositionCenter;
-    if (this.zoomContainerHtmlElement) {
-      this.zoomContainerHtmlElement.style.transform =
-        "translateX(" + newPositionCenter + "px)";
-    }
-  }
+  // /**
+  //  * Set positionCenter and translateX the time event.
+  //  *
+  //  * The HTML element will only be present after the Vue
+  //  * component has been mounted, so we check for its presence.
+  //  */
+  // public set positionCenter(newPositionCenter: number) {
+  //   this._positionCenter = newPositionCenter;
+  //   // this.moveZoomContainer(newPositionCenter)
+  //   // if (this.zoomContainerHtmlElement?.value) {
+  //   //   this.zoomContainerHtmlElement.value.style.transform =
+  //   //     "translateX(" + newPositionCenter + "px)";
+  //   // } else {
+  //   //   console.debug("Tried to reposition time event but zoomContainerHtmlElement is undefined!")
+  //   // }
+  // }
 
-  public get positionCenter(): number {
-    return this._positionCenter;
-  }
+  // public get positionCenter(): number {
+  //   return this._positionCenter;
+  // }
 }

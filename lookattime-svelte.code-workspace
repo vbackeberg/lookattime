@@ -4,5 +4,11 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"svelte.svelte-vscode",
+			"bradlc.vscode-tailwindcss"
+		]
+	}
 }

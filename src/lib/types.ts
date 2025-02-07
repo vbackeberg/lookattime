@@ -1,0 +1,1 @@
+interface TimeEvent { id: string, date: number, text: string }

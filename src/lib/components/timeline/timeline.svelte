@@ -1,12 +1,14 @@
 <script lang="ts">
 	import TimeEvent from './time-event.svelte';
+	import {page} from "$app/state"
 
-	let timeEvents = $state([]);
+
+	
 </script>
 
 <div>
 	<div>
-		{#each timeEvents as timeEvent}
+		{#each page.data.timeEvents as timeEvent}
 			<TimeEvent {timeEvent}></TimeEvent>
 		{/each}
 	</div>

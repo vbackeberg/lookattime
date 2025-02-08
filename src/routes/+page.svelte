@@ -1,6 +1,5 @@
 <script>
-
-	import Timeline from "$lib/components/timeline/timeline.svelte";
-
+	import Timeline from '$lib/components/timeline/timeline.svelte';
 </script>
+
 <Timeline />

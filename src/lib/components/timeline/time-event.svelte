@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { toPosition } from "$lib/position-translator.svelte";
-
+	import { getContext } from 'svelte';
 
 	let { timeEvent }: { timeEvent: TimeEvent } = $props();
+	const zoomLevel = getContext<{ v: number }>('zoomLevel');
 
-	let positionCenter = $derived(toPosition(timeEvent.date));
+	
+
 </script>
 
-<div class="w-40" style={`transform: translateX(${positionCenter}px)`}>
+<div class="w-40" style={`transform: translateX(${position}px)`}>
 	<div class="w-full -translate-x-1/2">
 		time event
-		{positionCenter}
+		{position}
 	</div>
 </div>

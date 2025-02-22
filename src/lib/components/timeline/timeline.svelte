@@ -2,7 +2,6 @@
 	import TimeEvent from './time-event.svelte';
 	import { page } from '$app/state';
 	import { setContext } from 'svelte';
-	import { toPosition } from '$lib/position-translator.svelte';
 
 	const MAX_ZOOM_LEVEL = 1_728_000_000_000;
 	const MIN_ZOOM_LEVEL = 1;
@@ -14,9 +13,6 @@
 	setContext('zoomLevel', zoomLevel);
 	setContext('offset', offset);
 
-	const distanceFirstTe = toPosition(page.data.timeEvents[0].date, zoomLevel.v, offset.v);
-	// 1732002 px
-	offset.v -= distanceFirstTe;
 
 	function zoom(e: WheelEvent & { currentTarget: EventTarget & HTMLDivElement }) {
 		if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) return;

@@ -47,7 +47,7 @@
 	{/each}
 </div>
 
-<div class="fixed top-0 flex flex-col gap-2 bg-orange-200/50 p-4">
+<div class="fixed bottom-0 flex flex-col gap-2 bg-orange-200/50 p-4">
 	<h2 class="text-xl">Debug</h2>
 	<span>Zoom Level {zoomLevel}</span>
 	<span>positionLowest {positionLowest}</span>

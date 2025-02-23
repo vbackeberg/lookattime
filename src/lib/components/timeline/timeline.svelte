@@ -18,7 +18,7 @@
 		if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) return;
 		if (page.data.timeEvents.length === 0) return;
 		e.preventDefault();
-		zoomFactor = e.deltaY < 0 ? 0.92 : 1.1;
+		zoomFactor = e.deltaY < 0 ? 1.1 : 0.92;
 		const newZoomLevel = zoomLevel.v * zoomFactor;
 		if (zoomLevelInBounds(newZoomLevel)) zoomLevel.v = newZoomLevel;
 

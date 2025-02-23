@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TimeEvent from './time-event.svelte';
 	import { page } from '$app/state';
-	import { onMount, tick, untrack } from 'svelte';
+	import { untrack } from 'svelte';
 
 	const MAX_ZOOM_LEVEL = 1_728_000_000_000;
 	const MIN_ZOOM_LEVEL = 1;

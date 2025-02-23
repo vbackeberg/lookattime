@@ -33,13 +33,8 @@
 	$effect(() => {
 		if (positionLowest < 0) {
 			const distance = -positionLowest;
-			tick().then(() => {
-				positionLowest += distance;
-				tick().then(() => {
-					console.log('scroll');
-					window.scrollBy(distance, 0);
-				});
-			});
+			positionLowest += distance;
+			window.scrollBy(distance, 0);
 		}
 	});
 </script>

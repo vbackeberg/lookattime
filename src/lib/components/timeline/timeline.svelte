@@ -45,10 +45,10 @@
 	{#each page.data.timeEvents as timeEvent, i}
 		<TimeEvent {timeEvent} {zoomLevel} {positionLowest}></TimeEvent>
 	{/each}
+</div>
 
-	<div class="mt-16 flex flex-col gap-2">
-		<h2 class="text-xl">Debug</h2>
-		<span>Zoom Level {zoomLevel}</span>
-		<span>positionLowest {positionLowest}</span>
-	</div>
+<div class="fixed top-0 flex flex-col gap-2 bg-orange-200/50 p-4">
+	<h2 class="text-xl">Debug</h2>
+	<span>Zoom Level {zoomLevel}</span>
+	<span>positionLowest {positionLowest}</span>
 </div>

@@ -1,17 +1,18 @@
 <script lang="ts">
-	import { getContext, untrack } from 'svelte';
-
-	const zoomLevel = getContext<{ v: number }>('zoomLevel');
+	import { untrack } from 'svelte';
 
 	let {
 		timeEvent,
 		referencePosition,
-		zoomFactor
-	}: { timeEvent: TimeEvent; referencePosition: number; zoomFactor: number } = $props();
+		zoomFactor,
+		zoomLevel
+	}: { timeEvent: TimeEvent; referencePosition: number; zoomFactor: number; zoomLevel: number } =
+		$props();
 
-	let position = $state(timeEvent.date / zoomLevel.v);
+	let position = $state(timeEvent.date / zoomLevel);
 
 	$effect(() => {
+		zoomLevel;
 		const distance = (untrack(() => position) - referencePosition) * zoomFactor;
 		position = referencePosition + distance;
 	});

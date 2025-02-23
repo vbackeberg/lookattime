@@ -30,6 +30,14 @@
 		}
 	});
 
+	let scrollX = $state(0);
+	$effect(() => {
+		if (scrollX > 0 && scrollX < positionLowest) {
+			positionLowest -= window.scrollX;
+			window.scrollTo(0, 0);
+		}
+	});
+
 	function zoom(e: WheelEvent) {
 		if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) return;
 		if (page.data.timeEvents.length === 0) return;
@@ -45,7 +53,7 @@
 	}
 </script>
 
-<svelte:window onwheel={zoom} />
+<svelte:window onwheel={zoom} bind:scrollX />
 
 {#if zoomLevel}
 	<div class="size-full">

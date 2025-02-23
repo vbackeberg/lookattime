@@ -25,9 +25,8 @@
 
 	$effect(() => {
 		if (positionLowest < 0) {
-			const distance = -positionLowest;
-			positionLowest += distance;
-			window.scrollBy(distance, 0);
+			window.scrollBy(-positionLowest, 0);
+			positionLowest = 0;
 		}
 	});
 

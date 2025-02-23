@@ -15,10 +15,10 @@
 </script>
 
 <div
-	class="w-200 px-80 h-20 rounded border border-dashed"
+	class="w-40 h-20 rounded border border-dashed"
 	style={`transform: translateX(${position}px)`}
 >
-	<div class="w-40 h-20 -translate-x-1/2 rounded border">
+	<div class="size-full -translate-x-1/2 rounded border">
 		time event
 		{position}
 		{timeEvent.date}

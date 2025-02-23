@@ -1,22 +1,24 @@
 <script lang="ts">
+	import { page } from "$app/state";
+
 	let {
 		timeEvent,
 		zoomLevel,
-		positionDateZero
+		positionLowest,
 	}: {
 		timeEvent: TimeEvent;
 		zoomLevel: number;
-		positionDateZero: number;
+		positionLowest: number;
 	} = $props();
 
-	let position = $derived(positionDateZero + timeEvent.date / zoomLevel)
+	let position = $derived(positionLowest + (timeEvent.date - page.data.timeEvents[0].date) / zoomLevel);
 </script>
 
 <div
-	class="w-40 rounded border border-dashed transition-transform"
+	class="w-40 h-20 rounded border border-dashed transition-transform"
 	style={`transform: translateX(${position}px)`}
 >
-	<div class="w-full -translate-x-1/2 rounded border">
+	<div class="size-full -translate-x-1/2 rounded border">
 		time event
 		{position}
 		{timeEvent.date}

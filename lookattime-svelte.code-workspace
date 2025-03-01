@@ -10,5 +10,16 @@
 			"svelte.svelte-vscode",
 			"bradlc.vscode-tailwindcss"
 		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Debug",
+				"type": "node-terminal",
+				"request": "launch",
+				"command": "npm run dev",
+			}
+		]
 	}
 }

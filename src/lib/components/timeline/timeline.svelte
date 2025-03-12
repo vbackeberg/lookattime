@@ -11,12 +11,14 @@
 	let zoomLevel = $state(0);
 	let positionLowest = $state(MIN_SPACE_LEFT);
 
+	/** Sets the (initial) zoom level when time events change such that all time events are visible on screen. */
 	$effect.pre(() => {
 		const lowestDate = page.data.timeEvents[0].date;
 		const highestDate = page.data.timeEvents[page.data.timeEvents.length - 1].date;
 		zoomLevel = (highestDate - lowestDate) / window.innerWidth;
 	});
 
+	/** Changes position of the lowest time event when the zoom level changes. */
 	$effect(() => {
 		if (zoomLevel) {
 			const distance = (untrack(() => positionLowest) - referencePosition) / zoomFactor;
@@ -27,6 +29,9 @@
 	let scrollX = $state(0);
 	let scrolling = $state(false);
 
+	/** Creates space on the left by moving all elements right and scrolling the same amount.
+	 * This ensures there's always some space left of the leftmost time event.
+	 */
 	$effect(() => {
 		if (positionLowest < MIN_SPACE_LEFT) {
 			window.scrollBy(MIN_SPACE_LEFT - positionLowest, 0);
@@ -34,16 +39,16 @@
 		}
 	});
 
-	/** Removes void space on the left. Waits until scrolling is done.
-	 * Respects minimum void space on the left.
+	/** Removes empty space on the left.
+	 * This ensures there's never too much empty space left of the leftmost time event.
+	 * Waits until scrolling is done.
 	 */
 	$effect(() => {
 		if (!scrolling && scrollX > 0 && positionLowest > MIN_SPACE_LEFT) {
 			if (positionLowest - scrollX > MIN_SPACE_LEFT) {
 				positionLowest -= scrollX;
 
-				// Update through both ways, otherwise scrollX apparently
-				// won't update immediately
+				// Update through both ways, otherwise scrollX apparently won't update immediately
 				scrollTo(0, 0);
 				scrollX = 0;
 			} else {

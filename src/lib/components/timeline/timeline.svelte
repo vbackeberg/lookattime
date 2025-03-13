@@ -34,8 +34,9 @@
 	 */
 	$effect(() => {
 		if (positionLowest < MIN_SPACE_LEFT) {
-			window.scrollBy(MIN_SPACE_LEFT - positionLowest, 0);
+			const distance = MIN_SPACE_LEFT - positionLowest;
 			positionLowest = MIN_SPACE_LEFT;
+			window.scrollBy(distance, 0);
 		}
 	});
 
@@ -46,13 +47,16 @@
 	$effect(() => {
 		if (!scrolling && scrollX > 0 && positionLowest > MIN_SPACE_LEFT) {
 			if (positionLowest - scrollX > MIN_SPACE_LEFT) {
-				positionLowest -= scrollX;
+				const distance = scrollX;
 
 				// Update through both ways, otherwise scrollX apparently won't update immediately
 				scrollTo(0, 0);
 				scrollX = 0;
+				positionLowest -= distance;
 			} else {
-				window.scrollBy(-(positionLowest - MIN_SPACE_LEFT), 0);
+				const newScrollX = MIN_SPACE_LEFT - (positionLowest - scrollX);
+				window.scrollTo(newScrollX, 0);
+				scrollX = newScrollX;
 				positionLowest = MIN_SPACE_LEFT;
 			}
 		}

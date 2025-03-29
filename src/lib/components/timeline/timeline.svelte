@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { untrack } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import TimeEvent from './time-event.svelte';
 
 	const MAX_ZOOM_LEVEL = 1_728_000_000_000;
@@ -10,6 +10,14 @@
 	let zoomFactor = $state(1);
 	let zoomLevel = $state(0);
 	let positionLowest = $state(MIN_SPACE_LEFT);
+
+	let positionHighest = $derived.by(() => {
+		const lowestDate = page.data.timeEvents[0].date;
+		const highestDate = page.data.timeEvents[page.data.timeEvents.length - 1].date;
+		const p = positionLowest + (highestDate - lowestDate) / zoomLevel;
+		// TODO: Guess is spacer element moves after scroll command was run, so browser can still not scroll further to the right.
+		return p  + 400
+	});
 
 	/** Sets the (initial) zoom level when time events change such that all time events are visible on screen. */
 	$effect.pre(() => {
@@ -75,6 +83,11 @@
 	function zoomLevelInBounds(newZoomLevel: number) {
 		return Math.abs(newZoomLevel) < MAX_ZOOM_LEVEL && Math.abs(newZoomLevel) >= MIN_ZOOM_LEVEL;
 	}
+
+	// $inspect(positionHighest)
+
+	//TODO: Make a spacer element that scrolls to the right when scrolling right to the rightmost element such that space is created.
+	// Otherwise rightmost element cannot move left because it would leave empty space on the right which the browser does not allow.
 </script>
 
 <svelte:window
@@ -86,6 +99,10 @@
 
 {#if zoomLevel}
 	<div class="size-full">
+		<div
+			class="size-[1px] bg-red-600"
+			style={`transform: translateX(${positionHighest}px)`}
+		></div>
 		{#each page.data.timeEvents as timeEvent, i}
 			<TimeEvent {timeEvent} {zoomLevel} {positionLowest}></TimeEvent>
 		{/each}

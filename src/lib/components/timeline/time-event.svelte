@@ -14,6 +14,8 @@
 	let position = $derived(
 		positionLowest + (timeEvent.date - page.data.timeEvents[0].date) / zoomLevel
 	);
+
+	$inspect(position);
 </script>
 
 <div class="h-20 w-40 rounded border border-dashed" style={`transform: translateX(${position}px)`}>

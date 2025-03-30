@@ -1,116 +1,63 @@
 <script lang="ts">
-	import { page } from '$app/state';
-	import { onMount, untrack } from 'svelte';
-	import TimeEvent from './time-event.svelte';
+	import Konva from 'konva';
+	import type { Rect } from 'konva/lib/shapes/Rect';
+	import { onMount } from 'svelte';
+	let { timeEvents }: { timeEvents: TimeEvent[] } = $props();
 
-	const MAX_ZOOM_LEVEL = 1_728_000_000_000;
-	const MIN_ZOOM_LEVEL = 1;
-	const MIN_SPACE_LEFT = 300;
-	let referencePosition = $state(0);
-	let zoomFactor = $state(1);
-	let zoomLevel = $state(0);
-	let positionLowest = $state(MIN_SPACE_LEFT);
+	const zoomLevel = 10_000_000;
 
-	let positionHighest = $derived.by(() => {
-		const lowestDate = page.data.timeEvents[0].date;
-		const highestDate = page.data.timeEvents[page.data.timeEvents.length - 1].date;
-		const p = positionLowest + (highestDate - lowestDate) / zoomLevel;
-		// TODO: Guess is spacer element moves after scroll command was run, so browser can still not scroll further to the right.
-		return p  + 400
-	});
+	let stage: Konva.Stage;
+	let layer: Konva.Layer;
+	let elements: Rect[];
 
-	/** Sets the (initial) zoom level when time events change such that all time events are visible on screen. */
-	$effect.pre(() => {
-		const lowestDate = page.data.timeEvents[0].date;
-		const highestDate = page.data.timeEvents[page.data.timeEvents.length - 1].date;
-		zoomLevel = (highestDate - lowestDate) / window.innerWidth;
-	});
+	onMount(() => {
+		stage = new Konva.Stage({
+			container: 'container',
+			width: 500,
+			height: 500
+		});
 
-	/** Changes position of the lowest time event when the zoom level changes. */
-	$effect(() => {
-		if (zoomLevel) {
-			const distance = (untrack(() => positionLowest) - referencePosition) / zoomFactor;
-			positionLowest = referencePosition + distance;
-		}
-	});
+		layer = new Konva.Layer();
 
-	let scrollX = $state(0);
-	let scrolling = $state(false);
+		elements = timeEvents.map(
+			(t) =>
+				new Konva.Rect({
+					x: t.date / zoomLevel,
+					y: 40,
+					width: 100,
+					height: 20,
+					stroke: 'black',
+					strokeWidth: 1
+				})
+		);
 
-	/** Creates space on the left by moving all elements right and scrolling the same amount.
-	 * This ensures there's always some space left of the leftmost time event.
-	 */
-	$effect(() => {
-		if (positionLowest < MIN_SPACE_LEFT) {
-			const distance = MIN_SPACE_LEFT - positionLowest;
-			positionLowest = MIN_SPACE_LEFT;
-			window.scrollBy(distance, 0);
-		}
-	});
-
-	/** Removes empty space on the left.
-	 * This ensures there's never too much empty space left of the leftmost time event.
-	 * Waits until scrolling is done.
-	 */
-	$effect(() => {
-		if (!scrolling && scrollX > 0 && positionLowest > MIN_SPACE_LEFT) {
-			if (positionLowest - scrollX > MIN_SPACE_LEFT) {
-				const distance = scrollX;
-
-				// Update through both ways, otherwise scrollX apparently won't update immediately
-				scrollTo(0, 0);
-				scrollX = 0;
-				positionLowest -= distance;
-			} else {
-				const newScrollX = MIN_SPACE_LEFT - (positionLowest - scrollX);
-				window.scrollTo(newScrollX, 0);
-				scrollX = newScrollX;
-				positionLowest = MIN_SPACE_LEFT;
-			}
-		}
+		layer.add(...elements);
+		stage.add(layer);
+		stage.on('wheel', (e) => {
+			zoom(e.evt);
+		});
 	});
 
 	function zoom(e: WheelEvent) {
 		if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) return;
-		if (page.data.timeEvents.length === 0) return;
+		if (timeEvents.length === 0) return;
 		e.preventDefault();
-		zoomFactor = e.deltaY < 0 ? 0.92 : 1.1;
-		const newZoomLevel = zoomLevel * zoomFactor;
-		if (zoomLevelInBounds(newZoomLevel)) zoomLevel = newZoomLevel;
-		referencePosition = e.pageX;
+
+		const pointer = stage.getPointerPosition();
+		if (!pointer) return;
+
+		const zoomFactor = e.deltaY > 0 ? 1 / 1.1 : 1.1;
+
+		elements.forEach((e) => {
+			const distance = (e.x() - pointer.x) * zoomFactor;
+			e.x(pointer.x + distance);
+		});
 	}
 
-	function zoomLevelInBounds(newZoomLevel: number) {
-		return Math.abs(newZoomLevel) < MAX_ZOOM_LEVEL && Math.abs(newZoomLevel) >= MIN_ZOOM_LEVEL;
-	}
-
-	// $inspect(positionHighest)
-
-	//TODO: Make a spacer element that scrolls to the right when scrolling right to the rightmost element such that space is created.
-	// Otherwise rightmost element cannot move left because it would leave empty space on the right which the browser does not allow.
+	let innerWidth = $state<number>()
+	$effect(() => {stage.width(innerWidth)})
 </script>
 
-<svelte:window
-	onwheel={zoom}
-	bind:scrollX
-	onscroll={() => (scrolling = true)}
-	onscrollend={() => (scrolling = false)}
-/>
+<svelte:window bind:innerWidth />
 
-{#if zoomLevel}
-	<div class="size-full">
-		<div
-			class="size-[1px] bg-red-600"
-			style={`transform: translateX(${positionHighest}px)`}
-		></div>
-		{#each page.data.timeEvents as timeEvent, i}
-			<TimeEvent {timeEvent} {zoomLevel} {positionLowest}></TimeEvent>
-		{/each}
-	</div>
-{/if}
-
-<div class="fixed bottom-20 flex flex-col gap-2 bg-orange-200/50 p-4">
-	<h2 class="text-xl">Debug</h2>
-	<span>Zoom Level {zoomLevel}</span>
-	<span>positionLowest {positionLowest}</span>
-</div>
+<div id="container"></div>

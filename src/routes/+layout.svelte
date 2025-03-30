@@ -4,5 +4,5 @@
 </script>
 
 <div class="h-screen w-screen">
-{@render children()}
+	{@render children()}
 </div>

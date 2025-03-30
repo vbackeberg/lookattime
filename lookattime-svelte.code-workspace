@@ -4,7 +4,11 @@
 			"path": "."
 		}
 	],
-	"settings": {},
+	"settings": {
+		"cSpell.words": [
+			"Konva"
+		]
+	},
 	"extensions": {
 		"recommendations": [
 			"svelte.svelte-vscode",

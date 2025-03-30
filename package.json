@@ -43,5 +43,8 @@
 		"onlyBuiltDependencies": [
 			"esbuild"
 		]
+	},
+	"dependencies": {
+		"konva": "^9.3.20"
 	}
 }

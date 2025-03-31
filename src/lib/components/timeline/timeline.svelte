@@ -42,35 +42,33 @@
 		const scrollbarLayer = new Konva.Layer();
 		stage.add(scrollbarLayer);
 
-		const PADDING = 4;
+		const padding = 4;
 
 		const horizontalBar = new Konva.Rect({
 			width: 100,
 			height: 10,
 			fill: 'grey',
 			opacity: 0.8,
-			x: PADDING,
-			y: stage.height() - PADDING - 10,
+			x: padding,
+			y: stage.height() - padding - 10,
 			draggable: true,
 			dragBoundFunc: function (pos) {
-				pos.x = Math.max(Math.min(pos.x, stage.width() - this.width() - PADDING), PADDING);
-				pos.y = stage.height() - PADDING - 10;
+				pos.x = Math.max(Math.min(pos.x, stage.width() - this.width() - padding), padding);
+				pos.y = stage.height() - padding - 10;
 
 				return pos;
 			}
 		});
 		scrollbarLayer.add(horizontalBar);
 
+		/**
+		 * Emulates scrollbar behavior. 
+		 * Moves layer in the opposite direction than the scrollbar.
+		 */
 		horizontalBar.on('dragmove', function () {
-			console.log('pos layer x: ' + layer.x());
-			const availableWidth = stage.width() - PADDING * 2 - horizontalBar.width();
-			console.log('availableWidth ' + availableWidth);
-			const delta = (horizontalBar.x() - PADDING) / availableWidth;
-			console.log('delta ' + delta);
-
+			const availableWidth = stage.width() - padding * 2 - horizontalBar.width();
+			const delta = (horizontalBar.x() - padding) / availableWidth;
 			layer.x(-(scrollWidth! - stage.width()) * delta);
-			console.log('new pos: ' + -(scrollWidth! - stage.width()) * delta);
-			console.log('pos layer x ' + layer.x());
 		});
 	});
 
@@ -91,9 +89,14 @@
 		scrollWidth = determineWidth();
 	}
 
+	const margin = 100;
 	function determineWidth() {
-		const positionLowest = Math.min(elements[0].position().x, 0);
-		const positionHighest = Math.max(elements[elements.length - 1].position().x, innerWidth!);
+		const lowest = elements[0];
+		const positionLowest = Math.min(lowest.position().x - margin, 0);
+
+		const highest = elements[elements.length - 1];
+		const positionHighest = Math.max(highest.position().x + highest.width() + margin, innerWidth!);
+
 		return positionHighest - positionLowest;
 	}
 

@@ -7,8 +7,10 @@
 	const zoomLevel = 1;
 
 	let stage: Konva.Stage;
-	let layer: Konva.Layer;
+	let layerEvents: Konva.Layer;
 	let elements: Rect[];
+	let layerScrollbar: Konva.Layer;
+	let scrollbar: Konva.Rect;
 
 	onMount(() => {
 		elements = timeEvents.map(
@@ -23,28 +25,34 @@
 				})
 		);
 
-		scrollWidth = determineWidth();
-
 		stage = new Konva.Stage({
 			container: 'container',
 			width: innerWidth,
 			height: innerHeight
 		});
 
-		layer = new Konva.Layer();
+		layerEvents = new Konva.Layer();
 
-		layer.add(...elements);
-		stage.add(layer);
+		layerEvents.add(...elements);
+		stage.add(layerEvents);
 		stage.on('wheel', (e) => {
-			zoom(e.evt);
+			e.evt.preventDefault();
+
+			if (e.evt.metaKey || e.evt.ctrlKey || e.evt.altKey) return;
+
+			if (e.evt.deltaX > 0) {
+				scroll(e.evt.deltaX);
+			} else if (e.evt.shiftKey) {
+				scroll(e.evt.deltaY);
+			} else {
+				zoom(e.evt);
+			}
 		});
 
-		const scrollbarLayer = new Konva.Layer();
-		stage.add(scrollbarLayer);
+		layerScrollbar = new Konva.Layer();
+		stage.add(layerScrollbar);
 
-		const padding = 4;
-
-		const horizontalBar = new Konva.Rect({
+		scrollbar = new Konva.Rect({
 			width: 100,
 			height: 10,
 			fill: 'grey',
@@ -59,21 +67,26 @@
 				return pos;
 			}
 		});
-		scrollbarLayer.add(horizontalBar);
+		layerScrollbar.add(scrollbar);
+
+		scrollWidth = determineWidth();
+		updateScrollbar();
 
 		/**
-		 * Emulates scrollbar behavior. 
+		 * Emulates scrollbar behavior.
 		 * Moves layer in the opposite direction than the scrollbar.
 		 */
-		horizontalBar.on('dragmove', function () {
-			const availableWidth = stage.width() - padding * 2 - horizontalBar.width();
-			const delta = (horizontalBar.x() - padding) / availableWidth;
-			layer.x(-(scrollWidth! - stage.width()) * delta);
+		scrollbar.on('dragmove', function () {
+			const availableWidth = stage.width() - padding * 2 - scrollbar.width();
+			const delta = (scrollbar.x() - padding) / availableWidth;
+			layerEvents.x(-(scrollWidth - stage.width()) * delta);
 		});
 	});
 
+	/** Scrollbar padding left and right */
+	const padding = 4;
+
 	function zoom(e: WheelEvent) {
-		if (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) return;
 		if (timeEvents.length === 0) return;
 		e.preventDefault();
 
@@ -87,8 +100,38 @@
 		});
 
 		scrollWidth = determineWidth();
+		updateScrollbar();
+
+		if (elements[0].x() < margin) realignIntoVisibleSpace();
 	}
 
+	function scroll(dx: number) {
+		if (scrollWidth <= stage.width()) return;
+
+		const minX = -(scrollWidth - stage.width());
+		const maxX = 0;
+		const x = Math.max(minX, Math.min(layerEvents.x() - dx, maxX));
+		layerEvents.x(x);
+
+		const availableWidth = stage.width() - padding * 2 - scrollbar.width();
+		const hx = (layerEvents.x() / (-scrollWidth + stage.width())) * availableWidth + padding;
+		scrollbar.x(hx);
+	}
+
+	/** Only show scrollbar if content is wider than stage width.*/
+	function updateScrollbar() {
+		if (scrollWidth <= stage.width()) {
+			layerScrollbar.hide();
+		} else {
+			const availableWidth = stage.width() - padding * 2;
+			const scrollbarWidth = Math.max(20, (stage.width() / scrollWidth) * availableWidth);
+			scrollbar.width(scrollbarWidth);
+			layerScrollbar.show();
+		}
+	}
+
+
+	/** Additional space left and right of outermost time events */
 	const margin = 100;
 	function determineWidth() {
 		const lowest = elements[0];

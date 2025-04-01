@@ -102,7 +102,7 @@
 		scrollWidth = determineWidth();
 		updateScrollbar();
 
-		if (elements[0].x() < margin) realignIntoVisibleSpace();
+		if (elements[0].x() < margin) moveIntoVisibleSpace();
 	}
 
 	function scroll(dx: number) {
@@ -130,6 +130,17 @@
 		}
 	}
 
+	function moveIntoVisibleSpace() {
+		const lowest = elements[0];
+
+		const distance = lowest.position().x - margin;
+
+		elements.forEach((e) => {
+			e.x(e.x() - distance);
+		});
+
+		scroll(-distance);
+	}
 
 	/** Additional space left and right of outermost time events */
 	const margin = 100;

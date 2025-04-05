@@ -86,6 +86,9 @@
 	/** Scrollbar padding left and right */
 	const padding = 4;
 
+	/** Zooms elements relative to pointer.
+	 * Then updates scrollbar and moves elements with negative position into positive space to make them visible.
+	 * PointerX is the position of the pointer on the layer. */
 	function zoom(e: WheelEvent) {
 		if (timeEvents.length === 0) return;
 		e.preventDefault();
@@ -94,9 +97,11 @@
 		if (!pointer) return;
 
 		const zoomFactor = e.deltaY > 0 ? 1 / 1.1 : 1.1;
+		const pointerX = pointer.x - layerEvents.x();
+
 		elements.forEach((e) => {
-			const distance = (e.x() - pointer.x) * zoomFactor;
-			e.x(pointer.x + distance);
+			const distance = (e.x() - pointerX) * zoomFactor; 
+			e.x(pointerX + distance);
 		});
 
 		scrollWidth = determineWidth();

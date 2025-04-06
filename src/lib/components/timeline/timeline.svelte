@@ -111,7 +111,7 @@
 
 	/** Moves layer and scrollbar in opposite direction */
 	function scroll(dx: number) {
-		if (scrollWidth <= stage.width()) return;
+		if (!layerScrollbar.visible()) return;
 
 		const minX = -(scrollWidth - stage.width());
 		const maxX = 0;

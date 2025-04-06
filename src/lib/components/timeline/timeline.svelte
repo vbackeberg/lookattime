@@ -97,7 +97,7 @@
 		if (!pointer) return;
 
 		const zoomFactor = e.deltaY > 0 ? 1 / 1.1 : 1.1;
-		const pointerX = pointer.x - layerEvents.x();
+		const pointerX = layerEvents.getRelativePointerPosition()!.x;
 
 		elements.forEach((e) => {
 			const distance = (e.x() - pointerX) * zoomFactor; 

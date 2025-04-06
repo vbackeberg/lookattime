@@ -70,7 +70,7 @@
 		layerScrollbar.add(scrollbar);
 
 		scrollWidth = determineWidth();
-		updateScrollbar();
+		updateScrollbarWidthAndVisibility();
 
 		/**
 		 * Emulates scrollbar behavior.
@@ -105,11 +105,11 @@
 		});
 
 		scrollWidth = determineWidth();
-		updateScrollbar();
-
+		updateScrollbarWidthAndVisibility();
 		if (elements[0].x() < margin) moveIntoVisibleSpace();
 	}
 
+	/** Moves layer and scrollbar in opposite direction */
 	function scroll(dx: number) {
 		if (scrollWidth <= stage.width()) return;
 
@@ -118,13 +118,18 @@
 		const x = Math.max(minX, Math.min(layerEvents.x() - dx, maxX));
 		layerEvents.x(x);
 
+		updateScrollbarPosition();
+	}
+
+	/** Determine position from layerEvents position */
+	function updateScrollbarPosition() {
 		const availableWidth = stage.width() - padding * 2 - scrollbar.width();
 		const hx = (layerEvents.x() / (-scrollWidth + stage.width())) * availableWidth + padding;
 		scrollbar.x(hx);
 	}
 
 	/** Only show scrollbar if content is wider than stage width.*/
-	function updateScrollbar() {
+	function updateScrollbarWidthAndVisibility() {
 		if (scrollWidth <= stage.width()) {
 			layerScrollbar.hide();
 		} else {
@@ -135,16 +140,23 @@
 		}
 	}
 
+	/**
+	 * Moves elements right by the amount that the leftmost element is outside of the visible space.
+	 * We need to do this because elements with negative x-positions are not reachable on a canvas.
+	 *
+	 * Moving the elements right requires moving layerEvents left by the same amount.
+	 * Because layerEvents now has a negative x-position it updates the scrollbar.
+	 */
 	function moveIntoVisibleSpace() {
 		const lowest = elements[0];
-
-		const distance = lowest.position().x - margin;
+		const distance = -(lowest.position().x - margin);
 
 		elements.forEach((e) => {
-			e.x(e.x() - distance);
+			e.x(e.x() + distance);
 		});
+		layerEvents.x(layerEvents.x() - distance);
 
-		scroll(-distance);
+		updateScrollbarPosition();
 	}
 
 	/** Additional space left and right of outermost time events */

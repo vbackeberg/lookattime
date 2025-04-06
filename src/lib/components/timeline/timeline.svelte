@@ -41,9 +41,9 @@
 			if (e.evt.metaKey || e.evt.ctrlKey || e.evt.altKey) return;
 
 			if (e.evt.deltaX > 0) {
-				scroll(e.evt.deltaX);
+				scroll(e.evt.deltaX); // Touchpad horizontal scroll
 			} else if (e.evt.shiftKey) {
-				scroll(e.evt.deltaY);
+				scroll(e.evt.deltaY); // Shift + mouse wheel horizontal scroll
 			} else {
 				zoom(e.evt);
 			}
@@ -73,7 +73,7 @@
 		updateScrollbarWidthAndVisibility();
 
 		/**
-		 * Emulates scrollbar behavior.
+		 * Scroll by drag
 		 * Moves layer in the opposite direction than the scrollbar.
 		 */
 		scrollbar.on('dragmove', function () {
@@ -161,6 +161,7 @@
 
 	/** Additional space left and right of outermost time events */
 	const margin = 100;
+
 	function determineWidth() {
 		const lowest = elements[0];
 		const positionLowest = Math.min(lowest.position().x - margin, 0);

@@ -107,6 +107,7 @@
 		updateScrollWidth();
 		updateScrollbarWidthAndVisibility();
 		moveIntoVisibleSpace();
+		cutSpaceLeft();
 	}
 
 	/** Moves layer and scrollbar in opposite direction */
@@ -119,6 +120,7 @@
 		layerEvents.x(x);
 
 		updateScrollbarPosition();
+		cutSpaceLeft();
 	}
 
 	/** Determine position from layerEvents position */
@@ -156,6 +158,24 @@
 		elements.forEach((e) => e.x(e.x() + distance));
 
 		updateScrollbarPosition();
+	}
+
+	/**
+	 * Removes excess space to the left.
+	 * There is excess space if layerEvents' position is farer left than the viewport (0)
+	 * and than the leftmost element (incl. margin).
+	 *
+	 * It moves the layerEvents to the right by the amount of space that is left.
+	 * The elements are moved left by the same amount.
+	 */
+	function cutSpaceLeft() {
+		const lowest = Math.min(elements[0].position().x - margin, 0);
+		const distance = lowest - layerEvents.x();
+
+		if (distance === 0) return;
+
+		layerEvents.x(layerEvents.x() + distance);
+		elements.forEach((e) => e.x(e.x() - distance));
 	}
 
 	/** Additional space left and right of outermost time events */

@@ -166,6 +166,35 @@
 		stage.width(innerWidth);
 		stage.height(innerHeight);
 	});
+
+	function createDebugMarkers() {
+		const markers = [];
+		for (let x = 0; x < stage.width(); x += 100) {
+			markers.push(
+				new Konva.Rect({
+					x: x,
+					y: 0,
+					width: 1,
+					height: stage.height(),
+					fill: 'blue'
+				})
+			);
+
+			markers.push(
+				new Konva.Text({
+					x: x + 5,
+					y: 0,
+					text: `${x}`,
+					fontSize: 12,
+					fill: 'black'
+				})
+			);
+		}
+
+		const layerMarkers = new Konva.Layer();
+		stage.add(layerMarkers);
+		layerMarkers.add(...markers);
+	}
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />

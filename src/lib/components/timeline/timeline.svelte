@@ -69,7 +69,7 @@
 		});
 		layerScrollbar.add(scrollbar);
 
-		scrollWidth = determineWidth();
+		updateScrollWidth();
 		updateScrollbarWidthAndVisibility();
 
 		/**
@@ -104,7 +104,7 @@
 			e.x(pointerX + distance);
 		});
 
-		scrollWidth = determineWidth();
+		updateScrollWidth();
 		updateScrollbarWidthAndVisibility();
 		if (elements[0].x() < margin) moveIntoVisibleSpace();
 	}
@@ -162,14 +162,14 @@
 	/** Additional space left and right of outermost time events */
 	const margin = 100;
 
-	function determineWidth() {
+	function updateScrollWidth() {
 		const lowest = elements[0];
 		const positionLowest = Math.min(lowest.position().x - margin, 0);
 
 		const highest = elements[elements.length - 1];
 		const positionHighest = Math.max(highest.position().x + highest.width() + margin, innerWidth!);
 
-		return positionHighest - positionLowest;
+		scrollWidth = positionHighest - positionLowest;
 	}
 
 	let scrollWidth = 0;

@@ -106,7 +106,7 @@
 
 		updateScrollWidth();
 		updateScrollbarWidthAndVisibility();
-		if (elements[0].x() < margin) moveIntoVisibleSpace();
+		moveIntoVisibleSpace();
 	}
 
 	/** Moves layer and scrollbar in opposite direction */
@@ -148,13 +148,12 @@
 	 * Because layerEvents now has a negative x-position it updates the scrollbar.
 	 */
 	function moveIntoVisibleSpace() {
-		const lowest = elements[0];
-		const distance = -(lowest.position().x - margin);
+		if (elements[0].x() >= margin) return;
 
-		elements.forEach((e) => {
-			e.x(e.x() + distance);
-		});
+		const distance = -(elements[0].x() - margin);
+
 		layerEvents.x(layerEvents.x() - distance);
+		elements.forEach((e) => e.x(e.x() + distance));
 
 		updateScrollbarPosition();
 	}

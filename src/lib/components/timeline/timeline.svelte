@@ -100,14 +100,15 @@
 		const pointerX = layerEvents.getRelativePointerPosition()!.x;
 
 		elements.forEach((e) => {
-			const distance = (e.x() - pointerX) * zoomFactor; 
+			const distance = (e.x() - pointerX) * zoomFactor;
 			e.x(pointerX + distance);
 		});
 
 		updateScrollWidth();
 		updateScrollbarWidthAndVisibility();
-		moveIntoVisibleSpace();
-		cutSpaceLeft();
+		moveIntoVisibleSpace(); // TODO debounce
+		cutSpaceLeft(); // TODO debounce
+		// TODO cut space right
 	}
 
 	/** Moves layer and scrollbar in opposite direction */
@@ -121,6 +122,7 @@
 
 		updateScrollbarPosition();
 		cutSpaceLeft();
+		// TODO cut space right
 	}
 
 	/** Determine position from layerEvents position */

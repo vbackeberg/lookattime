@@ -171,14 +171,20 @@
 	 * The elements are moved left by the same amount.
 	 */
 	function cutSpaceLeft() {
-		const lowest = Math.min(elements[0].position().x - margin, 0);
-		const distance = lowest - layerEvents.x();
+		if (tId !== null) clearTimeout(tId);
+		tId = setTimeout(() => {
+			tId = null;
 
-		if (distance === 0) return;
+			const lowest = Math.min(elements[0].position().x - margin, 0);
+			const distance = lowest - layerEvents.x();
 
-		layerEvents.x(layerEvents.x() + distance);
-		elements.forEach((e) => e.x(e.x() - distance));
+			if (distance === 0) return;
+
+			layerEvents.x(layerEvents.x() + distance);
+			elements.forEach((e) => e.x(e.x() - distance));
+		}, 200);
 	}
+	let tId: number | null;
 
 	/** Additional space left and right of outermost time events */
 	const margin = 100;

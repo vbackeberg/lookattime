@@ -125,11 +125,16 @@
 		// TODO cut space right
 	}
 
-	/** Determine position from layerEvents position */
-	function updateScrollbarPosition() {
+	/** Sets position of scrollbar dependent on layerEvents position within scrollWidth. */
+	function updateScrollbarPosX() {
 		const availableWidth = stage.width() - padding * 2 - scrollbar.width();
 		const hx = (layerEvents.x() / (-scrollWidth + stage.width())) * availableWidth + padding;
 		scrollbar.x(hx);
+	}
+
+	/** Positions scrollbar at stage bottom. */
+	function updateScrollbarPosY() {
+		scrollbar.y(stage.height() - padding - 10);
 	}
 
 	/** Only show scrollbar if content is wider than stage width.*/
@@ -159,7 +164,7 @@
 		layerEvents.x(layerEvents.x() - distance);
 		elements.forEach((e) => e.x(e.x() + distance));
 
-		updateScrollbarPosition();
+		updateScrollbarPosX();
 	}
 
 	/**
@@ -203,8 +208,13 @@
 	let innerWidth = $state<number>();
 	let innerHeight = $state<number>();
 	$effect(() => {
-		stage.width(innerWidth);
 		stage.height(innerHeight);
+		updateScrollbarPosY();
+		
+		stage.width(innerWidth);
+		updateScrollWidth();
+		updateScrollbarWidthAndVisibility();
+		updateScrollbarPosX();
 	});
 </script>
 

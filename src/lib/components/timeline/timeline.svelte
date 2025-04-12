@@ -69,7 +69,7 @@
 		});
 		layerScrollbar.add(scrollbar);
 
-		updateScrollWidth();
+		updateTimelineWidth();
 		updateScrollbarWidthAndVisibility();
 
 		/**
@@ -79,7 +79,7 @@
 		scrollbar.on('dragmove', function () {
 			const availableWidth = stage.width() - padding * 2 - scrollbar.width();
 			const delta = (scrollbar.x() - padding) / availableWidth;
-			layerEvents.x(-(scrollWidth - stage.width()) * delta);
+			layerEvents.x(-(timelineWidth - stage.width()) * delta);
 		});
 	});
 
@@ -104,7 +104,7 @@
 			e.x(pointerX + distance);
 		});
 
-		updateScrollWidth();
+		updateTimelineWidth();
 		updateScrollbarWidthAndVisibility();
 		moveIntoVisibleSpace(); // TODO debounce
 		cutSpaceLeft(); // TODO debounce
@@ -116,7 +116,7 @@
 		if (!layerScrollbar.visible()) return;
 
 		/** The point where right edge of layer would cross right edge of viewport. */
-		const min = -(scrollWidth - stage.width());
+		const min = -(timelineWidth - stage.width());
 
 		/** The point where left edge of layer would cross left edge of viewport. */
 		const max = 0;
@@ -132,7 +132,7 @@
 	/** Sets position of scrollbar dependent on layerEvents position within scrollWidth. */
 	function updateScrollbarPosX() {
 		const availableWidth = stage.width() - padding * 2 - scrollbar.width();
-		const hx = (layerEvents.x() / (-scrollWidth + stage.width())) * availableWidth + padding;
+		const hx = (layerEvents.x() / (-timelineWidth + stage.width())) * availableWidth + padding;
 		scrollbar.x(hx);
 	}
 
@@ -143,11 +143,11 @@
 
 	/** Only show scrollbar if content is wider than stage width.*/
 	function updateScrollbarWidthAndVisibility() {
-		if (scrollWidth <= stage.width()) {
+		if (timelineWidth <= stage.width()) {
 			layerScrollbar.hide();
 		} else {
 			const availableWidth = stage.width() - padding * 2;
-			const scrollbarWidth = Math.max(20, (stage.width() / scrollWidth) * availableWidth);
+			const scrollbarWidth = Math.max(20, (stage.width() / timelineWidth) * availableWidth);
 			scrollbar.width(scrollbarWidth);
 			layerScrollbar.show();
 		}
@@ -198,17 +198,20 @@
 	/** Additional space left and right of outermost time events */
 	const margin = 100;
 
-	function updateScrollWidth() {
-		const lowest = elements[0];
-		const positionLowest = Math.min(lowest.position().x - margin, 0);
+	/** Sets the total width of the timeline as the distance between
+	 * the lowest and highest element or the stage edges.
+	*/
+	function updateTimelineWidth() {
+		const positionLowest = Math.min(elements[0].position().x - margin, 0);
 
 		const highest = elements[elements.length - 1];
 		const positionHighest = Math.max(highest.position().x + highest.width() + margin, innerWidth!);
 
-		scrollWidth = positionHighest - positionLowest;
+		timelineWidth = positionHighest - positionLowest;
 	}
 
-	let scrollWidth = 0;
+	/** The total width of the timeline */
+	let timelineWidth = 0;
 	let innerWidth = $state<number>();
 	let innerHeight = $state<number>();
 	$effect(() => {

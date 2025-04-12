@@ -115,12 +115,16 @@
 	function scroll(dx: number) {
 		if (!layerScrollbar.visible()) return;
 
-		const minX = -(scrollWidth - stage.width());
-		const maxX = 0;
-		const x = Math.max(minX, Math.min(layerEvents.x() - dx, maxX));
-		layerEvents.x(x);
+		/** The point where right edge of layer would cross right edge of viewport. */
+		const min = -(scrollWidth - stage.width());
 
-		updateScrollbarPosition();
+		/** The point where left edge of layer would cross left edge of viewport. */
+		const max = 0;
+
+		const actual = Math.max(min, Math.min(layerEvents.x() - dx, max));
+		layerEvents.x(actual);
+
+		updateScrollbarPosX();
 		cutSpaceLeft();
 		// TODO cut space right
 	}

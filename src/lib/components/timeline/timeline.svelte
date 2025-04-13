@@ -41,7 +41,7 @@
 			if (e.evt.metaKey || e.evt.ctrlKey || e.evt.altKey) return;
 
 			if (e.evt.deltaX > 0) {
-				scroll(e.evt.deltaX); // Touchpad horizontal scroll
+				scroll(e.evt.deltaX); // Touchpad: horizontal scroll
 			} else if (e.evt.shiftKey) {
 				scroll(-e.evt.deltaY); // Shift + mouse wheel: horizontal scroll in inverted direction
 			} else {
@@ -83,6 +83,14 @@
 		});
 	});
 
+	/** Sets position of scrollbar dependent on layerEvents position within scrollWidth. */
+	function updateScrollbarPosX() {
+		const availableWidth = stage.width() - padding * 2 - scrollbar.width();
+		const hx =
+			((elements[0].getAbsolutePosition(stage).x - margin) / (-timelineWidth + stage.width())) * availableWidth + padding;
+		scrollbar.x(hx);
+	}
+
 	/** Scrollbar padding left and right */
 	const padding = 4;
 
@@ -106,49 +114,34 @@
 
 		updateTimelineWidth();
 		updateScrollbarWidthAndVisibility();
-		moveIntoVisibleSpace(); // TODO debounce
-		cutSpaceLeft(); // TODO debounce
-		// TODO cut space right
+		updateScrollbarPosX();
 	}
 
 	/** Moves layer and scrollbar in opposite direction */
 	function scroll(dx: number) {
-		if (!layerScrollbar.visible()) return;
+		if (timelineWidth <= stage.width()) return;
 		if (dx === 0) return;
 
 		let distance = 0;
 		if (dx < 0) {
-			const limitLeft = elements[0].getAbsolutePosition(stage).x - margin;
-			console.log(limitLeft);
-
-			if (limitLeft < 0) {
-				distance = Math.max(limitLeft, dx);
-			}
-
 			const highest = elements[elements.length - 1];
 			const limitRight =
 				highest.getAbsolutePosition(stage).x + highest.width() + margin - stage.width();
-
-			console.log(limitRight);
 
 			if (limitRight > 0) {
 				distance = Math.min(limitRight, dx);
 			}
 		} else if (dx > 0) {
-			const highest = elements[elements.length - 1];
-			const limitRight =
-				highest.getAbsolutePosition(stage).x + highest.width() + margin - stage.width();
+			const limitLeft = elements[0].getAbsolutePosition(stage).x - margin;
 
-			console.log(limitRight);
-
-			if (limitRight > 0) {
-				distance = Math.min(limitRight, dx);
+			if (limitLeft < 0) {
+				distance = Math.max(limitLeft, dx);
 			}
 		}
 
 		console.log('scroll by ' + distance);
 
-		elements.forEach((e) => e.x(e.x() + distance));
+		layerEvents.x(layerEvents.x() + distance)
 
 		updateScrollbarPosX();
 	}
@@ -170,73 +163,82 @@
 		}
 	}
 
-	/**
-	 * Moves elements right by the amount that the leftmost element is outside of the visible space.
-	 * We need to do this because elements with negative x-positions are not reachable on a canvas.
-	 *
-	 * Moving the elements right requires moving layerEvents left by the same amount.
-	 * Because layerEvents now has a negative x-position it updates the scrollbar.
+	/** Determines if there is too much or too little space on the left.
+	 * Then cuts excessive space or moves elements into positive space.
 	 */
-	function moveIntoVisibleSpace() {
-		if (elements[0].x() >= margin) return;
+	function manageSpaceLeft() {
+		const positionLowest = elements[0].x() - margin;
+		const distance = positionLowest - layerEvents.x();
+		console.log(`${distance} = ${positionLowest} - ${layerEvents.x()}`);
 
-		const distance = -(elements[0].x() - margin);
+		if (distance > 0) {
+			console.log('cut space left');
+			cutSpaceLeft(distance);
+		} else if (distance < 0) {
+			console.log('extend space left');
+			extendSpaceLeft(distance);
+		}
+	}
 
+	/**
+	 * Moves layerEvents left and elements right by the same amount.
+	 * We need to do this because the user cannot reach elements with negative positions.
+	 */
+	function extendSpaceLeft(distance: number) {
 		layerEvents.x(layerEvents.x() - distance);
 		elements.forEach((e) => e.x(e.x() + distance));
-
-		updateScrollbarPosX();
 	}
 
 	/**
-	 * Removes excess space to the left.
-	 * There is excess space if layerEvents' position is farer left than the viewport (0)
-	 * and than the leftmost element (incl. margin).
-	 *
-	 * It moves the layerEvents to the right by the amount of space that is left.
-	 * The elements are moved left by the same amount.
+	 * Moves layerEvents right and elements left by the same amount.
+	 * We need to do this because there would otherwise be void space the user can scroll into.
 	 */
-	function cutSpaceLeft() {
-		if (tId !== null) clearTimeout(tId);
-		tId = setTimeout(() => {
-			tId = null;
-
-			const lowest = Math.min(elements[0].position().x - margin, 0);
-			const distance = lowest - layerEvents.x();
-
-			if (distance === 0) return;
-
-			layerEvents.x(layerEvents.x() + distance);
-			elements.forEach((e) => e.x(e.x() - distance));
-		}, 200);
+	function cutSpaceLeft(distance: number) {
+		layerEvents.x(layerEvents.x() + distance);
+		elements.forEach((e) => e.x(e.x() - distance));
 	}
+
+	// function cutSpaceLeft() {
+	// 	if (tId !== null) clearTimeout(tId);
+	// 	tId = setTimeout(() => {
+	// 		tId = null;
+	// 		const positionLowest = Math.min(elements[0].position().x - margin, 0);
+	// 		const distance = positionLowest - layerEvents.x();
+	// 		if (distance === 0) return;
+	// 		layerEvents.x(layerEvents.x() + distance);
+	// 		elements.forEach((e) => e.x(e.x() - distance));
+	// 	}, 200);
+	// }
 	let tId: number | null;
+
+	function cutSpaceRight() {}
 
 	/** Additional space left and right of outermost time events */
 	const margin = 100;
 
 	/** Sets the total width of the timeline as the distance between
 	 * the lowest and highest element or the stage edges.
-	*/
+	 */
 	function updateTimelineWidth() {
-		const positionLowest = Math.min(elements[0].position().x - margin, 0);
+		const positionLowest = elements[0].x() - margin;
 
 		const highest = elements[elements.length - 1];
-		const positionHighest = Math.max(highest.position().x + highest.width() + margin, innerWidth!);
+		const positionHighest = highest.x() + highest.width() + margin;
 
 		timelineWidth = positionHighest - positionLowest;
 	}
 
 	/** The total width of the timeline */
 	let timelineWidth = 0;
+
 	let innerWidth = $state<number>();
 	let innerHeight = $state<number>();
 	$effect(() => {
 		stage.height(innerHeight);
 		updateScrollbarPosY();
-		
+
 		stage.width(innerWidth);
-		updateScrollWidth();
+		updateTimelineWidth();
 		updateScrollbarWidthAndVisibility();
 		updateScrollbarPosX();
 	});

@@ -43,7 +43,7 @@
 			if (e.evt.deltaX > 0) {
 				scroll(e.evt.deltaX); // Touchpad horizontal scroll
 			} else if (e.evt.shiftKey) {
-				scroll(e.evt.deltaY); // Shift + mouse wheel horizontal scroll
+				scroll(-e.evt.deltaY); // Shift + mouse wheel: horizontal scroll in inverted direction
 			} else {
 				zoom(e.evt);
 			}
@@ -114,26 +114,43 @@
 	/** Moves layer and scrollbar in opposite direction */
 	function scroll(dx: number) {
 		if (!layerScrollbar.visible()) return;
+		if (dx === 0) return;
 
-		/** The point where right edge of layer would cross right edge of viewport. */
-		const min = -(timelineWidth - stage.width());
+		let distance = 0;
+		if (dx < 0) {
+			const limitLeft = elements[0].getAbsolutePosition(stage).x - margin;
+			console.log(limitLeft);
 
-		/** The point where left edge of layer would cross left edge of viewport. */
-		const max = 0;
+			if (limitLeft < 0) {
+				distance = Math.max(limitLeft, dx);
+			}
 
-		const actual = Math.max(min, Math.min(layerEvents.x() - dx, max));
-		layerEvents.x(actual);
+			const highest = elements[elements.length - 1];
+			const limitRight =
+				highest.getAbsolutePosition(stage).x + highest.width() + margin - stage.width();
+
+			console.log(limitRight);
+
+			if (limitRight > 0) {
+				distance = Math.min(limitRight, dx);
+			}
+		} else if (dx > 0) {
+			const highest = elements[elements.length - 1];
+			const limitRight =
+				highest.getAbsolutePosition(stage).x + highest.width() + margin - stage.width();
+
+			console.log(limitRight);
+
+			if (limitRight > 0) {
+				distance = Math.min(limitRight, dx);
+			}
+		}
+
+		console.log('scroll by ' + distance);
+
+		elements.forEach((e) => e.x(e.x() + distance));
 
 		updateScrollbarPosX();
-		cutSpaceLeft();
-		// TODO cut space right
-	}
-
-	/** Sets position of scrollbar dependent on layerEvents position within scrollWidth. */
-	function updateScrollbarPosX() {
-		const availableWidth = stage.width() - padding * 2 - scrollbar.width();
-		const hx = (layerEvents.x() / (-timelineWidth + stage.width())) * availableWidth + padding;
-		scrollbar.x(hx);
 	}
 
 	/** Positions scrollbar at stage bottom. */

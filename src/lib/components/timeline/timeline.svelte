@@ -163,56 +163,6 @@
 		}
 	}
 
-	/** Determines if there is too much or too little space on the left.
-	 * Then cuts excessive space or moves elements into positive space.
-	 */
-	function manageSpaceLeft() {
-		const positionLowest = elements[0].x() - margin;
-		const distance = positionLowest - layerEvents.x();
-		console.log(`${distance} = ${positionLowest} - ${layerEvents.x()}`);
-
-		if (distance > 0) {
-			console.log('cut space left');
-			cutSpaceLeft(distance);
-		} else if (distance < 0) {
-			console.log('extend space left');
-			extendSpaceLeft(distance);
-		}
-	}
-
-	/**
-	 * Moves layerEvents left and elements right by the same amount.
-	 * We need to do this because the user cannot reach elements with negative positions.
-	 */
-	function extendSpaceLeft(distance: number) {
-		layerEvents.x(layerEvents.x() - distance);
-		elements.forEach((e) => e.x(e.x() + distance));
-	}
-
-	/**
-	 * Moves layerEvents right and elements left by the same amount.
-	 * We need to do this because there would otherwise be void space the user can scroll into.
-	 */
-	function cutSpaceLeft(distance: number) {
-		layerEvents.x(layerEvents.x() + distance);
-		elements.forEach((e) => e.x(e.x() - distance));
-	}
-
-	// function cutSpaceLeft() {
-	// 	if (tId !== null) clearTimeout(tId);
-	// 	tId = setTimeout(() => {
-	// 		tId = null;
-	// 		const positionLowest = Math.min(elements[0].position().x - margin, 0);
-	// 		const distance = positionLowest - layerEvents.x();
-	// 		if (distance === 0) return;
-	// 		layerEvents.x(layerEvents.x() + distance);
-	// 		elements.forEach((e) => e.x(e.x() - distance));
-	// 	}, 200);
-	// }
-	let tId: number | null;
-
-	function cutSpaceRight() {}
-
 	/** Additional space left and right of outermost time events */
 	const margin = 100;
 

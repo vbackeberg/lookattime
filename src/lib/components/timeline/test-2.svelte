@@ -35,20 +35,6 @@
 
 		layerEvents.add(...elements);
 		stage.add(layerEvents);
-		stage.on('wheel', (e) => {
-			e.evt.preventDefault();
-
-			if (e.evt.metaKey || e.evt.ctrlKey || e.evt.altKey) return;
-
-			if (e.evt.deltaX > 0) {
-				scroll(e.evt.deltaX); // Touchpad: horizontal scroll
-			} else if (e.evt.shiftKey) {
-				scroll(-e.evt.deltaY); // Shift + mouse wheel: horizontal scroll in inverted direction
-			} else {
-				zoom(e.evt);
-			}
-		});
-
 		layerScrollbar = new Konva.Layer();
 		stage.add(layerScrollbar);
 
@@ -68,9 +54,6 @@
 			}
 		});
 		layerScrollbar.add(scrollbar);
-
-		updateTimelineWidth();
-		updateScrollbarWidthAndVisibility();
 
 		/**
 		 * Scroll by drag
@@ -94,53 +77,6 @@
 	/** Scrollbar padding left and right */
 	const padding = 4;
 
-	/** Zooms elements relative to pointer.
-	 * Then updates scrollbar and moves elements with negative position into positive space to make them visible.
-	 * PointerX is the position of the pointer on the layer. */
-	function zoom(e: WheelEvent) {
-		if (timeEvents.length === 0) return;
-
-		const pointer = stage.getPointerPosition();
-		if (!pointer) return;
-
-		const zoomFactor = e.deltaY > 0 ? 1 / 1.1 : 1.1;
-		const pointerX = layerEvents.getRelativePointerPosition()!.x;
-
-		elements.forEach((e) => {
-			const distance = (e.x() - pointerX) * zoomFactor;
-			e.x(pointerX + distance);
-		});
-
-		updateTimelineWidth();
-		updateScrollbarWidthAndVisibility();
-		updateScrollbarPosX();
-	}
-
-	/** Moves layer and scrollbar in opposite direction */
-	function scroll(dx: number) {
-		if (timelineWidth <= stage.width()) return;
-		if (dx === 0) return;
-
-		let distance = 0;
-		if (dx < 0) {
-			const highest = elements[elements.length - 1];
-			const limitRight =
-				highest.getAbsolutePosition(stage).x + highest.width() + margin - stage.width();
-
-			if (limitRight > 0) {
-				distance = Math.min(limitRight, dx);
-			}
-		} else if (dx > 0) {
-			const limitLeft = elements[0].getAbsolutePosition(stage).x - margin;
-
-			if (limitLeft < 0) {
-				distance = Math.max(limitLeft, dx);
-			}
-		}
-		layerEvents.x(layerEvents.x() + distance)
-		updateScrollbarPosX();
-	}
-
 	/** Positions scrollbar at stage bottom. */
 	function updateScrollbarPosY() {
 		scrollbar.y(stage.height() - padding - 10);
@@ -162,7 +98,7 @@
 	const margin = 100;
 
 	/** Sets the total width of the timeline as the distance between
-	 * the lowest and highest element.
+	 * the lowest and highest element or the stage edges.
 	 */
 	function updateTimelineWidth() {
 		const positionLowest = elements[0].x() - margin;
